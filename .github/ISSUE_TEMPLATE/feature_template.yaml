@@ -1,0 +1,16 @@
+name: Feature Request
+description: Suggest an idea for this project
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: Describe the feature you are requesting
+      render: markdown
+  - type: textarea
+    id: feature-test-cases
+    attributes:
+      label: Test Cases
+      description: Describe the test cases to do to prove that the feature works
+      render: markdown
