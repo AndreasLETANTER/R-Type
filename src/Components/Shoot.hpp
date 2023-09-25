@@ -12,6 +12,9 @@ namespace Component {
         public:
             Shoot() = default;
             bool canShoot;
-            inline Shoot(bool canShoot) { this->canShoot = canShoot; }
+            sf::Time lastShot;
+            sf::Time shootDelay;
+            sf::Clock *clock;
+            inline Shoot(bool canShoot, sf::Clock *clock, sf::Time shootDelay) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime();}
     };
 }
