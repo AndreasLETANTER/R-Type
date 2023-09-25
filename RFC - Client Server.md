@@ -33,6 +33,7 @@ The network component should use a standardized protocol for communication. We p
 | 100 | Je veux me connecter au serveur |
 | 200 |  |
 | 300 | Connection établie |
+| 301 | La connection à échouée |
 
 “to complete with comment for each description”
 
@@ -62,7 +63,7 @@ Commands must all be composed the same according to the following model
 
 ## 3.2 - Client-Server Initialization
 
-Lorsque un client demande à se connecter au serveur il doit envoyer les messages suivants
+When a client requests to connect to the server it must send the following messages
 
 ### Client request :
 
@@ -71,9 +72,52 @@ Lorsque un client demande à se connecter au serveur il doit envoyer les message
 
 </aside>
 
-### Server answer :
+- **100**
+
+*Return code*
+
+### Server answer ✔️:
 
 <aside>
-✉️ 300:id=2;
+✉️ 300:id=2;{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]};{sprite_name=”mob.jpeg”, pos=[x=”23.19”, y=“68.22”]}
 
 </aside>
+
+- **300**
+
+*Status code*
+
+- **id=2**
+
+*Id of the player*
+
+- **{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]}**
+
+*Entity of the map :*
+
+- **sprite_name=”plane.jpeg”**
+
+*Entity sprite name for the display processus*
+
+- **pos=[x=”-92.92”, y=“686.16”]**
+
+*Entity position :*
+
+- **x=”-92.92”**
+
+*X position*
+
+- **y=“686.16”**
+
+*Y position*
+
+### Server answer ✖️:
+
+<aside>
+✉️ 301:
+
+</aside>
+
+- **301**
+
+*Status code*
