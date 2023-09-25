@@ -14,6 +14,11 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 ###############################DIRECTORIES SRC####################################
+
+set(ASSET_FILES
+    ../assets/Space_Background.png
+)
+
 set(SRC
 
 )
@@ -31,6 +36,21 @@ add_compile_options(${CXX_FLAGS})
 include_directories("/usr/local/include")
 link_directories("/usr/local/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/build/assets")
+foreach(asset_file ${ASSET_FILES})
+    get_filename_component(asset_name ${asset_file} NAME_WE)
+    set(output_hpp_file "${CMAKE_BINARY_DIR}/assets/${asset_name}.hpp")
+    add_custom_command(
+        OUTPUT ${output_hpp_file}
+        COMMAND xxd -i ${asset_file} > ${output_hpp_file}
+        DEPENDS ${asset_file}
+    )
+    list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
+endforeach()
+
+list(APPEND SRC ${GENERATED_ASSET_FILES})
+
 add_executable(${NAME} ${SRC} ${MAIN})
 target_link_libraries(${NAME} PRIVATE sfml-graphics)
 

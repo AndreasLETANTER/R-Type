@@ -1,10 +1,19 @@
+/*
+** EPITECH PROJECT, 2023
+** MIRROR_R-Type
+** File description:
+** main
+*/
+
 #include <SFML/Graphics.hpp>
+
+#include "../build/assets/Space_Background.hpp"
 
 int main(void)
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     sf::Texture texture;
-    texture.loadFromFile("assets/Space_Background.png");
+    texture.loadFromMemory(___assets_Space_Background_png, ___assets_Space_Background_png_len);
     sf::Sprite sprite(texture);
     sf::IntRect desiredRect(0, 0, 300, 207);
     float scaleX = static_cast<float>(window.getSize().x) / desiredRect.width;
