@@ -20,7 +20,8 @@ set(ASSET_FILES
 )
 
 set(SRC
-
+    sources/client/Game/Game.cpp
+    sources/client/Background/Background.cpp
 )
 
 set(MAIN
