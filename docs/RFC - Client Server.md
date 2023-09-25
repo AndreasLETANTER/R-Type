@@ -44,11 +44,11 @@ Commands must all be composed the same according to the following model
 
 - [STATUS CODE]
 
-*The returns code according to the response table*
+*The return code according to the response table*
 
 - :
 
-*The first separator that differentiates between the status code and the parameters*
+*The first separator that differentiates status code and parameters*
 
 - [PARAMETER OR ANSWER]
 
@@ -119,3 +119,13 @@ When a client requests to connect to the server it must send the following messa
 ## 3.3 - Client-Server Disconnection
 
 With the udp process we do not need to send a connection or disconnection message
+
+## 4 - Data Exchange
+
+The network component is responsible for facilitating the exchange of data between the client and the server. The following data must be exchanged between the client and the server:
+
+- Player position and sprite
+- Player actions
+- Player health
+- Player score
+
