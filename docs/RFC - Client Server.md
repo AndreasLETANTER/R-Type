@@ -129,3 +129,63 @@ The network component is responsible for facilitating the exchange of data betwe
 - Player health
 - Player score
 
+## 4.1 - Player position and sprite
+
+The player position and sprite are sent by the client to the server and by the server to the client. The player position and sprite are sent in the following format:
+
+```bash
+{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]}
+```
+
+- **{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]}**
+
+*Entity of the map :*
+
+- **sprite_name=”plane.jpeg”**
+
+*Entity sprite name for the display processus*
+
+- **pos=[x=”-92.92”, y=“686.16”]**
+
+*Entity position :*
+
+```bash
+pos=[x=”-92.92”, y=“686.16”]
+```
+
+- **x=”-92.92”**
+
+*X position*
+
+- **y=“686.16”**
+
+*Y position*
+
+## 4.2 - Player actions
+
+The player actions are sent by the client to the server and by the server to the client. The player actions are sent in the following format:
+
+```bash
+action=[up=“true”, down=“false”, left=“false”, right=“false”, shoot=“false”]
+```
+
+- **up=“true”**
+
+*Up action*
+
+- **down=“false”**
+
+*Down action*
+
+- **left=“false”**
+
+*Left action*
+
+- **right=“false”**
+
+*Right action*
+
+- **shoot=“false”**
+
+*Shoot action*
+
