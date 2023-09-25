@@ -17,7 +17,11 @@ class Game {
         void run();
     private:
         void processEvents();
+        void doParallax();
         void render();
         sf::RenderWindow m_window;
         Background m_background;
+        float m_timeAccumulator;
+        float m_scrollSpeed;
+        sf::Clock m_clock;
 };

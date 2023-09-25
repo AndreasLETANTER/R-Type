@@ -30,3 +30,15 @@ void Background::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
 }
+
+void Background::move(float xOffset)
+{
+    m_sprite.move(xOffset, 0.0f);
+}
+
+void Background::resetPosition()
+{
+    if (m_sprite.getPosition().x <= -m_sprite.getLocalBounds().width) {
+        m_sprite.setPosition(0.0f, 0.0f);
+    }
+}

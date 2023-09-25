@@ -15,6 +15,8 @@ class Background {
         void loadTexture(const unsigned char* data, std::size_t size);
         void setSize(sf::Vector2u windowSize);
         void draw(sf::RenderWindow& window);
+        void move(float xOffset);
+        void resetPosition();
     private:
         sf::Texture m_texture;
         sf::Sprite m_sprite;
