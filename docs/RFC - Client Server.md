@@ -189,3 +189,27 @@ action=[up=“true”, down=“false”, left=“false”, right=“false”, sh
 
 *Shoot action*
 
+
+## 4.3 - Player health
+
+The player health is sent by the client to the server and by the server to the client. The player health is sent in the following format:
+
+```bash
+health=“100”
+```
+
+- **health=“100”**
+
+*Health value*
+
+## 4.4 - Player score
+
+The player score is sent by the client to the server and by the server to the client. The player score is sent in the following format:
+
+```bash
+score=“100”
+```
+
+- **score=“100”**
+
+*Score value*
