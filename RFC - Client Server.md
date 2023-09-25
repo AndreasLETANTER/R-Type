@@ -3,7 +3,6 @@
 **Date:** *25 / 09 / 2023*
 **Author**: *To complete*
 **Status**: *Draft*
-
 **Version:** *0.1*
 
 ## 1 - Introduction
@@ -30,10 +29,10 @@ The network should use a standardized protocol for communication.
 
 | Status codes | Description |
 | --- | --- |
-| 100 | Je veux me connecter au serveur |
+| 100 | I want to connect to the server |
 | 200 |  |
-| 300 | Connection établie |
-| 301 | La connection à échouée |
+| 300 | Connexion established |
+| 301 | Connection not successful |
 
 ## 3.1 - Command structure
 
