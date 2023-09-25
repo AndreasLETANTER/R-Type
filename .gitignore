@@ -1,9 +1,11 @@
 # Own
+R-Type
 r-type_server
 r-type_client
 /build
 /.vscode
 /.idea
+assets/*.hpp
 
 # Prerequisites
 *.d
