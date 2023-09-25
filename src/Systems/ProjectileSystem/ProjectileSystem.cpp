@@ -9,7 +9,6 @@
 
 ProjectileSystem ProjectileSystem::operator()(Registry &registry, SparseArray<Component::Projectile> &projectiles, SparseArray<Component::Position> &positions, SparseArray<Component::Velocity> &velocities)
 {
-    (void)registry;
     for (size_t i = 0; i < projectiles.size() && i < positions.size() && i < velocities.size(); i++)
     {
         auto &projectile = projectiles[i];

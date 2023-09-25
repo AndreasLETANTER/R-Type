@@ -190,6 +190,71 @@ Test(Registry, basic_kill_entity)
     cr_assert_eq(reg.entity_from_index(2), 2);
 }
 
+Test(Registry, advanced_kill_entity)
+{
+    Registry reg;
+
+    reg.register_component<int>();
+    reg.register_component<char>();
+
+    reg.spawn_entity();
+    reg.spawn_entity();
+    reg.spawn_entity();
+
+    reg.add_component<int>(reg.entity_from_index(0), 10);
+    reg.add_component<char>(reg.entity_from_index(0), 'a');
+    reg.add_component<int>(reg.entity_from_index(1), 11);
+    reg.add_component<char>(reg.entity_from_index(1), 'b');
+    reg.add_component<int>(reg.entity_from_index(2), 12);
+    reg.add_component<char>(reg.entity_from_index(2), 'c');
+
+    cr_assert_eq(reg.entity_from_index(0), 0);
+    cr_assert_eq(reg.entity_from_index(1), 1);
+    cr_assert_eq(reg.entity_from_index(2), 2);
+    cr_assert_eq(reg.get_components<int>()[0].value(), 10);
+    cr_assert_eq(reg.get_components<char>()[0].value(), 'a');
+    cr_assert_eq(reg.get_components<int>()[1].value(), 11);
+    cr_assert_eq(reg.get_components<char>()[1].value(), 'b');
+    cr_assert_eq(reg.get_components<int>()[2].value(), 12);
+    cr_assert_eq(reg.get_components<char>()[2].value(), 'c');
+
+    reg.kill_entity(reg.entity_from_index(1));
+    cr_assert_eq(reg.entity_from_index(0), 0);
+    cr_assert_throw(reg.entity_from_index(1), std::runtime_error);
+    cr_assert_eq(reg.entity_from_index(2), 2);
+    cr_assert_eq(reg.get_components<int>()[0].value(), 10);
+    cr_assert_eq(reg.get_components<char>()[0].value(), 'a');
+    cr_assert_eq(reg.get_components<int>()[1].has_value(), false);
+    cr_assert_eq(reg.get_components<char>()[1].has_value(), false);
+    cr_assert_eq(reg.get_components<int>()[2].value(), 12);
+    cr_assert_eq(reg.get_components<char>()[2].value(), 'c');
+
+    reg.spawn_entity();
+
+    cr_assert_eq(reg.entity_from_index(0), 0);
+    cr_assert_eq(reg.entity_from_index(1), 1);
+    cr_assert_eq(reg.entity_from_index(2), 2);
+    cr_assert_eq(reg.get_components<int>()[0].value(), 10);
+    cr_assert_eq(reg.get_components<char>()[0].value(), 'a');
+    cr_assert_eq(reg.get_components<int>()[1].has_value(), false);
+    cr_assert_eq(reg.get_components<char>()[1].has_value(), false);
+    cr_assert_eq(reg.get_components<int>()[2].value(), 12);
+    cr_assert_eq(reg.get_components<char>()[2].value(), 'c');
+
+    reg.add_component<int>(reg.entity_from_index(1), 11);
+    reg.add_component<char>(reg.entity_from_index(1), 'b');
+
+    cr_assert_eq(reg.entity_from_index(0), 0);
+    cr_assert_eq(reg.entity_from_index(1), 1);
+    cr_assert_eq(reg.entity_from_index(2), 2);
+    cr_assert_eq(reg.get_components<int>()[0].value(), 10);
+    cr_assert_eq(reg.get_components<char>()[0].value(), 'a');
+    cr_assert_eq(reg.get_components<int>()[1].value(), 11);
+    cr_assert_eq(reg.get_components<char>()[1].value(), 'b');
+    cr_assert_eq(reg.get_components<int>()[2].value(), 12);
+    cr_assert_eq(reg.get_components<char>()[2].value(), 'c');
+}
+
 Test(Registry, basic_add_component)
 {
     Registry reg;

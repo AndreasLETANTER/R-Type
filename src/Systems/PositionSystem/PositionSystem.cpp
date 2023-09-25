@@ -18,6 +18,8 @@ PositionSystem PositionSystem::operator()(Registry &registry, SparseArray<Compon
         if (pos.has_value() && vel.has_value()) {
             pos.value().x += vel.value().vx;
             pos.value().y += vel.value().vy;
+            vel.value().vx = 0;
+            vel.value().vy = 0;
         }
     }
     return *this;
