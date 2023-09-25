@@ -8,7 +8,7 @@
 
 ## 1 - Introduction
 
-This RFC outlines the network component requirements and specifications for the R-Type project. The network component is responsible for facilitating multiplayer functionality within the game.
+This RFC outlines the network component requirements and specifications for the R-Type project. The network component is responsible for facilitating multiplayer functionality within the game.  For this project we use the UDP (User Datagram Protocol) communication protocol, which allows us to have an application with low latency.
 
 ## 2 - Goals
 
@@ -20,7 +20,7 @@ The primary goals of the network component are as follows:
 
 ## 3 - Network Protocol
 
-The network component should use a standardized protocol for communication. We propose using TCP/IP for reliable communication between game clients and the game server. UDP may be considered for specific real-time data transfer
+The network should use a standardized protocol for communication. 
 
 | Status codes | Description |
 | --- | --- |
@@ -34,8 +34,6 @@ The network component should use a standardized protocol for communication. We p
 | 200 |  |
 | 300 | Connection établie |
 | 301 | La connection à échouée |
-
-“to complete with comment for each description”
 
 ## 3.1 - Command structure
 
@@ -67,10 +65,9 @@ When a client requests to connect to the server it must send the following messa
 
 ### Client request :
 
-<aside>
-✉️ 100:
-
-</aside>
+```bash
+100:
+```
 
 - **100**
 
@@ -78,10 +75,9 @@ When a client requests to connect to the server it must send the following messa
 
 ### Server answer ✔️:
 
-<aside>
-✉️ 300:id=2;{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]};{sprite_name=”mob.jpeg”, pos=[x=”23.19”, y=“68.22”]}
-
-</aside>
+```bash
+300:id=2;{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]};{sprite_name=”mob.jpeg”, pos=[x=”23.19”, y=“68.22”]}
+```
 
 - **300**
 
@@ -113,11 +109,14 @@ When a client requests to connect to the server it must send the following messa
 
 ### Server answer ✖️:
 
-<aside>
-✉️ 301:
-
-</aside>
+```bash
+301:
+```
 
 - **301**
 
 *Status code*
+
+## 3.3 - Client-Server Disconnection
+
+With the udp process we do not need to send a connection or disconnection message
