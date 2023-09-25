@@ -25,7 +25,7 @@ ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::S
                 shoot.value().lastShot = shoot.value().clock->getElapsedTime();
                 registry.add_component<Component::Position>(projectile, Component::Position(x, y));
                 registry.add_component<Component::Velocity>(projectile, Component::Velocity(0, 0));
-                registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position(draw.value().window->getSize().x - x, y), 10));
+                registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position(draw.value().window->getSize().x, y), 10));
                 registry.add_component<Component::Drawable>(projectile, Component::Drawable(draw.value().sprite, draw.value().window));
             }
         }

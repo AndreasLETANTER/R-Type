@@ -18,16 +18,16 @@ ControlSystem ControlSystem::operator()(Registry &registry, SparseArray<Componen
             vel.value().vx = 0;
             vel.value().vy = 0;
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-                vel.value().vy = -1;
+                vel.value().vy = -5;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-                vel.value().vy = 1;
+                vel.value().vy = 5;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                vel.value().vx = -1;
+                vel.value().vx = -5;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                vel.value().vx = 1;
+                vel.value().vx = 5;
             }
         }
     }
