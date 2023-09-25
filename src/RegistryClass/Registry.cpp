@@ -21,7 +21,9 @@ Entity Registry::spawn_entity()
 
 Entity Registry::entity_from_index(std::size_t idx)
 {
-    if (m_entities[idx].has_value() == false) {
+    if (idx >= m_entities.size()) {
+        throw std::runtime_error{"Entity index out of range"};
+    } else if (m_entities[idx].has_value() == false) {
         throw std::runtime_error{"Entity no value"};
     } else {
         return m_entities[idx].value();

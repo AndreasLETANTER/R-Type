@@ -11,6 +11,8 @@
 #include "Systems/ControlSystem/ControlSystem.hpp"
 #include "Systems/DrawSystem/DrawSystem.hpp"
 #include "Systems/AutoMoveSystem/AutoMoveSystem.hpp"
+#include "Systems/ShootSystem/ShootSystem.hpp"
+#include "Systems/ProjectileSystem/ProjectileSystem.hpp"
 #include "RegistryClass/Registry.hpp"
 #include <SFML/Graphics.hpp>
 
@@ -35,12 +37,15 @@ int main(const int ac, const char **av)
     registry.register_component<Component::Controllable>();
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::AutoMove>();
+    registry.register_component<Component::Shoot>();
+    registry.register_component<Component::Projectile>();
 
     //entity that is movable, using all components.
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
     registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(0, 0));
     registry.add_component<Component::Controllable>(registry.entity_from_index(0), Component::Controllable(true));
     registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable(sprite, &window));
+    registry.add_component<Component::Shoot>(registry.entity_from_index(0), Component::Shoot(true));
 
     // static entities, that have drawable and position components, but not velocity.
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(100, 100));
@@ -60,6 +65,8 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
     registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
     registry.add_system<Component::Position, Component::AutoMove>(AutoMoveSystem());
+    registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
+    registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
 
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {

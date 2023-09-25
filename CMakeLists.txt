@@ -23,6 +23,8 @@ set(SRC
     src/Systems/ControlSystem/ControlSystem.cpp
     src/Systems/DrawSystem/DrawSystem.cpp
     src/Systems/AutoMoveSystem/AutoMoveSystem.cpp
+    src/Systems/ShootSystem/ShootSystem.cpp
+    src/Systems/ProjectileSystem/ProjectileSystem.cpp
 )
 
 set(MAIN
