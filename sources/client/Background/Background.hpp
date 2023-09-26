@@ -19,5 +19,7 @@ class Background {
         void resetPosition();
     private:
         sf::Texture m_texture;
+        sf::Texture m_texture_duplicated;
         sf::Sprite m_sprite;
+        sf::Sprite m_sprite_duplicated;
 };
