@@ -48,11 +48,19 @@ set(MAIN
     sources/main.cpp
 )
 
-set(TESTS
+set(ECS_TESTS
     tests/PositionSystemTests.cpp
     tests/RegistrySystemsTests.cpp
     tests/RegistryTests.cpp
     tests/SparseArrayTests.cpp
+)
+
+set(SERVER_TESTS
+    ${ECS_TESTS}
+)
+
+set(CLIENT_TESTS
+    ${ECS_TESTS}
 )
 
 ###############################COMPILATION MAIN PROGRAM###########################
@@ -76,16 +84,18 @@ endforeach()
 list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
 
 add_executable(${SERVER_NAME} ${MAIN} ${SERVER_SOURCES})
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
 add_executable(${CLIENT_NAME} ${MAIN} ${CLIENT_SOURCES})
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
 target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
 #create the tests executable
-add_executable(${SERVER_TESTS_NAME} ${SOURCES} ${ECS_SOURCES} ${TESTS})
+add_executable(${SERVER_TESTS_NAME} ${SERVER_SOURCES} ${SERVER_TESTS})
+add_executable(${CLIENT_TESTS_NAME} ${CLIENT_SOURCES} ${CLIENT_TESTS})
 #link the tests with the criterion library
 target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
@@ -127,6 +137,22 @@ add_custom_target(client
 add_custom_target(R-Type
     COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_NAME}
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
+)
+
+#compile the server tests only
+add_custom_target(server_tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+)
+
+#compile the client tests only
+add_custom_target(client_tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+)
+
+#compile both the server and the client tests
+add_custom_target(R-Type_tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
 )
 
 install(TARGETS ${SERVER_NAME})
