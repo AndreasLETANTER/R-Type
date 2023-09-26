@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 namespace Component {
     /**
      * @brief The Shoot class represents the ability of an entity to shoot.
