@@ -57,7 +57,7 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Collision>(registry.entity_from_index(0), Component::Collision(80, 80));
 
     // static entities, that have drawable and position components, but not velocity.
-    registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(100, 100));
+    registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(1000, 500));
     registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable(sprite, &window));
     registry.add_component<Component::Collision>(registry.entity_from_index(1), Component::Collision(80, 80));
 
