@@ -7,9 +7,6 @@
 
 #include "Background.hpp"
 
-Background::Background()
-{}
-
 void Background::loadTexture(const unsigned char* data, std::size_t size)
 {
     m_texture.loadFromMemory(data, size);

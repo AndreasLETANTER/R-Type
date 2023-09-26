@@ -11,7 +11,7 @@
 
 class Background {
     public:
-        Background();
+        Background() = default;
         void loadTexture(const unsigned char* data, std::size_t size);
         void setSize(sf::Vector2u windowSize);
         void draw(sf::RenderWindow& window);
