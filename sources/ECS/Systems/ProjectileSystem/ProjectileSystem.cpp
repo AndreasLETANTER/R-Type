@@ -14,6 +14,7 @@ ProjectileSystem ProjectileSystem::operator()(Registry &registry, SparseArray<Co
         auto &projectile = projectiles[i];
         auto &pos = positions[i];
         auto &vel = velocities[i];
+
         if (projectile.has_value() && pos.has_value() && vel.has_value()) {
             if (pos.value().x < projectile.value().end.x) {
                 vel.value().vx = projectile.value().speed;

@@ -8,11 +8,6 @@
 #include "SparseArray.hpp"
 
 template <typename Component>
-SparseArray<Component>::SparseArray()
-{
-}
-
-template <typename Component>
 SparseArray<Component>::SparseArray(SparseArray const &other)
 {
     m_data = other.m_data;

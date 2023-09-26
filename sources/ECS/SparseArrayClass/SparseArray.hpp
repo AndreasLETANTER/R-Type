@@ -31,7 +31,7 @@ public:
     /**
      * @brief Default constructor for the sparse array.
      */
-    SparseArray();
+    SparseArray() = default;
 
     /**
      * @brief Copy constructor for the sparse array.

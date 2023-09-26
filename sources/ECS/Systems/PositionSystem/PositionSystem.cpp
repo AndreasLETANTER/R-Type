@@ -15,6 +15,7 @@ PositionSystem PositionSystem::operator()(Registry &registry, SparseArray<Compon
     {
         auto &pos = positions[i];
         auto &vel = velocities[i];
+
         if (pos.has_value() && vel.has_value()) {
             pos.value().x += vel.value().vx;
             pos.value().y += vel.value().vy;
