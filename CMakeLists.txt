@@ -4,8 +4,8 @@ project("R-Type" VERSION 0.1.0 LANGUAGES CXX)
 
 ###############################COMPILATION VARIABLES##############################
 set(CMAKE_CXX_STANDARD 17)
-set(NAME "R-Type")
 set(SERVER_NAME "r-type_server")
+set(CLIENT_NAME "r-type_client")
 set(TEST_NAME "unit_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
@@ -34,9 +34,11 @@ set (ECS_SOURCES
 )
 
 set(SERVER_SOURCES
+    ${ECS_SOURCES}
 )
 
-set(SOURCES
+set(CLIENT_SOURCES
+    ${ECS_SOURCES}
     sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
 )
@@ -70,15 +72,17 @@ foreach(asset_file ${ASSETS_FILES})
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
 endforeach()
 
-list(APPEND SOURCES ${GENERATED_ASSET_FILES})
+list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
 
-add_executable(${SERVER_NAME} ${SERVER_SOURCES} ${ECS_SOURCES} ${MAIN})
+add_executable(${SERVER_NAME} ${MAIN} ${SERVER_SOURCES})
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
+add_executable(${CLIENT_NAME} ${MAIN} ${CLIENT_SOURCES})
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
 #create the tests executable
-add_executable(${TEST_NAME} ${SRC} ${ECS_SOURCES} ${TESTS})
+add_executable(${TEST_NAME} ${SOURCES} ${ECS_SOURCES} ${TESTS})
 #link the tests with the criterion library
 target_link_libraries(${TEST_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
@@ -108,8 +112,15 @@ add_custom_target(re
     COMMENT "Recompiling the project"
 )
 
+#compile the server only
 add_custom_target(server
     COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_NAME}
 )
 
+#compile the client only
+add_custom_target(client
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
+)
+
 install(TARGETS ${SERVER_NAME})
+install(TARGETS ${CLIENT_NAME})
