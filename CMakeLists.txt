@@ -4,8 +4,10 @@ project("R-Type" VERSION 0.1.0 LANGUAGES CXX)
 
 ###############################COMPILATION VARIABLES##############################
 set(CMAKE_CXX_STANDARD 17)
-set(NAME "R-Type")
-set(TEST_NAME "unit_tests")
+set(SERVER_NAME "r-type_server")
+set(CLIENT_NAME "r-type_client")
+set (SERVER_TESTS_NAME "r-type_server_tests")
+set (CLIENT_TESTS_NAME "r-type_client_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
 include(FetchContent)
@@ -16,11 +18,11 @@ FetchContent_MakeAvailable(SFML)
 
 ###############################DIRECTORIES SRC####################################
 
-set(ASSET_FILES
+set(ASSETS_FILES
     ../assets/Space_Background.png
 )
 
-set (ECS
+set (ECS_SOURCES
     sources/ECS/EntityClass/Entity.cpp
     sources/ECS/RegistryClass/Registry.cpp
     sources/ECS/Systems/AutoMoveSystem/AutoMoveSystem.cpp
@@ -32,7 +34,12 @@ set (ECS
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
 )
 
-set(SRC
+set(SERVER_SOURCES
+    ${ECS_SOURCES}
+)
+
+set(CLIENT_SOURCES
+    ${ECS_SOURCES}
     sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
 )
@@ -41,11 +48,19 @@ set(MAIN
     sources/main.cpp
 )
 
-set(TESTS
+set(ECS_TESTS
     tests/PositionSystemTests.cpp
     tests/RegistrySystemsTests.cpp
     tests/RegistryTests.cpp
     tests/SparseArrayTests.cpp
+)
+
+set(SERVER_TESTS
+    ${ECS_TESTS}
+)
+
+set(CLIENT_TESTS
+    ${ECS_TESTS}
 )
 
 ###############################COMPILATION MAIN PROGRAM###########################
@@ -55,7 +70,7 @@ link_directories("/usr/local/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/assets")
-foreach(asset_file ${ASSET_FILES})
+foreach(asset_file ${ASSETS_FILES})
     get_filename_component(asset_name ${asset_file} NAME_WE)
     set(output_hpp_file "${CMAKE_BINARY_DIR}/assets/${asset_name}.hpp")
     add_custom_command(
@@ -66,17 +81,21 @@ foreach(asset_file ${ASSET_FILES})
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
 endforeach()
 
-list(APPEND SRC ${GENERATED_ASSET_FILES})
+list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
 
-add_executable(${NAME} ${SRC} ${ECS} ${MAIN})
-target_link_libraries(${NAME} PRIVATE sfml-graphics)
+add_executable(${SERVER_NAME} ${MAIN} ${SERVER_SOURCES})
+add_executable(${CLIENT_NAME} ${MAIN} ${CLIENT_SOURCES})
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
 #create the tests executable
-add_executable(${TEST_NAME} ${SRC} ${ECS} ${TESTS})
+add_executable(${SERVER_TESTS_NAME} ${SERVER_SOURCES} ${SERVER_TESTS})
+add_executable(${CLIENT_TESTS_NAME} ${CLIENT_SOURCES} ${CLIENT_TESTS})
 #link the tests with the criterion library
-target_link_libraries(${TEST_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
@@ -104,4 +123,42 @@ add_custom_target(re
     COMMENT "Recompiling the project"
 )
 
-install(TARGETS ${NAME})
+#compile the server only
+add_custom_target(server
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_NAME}
+)
+
+#compile the client only
+add_custom_target(client
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
+)
+
+#compile both the server and the client
+add_custom_target(R-Type
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_NAME}
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
+)
+
+#compile the server tests only
+add_custom_target(server_tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+)
+
+#compile the client tests only
+add_custom_target(client_tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+)
+
+#compile both the server and the client tests
+add_custom_target(R-Type_tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+)
+
+#compile doxygen documentation
+add_custom_target(doxygen
+    COMMAND doxygen ../Doxyfile
+)
+
+install(TARGETS ${SERVER_NAME})
+install(TARGETS ${CLIENT_NAME})

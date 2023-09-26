@@ -55,8 +55,10 @@ There is no documentation for the moment but you can maybe find some documentati
 
 ```bash
 mkdir build
-cmake -B build
-make run -C build
+cmake -B build/
+make R-Type -C build/
+./r-type_server [port]
+./r-type_client
 ```
 
 ## How to report a bug

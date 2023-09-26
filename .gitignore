@@ -6,7 +6,11 @@
 R-Type
 r-type_server
 r-type_client
+r-type_server_tests
+r-type_client_tests
 /build
+html/
+latex/
 /.vscode
 /.idea
 assets/*.hpp

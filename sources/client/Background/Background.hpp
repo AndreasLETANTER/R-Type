@@ -9,10 +9,14 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @class Background
+ * @brief The Background class represents the background of the game.
+ */
 class Background {
     public:
         /**
-         * @brief The Background class represents the background of the game.
+         * @brief Constructs a new Background object.
          */
         Background() = default;
 
@@ -50,8 +54,8 @@ class Background {
          */
         void resetPosition();
     private:
-        sf::Texture m_texture;
-        sf::Texture m_texture_duplicated;
-        sf::Sprite m_sprite;
-        sf::Sprite m_sprite_duplicated;
+        sf::Texture m_texture; /**< The texture of the background. */
+        sf::Texture m_texture_duplicated; /**< The duplicated texture of the background. */
+        sf::Sprite m_sprite; /**< The sprite of the background. */
+        sf::Sprite m_sprite_duplicated; /**< The duplicated sprite of the background. */
 };
