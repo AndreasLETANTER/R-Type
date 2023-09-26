@@ -33,6 +33,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
+    sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
 )
 
 set(SERVER_SOURCES
