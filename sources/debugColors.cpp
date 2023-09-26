@@ -26,3 +26,17 @@ void printInfo(std::string const &str)
 {
     std::cout << BLUE << str << RESET << std::endl;
 }
+
+void printTrace(std::string const &str)
+{
+    if (!TRACE)
+        return;
+    std::cout << GREY << str << RESET << std::endl;
+}
+
+void printDebug(std::string const &str)
+{
+    if (!DEBUG)
+        return;
+    std::cout << MAGENTA << str << RESET << std::endl;
+}
