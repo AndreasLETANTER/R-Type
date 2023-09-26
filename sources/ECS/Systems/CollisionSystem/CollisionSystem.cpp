@@ -15,6 +15,7 @@ CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Comp
         auto &col = collisions[i];
         sf::IntRect rect1(pos.value().x, pos.value().y, pos.value().x + col.value().width, pos.value().y + col.value().height);
 
+        col.value().entities_in_collision.clear();
         for (size_t j = i; j < positions.size() && j < collisions.size(); j++) {
             auto &pos2 = positions[j];
             auto &col2 = collisions[j];
