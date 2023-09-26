@@ -38,7 +38,7 @@ void Background::move(float xOffset)
 
 void Background::resetPosition()
 {
-    if (m_sprite.getPosition().x <= -m_sprite.getLocalBounds().width) {
+    if (m_sprite.getPosition().x <= -5700) {
         m_sprite.setPosition(0.0f, 0.0f);
     }
 }
