@@ -22,3 +22,9 @@
 #define BOLD_MAGENTA "\033[1m\033[35m"      
 #define BOLD_CYAN    "\033[1m\033[36m"      
 #define BOLD_WHITE   "\033[1m\033[37m"
+
+void printFatalError(std::string const &str);
+void printError(std::string const &str);
+void printSuccess(std::string const &str);
+void printWarning(std::string const &str);
+void printInfo(std::string const &str);
