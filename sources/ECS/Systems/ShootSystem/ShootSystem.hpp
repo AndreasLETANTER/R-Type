@@ -13,6 +13,7 @@
 #include "../../Components/Velocity.hpp"
 #include "../../Components/Projectile.hpp"
 #include "../../Components/Shoot.hpp"
+#include "../../Components/Collision.hpp"
 
 /**
  * @brief The ShootSystem class handles the shooting of entities in the game.

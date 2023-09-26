@@ -33,8 +33,8 @@ int main(const int ac, const char **av)
 
     registry.spawn_entity();
     registry.spawn_entity();
-    registry.spawn_entity();
-    registry.spawn_entity();
+    // registry.spawn_entity();
+    // registry.spawn_entity();
 
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
