@@ -155,5 +155,10 @@ add_custom_target(R-Type_tests
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
 )
 
+#compile doxygen documentation
+add_custom_target(doxygen
+    COMMAND doxygen ../Doxyfile
+)
+
 install(TARGETS ${SERVER_NAME})
 install(TARGETS ${CLIENT_NAME})
