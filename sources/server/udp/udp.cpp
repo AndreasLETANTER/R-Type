@@ -4,7 +4,7 @@
 #include <bitset>
 
 #include "udp.hpp"
-#include "binaryConverter.hpp"
+#include "../../binaryConverter/binaryConverter.hpp"
 
 Udp::Udp(u_int16_t t_port) : m_sockfd(-1) {
     memset(&m_servAddr, 0, sizeof(m_servAddr));

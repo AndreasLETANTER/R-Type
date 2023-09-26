@@ -7,10 +7,13 @@
 
 #include "handleArgument.hpp"
 
-u_int16_t handleArgument::getPort(std::string const &t_av) const
+u_int16_t handleArgument::getPort(char const *t_av) const
 {
     u_int16_t port = DEFAULT_PORT;
 
+    if (t_av == nullptr) {
+        return port;
+    }
     try {
         check_if_number(t_av);
         check_if_is_in_range(std::stoi(t_av));
