@@ -5,22 +5,24 @@
 ** The goal of this class is to check is the parameter is valid, else throw error
 */
 
+#include <iostream>
 #include "handleArgument.hpp"
+#include "../../debugColors.hpp"
 
 u_int16_t handleArgument::getPort(char const *t_av) const
 {
     u_int16_t port = DEFAULT_PORT;
 
-    if (t_av == nullptr) {
-        return port;
+    if (t_av != nullptr) {
+        try {
+            check_if_number(t_av);
+            check_if_is_in_range(std::stoi(t_av));
+            port = std::stoi(t_av);
+        } catch (std::invalid_argument const &e) {
+            printError(e.what());
+        }
     }
-    try {
-        check_if_number(t_av);
-        check_if_is_in_range(std::stoi(t_av));
-        port = std::stoi(t_av);
-    } catch (std::invalid_argument const &e) {
-        std::cerr << e.what() << std::endl;
-    }
+    printInfo("Server is running on port " + (port == DEFAULT_PORT ? std::to_string(port) + " (default)" : std::to_string(port)));
     return port;
 }
 

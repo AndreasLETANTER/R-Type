@@ -5,6 +5,7 @@
 
 #include "udp.hpp"
 #include "../../binaryConverter/binaryConverter.hpp"
+#include "../../debugColors.hpp"
 
 Udp::Udp(u_int16_t t_port) : m_sockfd(-1) {
     memset(&m_servAddr, 0, sizeof(m_servAddr));
@@ -16,6 +17,7 @@ Udp::Udp(u_int16_t t_port) : m_sockfd(-1) {
 Udp::~Udp()
 {
     close(m_sockfd);
+    printTrace("Socket closed");
 }
 
 void Udp::init(void)
@@ -29,6 +31,7 @@ void Udp::init_socket(void)
     if ((m_sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         throw std::runtime_error("socket creation failed");
     }
+    printTrace("Socket created");
 }
 
 void Udp::bind_socket(void)
@@ -36,6 +39,7 @@ void Udp::bind_socket(void)
     if (bind(m_sockfd, (const struct sockaddr *)&m_servAddr, sizeof(m_servAddr)) < 0) {
         throw std::runtime_error("bind failed");
     }
+    printTrace("Socket binded");
 }
 
 std::string Udp::receive(void)
