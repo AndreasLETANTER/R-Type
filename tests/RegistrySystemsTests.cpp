@@ -7,12 +7,12 @@
 
 #define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
-#include "../src/EntityClass/Entity.hpp"
-#include "../src/SparseArrayClass/SparseArray.hpp"
-#include "../src/RegistryClass/Registry.hpp"
-#include "../src/Systems/PositionSystem/PositionSystem.hpp"
-#include "../src/Components/Position.hpp"
-#include "../src/Components/Velocity.hpp"
+#include "../sources/ECS/EntityClass/Entity.hpp"
+#include "../sources/ECS/SparseArrayClass/SparseArray.hpp"
+#include "../sources/ECS/RegistryClass/Registry.hpp"
+#include "../sources/ECS/Systems/PositionSystem/PositionSystem.hpp"
+#include "../sources/ECS/Components/Position.hpp"
+#include "../sources/ECS/Components/Velocity.hpp"
 
 Test(Registry, Basic_system_registry)
 {

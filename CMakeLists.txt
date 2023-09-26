@@ -5,6 +5,7 @@ project("R-Type" VERSION 0.1.0 LANGUAGES CXX)
 ###############################COMPILATION VARIABLES##############################
 set(CMAKE_CXX_STANDARD 17)
 set(NAME "R-Type")
+set(TEST_NAME "unit_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
 include(FetchContent)
@@ -19,6 +20,18 @@ set(ASSET_FILES
     ../assets/Space_Background.png
 )
 
+set (ECS
+    sources/ECS/EntityClass/Entity.cpp
+    sources/ECS/RegistryClass/Registry.cpp
+    sources/ECS/Systems/AutoMoveSystem/AutoMoveSystem.cpp
+    sources/ECS/Systems/ControlSystem/ControlSystem.cpp
+    sources/ECS/Systems/DrawSystem/DrawSystem.cpp
+    sources/ECS/Systems/LoggingSystem/LoggingSystem.cpp
+    sources/ECS/Systems/PositionSystem/PositionSystem.cpp
+    sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
+    sources/ECS/Systems/ShootSystem/ShootSystem.cpp
+)
+
 set(SRC
     sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
@@ -29,7 +42,10 @@ set(MAIN
 )
 
 set(TESTS
-
+    tests/PositionSystemTests.cpp
+    tests/RegistrySystemsTests.cpp
+    tests/RegistryTests.cpp
+    tests/SparseArrayTests.cpp
 )
 
 ###############################COMPILATION MAIN PROGRAM###########################
@@ -52,8 +68,15 @@ endforeach()
 
 list(APPEND SRC ${GENERATED_ASSET_FILES})
 
-add_executable(${NAME} ${SRC} ${MAIN})
+add_executable(${NAME} ${SRC} ${ECS} ${MAIN})
 target_link_libraries(${NAME} PRIVATE sfml-graphics)
+
+###############################COMPILATION TESTS##################################
+find_library(CRITERION criterion)
+#create the tests executable
+add_executable(${TEST_NAME} ${SRC} ${ECS} ${TESTS})
+#link the tests with the criterion library
+target_link_libraries(${TEST_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean

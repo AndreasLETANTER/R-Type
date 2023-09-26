@@ -6,14 +6,14 @@
 */
 
 #include <iostream>
-#include "Systems/LoggingSystem/LoggingSystem.hpp"
-#include "Systems/PositionSystem/PositionSystem.hpp"
-#include "Systems/ControlSystem/ControlSystem.hpp"
-#include "Systems/DrawSystem/DrawSystem.hpp"
-#include "Systems/AutoMoveSystem/AutoMoveSystem.hpp"
-#include "Systems/ShootSystem/ShootSystem.hpp"
-#include "Systems/ProjectileSystem/ProjectileSystem.hpp"
-#include "RegistryClass/Registry.hpp"
+#include "ECS/Systems/LoggingSystem/LoggingSystem.hpp"
+#include "ECS/Systems/PositionSystem/PositionSystem.hpp"
+#include "ECS/Systems/ControlSystem/ControlSystem.hpp"
+#include "ECS/Systems/DrawSystem/DrawSystem.hpp"
+#include "ECS/Systems/AutoMoveSystem/AutoMoveSystem.hpp"
+#include "ECS/Systems/ShootSystem/ShootSystem.hpp"
+#include "ECS/Systems/ProjectileSystem/ProjectileSystem.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
 #include <SFML/Graphics.hpp>
 
 int main(const int ac, const char **av)
