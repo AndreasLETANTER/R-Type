@@ -13,6 +13,7 @@ CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Comp
     for (size_t i = 0; i < positions.size() && i < collisions.size(); i++) {
         auto &pos = positions[i];
         auto &col = collisions[i];
+
         if (!(pos.has_value() && col.has_value())) {
             continue;
         }
@@ -21,6 +22,7 @@ CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Comp
         for (size_t j = i; j < positions.size() && j < collisions.size(); j++) {
             auto &pos2 = positions[j];
             auto &col2 = collisions[j];
+
             if (!(pos2.has_value() && col2.has_value())) {
                 continue;
             }
