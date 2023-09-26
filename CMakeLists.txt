@@ -32,6 +32,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/PositionSystem/PositionSystem.cpp
     sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
+    sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
 )
 
 set(SERVER_SOURCES
@@ -53,6 +54,7 @@ set(ECS_TESTS
     tests/RegistrySystemsTests.cpp
     tests/RegistryTests.cpp
     tests/SparseArrayTests.cpp
+    tests/CollisionSystemTests.cpp
 )
 
 set(SERVER_TESTS
