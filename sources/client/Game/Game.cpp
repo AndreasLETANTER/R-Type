@@ -10,7 +10,8 @@
 #include "../Background/Background.hpp"
 #include "../../../build/assets/Space_Background.hpp"
 
-Game::Game() : m_window(sf::VideoMode(1920, 1080), "R-Type"), m_timeAccumulator(0.0f), m_scrollSpeed(5.0f)
+Game::Game():
+    m_window(sf::VideoMode(1920, 1080), "R-Type"), m_timeAccumulator(0.0f), m_scrollSpeed(5.0f)
 {
     m_background.loadTexture(___assets_Space_Background_png, ___assets_Space_Background_png_len);
     m_background.setSize(m_window.getSize());
