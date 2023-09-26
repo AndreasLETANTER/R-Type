@@ -27,6 +27,8 @@ int main(const int ac, const char **av)
     sf::Texture texture;
     texture.loadFromFile("assets/NugoTemporaryIcon.png");
     sf::Sprite sprite(texture);
+
+    sprite.setTextureRect(sf::IntRect(0, 0, 80, 80));
     sf::Clock clock;
 
     registry.spawn_entity();
@@ -54,7 +56,6 @@ int main(const int ac, const char **av)
     // static entities, that have drawable and position components, but not velocity.
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(100, 100));
     registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable(sprite, &window));
-    registry.add_component<Component::AutoMove>(registry.entity_from_index(1), Component::AutoMove(Component::Position(100, 100), Component::Position(1000, 100)));
     registry.add_component<Component::Collision>(registry.entity_from_index(1), Component::Collision(80, 80));
 
     // registry.add_component<Component::Position>(registry.entity_from_index(2), Component::Position(300, 300));

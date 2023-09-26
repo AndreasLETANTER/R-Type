@@ -15,13 +15,17 @@ CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Comp
         auto &col = collisions[i];
         sf::IntRect rect1(pos.value().x, pos.value().y, pos.value().x + col.value().width, pos.value().y + col.value().height);
 
-        for (size_t j = 0; j < positions.size() && j < collisions.size(); j++) {
+        for (size_t j = i; j < positions.size() && j < collisions.size(); j++) {
             auto &pos2 = positions[j];
             auto &col2 = collisions[j];
-            sf::IntRect rect2(pos2.value().x, pos2.value().y, pos2.value().x + col2.value().width, pos2.value().y + col2.value().height);
+            sf::IntRect rect2(pos2.value().x, pos2.value().y, col2.value().width, col2.value().height);
 
             if (i != j && col.has_value() && col2.has_value() && rect1.intersects(rect2)) {
-                std::cout << "Collision detected" << std::endl;
+                if (std::find(col.value().entities_in_collision.begin(), col.value().entities_in_collision.end(), registry.entity_from_index(j)) != col.value().entities_in_collision.end())
+                    break;
+                col.value().entities_in_collision.push_back(registry.entity_from_index(j));
+                col2.value().entities_in_collision.push_back(registry.entity_from_index(i));
+                break;
             }
         }
     }
