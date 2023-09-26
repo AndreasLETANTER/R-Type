@@ -6,7 +6,8 @@ project("R-Type" VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(SERVER_NAME "r-type_server")
 set(CLIENT_NAME "r-type_client")
-set(TEST_NAME "unit_tests")
+set (SERVER_TESTS_NAME "r-type_server_tests")
+set (CLIENT_TESTS_NAME "r-type_client_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
 include(FetchContent)
@@ -82,9 +83,9 @@ target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
 #create the tests executable
-add_executable(${TEST_NAME} ${SOURCES} ${ECS_SOURCES} ${TESTS})
+add_executable(${SERVER_TESTS_NAME} ${SOURCES} ${ECS_SOURCES} ${TESTS})
 #link the tests with the criterion library
-target_link_libraries(${TEST_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
@@ -119,6 +120,12 @@ add_custom_target(server
 
 #compile the client only
 add_custom_target(client
+    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
+)
+
+#compile both the server and the client
+add_custom_target(R-Type
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_NAME}
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
 )
 
