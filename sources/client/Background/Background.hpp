@@ -37,7 +37,21 @@ class Background {
          * @param window The window to draw the background on.
          */
         void draw(sf::RenderWindow& window);
+
+        /**
+         * @brief Moves the background by the given x offset.
+         *
+         * @param xOffset The x offset to move the background by.
+         */
+        void move(float xOffset);
+
+        /**
+         * @brief Resets the position of the background to its initial position.
+         */
+        void resetPosition();
     private:
         sf::Texture m_texture;
+        sf::Texture m_texture_duplicated;
         sf::Sprite m_sprite;
+        sf::Sprite m_sprite_duplicated;
 };
