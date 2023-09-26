@@ -20,6 +20,7 @@ namespace Component {
              */
             Shoot() = default;
             bool canShoot; /**< A boolean indicating whether the entity can shoot or not. */
+            sf::Sprite bulletSprite; /**< The sprite of the bullet. */
             sf::Time lastShot; /**< The time when the entity last shot. */
             sf::Time shootDelay; /**< The delay between each shot. */
             sf::Clock *clock; /**< A pointer to the clock used to measure time. */
@@ -30,6 +31,6 @@ namespace Component {
              * @param clock A pointer to the clock used to measure time.
              * @param shootDelay The delay between each shot.
              */
-            inline Shoot(bool canShoot, sf::Clock *clock, sf::Time shootDelay) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime();}
+            inline Shoot(bool canShoot, sf::Clock *clock, sf::Time shootDelay, sf::Sprite bulletSprite) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSprite = bulletSprite; }
     };
 }

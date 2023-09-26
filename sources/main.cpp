@@ -26,9 +26,12 @@ int main(const int ac, const char **av)
     window.setFramerateLimit(144);
     sf::Texture texture;
     texture.loadFromFile("assets/NugoTemporaryIcon.png");
+    sf::Texture bulletTexture;
+    bulletTexture.loadFromFile("assets/BurpTemporaryBullet.png");
+    bulletTexture.setSmooth(true);
     sf::Sprite sprite(texture);
+    sf::Sprite bulletSprite(bulletTexture);
 
-    sprite.setTextureRect(sf::IntRect(0, 0, 80, 80));
     sf::Clock clock;
 
     registry.spawn_entity();
@@ -50,7 +53,7 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(0, 0));
     registry.add_component<Component::Controllable>(registry.entity_from_index(0), Component::Controllable(true));
     registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable(sprite, &window));
-    registry.add_component<Component::Shoot>(registry.entity_from_index(0), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250))));
+    registry.add_component<Component::Shoot>(registry.entity_from_index(0), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), bulletSprite));
     registry.add_component<Component::Collision>(registry.entity_from_index(0), Component::Collision(80, 80));
 
     // static entities, that have drawable and position components, but not velocity.
