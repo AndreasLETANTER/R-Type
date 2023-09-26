@@ -5,6 +5,7 @@
 ** In this file we test the handle argument class
 */
 
+#define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
