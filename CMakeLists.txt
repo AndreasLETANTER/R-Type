@@ -38,7 +38,7 @@ include_directories("/usr/local/include")
 link_directories("/usr/local/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/build/assets")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/assets")
 foreach(asset_file ${ASSET_FILES})
     get_filename_component(asset_name ${asset_file} NAME_WE)
     set(output_hpp_file "${CMAKE_BINARY_DIR}/assets/${asset_name}.hpp")
