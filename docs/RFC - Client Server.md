@@ -75,7 +75,7 @@ When a client requests to connect to the server it must send the following messa
 ### Server answer ✔️:
 
 ```bash
-300:id=2;{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]};{sprite_name=”mob.jpeg”, pos=[x=”23.19”, y=“68.22”]}
+300:id=2;{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]};{sprite_name=”mob.jpeg”,pos=[x=”23.19”,y=“68.22”]}
 ```
 
 - **300**
@@ -86,7 +86,7 @@ When a client requests to connect to the server it must send the following messa
 
 *Id of the player*
 
-- **{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]}**
+- **{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}**
 
 *Entity of the map :*
 
@@ -94,7 +94,7 @@ When a client requests to connect to the server it must send the following messa
 
 *Entity sprite name for the display processus*
 
-- **pos=[x=”-92.92”, y=“686.16”]**
+- **pos=[x=”-92.92”,y=“686.16”]**
 
 *Entity position :*
 
@@ -134,10 +134,10 @@ The network component is responsible for facilitating the exchange of data betwe
 The player position and sprite are sent by the client to the server and by the server to the client. The player position and sprite are sent in the following format:
 
 ```bash
-{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]}
+{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}
 ```
 
-- **{sprite_name=”plane.jpeg”, pos=[x=”-92.92”, y=“686.16”]}**
+- **{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}**
 
 *Entity of the map :*
 
@@ -145,12 +145,12 @@ The player position and sprite are sent by the client to the server and by the s
 
 *Entity sprite name for the display processus*
 
-- **pos=[x=”-92.92”, y=“686.16”]**
+- **pos=[x=”-92.92”,y=“686.16”]**
 
 *Entity position :*
 
 ```bash
-pos=[x=”-92.92”, y=“686.16”]
+pos=[x=”-92.92”,y=“686.16”]
 ```
 
 - **x=”-92.92”**
@@ -166,7 +166,7 @@ pos=[x=”-92.92”, y=“686.16”]
 The player actions are sent by the client to the server and by the server to the client. The player actions are sent in the following format:
 
 ```bash
-action=[up=“true”, down=“false”, left=“false”, right=“false”, shoot=“false”]
+action=[up=“true”,down=“false”,left=“false”,right=“false”,shoot=“false”]
 ```
 
 - **up=“true”**
