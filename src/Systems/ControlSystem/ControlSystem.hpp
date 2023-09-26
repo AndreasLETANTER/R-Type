@@ -10,12 +10,12 @@
 #include "../../Components/Controllable.hpp"
 #include "../../Components/Velocity.hpp"
 
+/**
+ * @brief The ControlSystem class is responsible for updating the position of entities based on their velocity and controllable components.
+ */
 class ControlSystem {
     public:
         ControlSystem() = default;
         ~ControlSystem() = default;
         ControlSystem operator()(Registry &registry, SparseArray<Component::Controllable> &controllables, SparseArray<Component::Velocity> &velocities);
-
-    protected:
-    private:
 };

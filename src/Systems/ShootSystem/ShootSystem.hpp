@@ -14,12 +14,12 @@
 #include "../../Components/Projectile.hpp"
 #include "../../Components/Shoot.hpp"
 
+/**
+ * @brief The ShootSystem class handles the shooting of entities in the game.
+ */
 class ShootSystem {
     public:
         ShootSystem() = default;
         ~ShootSystem() = default;
         ShootSystem operator()(Registry &registry, SparseArray<Component::Shoot> &shoots, SparseArray<Component::Position> &positions, SparseArray<Component::Drawable> &drawable);
-
-    protected:
-    private:
 };

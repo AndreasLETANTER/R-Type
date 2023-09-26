@@ -8,13 +8,26 @@
 #pragma once
 
 namespace Component {
+    /**
+     * @brief The Shoot class represents the ability of an entity to shoot.
+     */
     class Shoot {
         public:
+            /**
+             * @brief Construct a new Shoot object with default values.
+             */
             Shoot() = default;
-            bool canShoot;
-            sf::Time lastShot;
-            sf::Time shootDelay;
-            sf::Clock *clock;
+            bool canShoot; /**< A boolean indicating whether the entity can shoot or not. */
+            sf::Time lastShot; /**< The time when the entity last shot. */
+            sf::Time shootDelay; /**< The delay between each shot. */
+            sf::Clock *clock; /**< A pointer to the clock used to measure time. */
+            /**
+             * @brief Construct a new Shoot object with specified values.
+             * 
+             * @param canShoot A boolean indicating whether the entity can shoot or not.
+             * @param clock A pointer to the clock used to measure time.
+             * @param shootDelay The delay between each shot.
+             */
             inline Shoot(bool canShoot, sf::Clock *clock, sf::Time shootDelay) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime();}
     };
 }

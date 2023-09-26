@@ -10,12 +10,12 @@
 #include "../../Components/Position.hpp"
 #include "../../Components/AutoMove.hpp"
 
+/**
+ * @brief The AutoMoveSystem class is responsible for updating the position of entities with the AutoMove component.
+ */
 class AutoMoveSystem {
     public:
         AutoMoveSystem() = default;
         ~AutoMoveSystem() = default;
         AutoMoveSystem operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::AutoMove> &autoMoves);
-
-    protected:
-    private:
 };
