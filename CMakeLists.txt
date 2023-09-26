@@ -47,6 +47,7 @@ set(TESTS
     tests/RegistrySystemsTests.cpp
     tests/RegistryTests.cpp
     tests/SparseArrayTests.cpp
+    tests/CollisionSystemTests.cpp
 )
 
 ###############################COMPILATION MAIN PROGRAM###########################
