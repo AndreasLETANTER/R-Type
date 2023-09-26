@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** Colors
 ** File description:
-** This files defines colors for debug messages
+** This file defines colors for debug messages
 */
 
 #define RESET   "\033[0m"
