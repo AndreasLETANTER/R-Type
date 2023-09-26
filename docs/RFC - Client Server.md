@@ -213,3 +213,6 @@ score=“100”
 - **score=“100”**
 
 *Score value*
+
+## 5 - Binary data exchange
+
