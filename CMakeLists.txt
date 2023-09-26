@@ -5,6 +5,7 @@ project("R-Type" VERSION 0.1.0 LANGUAGES CXX)
 ###############################COMPILATION VARIABLES##############################
 set(CMAKE_CXX_STANDARD 17)
 set(NAME "R-Type")
+set(SERVER_NAME "r-type_server")
 set(TEST_NAME "unit_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
@@ -16,11 +17,11 @@ FetchContent_MakeAvailable(SFML)
 
 ###############################DIRECTORIES SRC####################################
 
-set(ASSET_FILES
+set(ASSETS_FILES
     ../assets/Space_Background.png
 )
 
-set (ECS
+set (ECS_SOURCES
     sources/ECS/EntityClass/Entity.cpp
     sources/ECS/RegistryClass/Registry.cpp
     sources/ECS/Systems/AutoMoveSystem/AutoMoveSystem.cpp
@@ -32,7 +33,10 @@ set (ECS
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
 )
 
-set(SRC
+set(SERVER_SOURCES
+)
+
+set(SOURCES
     sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
 )
@@ -55,7 +59,7 @@ link_directories("/usr/local/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/assets")
-foreach(asset_file ${ASSET_FILES})
+foreach(asset_file ${ASSETS_FILES})
     get_filename_component(asset_name ${asset_file} NAME_WE)
     set(output_hpp_file "${CMAKE_BINARY_DIR}/assets/${asset_name}.hpp")
     add_custom_command(
@@ -66,15 +70,15 @@ foreach(asset_file ${ASSET_FILES})
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
 endforeach()
 
-list(APPEND SRC ${GENERATED_ASSET_FILES})
+list(APPEND SOURCES ${GENERATED_ASSET_FILES})
 
-add_executable(${NAME} ${SRC} ${ECS} ${MAIN})
-target_link_libraries(${NAME} PRIVATE sfml-graphics)
+add_executable(${SERVER_NAME} ${SERVER_SOURCES} ${ECS_SOURCES} ${MAIN})
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
 #create the tests executable
-add_executable(${TEST_NAME} ${SRC} ${ECS} ${TESTS})
+add_executable(${TEST_NAME} ${SRC} ${ECS_SOURCES} ${TESTS})
 #link the tests with the criterion library
 target_link_libraries(${TEST_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
@@ -104,4 +108,8 @@ add_custom_target(re
     COMMENT "Recompiling the project"
 )
 
-install(TARGETS ${NAME})
+add_custom_target(server
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_NAME}
+)
+
+install(TARGETS ${SERVER_NAME})
