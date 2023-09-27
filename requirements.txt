@@ -1,0 +1,9 @@
+cmake
+g++
+git
+xorg-dev
+libudev-dev
+libopenal-dev
+libvorbis-dev
+libflac-dev
+wget
