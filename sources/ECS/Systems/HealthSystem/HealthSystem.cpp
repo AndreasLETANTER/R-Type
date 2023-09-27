@@ -9,7 +9,6 @@
 
 HealthSystem HealthSystem::operator()(Registry &registry, SparseArray<Component::Health> &healths)
 {
-    (void)registry;
     for (size_t i = 0; i < healths.size(); ++i)
     {
         auto &health = healths[i];

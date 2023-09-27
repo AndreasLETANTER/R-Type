@@ -84,7 +84,7 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
-    registry.add_system<Component::Projectile, Component::Collision>(ProjectileCollisionSystem());
+    registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     registry.add_system<Component::Health>(HealthSystem());
 
     while (window.isOpen()) {
