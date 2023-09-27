@@ -3,30 +3,30 @@
 #include <unistd.h>
 #include <bitset>
 
-#include "udp.hpp"
+#include "udpSocket.hpp"
 #include "../../binaryConverter/binaryConverter.hpp"
 #include "../../debugColors.hpp"
 
-Udp::Udp(u_int16_t t_port) : m_sockfd(-1) {
+udpSocket::udpSocket(u_int16_t t_port) : m_sockfd(-1) {
     memset(&m_servAddr, 0, sizeof(m_servAddr));
     m_servAddr.sin_port = htons(t_port);
     m_servAddr.sin_family = AF_INET;
     m_servAddr.sin_addr.s_addr = INADDR_ANY;
 }
 
-Udp::~Udp()
+udpSocket::~udpSocket()
 {
     close(m_sockfd);
     printTrace("Socket closed");
 }
 
-void Udp::init(void)
+void udpSocket::init(void)
 {
     init_socket();
     bind_socket();
 }
 
-void Udp::init_socket(void)
+void udpSocket::init_socket(void)
 {
     if ((m_sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         throw std::runtime_error("socket creation failed");
@@ -34,7 +34,7 @@ void Udp::init_socket(void)
     printTrace("Socket created");
 }
 
-void Udp::bind_socket(void)
+void udpSocket::bind_socket(void)
 {
     if (bind(m_sockfd, (const struct sockaddr *)&m_servAddr, sizeof(m_servAddr)) < 0) {
         throw std::runtime_error("bind failed");
@@ -42,7 +42,7 @@ void Udp::bind_socket(void)
     printTrace("Socket binded");
 }
 
-std::string Udp::receive(void)
+std::string udpSocket::receive(void)
 {
     binaryConverter converter;
     socklen_t len;
@@ -58,7 +58,7 @@ std::string Udp::receive(void)
     return converter.binary_to_string(std::string(buffer));
 }
 
-void Udp::send(std::string t_msg)
+void udpSocket::send(std::string t_msg)
 {
     binaryConverter converter;
 

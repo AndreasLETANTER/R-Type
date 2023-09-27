@@ -11,20 +11,20 @@
 #define MAXLINE 1024
 
 /**
- * @brief The Udp class provides an interface to create and manage a UDP socket.
+ * @brief The udpSocket class provides an interface to create and manage a udpSocket socket.
  */
-class Udp {
+class udpSocket {
     public:
         /**
-         * @brief Constructs a Udp object with the specified port number.
+         * @brief Constructs a udpSocket object with the specified port number.
          * @param t_port The port number to bind the socket to.
          */
-        Udp(u_int16_t t_port);
+        udpSocket(u_int16_t t_port);
 
         /**
-         * @brief Destroys the Udp object and closes the socket.
+         * @brief Destroys the udpSocket object and closes the socket.
          */
-        ~Udp();
+        ~udpSocket();
 
         /**
          * @brief Initializes the socket and binds it to the specified port.

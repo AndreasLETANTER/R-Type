@@ -8,12 +8,12 @@
 #include <iostream>
 
 #include "handleArgument/handleArgument.hpp"
-#include "udp/udp.hpp"
+#include "udpSocket/udpSocket.hpp"
 
 int main(int ac, char **av)
 {
     handleArgument handleArgument;
-    Udp udp(handleArgument.getPort(av[1]));
+    udpSocket udp(handleArgument.getPort(av[1]));
 
     try {
         udp.init();
