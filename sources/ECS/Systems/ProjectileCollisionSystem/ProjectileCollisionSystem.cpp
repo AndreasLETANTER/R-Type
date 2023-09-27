@@ -14,7 +14,7 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
         auto &collision = collisions[i];
         if (projectile.has_value() && collision.has_value()) {
             if (collision.value().entities_in_collision.size() > 0) {
-                registry.kill_entity(registry.entity_from_index(collision.value().entities_in_collision[0]));
+                registry.kill_entity(registry.entity_from_index(collision.value().entities_in_collision[0])); // replace it with damage on the entity
                 registry.kill_entity(registry.entity_from_index(i));
             }
         }
