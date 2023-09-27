@@ -6,8 +6,10 @@ project("R-Type" VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(SERVER_NAME "r-type_server")
 set(CLIENT_NAME "r-type_client")
-set (SERVER_TESTS_NAME "r-type_server_tests")
-set (CLIENT_TESTS_NAME "r-type_client_tests")
+set(ECS_TESTS_NAME "r-type_ecs_tests")
+set(SERVER_TESTS_NAME "r-type_server_tests")
+set(CLIENT_TESTS_NAME "r-type_client_tests")
+set(RTYPE_TESTS_NAME "r-type_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
 include(FetchContent)
@@ -36,33 +38,35 @@ set (ECS_SOURCES
 )
 
 set(SERVER_SOURCES
-    ${ECS_SOURCES}
+    sources/server/handleArgument/handleArgument.cpp
 )
 
 set(CLIENT_SOURCES
-    ${ECS_SOURCES}
     sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
 )
 
-set(MAIN
-    sources/main.cpp
+set(SERVER_MAIN
+    sources/server/main.cpp
+)
+
+set(CLIENT_MAIN
+    sources/client/main.cpp
 )
 
 set(ECS_TESTS
-    tests/PositionSystemTests.cpp
-    tests/RegistrySystemsTests.cpp
-    tests/RegistryTests.cpp
-    tests/SparseArrayTests.cpp
-    tests/CollisionSystemTests.cpp
+    tests/ECS/PositionSystemTests.cpp
+    tests/ECS/RegistrySystemsTests.cpp
+    tests/ECS/RegistryTests.cpp
+    tests/ECS/SparseArrayTests.cpp
+    tests/ECS/CollisionSystemTests.cpp
 )
 
 set(SERVER_TESTS
-    ${ECS_TESTS}
+    tests/server/handleArgument.cpp
 )
 
 set(CLIENT_TESTS
-    ${ECS_TESTS}
 )
 
 ###############################COMPILATION MAIN PROGRAM###########################
@@ -85,19 +89,23 @@ endforeach()
 
 list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
 
-add_executable(${SERVER_NAME} ${MAIN} ${SERVER_SOURCES})
-add_executable(${CLIENT_NAME} ${MAIN} ${CLIENT_SOURCES})
+add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
+add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
 target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
 #create the tests executable
-add_executable(${SERVER_TESTS_NAME} ${SERVER_SOURCES} ${SERVER_TESTS})
-add_executable(${CLIENT_TESTS_NAME} ${CLIENT_SOURCES} ${CLIENT_TESTS})
+add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
+add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
+add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
+add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 #link the tests with the criterion library
 target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
@@ -112,7 +120,8 @@ add_custom_target(fclean
     COMMAND rm -rf CMakeFiles
     COMMAND find . -name "cmake_install.cmake" -delete
     COMMAND find . -name "Makefile" -delete
-    COMMAND find . -name ${NAME} -delete
+    COMMAND find . -name ${SERVER_NAME} -delete
+    COMMAND find . -name ${CLIENT_NAME} -delete
     COMMAND find . -name "*.a" -delete
     COMMAND find . -name "lib" -delete
     COMMENT "Clean the project and the binary"
@@ -135,10 +144,15 @@ add_custom_target(client
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
 )
 
-#compile both the server and the client
-add_custom_target(R-Type
-    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_NAME}
-    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
+#compile the ecs tests only
+add_custom_target(ecs_tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
+)
+
+#compile the ecs tests only and run them
+add_custom_target(ecs_tests_run
+    COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
+    COMMAND ../${ECS_TESTS_NAME}
 )
 
 #compile the server tests only
@@ -146,15 +160,32 @@ add_custom_target(server_tests
     COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
 )
 
+#compile the server tests only and run them
+add_custom_target(server_tests_run
+    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+    COMMAND ../${SERVER_TESTS_NAME}
+)
+
 #compile the client tests only
 add_custom_target(client_tests
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
 )
 
-#compile both the server and the client tests
-add_custom_target(R-Type_tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+#compile the client tests only and run them
+add_custom_target(client_tests_run
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+    COMMAND ../${CLIENT_TESTS_NAME}
+)
+
+#compile all the tests
+add_custom_target(tests
+    COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
+)
+
+#compile all the tests and run them
+add_custom_target(tests_run
+    COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
+    COMMAND ../${RTYPE_TESTS_NAME}
 )
 
 #compile doxygen documentation
