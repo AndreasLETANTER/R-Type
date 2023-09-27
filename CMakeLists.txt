@@ -63,6 +63,7 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
+    tests/server/handleArgument.cpp
 )
 
 set(CLIENT_TESTS
@@ -88,8 +89,8 @@ endforeach()
 
 list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
 
-add_executable(${SERVER_NAME} ${SERVER_MAIN} ${SERVER_SOURCES} ${ECS_SOURCES})
-add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SOURCES} ${ECS_SOURCES})
+add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
+add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
 target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 
@@ -97,8 +98,8 @@ target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 find_library(CRITERION criterion)
 #create the tests executable
 add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
-add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${SERVER_SOURCES} ${SERVER_TESTS})
-add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${CLIENT_SOURCES} ${CLIENT_TESTS})
+add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
+add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
 add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 #link the tests with the criterion library
 target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
