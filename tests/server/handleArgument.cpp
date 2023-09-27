@@ -9,7 +9,7 @@
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
-#include "../sources/server/handleArgument/handleArgument.hpp"
+#include "../../sources/server/handleArgument/handleArgument.hpp"
 
 Test(handleArgument, getPort_validPort)
 {

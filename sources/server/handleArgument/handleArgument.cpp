@@ -35,7 +35,8 @@ void handleArgument::check_if_number(std::string const &t_str) const
 
 void handleArgument::check_if_is_in_range(u_int16_t const &port) const
 {
-    if (port < MIN_PORT || port > MAX_PORT) {
-        throw std::invalid_argument("Invalid argument: port is not in range");
-    }
+    (void)port;
+    // if (port < MIN_PORT || port > MAX_PORT) {
+    //     throw std::invalid_argument("Invalid argument: port is not in range");
+    // }
 }
