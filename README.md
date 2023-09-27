@@ -15,10 +15,12 @@ called R-Type in C++.
 
 ## Table of Contents
 
-- [Documentation](#documentation)
 - [How to launch the project](#how-to-launch-the-project)
+  - [Supported OS](#supported-os)
+  - [Requirements](#requirements)
   - [Dependencies](#dependencies)
   - [Execution](#execution)
+- [Documentation](#documentation)
 - [How to report a bug](#how-to-report-a-bug)
 - [How to suggest a feature or enhancement](#how-to-suggest-a-feature-or-enhancement)
 - [Where can I ask for help?](#where-can-i-ask-for-help)
@@ -41,15 +43,22 @@ called R-Type in C++.
   - [CI / CD](#testing-policies-CI-CD)
 - [Contributors](#contributors)
 
-## Documentation
-
-There is no documentation for the moment but you can maybe find some documentation in the code.
-
 ## How to launch the project
+
+### Supported OS
+- Linux
+- Windows
+- MacOS
+
+### Requirements
+- [C++17](https://en.cppreference.com/w/cpp/17)
+- [CMake](https://cmake.org/)
 
 ### Dependencies
 
-- [CMake](https://cmake.org/)
+- [Criterion](https://github.com/Snaipe/Criterion)
+- [Ftest](https://github.com/Atomot/ftest)
+- [Doxygen](https://github.com/doxygen/doxygen)
 
 ### Execution
 
@@ -60,6 +69,29 @@ make R-Type -C build/
 ./r-type_server [port]
 ./r-type_client
 ```
+
+##### I you wish to execute the server within a Docker container:
+
+- Make sure you have Docker installed
+- Build the r-type-server image within your directory
+```bash
+docker build -t r-type-server-image .
+```
+- Run the server
+```bash
+docker run r-type-server-image
+```
+
+## Documentation
+
+There is a Doxygen documentation in the project. You can generate it with the following command:
+
+```bash
+mkdir build
+cmake -B build/
+make doxygen -C build/
+```
+Then open the file `docs/html/index.html` in your browser.
 
 ## How to report a bug
 
