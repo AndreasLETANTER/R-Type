@@ -1,18 +1,11 @@
-# SUse Ubuntu base image
+# Use Ubuntu base image
 FROM ubuntu:latest
 
 # Install dependencies
-RUN apt-get update \
-    && apt-get install -y \
-    cmake \
-    g++ \
-    git \
-    xorg-dev \
-    libudev-dev \
-    libopenal-dev \
-    libvorbis-dev \
-    libflac-dev \
-    wget
+COPY requirements.txt /tmp/requirements.txt
+RUN apt-get update && \
+    apt-get install -y $(cat /tmp/requirements.txt) && \
+    rm /tmp/requirements.txt
 
 # Install Criterion
 RUN wget https://github.com/Snaipe/Criterion/releases/download/v2.4.1/criterion-2.4.1-linux-x86_64.tar.xz && \
