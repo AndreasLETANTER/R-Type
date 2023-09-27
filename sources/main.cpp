@@ -15,6 +15,7 @@
 #include "ECS/Systems/ProjectileSystem/ProjectileSystem.hpp"
 #include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
 #include <SFML/Graphics.hpp>
 
@@ -48,6 +49,7 @@ int main(const int ac, const char **av)
     registry.register_component<Component::Shoot>();
     registry.register_component<Component::Projectile>();
     registry.register_component<Component::Collision>();
+    registry.register_component<Component::Health>();
 
     //entity that is movable, using all components.
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
@@ -56,11 +58,13 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable(sprite, &window));
     registry.add_component<Component::Shoot>(registry.entity_from_index(0), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), bulletSprite));
     registry.add_component<Component::Collision>(registry.entity_from_index(0), Component::Collision(80, 80));
+    registry.add_component<Component::Health>(registry.entity_from_index(0), Component::Health(100));
 
     // static entities, that have drawable and position components, but not velocity.
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(1000, 500));
     registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable(sprite, &window));
     registry.add_component<Component::Collision>(registry.entity_from_index(1), Component::Collision(80, 80));
+    registry.add_component<Component::Health>(registry.entity_from_index(1), Component::Health(100));
 
     // registry.add_component<Component::Position>(registry.entity_from_index(2), Component::Position(300, 300));
     // registry.add_component<Component::Drawable>(registry.entity_from_index(2), Component::Drawable(sprite, &window));
@@ -81,6 +85,7 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Projectile, Component::Collision>(ProjectileCollisionSystem());
+    registry.add_system<Component::Health>(HealthSystem());
 
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
