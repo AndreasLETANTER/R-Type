@@ -52,8 +52,8 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
     registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(0, 0));
     registry.add_component<Component::Controllable>(registry.entity_from_index(0), Component::Controllable(true));
-    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable(sprite, &window));
-    registry.add_component<Component::Shoot>(registry.entity_from_index(0), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), bulletSprite));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("NugoTemporaryIcon.png", &window, true));
+    registry.add_component<Component::Shoot>(registry.entity_from_index(0), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), "BurpTemporaryBullet.png"));
     registry.add_component<Component::Collision>(registry.entity_from_index(0), Component::Collision(80, 80));
 
     // static entities, that have drawable and position components, but not velocity.
@@ -81,4 +81,15 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
 
     std::cout << registry.exportToString() << std::endl;
+
+    while (window.isOpen()) {
+        for (auto event = sf::Event{}; window.pollEvent(event);) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+        window.clear();
+        registry.run_systems();
+        window.display();
+    }
 }

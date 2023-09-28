@@ -22,6 +22,8 @@ FetchContent_MakeAvailable(SFML)
 
 set(ASSETS_FILES
     ../assets/Space_Background.png
+    ../assets/BurpTemporaryBullet.png
+    ../assets/NugoTemporaryIcon.png
 )
 
 set (ECS_SOURCES
@@ -35,6 +37,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
+    sources/ECS/Components/Drawable.cpp
 )
 
 set(SERVER_SOURCES
