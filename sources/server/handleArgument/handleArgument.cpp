@@ -22,7 +22,6 @@ u_int16_t handleArgument::getPort(char const *t_av) const
             printError(e.what());
         }
     }
-    printInfo("Server is running on port " + (port == DEFAULT_PORT ? std::to_string(port) + " (default)" : std::to_string(port)));
     return port;
 }
 
