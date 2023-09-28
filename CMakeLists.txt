@@ -39,11 +39,17 @@ set (ECS_SOURCES
 
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
+    sources/server/udpSocket/udpSocket.cpp
+    sources/debugColors/debugColors.cpp
+    sources/binaryConverter/binaryConverter.cpp
 )
 
 set(CLIENT_SOURCES
     sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
+    sources/client/udpClient/udpClient.cpp
+    sources/debugColors/debugColors.cpp
+    sources/binaryConverter/binaryConverter.cpp
 )
 
 set(SERVER_MAIN
