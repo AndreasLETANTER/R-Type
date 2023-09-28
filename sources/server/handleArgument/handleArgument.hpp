@@ -44,11 +44,4 @@ class handleArgument
          * @throw std::invalid_argument If the string is not a number.
          */
         void check_if_number(std::string const &str) const;
-        /**
-         * @brief Check if a port number is in range.
-         * @param t_port The port number to check.
-         * @throw std::invalid_argument If the port number is not in range.
-         * @details The port number must be between MIN_PORT and MAX_PORT.
-         */
-        void check_if_is_in_range(u_int16_t const &t_port) const;
 };
