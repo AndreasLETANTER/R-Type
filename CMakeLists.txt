@@ -63,6 +63,7 @@ set(ECS_TESTS
     tests/ECS/SparseArrayTests.cpp
     tests/ECS/CollisionSystemTests.cpp
     tests/ECS/ProjectileCollisionSystemTests.cpp
+    tests/ECS/HealthSystemTests.cpp
 )
 
 set(SERVER_TESTS
