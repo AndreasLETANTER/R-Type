@@ -16,6 +16,7 @@ namespace Component {
     typedef class Drawable {
         public:
             sf::Sprite sprite; /**< The sprite of the drawable object. */
+            std::string spriteName; /**< The name of the sprite. */
             sf::RenderWindow *window; /**< The render window to draw the object on. */
             /**
              * @brief Construct a new Drawable object.

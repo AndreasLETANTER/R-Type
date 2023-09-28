@@ -6,6 +6,9 @@
 */
 
 #include "Registry.hpp"
+#include <string.h>
+#include "../Components/Position.hpp"
+#include "../Components/Drawable.hpp"
 
 Entity Registry::spawn_entity()
 {
@@ -43,4 +46,24 @@ void Registry::run_systems()
     for (auto &system : m_systems) {
         system(*this);
     }
+}
+
+std::string Registry::exportToString()
+{
+    std::string entitiesString;
+
+    auto &drawables = get_components<Component::Drawable>();
+    auto &positions = get_components<Component::Position>();
+
+    for (size_t i = 0; i < drawables.size() && i < positions.size(); ++i) {
+        auto &drawable = drawables[i];
+        auto &position = positions[i];
+        if (drawable.has_value() && position.has_value()) {
+            entitiesString += "{sprite_name=\"" + drawable.value().spriteName +
+            "\",pos=[x=\"" + std::to_string(position.value().x)
+            + "\",y=\"" + std::to_string(position.value().y) + "\"]};";
+        }
+    }
+    entitiesString[entitiesString.size() - 1] = '\0';
+    return entitiesString;
 }

@@ -6,15 +6,15 @@
 */
 
 #include <iostream>
-#include "ECS/Systems/LoggingSystem/LoggingSystem.hpp"
-#include "ECS/Systems/PositionSystem/PositionSystem.hpp"
-#include "ECS/Systems/ControlSystem/ControlSystem.hpp"
-#include "ECS/Systems/DrawSystem/DrawSystem.hpp"
-#include "ECS/Systems/AutoMoveSystem/AutoMoveSystem.hpp"
-#include "ECS/Systems/ShootSystem/ShootSystem.hpp"
-#include "ECS/Systems/ProjectileSystem/ProjectileSystem.hpp"
-#include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
-#include "ECS/RegistryClass/Registry.hpp"
+#include "../ECS/Systems/LoggingSystem/LoggingSystem.hpp"
+#include "../ECS/Systems/PositionSystem/PositionSystem.hpp"
+#include "../ECS/Systems/ControlSystem/ControlSystem.hpp"
+#include "../ECS/Systems/DrawSystem/DrawSystem.hpp"
+#include "../ECS/Systems/AutoMoveSystem/AutoMoveSystem.hpp"
+#include "../ECS/Systems/ShootSystem/ShootSystem.hpp"
+#include "../ECS/Systems/ProjectileSystem/ProjectileSystem.hpp"
+#include "../ECS/Systems/CollisionSystem/CollisionSystem.hpp"
+#include "../ECS/RegistryClass/Registry.hpp"
 #include <SFML/Graphics.hpp>
 
 int main(const int ac, const char **av)
@@ -57,9 +57,9 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Collision>(registry.entity_from_index(0), Component::Collision(80, 80));
 
     // static entities, that have drawable and position components, but not velocity.
-    registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(100, 100));
-    registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable(sprite, &window));
-    registry.add_component<Component::Collision>(registry.entity_from_index(1), Component::Collision(80, 80));
+    //registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(100, 100));
+    //registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable(sprite, &window));
+    //registry.add_component<Component::Collision>(registry.entity_from_index(1), Component::Collision(80, 80));
 
     // registry.add_component<Component::Position>(registry.entity_from_index(2), Component::Position(300, 300));
     // registry.add_component<Component::Drawable>(registry.entity_from_index(2), Component::Drawable(sprite, &window));
@@ -80,14 +80,5 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
 
-    while (window.isOpen()) {
-        for (auto event = sf::Event{}; window.pollEvent(event);) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
-        window.clear();
-        registry.run_systems();
-        window.display();
-    }
+    std::cout << registry.exportToString() << std::endl;
 }

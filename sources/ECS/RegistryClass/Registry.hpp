@@ -156,12 +156,13 @@ class Registry {
          * 
          */
         void run_systems();
-        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
 
+        std::string exportToString();
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
+        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
 };
 
 #include "Registry.tpp"
