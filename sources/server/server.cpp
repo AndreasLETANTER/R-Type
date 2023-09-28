@@ -16,9 +16,8 @@ int main(int ac, char **av)
     udpSocket udp(handleArgument.getPort(av[1]));
 
     try {
-        udp.init();
         while (true) {
-            std::cout << udp.receive() << std::endl;
+            udp.receive();
         }
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
