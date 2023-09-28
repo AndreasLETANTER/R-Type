@@ -8,7 +8,7 @@
 #include <bitset>
 #include <stdexcept>
 
-#include "../debugColors.hpp"
+#include "../debugColors/debugColors.hpp"
 #include "binaryConverter.hpp"
 
 std::string binaryConverter::string_to_binary(std::string t_str)
