@@ -59,15 +59,6 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
 
     registry2.importFromMessages(registry.exportToMessages().first, registry.exportToMessages().second, &window);
-    auto &drawables = registry2.get_components<Component::Drawable>();
-
-    for (size_t i = 0; i < drawables.size(); ++i) {
-        std::cout << drawables[i].value().spriteName << std::endl;
-    }
-    auto &positions = registry2.get_components<Component::Position>();
-    for (size_t i = 0; i < positions.size(); ++i) {
-        std::cout << positions[i].value().x << std::endl;
-    }
     registry2.add_system<Component::Position, Component::Drawable>(DrawSystem());
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
