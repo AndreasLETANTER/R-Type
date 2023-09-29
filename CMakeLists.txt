@@ -37,6 +37,8 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
+    sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
+    sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Components/Drawable.cpp
 )
 
@@ -64,6 +66,8 @@ set(ECS_TESTS
     tests/ECS/RegistryTests.cpp
     tests/ECS/SparseArrayTests.cpp
     tests/ECS/CollisionSystemTests.cpp
+    tests/ECS/ProjectileCollisionSystemTests.cpp
+    tests/ECS/HealthSystemTests.cpp
     tests/ECS/RegistryExportTests.cpp
 )
 

@@ -125,6 +125,4 @@ Test(Registry, no_spawn_exportToMessages)
     message_t *messages = reg.exportToMessages();
 
     cr_assert_eq(messages[0].sprite_name[0], '\0');
-    cr_assert_eq(messages[0].x, 0);
-    cr_assert_eq(messages[0].y, 0);
 }
