@@ -40,31 +40,41 @@ void udpSocket::acceptClient() {
 }
 
 void udpSocket::clientHandler(std::shared_ptr<boost::asio::ip::tcp::socket> tcpSocket, boost::asio::ip::udp::endpoint udpEndpoint) {
+    (void)udpEndpoint;
     // Implement logic to handle UDP messages for a specific client
     printDebug("je suis dans le clientHandler");
-    while (true) {
-        try {
-            // Receive UDP messages from the client
+    try {
+        while (true) {
+            boost::system::error_code error;
+            // mutable buffer is needed because read_some modifies the buffer
             char buffer[1024];
-            std::size_t len = m_udpSocket.receive_from(boost::asio::buffer(buffer, sizeof(buffer)), udpEndpoint);
+            boost::asio::mutable_buffer mutableBuffer(buffer, sizeof(buffer));
+            std::size_t bytesRead = tcpSocket->read_some(mutableBuffer, error);
 
-            // Process and handle the received UDP message
-            std::string udpMessage(buffer, len);
-            printTrace("Received UDP message from " + udpEndpoint.address().to_string() + ":" + std::to_string(udpEndpoint.port()) + ": " + udpMessage);
+            if (error == boost::asio::error::eof) {
+                // Connection closed by the client
+                break;
+            } else if (error) {
+                throw boost::system::system_error(error);
+            }
 
-            // Example: Send a response back to the client
-            std::string response = "Received UDP message: " + udpMessage;
-            m_udpSocket.send_to(boost::asio::buffer(response), udpEndpoint);
-        } catch (const std::exception& e) {
-            // Handle exceptions and errors gracefully
-            std::cerr << "Error in clientHandler: " << e.what() << std::endl;
-            break;
+            // Process the received message
+            std::string message(buffer, bytesRead);
+            std::cout << "Received TCP message from " << tcpSocket->remote_endpoint().address().to_string() << ":" << tcpSocket->remote_endpoint().port() << ": " << message << std::endl;
+
+            // Handle the message as needed
+            // For example, you can send a response to the client
+            std::string response = "Server received: " + message;
+            tcpSocket->write_some(boost::asio::buffer(response));
         }
+    } catch (const std::exception& e) {
+        // Handle exceptions and errors gracefully
+        std::cerr << "Error in clientHandler: " << e.what() << std::endl;
     }
 
     // Clean up and remove the client from the map when done
     std::lock_guard<std::mutex> lock(m_mutex);
-    m_clients.erase(tcpSocket);
+    // m_clients.erase(tcpSocket);
 }
 
 void udpSocket::start() {
