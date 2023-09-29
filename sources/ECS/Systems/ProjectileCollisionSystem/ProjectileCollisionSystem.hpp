@@ -6,10 +6,11 @@
 */
 
 #pragma once
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Collision.hpp"
-#include "../../Components/Projectile.hpp"
-#include "../../Components/Health.hpp"
+
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Collision.hpp"
+#include "ECS/Components/Projectile.hpp"
+#include "ECS/Components/Health.hpp"
 
 /**
  * @brief The ProjectileSystem class handles the logic for updating the position of projectiles in the game.

@@ -12,8 +12,9 @@
 #include <typeindex>
 #include <memory>
 #include <any>
-#include "../SparseArrayClass/SparseArray.hpp"
-#include "../EntityClass/Entity.hpp"
+
+#include "ECS/SparseArrayClass/SparseArray.hpp"
+#include "ECS/EntityClass/Entity.hpp"
 
 /**
  * @brief The Registry class is responsible for managing entities and their components.
@@ -164,4 +165,4 @@ class Registry {
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
 };
 
-#include "Registry.tpp"
+#include "ECS/RegistryClass/Registry.tpp"

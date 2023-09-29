@@ -5,7 +5,7 @@
 ** Registry
 */
 
-#include "Registry.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
 
 Entity Registry::spawn_entity()
 {

@@ -5,8 +5,9 @@
 ** PositionSystem
 */
 
-#include "PositionSystem.hpp"
 #include <iostream>
+
+#include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 
 PositionSystem PositionSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Velocity> &velocities)
 {

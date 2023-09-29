@@ -5,7 +5,7 @@
 ** CollisionSystem
 */
 
-#include "CollisionSystem.hpp"
+#include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
 
 CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Collision> &collisions)
 {
