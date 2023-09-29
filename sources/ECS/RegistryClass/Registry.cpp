@@ -36,6 +36,7 @@ Entity Registry::entity_from_index(std::size_t idx)
 void Registry::kill_entity(Entity const &e)
 {
     m_entities[e].reset();
+
     for (auto &erase_func : m_erase_functions) {
         erase_func.second(*this, e);
     }
@@ -66,4 +67,26 @@ std::pair<message_t *, size_t>Registry::exportToMessages()
         }
     }
     return std::make_pair(messages, size);
+}
+
+void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window)
+{
+    try {
+        register_component<Component::Position>();
+    }
+    catch(const std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }
+    try {
+        register_component<Component::Drawable>();
+    }
+    catch(const std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    for (size_t i = 0; i < size; ++i) {
+        auto entity = spawn_entity();
+        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, true));
+        add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
+    }
 }
