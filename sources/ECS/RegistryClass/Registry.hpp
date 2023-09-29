@@ -15,6 +15,12 @@
 #include "../SparseArrayClass/SparseArray.hpp"
 #include "../EntityClass/Entity.hpp"
 
+typedef struct message_s {
+    std::string sprite_name;
+    double x;
+    double y;
+} message_t;
+
 /**
  * @brief The Registry class is responsible for managing entities and their components.
  * 
@@ -157,7 +163,7 @@ class Registry {
          */
         void run_systems();
 
-        std::string exportToString();
+        message_t *exportToMessages();
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */

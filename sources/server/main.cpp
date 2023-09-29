@@ -80,7 +80,7 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
 
-    std::cout << registry.exportToString() << std::endl;
+    registry.exportToMessages();
 
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {

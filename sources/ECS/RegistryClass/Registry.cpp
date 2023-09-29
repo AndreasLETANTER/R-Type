@@ -48,10 +48,9 @@ void Registry::run_systems()
     }
 }
 
-std::string Registry::exportToString()
+message_t *Registry::exportToMessages()
 {
-    std::string entitiesString;
-
+    message_t *messages = new message_t[m_entities.size() + 1];
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
 
@@ -59,11 +58,10 @@ std::string Registry::exportToString()
         auto &drawable = drawables[i];
         auto &position = positions[i];
         if (drawable.has_value() && position.has_value()) {
-            entitiesString += "{sprite_name=\"" + drawable.value().spriteName +
-            "\",pos=[x=\"" + std::to_string(position.value().x)
-            + "\",y=\"" + std::to_string(position.value().y) + "\"]};";
+            messages[i].sprite_name = drawable.value().spriteName;
+            messages[i].x = position.value().x;
+            messages[i].y = position.value().y;
         }
     }
-    entitiesString[entitiesString.size() - 1] = '\0';
-    return entitiesString;
+    return messages;
 }

@@ -64,6 +64,7 @@ set(ECS_TESTS
     tests/ECS/RegistryTests.cpp
     tests/ECS/SparseArrayTests.cpp
     tests/ECS/CollisionSystemTests.cpp
+    tests/ECS/RegistryExportTests.cpp
 )
 
 set(SERVER_TESTS
