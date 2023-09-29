@@ -15,10 +15,13 @@
 #include "../SparseArrayClass/SparseArray.hpp"
 #include "../EntityClass/Entity.hpp"
 
+/**
+ * @brief Struct representing a message containing the sprite name and position of an entity.
+ */
 typedef struct message_s {
-    char sprite_name[128];
-    double x;
-    double y;
+    char sprite_name[128]; /**< The name of the sprite associated with the entity. */
+    double x; /**< The x-coordinate of the entity's position. */
+    double y; /**< The y-coordinate of the entity's position. */
 } message_t;
 
 /**
@@ -163,6 +166,11 @@ class Registry {
          */
         void run_systems();
 
+        /**
+         * @brief Export the registry to an array of messages
+         * 
+         * @return message_t* Pointer to the array of messages
+         */
         message_t *exportToMessages();
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
