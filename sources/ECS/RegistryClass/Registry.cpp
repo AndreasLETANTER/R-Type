@@ -48,9 +48,10 @@ void Registry::run_systems()
     }
 }
 
-message_t *Registry::exportToMessages()
+std::pair<message_t *, size_t>Registry::exportToMessages()
 {
     message_t *messages = new message_t[m_entities.size()];
+    size_t size = 0;
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
 
@@ -61,7 +62,8 @@ message_t *Registry::exportToMessages()
             strcpy(messages[i].sprite_name, drawable.value().spriteName.c_str());
             messages[i].x = position.value().x;
             messages[i].y = position.value().y;
+            size++;
         }
     }
-    return messages;
+    return std::make_pair(messages, size);
 }

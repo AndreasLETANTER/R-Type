@@ -167,11 +167,11 @@ class Registry {
         void run_systems();
 
         /**
-         * @brief Export the registry to an array of messages
+         * @brief Exports the registry's entities and components to an array of messages.
          * 
-         * @return message_t* Pointer to the array of messages
+         * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
          */
-        message_t *exportToMessages();
+        std::pair<message_t *, size_t>exportToMessages();
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
