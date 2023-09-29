@@ -23,12 +23,11 @@ ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::S
                 auto window = draw.value().window;
 
                 shoot.value().lastShot = shoot.value().clock->getElapsedTime();
-                registry.add_component<Component::Drawable>(projectile, Component::Drawable(shoot.value().bulletSpriteName, window, true));
-                auto &projectileRect = registry.get_components<Component::Drawable>()[projectile].value().sprite.getTextureRect();
-                registry.add_component<Component::Position>(projectile, Component::Position(x + projectileRect.width + 1, y));
+                auto &projectileDraw = registry.add_component<Component::Drawable>(projectile, Component::Drawable(shoot.value().bulletSpriteName, window, true));
+                registry.add_component<Component::Position>(projectile, Component::Position(x + projectileDraw.value().sprite.getTextureRect().width + 1, y));
                 registry.add_component<Component::Velocity>(projectile, Component::Velocity(0, 0));
                 registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position(window->getSize().x, y), 10));
-                registry.add_component<Component::Collision>(projectile, Component::Collision(projectileRect.height, projectileRect.width));
+                registry.add_component<Component::Collision>(projectile, Component::Collision(projectileDraw.value().sprite.getTextureRect().height, projectileDraw.value().sprite.getTextureRect().width));
             }
         }
     }
