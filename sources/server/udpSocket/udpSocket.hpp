@@ -1,45 +1,38 @@
-/*
-** EPITECH PROJECT, 2023
-** Udp socket class
-** File description:
-** This class send, receive and create the udp connexion
-*/
-
 #pragma once
 
 #include <string>
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
+#include <map>
+#include <thread>
+#include <mutex>
+#include <memory> // for std::shared_ptr
 
-/**
- * @brief The udpSocket class represents a UDP socket that can send and receive messages.
- */
 class udpSocket {
-    public:
-        /**
-         * @brief Construct a new udpSocket object with the specified port number.
-         * @param t_port The port number to bind the socket to.
-         */
-        udpSocket(u_int16_t t_port);
+public:
+    udpSocket(u_int16_t t_udpPort, u_int16_t t_tcpPort);
 
-        /**
-         * @brief Destroy the udpSocket object.
-         */
-        ~udpSocket();
+    ~udpSocket();
 
-        /**
-         * @brief Receive a message from the socket.
-         * @return The received message as a string.
-         */
-        std::string receive();
+    std::string receive();
 
-        /**
-         * @brief Send a message through the socket.
-         * 
-         * @param t_msg The message to send as a string.
-         */
-        void send(std::string t_msg);
+    void send(const std::string& message);
 
-    private:
-        boost::asio::io_service m_ioService; ///< The Boost.Asio I/O service object.
-        boost::asio::ip::udp::socket m_socket; ///< The Boost.Asio UDP socket object.
+    void acceptClient();
+
+    void clientHandler(std::shared_ptr<boost::asio::ip::tcp::socket> tcpSocket, boost::asio::ip::udp::endpoint udpEndpoint);
+
+    void start();
+
+private:
+    boost::asio::io_service m_ioService;
+    boost::asio::ip::udp::socket m_udpSocket;
+    u_int16_t m_udpPort;
+
+    boost::asio::ip::tcp::acceptor m_tcpAcceptor;
+    u_int16_t m_tcpPort;
+    std::map<std::shared_ptr<boost::asio::ip::tcp::socket>, boost::asio::ip::udp::endpoint> m_clients;
+    std::mutex m_mutex;
+
+    void startAccept();
 };
