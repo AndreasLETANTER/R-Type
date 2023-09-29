@@ -16,7 +16,7 @@
 #include "../EntityClass/Entity.hpp"
 
 typedef struct message_s {
-    std::string sprite_name;
+    char sprite_name[128];
     double x;
     double y;
 } message_t;

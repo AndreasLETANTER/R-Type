@@ -30,7 +30,7 @@ Test(Registry, basic_exportToMessages)
 
     message_t *messages = reg.exportToMessages();
 
-    cr_assert_eq(messages[0].sprite_name, "NugoTemporaryIcon.png");
+    cr_assert_eq(strcmp(messages[0].sprite_name, "NugoTemporaryIcon.png"), 0);
     cr_assert_eq(messages[0].x, 0);
     cr_assert_eq(messages[0].y, 0);
 }
@@ -55,10 +55,10 @@ Test(Registry, 2_spawn_exportToMessages)
 
     message_t *messages = reg.exportToMessages();
 
-    cr_assert_eq(messages[0].sprite_name, "NugoTemporaryIcon.png");
+    cr_assert_eq(strcmp(messages[0].sprite_name, "NugoTemporaryIcon.png"), 0);
     cr_assert_eq(messages[0].x, 0);
     cr_assert_eq(messages[0].y, 0);
-    cr_assert_eq(messages[1].sprite_name, "ZBOUBZBOUB.png");
+    cr_assert_eq(strcmp(messages[1].sprite_name, "ZBOUBZBOUB.png"), 0);
     cr_assert_eq(messages[1].x, 3);
     cr_assert_eq(messages[1].y, 5);
 }
@@ -82,7 +82,7 @@ Test(Registry, 50_spawn_exportToMessages)
     message_t *messages = reg.exportToMessages();
 
     for (int i = 0; i < 50; i++) {
-        cr_assert_eq(messages[i].sprite_name, "NugoTemporaryIcon.png");
+        cr_assert_eq(strcmp(messages[i].sprite_name, "NugoTemporaryIcon.png"), 0);
         cr_assert_eq(messages[i].x, i);
         cr_assert_eq(messages[i].y, i);
     }
@@ -107,8 +107,24 @@ Test(Registry, 800_spawn_exportToMessages)
     message_t *messages = reg.exportToMessages();
 
     for (int i = 0; i < 800; i++) {
-        cr_assert_eq(messages[i].sprite_name, "NugoTemporaryIcon.png");
+        cr_assert_eq(strcmp(messages[i].sprite_name, "NugoTemporaryIcon.png"), 0);
         cr_assert_eq(messages[i].x, i);
         cr_assert_eq(messages[i].y, i);
     }
+}
+
+Test(Registry, no_spawn_exportToMessages)
+{
+    Registry reg;
+    sf::RenderWindow window;
+
+    reg.register_component<Component::Position>();
+    reg.register_component<Component::Velocity>();
+    reg.register_component<Component::Drawable>();
+
+    message_t *messages = reg.exportToMessages();
+
+    cr_assert_eq(messages[0].sprite_name[0], '\0');
+    cr_assert_eq(messages[0].x, 0);
+    cr_assert_eq(messages[0].y, 0);
 }

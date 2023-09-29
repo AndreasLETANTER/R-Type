@@ -50,7 +50,7 @@ void Registry::run_systems()
 
 message_t *Registry::exportToMessages()
 {
-    message_t *messages = new message_t[m_entities.size() + 1];
+    message_t *messages = new message_t[m_entities.size()];
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
 
@@ -58,7 +58,7 @@ message_t *Registry::exportToMessages()
         auto &drawable = drawables[i];
         auto &position = positions[i];
         if (drawable.has_value() && position.has_value()) {
-            messages[i].sprite_name = drawable.value().spriteName;
+            strcpy(messages[i].sprite_name, drawable.value().spriteName.c_str());
             messages[i].x = position.value().x;
             messages[i].y = position.value().y;
         }
