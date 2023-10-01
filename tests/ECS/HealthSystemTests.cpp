@@ -33,7 +33,7 @@ Test(HealthSystem, when_a_projectile_does_not_kill_an_entity)
 
     registry.run_systems();
 
-    cr_assert_eq(registry.m_entities[entityTarget].has_value(), true);
+    cr_assert_eq(registry.entity_from_index(entityTarget), entityTarget);
 }
 
 Test(HealthSystem, when_a_projectile_kills_an_entity)
@@ -58,5 +58,5 @@ Test(HealthSystem, when_a_projectile_kills_an_entity)
 
     registry.run_systems();
 
-    cr_assert_eq(registry.m_entities[entityTarget].has_value(), false);
+    cr_assert_throw(registry.entity_from_index(entityTarget), std::runtime_error);
 }

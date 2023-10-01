@@ -16,6 +16,15 @@
 #include "../EntityClass/Entity.hpp"
 
 /**
+ * @brief Struct representing a message containing the sprite name and position of an entity.
+ */
+typedef struct message_s {
+    char sprite_name[128]; /**< The name of the sprite associated with the entity. */
+    double x; /**< The x-coordinate of the entity's position. */
+    double y; /**< The y-coordinate of the entity's position. */
+} message_t;
+
+/**
  * @brief The Registry class is responsible for managing entities and their components.
  * 
  * It provides methods to register and remove components, spawn and kill entities, and add and run systems.
@@ -156,12 +165,18 @@ class Registry {
          * 
          */
         void run_systems();
-        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
 
+        /**
+         * @brief Exports the registry's entities and components to an array of messages.
+         * 
+         * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
+         */
+        std::pair<message_t *, size_t>exportToMessages();
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
+        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
 };
 
 #include "Registry.tpp"
