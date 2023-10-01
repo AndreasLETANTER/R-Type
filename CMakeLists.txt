@@ -22,6 +22,8 @@ FetchContent_MakeAvailable(SFML)
 
 set(ASSETS_FILES
     ../assets/Space_Background.png
+    ../assets/BurpTemporaryBullet.png
+    ../assets/NugoTemporaryIcon.png
 )
 
 set (ECS_SOURCES
@@ -37,6 +39,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
+    sources/ECS/Components/Drawable.cpp
 )
 
 set(SERVER_SOURCES
@@ -66,6 +69,8 @@ set(ECS_TESTS
     tests/ECS/CollisionSystemTests.cpp
     tests/ECS/ProjectileCollisionSystemTests.cpp
     tests/ECS/HealthSystemTests.cpp
+    tests/ECS/RegistryExportTests.cpp
+    tests/ECS/RegistryImportTests.cpp
 )
 
 set(SERVER_TESTS
