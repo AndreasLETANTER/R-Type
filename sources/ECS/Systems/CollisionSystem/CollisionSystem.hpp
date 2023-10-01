@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Position.hpp"
-#include "../../Components/Collision.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Collision.hpp"
 
 /**
  * @brief The CollisionSystem class handles the collision detection and resolution for entities with a Position and Collision component.

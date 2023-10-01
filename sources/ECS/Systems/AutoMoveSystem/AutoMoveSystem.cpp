@@ -5,7 +5,7 @@
 ** AutoMoveSystem
 */
 
-#include "AutoMoveSystem.hpp"
+#include "ECS/Systems/AutoMoveSystem/AutoMoveSystem.hpp"
 
 AutoMoveSystem AutoMoveSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::AutoMove> &autoMoves)
 {

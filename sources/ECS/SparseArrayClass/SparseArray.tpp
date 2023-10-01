@@ -5,7 +5,7 @@
 ** SparseArray
 */
 
-#include "SparseArray.hpp"
+#include "ECS/SparseArrayClass/SparseArray.hpp"
 
 template <typename Component>
 SparseArray<Component>::SparseArray(SparseArray const &other)

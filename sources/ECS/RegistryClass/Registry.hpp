@@ -7,13 +7,24 @@
 
 #pragma once
 
+#include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <functional>
 #include <typeindex>
 #include <memory>
 #include <any>
-#include "../SparseArrayClass/SparseArray.hpp"
-#include "../EntityClass/Entity.hpp"
+
+#include "ECS/SparseArrayClass/SparseArray.hpp"
+#include "ECS/EntityClass/Entity.hpp"
+
+/**
+ * @brief Struct representing a message containing the sprite name and position of an entity.
+ */
+typedef struct message_s {
+    char sprite_name[128]; /**< The name of the sprite associated with the entity. */
+    double x; /**< The x-coordinate of the entity's position. */
+    double y; /**< The y-coordinate of the entity's position. */
+} message_t;
 
 /**
  * @brief The Registry class is responsible for managing entities and their components.
@@ -156,12 +167,27 @@ class Registry {
          * 
          */
         void run_systems();
-        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
 
+        /**
+         * @brief Exports the registry's entities and components to an array of messages.
+         * 
+         * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
+         */
+        std::pair<message_t *, size_t>exportToMessages();
+
+        /**
+         * @brief Imports entities from an array of messages.
+         * 
+         * @param messages Pointer to the array of messages.
+         * @param size Size of the array of messages.
+         * @param window The window to draw the entities in.
+         */
+        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
+        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
 };
 
-#include "Registry.tpp"
+#include "ECS/RegistryClass/Registry.tpp"

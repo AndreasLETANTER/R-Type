@@ -5,7 +5,7 @@
 ** LoggingSystem
 */
 
-#include "LoggingSystem.hpp"
+#include "ECS/Systems/LoggingSystem/LoggingSystem.hpp"
 
 LoggingSystem LoggingSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Velocity> &velocities)
 {

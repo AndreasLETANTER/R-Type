@@ -9,7 +9,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../Background/Background.hpp"
+#include "client/Background/Background.hpp"
 
 /**
  * @class Game

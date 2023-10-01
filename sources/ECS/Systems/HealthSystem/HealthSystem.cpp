@@ -5,7 +5,7 @@
 ** HealthSystem
 */
 
-#include "HealthSystem.hpp"
+#include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 
 HealthSystem HealthSystem::operator()(Registry &registry, SparseArray<Component::Health> &healths)
 {

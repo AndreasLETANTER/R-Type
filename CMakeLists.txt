@@ -22,6 +22,8 @@ FetchContent_MakeAvailable(SFML)
 
 set(ASSETS_FILES
     ../assets/Space_Background.png
+    ../assets/BurpTemporaryBullet.png
+    ../assets/NugoTemporaryIcon.png
 )
 
 set (ECS_SOURCES
@@ -37,15 +39,18 @@ set (ECS_SOURCES
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
+    sources/ECS/Components/Drawable.cpp
 )
 
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
+    sources/utils/debugColors/debugColors.cpp
 )
 
 set(CLIENT_SOURCES
     sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
+    sources/utils/debugColors/debugColors.cpp
 )
 
 set(SERVER_MAIN
@@ -64,6 +69,8 @@ set(ECS_TESTS
     tests/ECS/CollisionSystemTests.cpp
     tests/ECS/ProjectileCollisionSystemTests.cpp
     tests/ECS/HealthSystemTests.cpp
+    tests/ECS/RegistryExportTests.cpp
+    tests/ECS/RegistryImportTests.cpp
 )
 
 set(SERVER_TESTS
@@ -94,21 +101,46 @@ endforeach()
 list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
 
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
-add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
+target_include_directories(${SERVER_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+)
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
+
+add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
+target_include_directories(${CLIENT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
 target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
-#create the tests executable
+#create the tests executable with the criterion library
 add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
-add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
-add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
-add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
-#link the tests with the criterion library
-target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_include_directories(${ECS_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
 target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+
+add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
+target_include_directories(${SERVER_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+)
+target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+
+add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
+target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+
+add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
+target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
 target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 ###############################CUSTOM TARGETS#####################################
