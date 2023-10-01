@@ -11,12 +11,13 @@ set(SERVER_TESTS_NAME "r-type_server_tests")
 set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
+set(VCPKG_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg")
+set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+set(CMAKE_PREFIX_PATH "${VCPKG_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/share/${PROJECT_NAME}" ${CMAKE_PREFIX_PATH})
 
-include(FetchContent)
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x)
-FetchContent_MakeAvailable(SFML)
+###############################FIND PACKAGES######################################
+
+find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 
 ###############################DIRECTORIES SRC####################################
 
@@ -93,16 +94,18 @@ foreach(asset_file ${ASSETS_FILES})
     add_custom_command(
         OUTPUT ${output_hpp_file}
         COMMAND xxd -i ${asset_file} > ${output_hpp_file}
+        COMMAND ${CMAKE_COMMAND} -E echo "Generated ${output_hpp_file}"
         DEPENDS ${asset_file}
     )
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
 endforeach()
 
-list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
+list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
 )
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
 
@@ -126,6 +129,7 @@ target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
 target_include_directories(${SERVER_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
 )
 target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
