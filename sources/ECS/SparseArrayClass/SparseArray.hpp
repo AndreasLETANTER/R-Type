@@ -6,6 +6,7 @@
 */
 
 #pragma once
+
 #include <vector>
 #include <iostream>
 #include <optional>
@@ -182,4 +183,4 @@ private:
 };
 
 
-#include "SparseArray.tpp"
+#include "ECS/SparseArrayClass/SparseArray.tpp"

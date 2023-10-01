@@ -5,7 +5,7 @@
 ** Background
 */
 
-#include "Background.hpp"
+#include "client/Background/Background.hpp"
 
 void Background::loadTexture(const unsigned char* data, std::size_t size)
 {

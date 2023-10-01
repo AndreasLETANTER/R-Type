@@ -5,7 +5,7 @@
 ** ShootSystem
 */
 
-#include "ShootSystem.hpp"
+#include "ECS/Systems/ShootSystem/ShootSystem.hpp"
 
 ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::Shoot> &shoots, SparseArray<Component::Position> &positions, SparseArray<Component::Drawable> &drawable)
 {

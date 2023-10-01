@@ -6,9 +6,10 @@
 */
 
 #pragma once
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Position.hpp"
-#include "../../Components/AutoMove.hpp"
+
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/AutoMove.hpp"
 
 /**
  * @brief The AutoMoveSystem class is responsible for updating the position of entities with the AutoMove component.

@@ -8,8 +8,8 @@
 #define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
 
-#include "../../sources/ECS/RegistryClass/Registry.hpp"
-#include "../../sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 
 Test(ProjectileCollisionSystem, when_an_entity_is_in_collision_with_a_projectile_it_takes_damage)
 {

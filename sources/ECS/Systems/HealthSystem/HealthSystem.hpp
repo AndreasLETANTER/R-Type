@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Health.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Health.hpp"
 
 /**
  * @brief The HealthSystem class handles the logic for updating the health of entities in the game.
