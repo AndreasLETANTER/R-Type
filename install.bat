@@ -1,11 +1,15 @@
 @echo off
 
-vcpkg list | findstr "sfml" > nul
-if errorlevel 1 (
-    echo Installing SFML...
-    vcpkg install sfml
-    vcpkg install asio
-    vcpkg install boost
+IF NOT EXIST vcpkg (
+    git clone https://github.com/microsoft/vcpkg.git
+    cd vcpkg
+    bootstrap-vcpkg.bat
+) ELSE (
+    cd vcpkg
 )
 
-pause
+vcpkg install sfml
+vcpkg install asio
+vcpkg install boost
+
+cd..
