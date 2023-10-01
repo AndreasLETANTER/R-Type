@@ -48,7 +48,7 @@ set(SERVER_SOURCES
 )
 
 set(CLIENT_SOURCES
-    sources/client/Game/Game.cpp
+    # sources/client/Game/Game.cpp
     sources/client/Background/Background.cpp
 )
 

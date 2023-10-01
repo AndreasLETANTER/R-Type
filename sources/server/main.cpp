@@ -42,13 +42,17 @@ int main(const int ac, const char **av)
     registry.register_component<Component::Projectile>();
     registry.register_component<Component::Collision>();
 
-    //entity that is movable, using all components.
+    // Background
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
-    registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(0, 0));
-    registry.add_component<Component::Controllable>(registry.entity_from_index(0), Component::Controllable(true));
-    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("NugoTemporaryIcon.png", &window, true));
-    registry.add_component<Component::Shoot>(registry.entity_from_index(0), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), 10, "BurpTemporaryBullet.png"));
-    registry.add_component<Component::Collision>(registry.entity_from_index(0), Component::Collision(80, 80));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), true, true));
+
+    //entity that is movable, using all components.
+    registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(0, 0));
+    registry.add_component<Component::Velocity>(registry.entity_from_index(1), Component::Velocity(0, 0));
+    registry.add_component<Component::Controllable>(registry.entity_from_index(1), Component::Controllable(true));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("NugoTemporaryIcon.png", &window, sf::IntRect(0, 0, 0, 0), true, false));
+    registry.add_component<Component::Shoot>(registry.entity_from_index(1), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), 10, "BurpTemporaryBullet.png"));
+    registry.add_component<Component::Collision>(registry.entity_from_index(1), Component::Collision(80, 80));
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -58,7 +62,7 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
 
-    registry2.importFromMessages(registry.exportToMessages().first, registry.exportToMessages().second, &window);
+    registry2.importFromMessages(registry.exportToMessages().first, registry.exportToMessages().second, &window, sf::IntRect(0, 0, 0, 0));
     registry2.add_system<Component::Position, Component::Drawable>(DrawSystem());
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
@@ -67,7 +71,7 @@ int main(const int ac, const char **av)
             }
         }
         window.clear();
-        registry2.run_systems();
+        registry.run_systems();
         window.display();
     }
 }
