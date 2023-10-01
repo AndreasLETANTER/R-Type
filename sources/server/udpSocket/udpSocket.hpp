@@ -9,6 +9,21 @@
 #include <memory> // for std::shared_ptr
 
 class udpSocket {
+private:
+    boost::asio::io_service m_ioService;
+    boost::asio::ip::udp::socket m_udpSocket;
+    u_int16_t m_udpPort;
+    struct clientInfos {
+        std::shared_ptr<boost::asio::ip::tcp::socket> tcpSocket;
+        boost::asio::ip::udp::endpoint udpEndpoint;
+        bool firstMessage = true;
+    };
+    boost::asio::ip::tcp::acceptor m_tcpAcceptor;
+    u_int16_t m_tcpPort;
+    std::map<int, clientInfos> m_clients;
+    std::mutex m_mutex;
+    std::vector<clientInfos> m_connectedClients;
+    void startAccept();
 public:
     udpSocket(u_int16_t t_udpPort, u_int16_t t_tcpPort);
 
@@ -20,19 +35,10 @@ public:
 
     void acceptClient();
 
-    void clientHandler(std::shared_ptr<boost::asio::ip::tcp::socket> tcpSocket, boost::asio::ip::udp::endpoint udpEndpoint);
+    void removeClient(int clientId);
+
+    void clientHandler(int clientId, clientInfos clientInfo);
 
     void start();
 
-private:
-    boost::asio::io_service m_ioService;
-    boost::asio::ip::udp::socket m_udpSocket;
-    u_int16_t m_udpPort;
-
-    boost::asio::ip::tcp::acceptor m_tcpAcceptor;
-    u_int16_t m_tcpPort;
-    std::map<std::shared_ptr<boost::asio::ip::tcp::socket>, boost::asio::ip::udp::endpoint> m_clients;
-    std::mutex m_mutex;
-
-    void startAccept();
 };
