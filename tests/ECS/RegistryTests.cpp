@@ -7,9 +7,9 @@
 
 #define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
-#include "../sources/ECS/EntityClass/Entity.hpp"
-#include "../sources/ECS/SparseArrayClass/SparseArray.hpp"
-#include "../sources/ECS/RegistryClass/Registry.hpp"
+#include "ECS/EntityClass/Entity.hpp"
+#include "ECS/SparseArrayClass/SparseArray.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
 
 Test(Registry, basic_register)
 {

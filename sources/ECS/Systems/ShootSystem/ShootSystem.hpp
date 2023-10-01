@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Position.hpp"
-#include "../../Components/Drawable.hpp"
-#include "../../Components/Velocity.hpp"
-#include "../../Components/Projectile.hpp"
-#include "../../Components/Shoot.hpp"
-#include "../../Components/Collision.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Drawable.hpp"
+#include "ECS/Components/Velocity.hpp"
+#include "ECS/Components/Projectile.hpp"
+#include "ECS/Components/Shoot.hpp"
+#include "ECS/Components/Collision.hpp"
 
 /**
  * @brief The ShootSystem class handles the shooting of entities in the game.

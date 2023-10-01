@@ -5,7 +5,7 @@
 ** DrawSystem
 */
 
-#include "DrawSystem.hpp"
+#include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 
 DrawSystem DrawSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Drawable> &drawables)
 {

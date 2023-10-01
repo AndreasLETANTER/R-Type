@@ -70,6 +70,18 @@ make R-Type -C build/
 ./r-type_client
 ```
 
+##### I you wish to execute the server within a Docker container:
+
+- Make sure you have Docker installed
+- Build the r-type-server image within your directory
+```bash
+docker build -t r-type-server-image .
+```
+- Run the server
+```bash
+docker run r-type-server-image
+```
+
 ## Documentation
 
 There is a Doxygen documentation in the project. You can generate it with the following command:
