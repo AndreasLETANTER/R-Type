@@ -32,6 +32,7 @@ public:
     std::string receive();
 
     void send(const std::string& message);
+    void sendFirstMessage(int clientId, clientInfos clientInfo);
 
     void acceptClient();
 
@@ -40,5 +41,7 @@ public:
     void clientHandler(int clientId, clientInfos clientInfo);
 
     void start();
+
+    void printNumClients(void);
 
 };
