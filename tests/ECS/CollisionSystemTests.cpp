@@ -7,8 +7,8 @@
 
 #define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
-#include "../../sources/ECS/RegistryClass/Registry.hpp"
-#include "../../sources/ECS/Systems/CollisionSystem/CollisionSystem.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
 
 Test(CollisionSystem, basic_CollisionSystem)
 {

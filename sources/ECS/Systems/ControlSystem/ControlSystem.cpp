@@ -5,9 +5,10 @@
 ** ControlSystem
 */
 
-#include "ControlSystem.hpp"
 #include <map>
 #include <SFML/Window/Keyboard.hpp>
+
+#include "ECS/Systems/ControlSystem/ControlSystem.hpp"
 
 ControlSystem ControlSystem::operator()(Registry &registry, SparseArray<Component::Controllable> &controllables, SparseArray<Component::Velocity> &velocities)
 {

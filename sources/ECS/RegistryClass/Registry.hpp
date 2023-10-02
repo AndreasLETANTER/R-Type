@@ -13,8 +13,9 @@
 #include <typeindex>
 #include <memory>
 #include <any>
-#include "../SparseArrayClass/SparseArray.hpp"
-#include "../EntityClass/Entity.hpp"
+
+#include "ECS/SparseArrayClass/SparseArray.hpp"
+#include "ECS/EntityClass/Entity.hpp"
 
 /**
  * @brief Struct representing a message containing the sprite name and position of an entity.
@@ -189,4 +190,4 @@ class Registry {
         SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
 };
 
-#include "Registry.tpp"
+#include "ECS/RegistryClass/Registry.tpp"

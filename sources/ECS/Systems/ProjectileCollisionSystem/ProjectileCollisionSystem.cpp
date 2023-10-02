@@ -5,7 +5,7 @@
 ** ProjectileCollisionSystem
 */
 
-#include "ProjectileCollisionSystem.hpp"
+#include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 
 ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &registry, SparseArray<Component::Projectile> &projectiles, SparseArray<Component::Collision> &collisions, SparseArray<Component::Health> &healths)
 {

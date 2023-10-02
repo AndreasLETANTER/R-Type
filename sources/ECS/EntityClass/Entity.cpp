@@ -5,7 +5,7 @@
 ** entity
 */
 
-#include "Entity.hpp"
+#include "ECS/EntityClass/Entity.hpp"
 
 Entity::Entity(const std::size_t id)
 {

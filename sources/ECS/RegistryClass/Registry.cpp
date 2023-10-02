@@ -5,10 +5,11 @@
 ** Registry
 */
 
-#include "Registry.hpp"
 #include <string.h>
-#include "../Components/Position.hpp"
-#include "../Components/Drawable.hpp"
+
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Drawable.hpp"
 
 Entity Registry::spawn_entity()
 {

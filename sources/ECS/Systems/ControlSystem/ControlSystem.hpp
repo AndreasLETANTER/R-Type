@@ -6,9 +6,10 @@
 */
 
 #pragma once
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Controllable.hpp"
-#include "../../Components/Velocity.hpp"
+
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Controllable.hpp"
+#include "ECS/Components/Velocity.hpp"
 
 /**
  * @brief The ControlSystem class is responsible for updating the position of entities based on their velocity and controllable components.

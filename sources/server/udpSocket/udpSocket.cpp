@@ -1,8 +1,17 @@
-#include "udpSocket.hpp"
-#include "../../debugColors.hpp"
-#include "../../binaryConverter/binaryConverter.hpp"
+/*
+** EPITECH PROJECT, 2023
+** R-Type
+** File description:
+** udpSocket
+*/
+
 #include <boost/array.hpp>
 #include <boost/system/system_error.hpp>
+
+#include "server/udpSocket/udpSocket.hpp"
+#include "utils/debugColorsClass/debugColors.hpp"
+#include "utils/binaryConverterClass/binaryConverter.hpp"
+
 
 #define MAXLINE 1024
 

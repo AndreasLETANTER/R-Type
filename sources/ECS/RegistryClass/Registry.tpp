@@ -5,7 +5,7 @@
 ** Registry
 */
 
-#include "Registry.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
 
 template <class Component>
 SparseArray<Component> &Registry::register_component()

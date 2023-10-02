@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Position.hpp"
-#include "../../Components/Drawable.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Drawable.hpp"
 
 /**
  * @brief The DrawSystem class is responsible for rendering all the entities that have a drawable component and a position component.

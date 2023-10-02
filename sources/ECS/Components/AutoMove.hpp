@@ -6,7 +6,7 @@
 */
 
 #pragma once
-#include "Position.hpp"
+#include "ECS/Components/Position.hpp"
 
 namespace Component {
     /**

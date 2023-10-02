@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
-#include "../sources/binaryConverter/binaryConverter.hpp"
+#include "utils/binaryConverterClass/binaryConverter.hpp"
 
 Test(binaryConverter, string_to_binary_connexion)
 {
