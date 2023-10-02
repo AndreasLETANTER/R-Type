@@ -90,3 +90,21 @@ void TextButton::draw(sf::RenderWindow &window)
     window.draw(m_shape);
     window.draw(m_text);
 }
+
+void TextButton::update(sf::RenderWindow &window)
+{
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+    if (mousePosition.x >= m_buttonPosition.x && mousePosition.x <= m_buttonPosition.x + m_buttonSize.x &&
+        mousePosition.y >= m_buttonPosition.y && mousePosition.y <= m_buttonPosition.y + m_buttonSize.y) {
+        m_shape.setFillColor(m_buttonHoverColor);
+        m_shape.setOutlineColor(m_buttonHoverOutlineColor);
+        m_text.setFillColor(m_textHoverColor);
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_callback != nullptr)
+            m_callback();
+    } else {
+        m_shape.setFillColor(m_buttonColor);
+        m_shape.setOutlineColor(m_buttonOutlineColor);
+        m_text.setFillColor(m_textColor);
+    }
+}
