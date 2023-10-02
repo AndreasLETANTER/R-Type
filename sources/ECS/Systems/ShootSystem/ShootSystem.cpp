@@ -26,7 +26,6 @@ ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::S
                 auto &projectileDraw = registry.add_component<Component::Drawable>(projectile, Component::Drawable(shoot.value().bulletSpriteName, window, sf::IntRect(0, 0, 0, 0), true, false));
                 registry.add_component<Component::Velocity>(projectile, Component::Velocity(0, 0));
                 if (shoot.value().isMonster) {
-                    projectileDraw.value().sprite.setColor(sf::Color::Red);
                     registry.add_component<Component::Position>(projectile, Component::Position(x - (projectileDraw.value().sprite.getTextureRect().width + 1), y));
                     registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position(x - (projectileDraw.value().sprite.getTextureRect().width + 1), y), Component::Position(0, y), 10, shoot.value().damage));
                 } else {
