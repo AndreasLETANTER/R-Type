@@ -56,8 +56,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pyinstaller
-          sudo apt-get install libXcursor-devel
-          sudo apt-get install xxd
+      - name: Install packages
+        run: |
+          sudo apt-get -y install libXcursor-devel
+          sudo apt-get -y install xxd
       - name: Compile project
         run: |
           mkdir build
