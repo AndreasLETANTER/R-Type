@@ -16,7 +16,7 @@ ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::S
 
         if (shoot.has_value() && pos.has_value() && draw.has_value()) {
             sf::Time elapsedTime = shoot.value().clock->getElapsedTime() - shoot.value().lastShot;
-            if (shoot.value().canShoot == true && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && elapsedTime >= shoot.value().shootDelay) {
+            if (shoot.value().canShoot == true && (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || shoot.value().isMonster) && elapsedTime >= shoot.value().shootDelay) {
                 auto projectile = registry.spawn_entity();
                 double x = pos.value().x;
                 double y = pos.value().y;

@@ -53,7 +53,7 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Velocity>(registry.entity_from_index(2), Component::Velocity(0, 0));
     registry.add_component<Component::Controllable>(registry.entity_from_index(2), Component::Controllable(true));
     registry.add_component<Component::Drawable>(registry.entity_from_index(2), Component::Drawable("NugoTemporaryIcon.png", &window, sf::IntRect(0, 0, 0, 0), true, false));
-    registry.add_component<Component::Shoot>(registry.entity_from_index(2), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), 20, "BurpTemporaryBullet.png"));
+    registry.add_component<Component::Shoot>(registry.entity_from_index(2), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), 20, "BurpTemporaryBullet.png", false));
     registry.add_component<Component::Collision>(registry.entity_from_index(2), Component::Collision(80, 80));
     registry.add_component<Component::Health>(registry.entity_from_index(2), Component::Health(100));
 
@@ -62,6 +62,7 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Velocity>(registry.entity_from_index(3), Component::Velocity(0, 0));
     registry.add_component<Component::Drawable>(registry.entity_from_index(3), Component::Drawable("NugoTemporaryIcon.png", &window, sf::IntRect(0, 0, 0, 0), true, false));
     registry.add_component<Component::AutoMove>(registry.entity_from_index(3), Component::AutoMove(Component::Position(1000, 0), Component::Position(1000, 500)));
+    registry.add_component<Component::Shoot>(registry.entity_from_index(3), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), 20, "BurpTemporaryBullet.png", true));
     registry.add_component<Component::Collision>(registry.entity_from_index(3), Component::Collision(80, 80));
     registry.add_component<Component::Health>(registry.entity_from_index(3), Component::Health(100));
 
