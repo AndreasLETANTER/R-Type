@@ -65,50 +65,18 @@ jobs:
       - id: check_label_and_binary
         name: Check label and if binary exists
         run: |
-          if [ -z "${{ github.event.label.name }}" ]; then
-            echo "No Label provided."
-            exit 1
-          elif [ "${{ github.event.label.name }}" == "client" ]; then
-            echo "Label 'client' is present."
-            echo "summary=| Check if executable exists " >> $GITHUB_OUTPUT
-            if [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ]; then
-              echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
-            else
-              echo "::error title=Executable not found::The executable $CLIENT_BINARY was not found."
-              echo "result=| :x: |" >> $GITHUB_OUTPUT
-              exit 1
-            fi
-          elif [ "${{github.event.label.name }}" == "server" ]; then
-            echo "Label 'server' is present."
-            echo "summary=| Check if executable exists " >> $GITHUB_OUTPUT
-            if [ -f $SERVER_BINARY ] && [ -x $SERVER_BINARY ]; then
-              echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
-            else
-              echo "::error title=Executable not found::The executable $SERVER_BINARY was not found."
-              echo "result=| :x: |" >> $GITHUB_OUTPUT
-              exit 1
-            fi
-          elif [ "${{github.event.label.name }}" == "ecs" ]; then
-            echo "nothing to compile, ecs is already compiled with either 'server' or 'client'."
+          echo "summary=| Check if executables exist " >> $GITHUB_OUTPUT
+          if [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ] && [ -f $SERVER_BINARY ] && [ -x $SERVER_BINARY ] && [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ]; then
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           else
-            echo "Label '${{ github.event.label.name }}' is not valid."
+            echo "::error title=Executable not found::The executable $CLIENT_BINARY was not found."
+            echo "result=| :x: |" >> $GITHUB_OUTPUT
             exit 1
           fi
 
       - name: Compile and run unit tests
         run: |
-          if [ "${{ github.event.label.name }}" == "server"]; then
-            echo "summary=| Compile and run server unit tests " >> $GITHUB_OUTPUT
-            make server_tests_run -C build         
-          elif [ "${{ github.event.label.name }}" == "client"]; then
-            echo "summary=| Compile and run client unit tests " >> $GITHUB_OUTPUT
-            make client_tests_run -C build
-          elif [ "${{ github.event.label.name }}" == "ecs"]; then
-            echo "summary=| Compile and run ecs unit tests " >> $GITHUB_OUTPUT
-            make ecs_tests_run -C build
-          else
-            echo "no unit tests to run"
-          fi
+          make tests_run -C build
           if [ $? -eq 0 ]; then
             echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           else
@@ -123,49 +91,45 @@ jobs:
           chmod +x ftest
           echo "::add-path::$GITHUB_WORKSPACE/ftest"
           echo "summary=| Run functionals tests " >> $GITHUB_OUTPUT
-          if [ "${{ github.event.label.name }}" == "server"]; then
-            if [ -n "$(find "tests/server" -name '*.ftest.toml')" ]; then
-              $GITHUB_WORKSPACE/ftest tests/server
-              error=0
-              if [ $? -ne 0 ]; then
-                $error = 1
-              fi
-              if [ $error -eq 1 ]; then
-                echo "::error title=Functionals tests failed::The functionals tests failed."
-                echo "result=| :x: |" >> $GITHUB_OUTPUT
-                exit 1
-              fi
+          if [ -n "$(find "tests/server" -name '*.ftest.toml')" ]; then
+            $GITHUB_WORKSPACE/ftest tests/server
+            error=0
+            if [ $? -ne 0 ]; then
+              $error = 1
             fi
-          elif [ "${{ github.event.label.name }}" == "client"]; then
-            if [ -n "$(find "tests/client" -name '*.ftest.toml')" ]; then
-              $GITHUB_WORKSPACE/ftest tests/client
-              error=0
-              if [ $? -ne 0 ]; then
-                $error = 1
-              fi
-              if [ $error -eq 1 ]; then
-                echo "::error title=Functionals tests failed::The functionals tests failed."
-                echo "result=| :x: |" >> $GITHUB_OUTPUT
-                exit 1
-              fi
+            if [ $error -eq 1 ]; then
+              echo "::error title=Functionals tests failed::The functionals tests failed."
+              echo "result=| :x: |" >> $GITHUB_OUTPUT
+              exit 1
             fi
-          elif [ "${{ github.event.label.name }}" == "ecs"]; then
-            if [ -n "$(find "tests/ecs" -name '*.ftest.toml')" ]; then
-              $GITHUB_WORKSPACE/ftest tests/ecs
-              error=0
-              if [ $? -ne 0 ]; then
-                $error = 1
-              fi
-              if [ $error -eq 1 ]; then
-                echo "::error title=Functionals tests failed::The functionals tests failed."
-                echo "result=| :x: |" >> $GITHUB_OUTPUT
-                exit 1
-              fi
-            fi
-          else
-            "no functional tests to run"
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           fi
-          echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          if [ -n "$(find "tests/client" -name '*.ftest.toml')" ]; then
+            $GITHUB_WORKSPACE/ftest tests/server
+            error=0
+            if [ $? -ne 0 ]; then
+              $error = 1
+            fi
+            if [ $error -eq 1 ]; then
+              echo "::error title=Functionals tests failed::The functionals tests failed."
+              echo "result=| :x: |" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          fi
+          if [ -n "$(find "tests/ecs" -name '*.ftest.toml')" ]; then
+            $GITHUB_WORKSPACE/ftest tests/server
+            error=0
+            if [ $? -ne 0 ]; then
+              $error = 1
+            fi
+            if [ $error -eq 1 ]; then
+              echo "::error title=Functionals tests failed::The functionals tests failed."
+              echo "result=| :x: |" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          fi
 
   create_doxygen:
     runs-on: ubuntu-latest
