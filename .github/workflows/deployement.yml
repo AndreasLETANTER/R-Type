@@ -124,37 +124,43 @@ jobs:
           echo "::add-path::$GITHUB_WORKSPACE/ftest"
           echo "summary=| Run functionals tests " >> $GITHUB_OUTPUT
           if [ "${{ github.event.label.name }}" == "server"]; then
-            $GITHUB_WORKSPACE/ftest tests/server
-            error=0
-            if [ $? -ne 0 ]; then
-              $error = 1
-            fi
-            if [ $error -eq 1 ]; then
-              echo "::error title=Functionals tests failed::The functionals tests failed."
-              echo "result=| :x: |" >> $GITHUB_OUTPUT
-              exit 1
+            if [ -n "$(find "tests/server" -name '*.ftest.toml')" ]; then
+              $GITHUB_WORKSPACE/ftest tests/server
+              error=0
+              if [ $? -ne 0 ]; then
+                $error = 1
+              fi
+              if [ $error -eq 1 ]; then
+                echo "::error title=Functionals tests failed::The functionals tests failed."
+                echo "result=| :x: |" >> $GITHUB_OUTPUT
+                exit 1
+              fi
             fi
           elif [ "${{ github.event.label.name }}" == "client"]; then
-            $GITHUB_WORKSPACE/ftest tests/client
-            error=0
-            if [ $? -ne 0 ]; then
-              $error = 1
-            fi
-            if [ $error -eq 1 ]; then
-              echo "::error title=Functionals tests failed::The functionals tests failed."
-              echo "result=| :x: |" >> $GITHUB_OUTPUT
-              exit 1
+            if [ -n "$(find "tests/client" -name '*.ftest.toml')" ]; then
+              $GITHUB_WORKSPACE/ftest tests/client
+              error=0
+              if [ $? -ne 0 ]; then
+                $error = 1
+              fi
+              if [ $error -eq 1 ]; then
+                echo "::error title=Functionals tests failed::The functionals tests failed."
+                echo "result=| :x: |" >> $GITHUB_OUTPUT
+                exit 1
+              fi
             fi
           elif [ "${{ github.event.label.name }}" == "ecs"]; then
-            $GITHUB_WORKSPACE/ftest tests/ecs
-            error=0
-            if [ $? -ne 0 ]; then
-              $error = 1
-            fi
-            if [ $error -eq 1 ]; then
-              echo "::error title=Functionals tests failed::The functionals tests failed."
-              echo "result=| :x: |" >> $GITHUB_OUTPUT
-              exit 1
+            if [ -n "$(find "tests/ecs" -name '*.ftest.toml')" ]; then
+              $GITHUB_WORKSPACE/ftest tests/ecs
+              error=0
+              if [ $? -ne 0 ]; then
+                $error = 1
+              fi
+              if [ $error -eq 1 ]; then
+                echo "::error title=Functionals tests failed::The functionals tests failed."
+                echo "result=| :x: |" >> $GITHUB_OUTPUT
+                exit 1
+              fi
             fi
           else
             "no functional tests to run"
