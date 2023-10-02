@@ -16,8 +16,10 @@ ProjectileSystem ProjectileSystem::operator()(Registry &registry, SparseArray<Co
         auto &vel = velocities[i];
 
         if (projectile.has_value() && pos.has_value() && vel.has_value()) {
-            if (pos.value().x < projectile.value().end.x) {
-                vel.value().vx = projectile.value().speed;
+            if (pos.value().x > projectile.value().end.x && projectile.value().start.x > projectile.value().end.x) {
+               vel.value().vx = (int) projectile.value().speed  * -1;
+            } else if (pos.value().x < projectile.value().end.x && projectile.value().start.x < projectile.value().end.x) {
+                vel.value().vx = (int) projectile.value().speed;
             } else {
                 registry.kill_entity(registry.entity_from_index(i));
             }
