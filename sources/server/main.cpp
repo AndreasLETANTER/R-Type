@@ -49,7 +49,7 @@ int main(const int ac, const char **av)
     registry.add_component<Component::ScrollingBackground>(registry.entity_from_index(0), Component::ScrollingBackground(Component::Position(0, 0), Component::Position(-5700, 0)));
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
     registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), true, true));
-    registry.add_component<Component::ScrollingBackground>(registry.entity_from_index(0), Component::ScrollingBackground(Component::Position(5700, 0), Component::Position(0, 0)));
+    registry.add_component<Component::ScrollingBackground>(registry.entity_from_index(1), Component::ScrollingBackground(Component::Position(5700, 0), Component::Position(0, 0)));
 
     //entity that is movable, using all components.
     registry.add_component<Component::Position>(registry.entity_from_index(2), Component::Position(0, 0));
@@ -77,7 +77,7 @@ int main(const int ac, const char **av)
             }
         }
         window.clear();
-        registry.run_systems();
+        registry2.run_systems();
         window.display();
     }
 }

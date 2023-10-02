@@ -15,10 +15,10 @@ ScrollingBackgroundSystem ScrollingBackgroundSystem::operator()(Registry &regist
         auto &pos = positions[i];
         if (sb.has_value() && pos.has_value()) {
             pos.value().x -= 0.5;
-            if (pos.value().x <=  sb.value().offsetLimit.x) {
-                Component::Position tmp = sb.value().offsetLimit;
-                sb.value().offsetLimit = sb.value().startingPos;
-                sb.value().startingPos = tmp;
+            if (pos.value().x <= sb.value().offsetLimit.x) {
+                std::cout << "pos.value().x: " << pos.value().x << std::endl;
+                std::cout << "sb.value().offsetLimit.x: " << sb.value().offsetLimit.x << std::endl;
+                pos.value().x = sb.value().startingPos.x + (pos.value().x - sb.value().offsetLimit.x);
             }
         }
     }
