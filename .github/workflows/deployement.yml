@@ -60,6 +60,8 @@ jobs:
         run: |
           dnf -y install libXcursor-devel
           dnf -y install xxd
+          dnf -y install libXrandr-devel
+          dnf -y install Xvfb
       - name: Compile project
         run: |
           mkdir build
