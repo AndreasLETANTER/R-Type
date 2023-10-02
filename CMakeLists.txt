@@ -98,7 +98,7 @@ foreach(asset_file ${ASSETS_FILES})
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
 endforeach()
 
-list(APPEND CLIENT_SOURCES ${ECS_SOURCES})
+list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
