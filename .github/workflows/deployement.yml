@@ -58,8 +58,8 @@ jobs:
           pip install pyinstaller
       - name: Install packages
         run: |
-          sudo apt -y install libXcursor-devel
-          sudo apt -y install xxd
+          apt -y install libXcursor-devel
+          apt -y install xxd
       - name: Compile project
         run: |
           mkdir build
