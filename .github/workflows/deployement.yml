@@ -63,7 +63,7 @@ jobs:
           make server -C build
           make client -C build
       - id: check_binaries
-        name: Check label and if binary exists
+        name: Check if binaries exist
         run: |
           echo "summary=| Check if executables exist " >> $GITHUB_OUTPUT
           if [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ] && [ -f $SERVER_BINARY ] && [ -x $SERVER_BINARY ] && [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ]; then
