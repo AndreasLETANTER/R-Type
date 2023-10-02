@@ -9,7 +9,7 @@
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
-#include "../../sources/server/handleArgument/handleArgument.hpp"
+#include "server/handleArgument/handleArgument.hpp"
 
 Test(handleArgument, getPort_validPort)
 {
@@ -18,7 +18,7 @@ Test(handleArgument, getPort_validPort)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(validPort);
+    u_int16_t actualPort = ha.getPort(validPort.c_str());
     cr_assert_stderr_eq_str("");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -30,7 +30,7 @@ Test(handleArgument, getPort_validPort_underMin)
     u_int16_t expectedPort = 1024;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(validPort);
+    u_int16_t actualPort = ha.getPort(validPort.c_str());
     cr_assert_stderr_eq_str("");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -42,7 +42,7 @@ Test(handleArgument, getPort_validPort_overMax)
     u_int16_t expectedPort = 65535;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(validPort);
+    u_int16_t actualPort = ha.getPort(validPort.c_str());
     cr_assert_stderr_eq_str("");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -54,7 +54,7 @@ Test(handleArgument, getPort_emptyString)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(emptyString);
+    u_int16_t actualPort = ha.getPort(emptyString.c_str());
     cr_assert_stderr_eq_str("Invalid argument: empty string\n");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -66,7 +66,7 @@ Test(handleArgument, getPort_invalidPort)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(invalidPort);
+    u_int16_t actualPort = ha.getPort(invalidPort.c_str());
     cr_assert_stderr_eq_str("Invalid argument: port is not in range\n");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -78,7 +78,7 @@ Test(handleArgument, getPort_negativePort)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(negativePort);
+    u_int16_t actualPort = ha.getPort(negativePort.c_str());
     cr_assert_stderr_eq_str("Invalid argument: not a number or not a positive number\n");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -90,7 +90,7 @@ Test(handleArgument, getPort_nonNumericPort)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(nonNumericPort);
+    u_int16_t actualPort = ha.getPort(nonNumericPort.c_str());
     cr_assert_stderr_eq_str("Invalid argument: not a number or not a positive number\n");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -102,7 +102,7 @@ Test(handleArgument, getPort_nonNumericPort2)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(nonNumericPort);
+    u_int16_t actualPort = ha.getPort(nonNumericPort.c_str());
     cr_assert_stderr_eq_str("Invalid argument: not a number or not a positive number\n");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -114,7 +114,7 @@ Test(handleArgument, getPort_nonNumericPort3)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(nonNumericPort);
+    u_int16_t actualPort = ha.getPort(nonNumericPort.c_str());
     cr_assert_stderr_eq_str("Invalid argument: not a number or not a positive number\n");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }
@@ -126,7 +126,7 @@ Test(handleArgument, getPort_nonNumericPort4)
     u_int16_t expectedPort = 8080;
 
     cr_redirect_stderr();
-    u_int16_t actualPort = ha.getPort(nonNumericPort);
+    u_int16_t actualPort = ha.getPort(nonNumericPort.c_str());
     cr_assert_stderr_eq_str("Invalid argument: not a number or not a positive number\n");
     cr_assert_eq(actualPort, expectedPort, "Expected port %d but got %d", expectedPort, actualPort);
 }

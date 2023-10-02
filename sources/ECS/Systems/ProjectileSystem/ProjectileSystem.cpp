@@ -5,7 +5,7 @@
 ** ProjectileSystem
 */
 
-#include "ProjectileSystem.hpp"
+#include "ECS/Systems/ProjectileSystem/ProjectileSystem.hpp"
 
 ProjectileSystem ProjectileSystem::operator()(Registry &registry, SparseArray<Component::Projectile> &projectiles, SparseArray<Component::Position> &positions, SparseArray<Component::Velocity> &velocities)
 {

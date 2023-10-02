@@ -9,7 +9,7 @@
 #include <atomic>
 
 #include "udpSocket.hpp"
-#include "../../debugColors.hpp"
+#include "utils/debugColors/debugColors.hpp"
 
 std::atomic<int> nextClientId(1);
 

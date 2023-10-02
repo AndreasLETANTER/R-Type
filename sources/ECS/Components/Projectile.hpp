@@ -5,11 +5,12 @@
 ** Projectile
 */
 
-#include "Position.hpp"
-#include "Velocity.hpp"
+#pragma once
+
 #include <SFML/Graphics.hpp>
 
-#pragma once
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Velocity.hpp"
 
 namespace Component {
     /**
