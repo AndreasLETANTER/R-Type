@@ -22,8 +22,8 @@ FetchContent_MakeAvailable(SFML)
 
 set(ASSETS_FILES
     ../assets/Space_Background.png
+    ../assets/SpaceShips.gif
     ../assets/BurpTemporaryBullet.png
-    ../assets/NugoTemporaryIcon.png
 )
 
 set (ECS_SOURCES
