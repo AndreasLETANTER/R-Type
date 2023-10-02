@@ -15,6 +15,19 @@ set(VCPKG_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg")
 set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 set(CMAKE_PREFIX_PATH "${VCPKG_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/share/${PROJECT_NAME}" ${CMAKE_PREFIX_PATH})
 
+###############################INSTALL PACKAGES###################################
+if(WIN32)
+    execute_process(
+        COMMAND install.bat
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+else()
+    execute_process(
+        COMMAND ./install.sh
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+endif()
+
 ###############################FIND PACKAGES######################################
 
 find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
