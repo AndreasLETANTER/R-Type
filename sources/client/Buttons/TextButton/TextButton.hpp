@@ -29,6 +29,7 @@ class TextButton {
 
         TextButton setCallback(void (*callback)());
 
+        void draw(sf::RenderWindow &window);
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);

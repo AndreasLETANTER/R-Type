@@ -84,3 +84,9 @@ TextButton TextButton::setCallback(void (*callback)())
     m_callback = callback;
     return (*this);
 }
+
+void TextButton::draw(sf::RenderWindow &window)
+{
+    window.draw(m_shape);
+    window.draw(m_text);
+}
