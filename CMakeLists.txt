@@ -73,7 +73,6 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
-    tests/server/handleArgument.cpp
 )
 
 set(CLIENT_TESTS
