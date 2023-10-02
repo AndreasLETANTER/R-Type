@@ -88,6 +88,8 @@ jobs:
               echo "result=| :x: |" >> $GITHUB_OUTPUT
               exit 1
             fi
+          elif [ "${{github.event.label.name }}" == "ecs" ]; then
+            echo "nothing to compile, ecs is already compiled with either 'server' or 'client'."
           else
             echo "Label '${{ github.event.label.name }}' is not valid."
             exit 1
