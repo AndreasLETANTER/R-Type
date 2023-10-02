@@ -21,7 +21,6 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.hpp"
-#include "ECS/Systems/MonsterShootSystem/MonsterShootSystem.hpp"
 
 int main(const int ac, const char **av)
 {
@@ -44,7 +43,6 @@ int main(const int ac, const char **av)
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::AutoMove>();
     registry.register_component<Component::Shoot>();
-    registry.register_component<Component::MonsterShoot>();
     registry.register_component<Component::Projectile>();
     registry.register_component<Component::Collision>();
     registry.register_component<Component::Health>();
@@ -65,7 +63,6 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Drawable>(registry.entity_from_index(3), Component::Drawable("NugoTemporaryIcon.png", &window, sf::IntRect(0, 0, 0, 0), true, false));
     registry.add_component<Component::AutoMove>(registry.entity_from_index(3), Component::AutoMove(Component::Position(1000, 0), Component::Position(1000, 500)));
     registry.add_component<Component::Collision>(registry.entity_from_index(3), Component::Collision(80, 80));
-    registry.add_component<Component::MonsterShoot>(registry.entity_from_index(3), Component::MonsterShoot(true, &clock, sf::Time(sf::milliseconds(250)), 20, "BurpTemporaryBullet.png"));
     registry.add_component<Component::Health>(registry.entity_from_index(3), Component::Health(100));
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
@@ -77,7 +74,6 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::ScrollingBackground>(ScrollingBackgroundSystem());
-    registry.add_system<Component::MonsterShoot, Component::Position, Component::Drawable>(MonsterShootSystem());
     registry.add_system<Component::Health>(HealthSystem());
 
     while (window.isOpen()) {

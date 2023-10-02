@@ -18,10 +18,7 @@ ProjectileSystem ProjectileSystem::operator()(Registry &registry, SparseArray<Co
         if (projectile.has_value() && pos.has_value() && vel.has_value()) {
             if (pos.value().x < projectile.value().end.x) {
                 vel.value().vx = projectile.value().speed;
-            }if (pos.value().x > projectile.value().end.x) {
-                vel.value().vx = -projectile.value().speed;
-            } else if (pos.value().x == projectile.value().end.x) {
-                std::cout << "Killing projectile" << std::endl;
+            } else {
                 registry.kill_entity(registry.entity_from_index(i));
             }
         }
