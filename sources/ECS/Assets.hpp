@@ -7,5 +7,6 @@
 
 #pragma once
 
+#include "../../build/assets/Space_Background.hpp"
 #include "../../build/assets/NugoTemporaryIcon.hpp"
 #include "../../build/assets/BurpTemporaryBullet.hpp"
