@@ -40,6 +40,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.cpp
+    sources/ECS/Systems/MonsterShootSystem/MonsterShootSystem.cpp
     sources/ECS/Components/Drawable.cpp
 )
 

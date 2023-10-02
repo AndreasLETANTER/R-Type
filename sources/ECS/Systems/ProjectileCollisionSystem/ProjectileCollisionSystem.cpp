@@ -19,6 +19,7 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
                 if (health.has_value()) {
                     health.value().health -= projectile.value().damage;
                 }
+                std::cout << "Killing projectile" << std::endl;
                 registry.kill_entity(registry.entity_from_index(i));
             }
         }
