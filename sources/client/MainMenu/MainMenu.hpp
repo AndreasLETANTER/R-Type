@@ -17,6 +17,7 @@ class MainMenu {
 
         void draw();
         void update();
+        void resize();
 
     private:
         sf::RenderWindow &m_window;

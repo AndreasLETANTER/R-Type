@@ -68,3 +68,20 @@ void MainMenu::update()
     for (auto &button : m_buttons)
         button.update(m_window);
 }
+
+void MainMenu::resize()
+{
+    sf::Vector2u windowSize = m_window.getSize();
+    float buttonWidth = 200;
+    float buttonHeight = 100;
+    float spacing = 50;
+    float xPos = (windowSize.x - buttonWidth) / 2;
+    float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
+
+    m_buttons[0].setButtonPosition(sf::Vector2f(xPos, yPos));
+    m_buttons[0].setTextPosition(sf::Vector2f(xPos + 50, yPos + 25));
+
+    yPos += buttonHeight + spacing;
+    m_buttons[1].setButtonPosition(sf::Vector2f(xPos, yPos));
+    m_buttons[1].setTextPosition(sf::Vector2f(xPos + 50, yPos + 25));
+}
