@@ -70,11 +70,32 @@ TextButton &TextButton::setTextSize(const int &size)
     return (*this);
 }
 
-TextButton &TextButton::setTextPosition(const sf::Vector2f &position)
-{
-    m_text.setPosition(position);
+TextButton& TextButton::setTextPosition(const std::string &horizontalAlign, const std::string &verticalAlign) {
+    sf::FloatRect buttonBounds = this->m_shape.getGlobalBounds();
+    sf::FloatRect textBounds = this->m_text.getLocalBounds();
+
+    float x, y = 0;
+
+    if (horizontalAlign == "left") {
+        x = buttonBounds.left;
+    } else if (horizontalAlign == "center") {
+        x = buttonBounds.left + (buttonBounds.width - textBounds.width) / 2.0f - textBounds.left;
+    } else if (horizontalAlign == "right") {
+        x = buttonBounds.left + buttonBounds.width - textBounds.width - textBounds.left;
+    }
+
+    if (verticalAlign == "top") {
+        y = buttonBounds.top;
+    } else if (verticalAlign == "center") {
+        y = buttonBounds.top + (buttonBounds.height - textBounds.height) / 2.0f - textBounds.top;
+    } else if (verticalAlign == "bottom") {
+        y = buttonBounds.top + buttonBounds.height - textBounds.height - textBounds.top;
+    }
+
+    this->m_text.setPosition(x, y);
     return (*this);
 }
+
 
 TextButton &TextButton::setTextColor(const sf::Color &color)
 {
@@ -118,11 +139,12 @@ void TextButton::update(sf::RenderWindow &window)
     }
 }
 
-void TextButton::resize(const sf::Vector2f &buttonSize, const sf::Vector2f &buttonPosition,
-    const int &textSize, const sf::Vector2f &textPosition)
+void TextButton::resize(const sf::Vector2f &buttonSize,
+    const sf::Vector2f &buttonPosition, const int &textSize,
+    const std::string &horizontalAlign, const std::string &verticalAlign)
 {
     this->setButtonSize(buttonSize)
     .setButtonPosition(buttonPosition)
     .setTextSize(textSize)
-    .setTextPosition(textPosition);
+    .setTextPosition(horizontalAlign, verticalAlign);
 }

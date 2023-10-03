@@ -25,7 +25,7 @@ class TextButton {
         TextButton &setTextString(const std::string &text);
         TextButton &setTextFont(const sf::Font &font);
         TextButton &setTextSize(const int &size);
-        TextButton &setTextPosition(const sf::Vector2f &position);
+        TextButton& setTextPosition(const std::string &horizontalAlign, const std::string &verticalAlign);
         TextButton &setTextColor(const sf::Color &color);
         TextButton &setTextHoverColor(const sf::Color &hoverColor);
 
@@ -35,7 +35,7 @@ class TextButton {
         void update(sf::RenderWindow &window);
         void resize(const sf::Vector2f &buttonSize,
             const sf::Vector2f &buttonPosition, const int &textSize,
-            const sf::Vector2f &textPosition);
+            const std::string &horizontalAlign, const std::string &verticalAlign);
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);
