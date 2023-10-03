@@ -13,9 +13,9 @@ MainMenu::MainMenu(sf::RenderWindow &window):
     m_window(window)
 {
     sf::Vector2u windowSize = m_window.getSize();
-    float buttonWidth = 200;
-    float buttonHeight = 100;
-    float spacing = 50;
+    float buttonWidth = windowSize.x * 0.2;
+    float buttonHeight = windowSize.y * 0.1;
+    float spacing = windowSize.y * 0.05;
     float xPos = (windowSize.x - buttonWidth) / 2;
     float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
 
@@ -28,7 +28,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
         .setButtonHoverColor(sf::Color::Green)
         .setButtonHoverOutlineColor(sf::Color::Yellow)
         .setTextString("Play")
-        .setTextSize(50)
+        .setTextSize(500)
         .setTextFont(m_font)
         .setTextPosition(sf::Vector2f(xPos + 50, yPos + 25))
         .setTextColor(sf::Color::Black)
@@ -52,7 +52,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Black)
         .setCallback([this]() {
-            m_window.close();
+            // m_window.close();
         });
     m_buttons.push_back(quitButton);
 }
@@ -72,16 +72,15 @@ void MainMenu::update()
 void MainMenu::resize()
 {
     sf::Vector2u windowSize = m_window.getSize();
-    float buttonWidth = 200;
-    float buttonHeight = 100;
-    float spacing = 50;
+    float buttonWidth = windowSize.x * 0.2;
+    float buttonHeight = windowSize.y * 0.1;
+    float spacing = windowSize.y * 0.05;
     float xPos = (windowSize.x - buttonWidth) / 2;
     float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
 
-    m_buttons[0].setButtonPosition(sf::Vector2f(xPos, yPos));
-    m_buttons[0].setTextPosition(sf::Vector2f(xPos + 50, yPos + 25));
-
+    m_buttons[0].resize(sf::Vector2f(buttonWidth, buttonHeight),
+        sf::Vector2f(xPos, yPos), 500, sf::Vector2f(xPos + 50, yPos + 25));
     yPos += buttonHeight + spacing;
-    m_buttons[1].setButtonPosition(sf::Vector2f(xPos, yPos));
-    m_buttons[1].setTextPosition(sf::Vector2f(xPos + 50, yPos + 25));
+    m_buttons[1].resize(sf::Vector2f(buttonWidth, buttonHeight),
+        sf::Vector2f(xPos, yPos), 500, sf::Vector2f(xPos + 50, yPos + 25));
 }
