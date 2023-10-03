@@ -1,0 +1,54 @@
+params:
+{
+    level = 1;
+    resolution = { width = 1920; height = 1080; };
+};
+
+backgrounds:
+{
+    {
+        assetName = "Space_Background.png";
+        position = { x = 0; y = 0; };
+        scale = { x = 1920; y = 1080; };
+        rect = { x = 0; y = 0; width = 300; height = 207; };
+        OffsetLimit = { x = -5700; y = 0; };
+    },
+    {
+        assetName = "Space_Background.png";
+        position = { x = 5700; y = 0; };
+        scale = { x = 1920; y = 1080; };
+        rect = { x = 0; y = 0; width = 300; height = 207; };
+        OffsetLimit = { x = 0; y = 0; };
+    }
+};
+
+players: {
+    {
+        assetName = "Spaceships.gif";
+        position = { x = 150; y = 100; };
+        scale = { x = 102; y = 57; };
+        rect = { x = 0; y = 2; width = 34; height = 16; };
+    },
+    {
+        assetName = "Spaceships.gif";
+        position = { x = 150; y = 200; };
+        scale = { x = 102; y = 57; };
+        rect = { x = 0; y = 19; width = 34; height = 16; };
+    },
+    {
+        assetName = "Spaceships.gif";
+        position = { x = 150; y = 300; };
+        scale = { x = 102; y = 57; };
+        rect = { x = 0; y = 36; width = 34; height = 16; };
+    },
+    {
+        assetName = "Spaceships.gif";
+        position = { x = 150; y = 400; };
+        scale = { x = 102; y = 57; };
+        rect = { x = 0; y = 53; width = 34; height = 16; };
+    }
+};
+
+obstacles = ();
+
+ennemies = ();

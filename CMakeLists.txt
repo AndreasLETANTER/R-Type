@@ -41,6 +41,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.cpp
     sources/ECS/Components/Drawable.cpp
+    sources/utils/ParserClass/Parser.cpp
 )
 
 set(SERVER_SOURCES
