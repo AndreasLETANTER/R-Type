@@ -117,3 +117,12 @@ void TextButton::update(sf::RenderWindow &window)
         m_text.setFillColor(m_textColor);
     }
 }
+
+void TextButton::resize(const sf::Vector2f &buttonSize, const sf::Vector2f &buttonPosition,
+    const int &textSize, const sf::Vector2f &textPosition)
+{
+    this->setButtonSize(buttonSize)
+    .setButtonPosition(buttonPosition)
+    .setTextSize(textSize)
+    .setTextPosition(textPosition);
+}
