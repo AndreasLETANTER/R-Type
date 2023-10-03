@@ -49,7 +49,8 @@ set(SERVER_SOURCES
 )
 
 set(CLIENT_SOURCES
-    sources/utils/debugColors/debugColors.cpp
+    sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/MainMenu/MainMenu.cpp
 )
 
 set(SERVER_MAIN
