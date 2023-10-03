@@ -11,9 +11,13 @@ on:
     types: [opened, synchronize, reopened, labeled]
     branches-ignore:
       - 'ga-ignore-*'
+  push:
+    branches:
+      - main
 
 jobs:
   check_repository_cleanliness:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
       summary: ${{ steps.check_unwanted_files.outputs.summary }}
@@ -193,7 +197,6 @@ jobs:
   push_to_mirror:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: [create_doxygen]
     steps:
       - name: Fetch repository
         uses: actions/checkout@v3
