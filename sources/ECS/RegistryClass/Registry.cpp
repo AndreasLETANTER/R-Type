@@ -70,13 +70,13 @@ std::pair<message_t *, size_t>Registry::exportToMessages()
     return std::make_pair(messages, size);
 }
 
-void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window)
+void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window, sf::IntRect rect)
 {
     register_component<Component::Position>();
     register_component<Component::Drawable>();
     for (size_t i = 0; i < size; ++i) {
         auto entity = spawn_entity();
-        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, true));
+        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, rect, true, false));
         add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
     }
 }
