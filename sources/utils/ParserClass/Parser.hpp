@@ -11,6 +11,12 @@
 
 #include "ECS/RegistryClass/Registry.hpp"
 
+struct levelParams {
+    int level;
+    int width;
+    int height;
+};
+
 struct basicEntity {
     std::string assetName;
     int posX;
@@ -46,10 +52,18 @@ class Parser {
          */
         void loadFromFile();
 
+        /**
+         * @brief Returns the level parameters.
+         *
+         * @return The level parameters.
+         */
+        levelParams getLevelParams() const { return m_levelParams; };
+
     private:
         libconfig::Config m_config;
         Registry &m_registry;
         std::vector<std::string> m_filesPaths;
+        levelParams m_levelParams;
 
         /**
          * @brief Loads level parameters from the loaded game data and stores them in the given registry.

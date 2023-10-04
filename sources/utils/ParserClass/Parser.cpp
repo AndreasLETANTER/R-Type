@@ -44,13 +44,9 @@ void Parser::loadLevelParams()
 {
     const libconfig::Setting &params = m_config.lookup("params");
 
-    int level = params["level"];
-    int width = params["resolution"]["width"];
-    int height = params["resolution"]["height"];
-
-    std::cout << "===== Parsing: params =====" << std::endl;
-    std::cout << "level: " << level << std::endl;
-    std::cout << "resolution: " << width << ", " << height << "\n" << std::endl;
+    m_levelParams.level = params["level"];
+    m_levelParams.width = params["resolution"]["width"];
+    m_levelParams.height = params["resolution"]["height"];
 }
 
 void Parser::loadBackgrounds()
@@ -71,6 +67,7 @@ void Parser::loadBackgrounds()
         int offsetLimitX = backgrounds[i]["offsetLimit"]["x"];
         int offsetLimitY = backgrounds[i]["offsetLimit"]["y"];
 
+        m_registry.spawn_entity();
         std::cout << "===== Parsing: background(" << i << ") =====" << std::endl;
         std::cout << "assetName: " << base.assetName << std::endl;
         std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
@@ -98,6 +95,7 @@ void Parser::loadPlayers()
         base.rectHeight = players[i]["rect"]["height"];
         int health = players[i]["health"];
 
+        m_registry.spawn_entity();
         std::cout << "===== Parsing: player(" << i << ") =====" << std::endl;
         std::cout << "assetName: " << base.assetName << std::endl;
         std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
@@ -127,6 +125,7 @@ void Parser::loadObstacles()
         int rotation = obstacles[i]["rotation"];
         int health = obstacles[i]["health"];
 
+        m_registry.spawn_entity();
         std::cout << "===== Parsing: obstacle(" << i << ") =====" << std::endl;
         std::cout << "assetName: " << base.assetName << std::endl;
         std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
@@ -157,6 +156,7 @@ void Parser::loadEnemies()
         int rotation = enemies[i]["rotation"];
         int health = enemies[i]["health"];
 
+        m_registry.spawn_entity();
         std::cout << "===== Parsing: ennemy(" << i << ") =====" << std::endl;
         std::cout << "assetName: " << base.assetName << std::endl;
         std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
