@@ -27,7 +27,7 @@ entities: {
     players = (
         {
             id = 2;
-            assetName = "Spaceships.gif";
+            assetName = "SpaceShips.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 150; y = 100; };
             scale = { x = 102; y = 57; };
@@ -36,16 +36,16 @@ entities: {
         },
         {
             id = 3;
-            assetName = "Spaceships.gif";
+            assetName = "SpaceShips.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 150; y = 200; };
+            position = { x = 200; y = 200; };
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 19; width = 34; height = 16; };
             health = 100;
         },
         {
             id = 4;
-            assetName = "Spaceships.gif";
+            assetName = "SpaceShips.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 150; y = 300; };
             scale = { x = 102; y = 57; };
@@ -54,9 +54,9 @@ entities: {
         },
         {
             id = 5;
-            assetName = "Spaceships.gif";
+            assetName = "SpaceShips.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 150; y = 400; };
+            position = { x = 200; y = 400; };
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 53; width = 34; height = 16; };
             health = 100;

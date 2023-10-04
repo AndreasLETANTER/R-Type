@@ -40,9 +40,10 @@ class Parser {
          *
          * @param registry The registry to use for parsing.
          * @param window The window to use for parsing.
+         * @param clock The clock to use for parsing.
          * @param filesPath A vector of file paths to parse.
          */
-        Parser(Registry &registry, sf::RenderWindow &window, std::vector<std::string> filesPath);
+        Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesPath);
 
         /**
          * @brief Default destructor for Parser class.
@@ -65,6 +66,7 @@ class Parser {
         libconfig::Config m_config;
         Registry &m_registry;
         sf::RenderWindow &m_window;
+        sf::Clock &m_clock;
         std::vector<std::string> m_filesPaths;
         levelParams m_levelParams;
 

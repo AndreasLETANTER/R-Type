@@ -8,6 +8,8 @@
 #include "Drawable.hpp"
 #include "../Assets.hpp"
 
+#include <iostream>
+
 Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position scale, bool needToLoadTexture)
 {
     this->spriteName = spriteName;
@@ -23,8 +25,7 @@ Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, 
         this->texture->loadFromMemory(assets[spriteName].first, assets[spriteName].second);
         this->sprite.setTexture(*this->texture);
     }
-    if (static_cast<unsigned int>(this->rect.left) != this->window->getSize().x && static_cast<unsigned int>(this->rect.top) != this->window->getSize().y
-    && static_cast<unsigned int>(this->rect.left) != 0 && static_cast<unsigned int>(this->rect.top) != 0) {
+    if (static_cast<unsigned int>(this->rect.left) != 0 || static_cast<unsigned int>(this->rect.top) != 0) {
         this->sprite.setTextureRect(this->rect);
     }
     if (this->scale.x != 0 || this->scale.y != 0) {

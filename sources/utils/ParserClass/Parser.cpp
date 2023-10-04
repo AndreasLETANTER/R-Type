@@ -11,10 +11,15 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
 #include "ECS/Components/ScrollingBackground.hpp"
+#include "ECS/Components/Velocity.hpp"
+#include "ECS/Components/Controllable.hpp"
+#include "ECS/Components/Shoot.hpp"
+#include "ECS/Components/Collision.hpp"
 
-Parser::Parser(Registry &registry, sf::RenderWindow &window, std::vector<std::string> filesPath) :
+Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesPath) :
     m_registry(registry),
     m_window(window),
+    m_clock(clock),
     m_filesPaths(filesPath)
 {}
 
@@ -73,9 +78,9 @@ void Parser::loadBackgrounds()
         int offsetLimitY = backgrounds[i]["offsetLimit"]["y"];
 
         m_registry.spawn_entity();
-        m_registry.add_component<Component::Position>(m_registry.entity_from_index(i), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(i), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
-        m_registry.add_component<Component::ScrollingBackground>(m_registry.entity_from_index(i), Component::ScrollingBackground(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY)));
+        m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
+        m_registry.add_component<Component::ScrollingBackground>(m_registry.entity_from_index(base.id), Component::ScrollingBackground(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY)));
     }
 }
 
@@ -97,15 +102,16 @@ void Parser::loadPlayers()
         base.rectWidth = players[i]["rect"]["width"];
         base.rectHeight = players[i]["rect"]["height"];
         int health = players[i]["health"];
+        (void)health;
 
         m_registry.spawn_entity();
-        std::cout << "===== Parsing: player(" << i << ") =====" << std::endl;
-        std::cout << "assetName: " << base.assetName << std::endl;
-        std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
-        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
-        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
+        m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
+        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
+        m_registry.add_component<Component::Controllable>(m_registry.entity_from_index(base.id), Component::Controllable(true));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
         std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
-        std::cout << "health: " << health << "\n" << std::endl;
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(true, &m_clock, sf::Time(sf::milliseconds(250)), 20, projectileAssetName));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
     }
 }
 

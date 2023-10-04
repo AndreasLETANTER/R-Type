@@ -27,8 +27,9 @@ int main(const int ac, const char **av)
     (void) av;
     Registry registry;
     sf::RenderWindow window { { 1920, 1080 }, "R-Type" };
+    sf::Clock clock;
     std::vector<std::string> filesPath = {"./assets/Level1.yaml"};
-    Parser parser(registry, window, filesPath);
+    Parser parser(registry, window, clock, filesPath);
 
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
@@ -62,26 +63,4 @@ int main(const int ac, const char **av)
         registry.run_systems();
         window.display();
     }
-    // sf::Clock clock;
-
-    // //entity that is movable, using all components.
-    // registry.add_component<Component::Position>(registry.entity_from_index(2), Component::Position(0, 0));
-    // registry.add_component<Component::Velocity>(registry.entity_from_index(2), Component::Velocity(0, 0));
-    // registry.add_component<Component::Controllable>(registry.entity_from_index(2), Component::Controllable(true));
-    // registry.add_component<Component::Drawable>(registry.entity_from_index(2), Component::Drawable("SpaceShips.gif", &window, sf::IntRect(0, 0, 34, 19), Component::Position(102, 57), true));
-    // registry.add_component<Component::Shoot>(registry.entity_from_index(2), Component::Shoot(true, &clock, sf::Time(sf::milliseconds(250)), 20, "BurpTemporaryBullet.png"));
-    // registry.add_component<Component::Collision>(registry.entity_from_index(2), Component::Collision(80, 80));
-
-    // registry2.importFromMessages(registry.exportToMessages().first, registry.exportToMessages().second, &window, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0));
-    // registry2.add_system<Component::Position, Component::Drawable>(DrawSystem());
-    // while (window.isOpen()) {
-    //     for (auto event = sf::Event{}; window.pollEvent(event);) {
-    //         if (event.type == sf::Event::Closed) {
-    //             window.close();
-    //         }
-    //     }
-    //     window.clear();
-    //     registry.run_systems();
-    //     window.display();
-    // }
 }
