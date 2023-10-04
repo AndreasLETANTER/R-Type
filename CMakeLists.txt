@@ -105,6 +105,7 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
 )
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${SERVER_NAME} PRIVATE config++)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
@@ -112,6 +113,7 @@ target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/build
 )
 target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${CLIENT_NAME} PRIVATE config++)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)

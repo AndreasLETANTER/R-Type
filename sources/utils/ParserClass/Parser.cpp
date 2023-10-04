@@ -11,115 +11,159 @@
 #include "ECS/Components/Position.hpp"
 
 Parser::Parser(Registry &registry, std::vector<std::string> filesPath)
-    : m_registry(registry), m_filesPath(filesPath)
+    : m_registry(registry), m_filesPaths(filesPath)
 {}
 
 void Parser::loadFromFile()
 {
     for (auto &filePath : m_filesPaths) {
-        m_config.readFile(filePath.c_str());
-        loadLevelParams();
-        loadBackgrounds();
-        loadPlayers();
-        loadObstacles();
+        try {
+            m_config.readFile(filePath.c_str());
+            loadLevelParams();
+            loadBackgrounds();
+            loadPlayers();
+            loadObstacles();
+            loadEnemies();
+        } catch (const libconfig::FileIOException &fioex) {
+            std::cerr << "I/O error while reading the configuration file." << std::endl;
+        } catch (const libconfig::ParseException &pex) {
+            std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError() << std::endl;
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found in configuration file." << std::endl;
+        } catch (const libconfig::SettingTypeException &tex) {
+            std::cerr << "Setting type mismatch in configuration file." << std::endl;
+        } catch (const libconfig::SettingException &ex) {
+            std::cerr << "Setting exception in configuration file." << std::endl;
+        } catch (const libconfig::ConfigException &ex) {
+            std::cerr << "Config exception in configuration file." << std::endl;
+        }
     }
 }
 
-void loadLevelParams()
+void Parser::loadLevelParams()
 {
     const libconfig::Setting &params = m_config.lookup("params");
 
-    for (int i = 0; i < params.getLength(); i++) {
-        int level = params[i]["level"];
-        std::pair<int, int> resolution = std::make_pair(params[i]["resolution"]["width"], params[i]["resolution"]["height"]);
+    int level = params["level"];
+    int width = params["resolution"]["width"];
+    int height = params["resolution"]["height"];
 
-        std::cout << "level: " << level << std::endl;
-        std::cout << "resolution: " << resolution.first << ", " << resolution.second << std::endl;
-    }
+    std::cout << "===== Parsing: params =====" << std::endl;
+    std::cout << "level: " << level << std::endl;
+    std::cout << "resolution: " << width << ", " << height << "\n" << std::endl;
 }
 
 void Parser::loadBackgrounds()
 {
-    const libconfig::Setting &backgrounds = m_config.lookup("backgrounds");
+    const libconfig::Setting &backgrounds = m_config.lookup("entities.backgrounds");
+    basicEntity base;
 
     for (int i = 0; i < backgrounds.getLength(); i++) {
-        std::string assetName = backgrounds[i]["assetName"];
-        Component::Position position = Component::Position(backgrounds[i]["position"]["x"], backgrounds[i]["position"]["y"]);
-        Component::Position scale = Component::Position(backgrounds[i]["scale"]["x"], backgrounds[i]["scale"]["y"]);
-        sf::IntRect rect = sf::IntRect(backgrounds[i]["rect"]["x"], backgrounds[i]["rect"]["y"], backgrounds[i]["rect"]["width"], backgrounds[i]["rect"]["height"]);
-        Component::Position offsetLimit = Component::Position(backgrounds[i]["offsetLimit"]["x"], backgrounds[i]["offsetLimit"]["y"]);
+        base.assetName = backgrounds[i]["assetName"].c_str();
+        base.posX = backgrounds[i]["position"]["x"];
+        base.posY = backgrounds[i]["position"]["y"];
+        base.scaleX = backgrounds[i]["scale"]["x"];
+        base.scaleY = backgrounds[i]["scale"]["y"];
+        base.rectX = backgrounds[i]["rect"]["x"];
+        base.rectY = backgrounds[i]["rect"]["y"];
+        base.rectWidth = backgrounds[i]["rect"]["width"];
+        base.rectHeight = backgrounds[i]["rect"]["height"];
+        int offsetLimitX = backgrounds[i]["offsetLimit"]["x"];
+        int offsetLimitY = backgrounds[i]["offsetLimit"]["y"];
 
-        std::cout << "assetName: " << assetName << std::endl;
-        std::cout << "position: " << position.x << ", " << position.y << std::endl;
-        std::cout << "scale: " << scale.x << ", " << scale.y << std::endl;
-        std::cout << "rect: " << rect.left << ", " << rect.top << ", " << rect.width << ", " << rect.height << std::endl;
-        std::cout << "offsetLimit: " << offsetLimit.x << ", " << offsetLimit.y << std::endl;
+        std::cout << "===== Parsing: background(" << i << ") =====" << std::endl;
+        std::cout << "assetName: " << base.assetName << std::endl;
+        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
+        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
+        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
+        std::cout << "offsetLimit: " << offsetLimitX << ", " << offsetLimitY << "\n" << std::endl;
     }
 }
 
 void Parser::loadPlayers()
 {
-    const libconfig::Setting &players = m_config.lookup("players");
+    const libconfig::Setting &players = m_config.lookup("entities.players");
+    basicEntity base;
 
-    for (int i = 0; players.getLength(); i++) {
-        std::string assetName = players[i]["assetName"];
+    for (int i = 0; i < players.getLength(); i++) {
+        base.assetName = players[i]["assetName"].c_str();
         std::string projectileAssetName = players[i]["projectileAssetName"];
-        Component::Position position = Component::Position(players[i]["position"]["x"], players[i]["position"]["y"]);
-        Component::Position scale = Component::Position(players[i]["scale"]["x"], players[i]["scale"]["y"]);
-        sf::IntRect rect = sf::IntRect(players[i]["rect"]["x"], players[i]["rect"]["y"], players[i]["rect"]["width"], players[i]["rect"]["height"]);
+        base.posX = players[i]["position"]["x"];
+        base.posY = players[i]["position"]["y"];
+        base.scaleX = players[i]["scale"]["x"];
+        base.scaleY = players[i]["scale"]["y"];
+        base.rectX = players[i]["rect"]["x"];
+        base.rectY = players[i]["rect"]["y"];
+        base.rectWidth = players[i]["rect"]["width"];
+        base.rectHeight = players[i]["rect"]["height"];
         int health = players[i]["health"];
 
-        std::cout << "assetName: " << assetName << std::endl;
+        std::cout << "===== Parsing: player(" << i << ") =====" << std::endl;
+        std::cout << "assetName: " << base.assetName << std::endl;
         std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
-        std::cout << "position: " << position.x << ", " << position.y << std::endl;
-        std::cout << "scale: " << scale.x << ", " << scale.y << std::endl;
-        std::cout << "rect: " << rect.left << ", " << rect.top << ", " << rect.width << ", " << rect.height << std::endl;
-        std::cout << "health: " << health << std::endl;
+        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
+        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
+        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
+        std::cout << "health: " << health << "\n" << std::endl;
     }
 }
 
 void Parser::loadObstacles()
 {
-    const libconfig::Setting &obstacles = m_config.lookup("obstacles");
+    const libconfig::Setting &obstacles = m_config.lookup("entities.obstacles");
+    basicEntity base;
 
-    for (int i = 0; obstacles.getLength(); i++) {
-        std::string assetName = obstacles[i]["assetName"];
+    for (int i = 0; i < obstacles.getLength(); i++) {
+        base.assetName = obstacles[i]["assetName"].c_str();
         std::string projectileAssetName = obstacles[i]["projectileAssetName"];
-        Component::Position position = Component::Position(obstacles[i]["position"]["x"], obstacles[i]["position"]["y"]);
-        Component::Position scale = Component::Position(obstacles[i]["scale"]["x"], obstacles[i]["scale"]["y"]);
-        sf::IntRect rect = sf::IntRect(obstacles[i]["rect"]["x"], obstacles[i]["rect"]["y"], obstacles[i]["rect"]["width"], obstacles[i]["rect"]["height"]);
+        base.posX = obstacles[i]["position"]["x"];
+        base.posY = obstacles[i]["position"]["y"];
+        base.scaleX = obstacles[i]["scale"]["x"];
+        base.scaleY = obstacles[i]["scale"]["y"];
+        base.rectX = obstacles[i]["rect"]["x"];
+        base.rectY = obstacles[i]["rect"]["y"];
+        base.rectWidth = obstacles[i]["rect"]["width"];
+        base.rectHeight = obstacles[i]["rect"]["height"];
         int rotation = obstacles[i]["rotation"];
         int health = obstacles[i]["health"];
 
-        std::cout << "assetName: " << assetName << std::endl;
+        std::cout << "===== Parsing: obstacle(" << i << ") =====" << std::endl;
+        std::cout << "assetName: " << base.assetName << std::endl;
         std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
-        std::cout << "position: " << position.x << ", " << position.y << std::endl;
-        std::cout << "scale: " << scale.x << ", " << scale.y << std::endl;
-        std::cout << "rect: " << rect.left << ", " << rect.top << ", " << rect.width << ", " << rect.height << std::endl;
+        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
+        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
+        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
         std::cout << "rotation: " << rotation << std::endl;
-        std::cout << "health: " << health << std::endl;
+        std::cout << "health: " << health << "\n" << std::endl;
     }
 }
 
 void Parser::loadEnemies()
 {
-    const libconfig::Setting &enemies = m_config.lookup("enemies");
+    const libconfig::Setting &enemies = m_config.lookup("entities.enemies");
+    basicEntity base;
 
-    for (int i = 0; enemies.getLength(); i++) {
-        std::string assetName = enemies[i]["assetName"];
+    for (int i = 0; i < enemies.getLength(); i++) {
+        base.assetName = enemies[i]["assetName"].c_str();
         std::string projectileAssetName = enemies[i]["projectileAssetName"];
-        Component::Position position = Component::Position(enemies[i]["position"]["x"], enemies[i]["position"]["y"]);
-        Component::Position scale = Component::Position(enemies[i]["scale"]["x"], enemies[i]["scale"]["y"]);
-        sf::IntRect rect = sf::IntRect(enemies[i]["rect"]["x"], enemies[i]["rect"]["y"], enemies[i]["rect"]["width"], enemies[i]["rect"]["height"]);
+        base.posX = enemies[i]["position"]["x"];
+        base.posY = enemies[i]["position"]["y"];
+        base.scaleX = enemies[i]["scale"]["x"];
+        base.scaleY = enemies[i]["scale"]["y"];
+        base.rectX = enemies[i]["rect"]["x"];
+        base.rectY = enemies[i]["rect"]["y"];
+        base.rectWidth = enemies[i]["rect"]["width"];
+        base.rectHeight = enemies[i]["rect"]["height"];
         int rotation = enemies[i]["rotation"];
         int health = enemies[i]["health"];
 
-        std::cout << "assetName: " << assetName << std::endl;
+        std::cout << "===== Parsing: ennemy(" << i << ") =====" << std::endl;
+        std::cout << "assetName: " << base.assetName << std::endl;
         std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
-        std::cout << "position: " << position.x << ", " << position.y << std::endl;
-        std::cout << "scale: " << scale.x << ", " << scale.y << std::endl;
-        std::cout << "rect: " << rect.left << ", " << rect.top << ", " << rect.width << ", " << rect.height << std::endl;
+        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
+        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
+        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
         std::cout << "rotation: " << rotation << std::endl;
-        std::cout << "health: " << health << std::endl;
+        std::cout << "health: " << health << "\n" << std::endl;
     }
 }

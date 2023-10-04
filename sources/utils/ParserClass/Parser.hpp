@@ -11,6 +11,18 @@
 
 #include "ECS/RegistryClass/Registry.hpp"
 
+struct basicEntity {
+    std::string assetName;
+    int posX;
+    int posY;
+    int scaleX;
+    int scaleY;
+    int rectX;
+    int rectY;
+    int rectWidth;
+    int rectHeight;
+};
+
 /**
  * @brief The Parser class is responsible for loading game data from a file using libconfig.
  */
