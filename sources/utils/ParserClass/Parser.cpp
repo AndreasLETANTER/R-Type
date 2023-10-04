@@ -9,9 +9,13 @@
 
 #include "Parser.hpp"
 #include "ECS/Components/Position.hpp"
+#include "ECS/Components/Drawable.hpp"
+#include "ECS/Components/ScrollingBackground.hpp"
 
-Parser::Parser(Registry &registry, std::vector<std::string> filesPath)
-    : m_registry(registry), m_filesPaths(filesPath)
+Parser::Parser(Registry &registry, sf::RenderWindow &window, std::vector<std::string> filesPath) :
+    m_registry(registry),
+    m_window(window),
+    m_filesPaths(filesPath)
 {}
 
 void Parser::loadFromFile()
@@ -55,6 +59,7 @@ void Parser::loadBackgrounds()
     basicEntity base;
 
     for (int i = 0; i < backgrounds.getLength(); i++) {
+        base.id = backgrounds[i]["id"];
         base.assetName = backgrounds[i]["assetName"].c_str();
         base.posX = backgrounds[i]["position"]["x"];
         base.posY = backgrounds[i]["position"]["y"];
@@ -68,12 +73,9 @@ void Parser::loadBackgrounds()
         int offsetLimitY = backgrounds[i]["offsetLimit"]["y"];
 
         m_registry.spawn_entity();
-        std::cout << "===== Parsing: background(" << i << ") =====" << std::endl;
-        std::cout << "assetName: " << base.assetName << std::endl;
-        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
-        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
-        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
-        std::cout << "offsetLimit: " << offsetLimitX << ", " << offsetLimitY << "\n" << std::endl;
+        m_registry.add_component<Component::Position>(m_registry.entity_from_index(i), Component::Position(base.posX, base.posY));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(i), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
+        m_registry.add_component<Component::ScrollingBackground>(m_registry.entity_from_index(i), Component::ScrollingBackground(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY)));
     }
 }
 
@@ -83,6 +85,7 @@ void Parser::loadPlayers()
     basicEntity base;
 
     for (int i = 0; i < players.getLength(); i++) {
+        base.id = players[i]["id"];
         base.assetName = players[i]["assetName"].c_str();
         std::string projectileAssetName = players[i]["projectileAssetName"];
         base.posX = players[i]["position"]["x"];
@@ -112,6 +115,7 @@ void Parser::loadObstacles()
     basicEntity base;
 
     for (int i = 0; i < obstacles.getLength(); i++) {
+        base.id = obstacles[i]["id"];
         base.assetName = obstacles[i]["assetName"].c_str();
         std::string projectileAssetName = obstacles[i]["projectileAssetName"];
         base.posX = obstacles[i]["position"]["x"];
@@ -143,6 +147,7 @@ void Parser::loadEnemies()
     basicEntity base;
 
     for (int i = 0; i < enemies.getLength(); i++) {
+        base.id = enemies[i]["id"];
         base.assetName = enemies[i]["assetName"].c_str();
         std::string projectileAssetName = enemies[i]["projectileAssetName"];
         base.posX = enemies[i]["position"]["x"];

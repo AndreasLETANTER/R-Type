@@ -26,8 +26,9 @@ int main(const int ac, const char **av)
     (void) ac;
     (void) av;
     Registry registry;
+    sf::RenderWindow window { { 1920, 1080 }, "R-Type" };
     std::vector<std::string> filesPath = {"./assets/Level1.yaml"};
-    Parser parser(registry, filesPath);
+    Parser parser(registry, window, filesPath);
 
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
@@ -49,9 +50,6 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Position, Component::ScrollingBackground>(ScrollingBackgroundSystem());
 
     parser.loadFromFile();
-    auto window = sf::RenderWindow{ { static_cast<unsigned int>(parser.getLevelParams().width),
-                                   static_cast<unsigned int>(parser.getLevelParams().height) },
-                                   "Level" + std::to_string(parser.getLevelParams().level) + " - R-Type" };
     window.setFramerateLimit(144);
 
     while (window.isOpen()) {
@@ -65,14 +63,6 @@ int main(const int ac, const char **av)
         window.display();
     }
     // sf::Clock clock;
-
-    // // Background
-    // registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
-    // registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(window.getSize().x, window.getSize().y), true));
-    // registry.add_component<Component::ScrollingBackground>(registry.entity_from_index(0), Component::ScrollingBackground(Component::Position(0, 0), Component::Position(-5700, 0)));
-    // registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
-    // registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(window.getSize().x, window.getSize().y), true));
-    // registry.add_component<Component::ScrollingBackground>(registry.entity_from_index(1), Component::ScrollingBackground(Component::Position(5700, 0), Component::Position(0, 0)));
 
     // //entity that is movable, using all components.
     // registry.add_component<Component::Position>(registry.entity_from_index(2), Component::Position(0, 0));

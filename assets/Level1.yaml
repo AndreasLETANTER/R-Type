@@ -7,6 +7,7 @@ params:
 entities: {
     backgrounds = (
         {
+            id = 0;
             assetName = "Space_Background.png";
             position = { x = 0; y = 0; };
             scale = { x = 1920; y = 1080; };
@@ -14,6 +15,7 @@ entities: {
             offsetLimit = { x = -5700; y = 0; };
         },
         {
+            id = 1;
             assetName = "Space_Background.png";
             position = { x = 5700; y = 0; };
             scale = { x = 1920; y = 1080; };
@@ -24,6 +26,7 @@ entities: {
 
     players = (
         {
+            id = 2;
             assetName = "Spaceships.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 150; y = 100; };
@@ -32,6 +35,7 @@ entities: {
             health = 100;
         },
         {
+            id = 3;
             assetName = "Spaceships.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 150; y = 200; };
@@ -40,6 +44,7 @@ entities: {
             health = 100;
         },
         {
+            id = 4;
             assetName = "Spaceships.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 150; y = 300; };
@@ -48,6 +53,7 @@ entities: {
             health = 100;
         },
         {
+            id = 5;
             assetName = "Spaceships.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 150; y = 400; };
@@ -59,6 +65,7 @@ entities: {
 
     obstacles = (
         {
+            id = 6;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2500; y = 978; };
@@ -68,6 +75,7 @@ entities: {
             health = 20;
         },
         {
+            id = 7;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2550; y = 0; };
@@ -76,7 +84,8 @@ entities: {
             rotation = 180;
             health = 20;
         },
-            {
+        {
+            id = 8;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2600; y = 978; };
@@ -89,6 +98,7 @@ entities: {
 
     enemies = (
         {
+            id = 9;
             assetName = "OrangeCrabEnemy.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2000; y = 250; };
@@ -98,6 +108,7 @@ entities: {
             health = 10;
         },
         {
+            id = 10;
             assetName = "OrangeCrabEnemy.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2100; y = 315; };
@@ -107,6 +118,7 @@ entities: {
             health = 10;
         },
         {
+            id = 11;
             assetName = "YellowPopcornEnemy.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2100; y = 540; };

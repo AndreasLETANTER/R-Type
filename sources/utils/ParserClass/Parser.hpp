@@ -18,6 +18,7 @@ struct levelParams {
 };
 
 struct basicEntity {
+    int id;
     std::string assetName;
     int posX;
     int posY;
@@ -38,9 +39,10 @@ class Parser {
          * @brief Constructs a Parser object with the given registry and files path.
          *
          * @param registry The registry to use for parsing.
+         * @param window The window to use for parsing.
          * @param filesPath A vector of file paths to parse.
          */
-        Parser(Registry &registry, std::vector<std::string> filesPath);
+        Parser(Registry &registry, sf::RenderWindow &window, std::vector<std::string> filesPath);
 
         /**
          * @brief Default destructor for Parser class.
@@ -62,6 +64,7 @@ class Parser {
     private:
         libconfig::Config m_config;
         Registry &m_registry;
+        sf::RenderWindow &m_window;
         std::vector<std::string> m_filesPaths;
         levelParams m_levelParams;
 

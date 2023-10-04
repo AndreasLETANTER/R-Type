@@ -25,7 +25,7 @@ namespace Component {
             std::shared_ptr<sf::Texture> texture; /**< The texture of the drawable object. */
             std::string spriteName; /**< The name of the sprite. */
             sf::IntRect rect; /**< The rectangle of the sprite. */
-            Component::Position position; /**< The position of the drawable object. */
+            Component::Position scale; /**< The scale values of the drawable object. */
             sf::RenderWindow *window; /**< The render window to draw the object on. */
             /**
              * @brief Construct a new Drawable object.
