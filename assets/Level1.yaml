@@ -25,30 +25,65 @@ backgrounds:
 players: {
     {
         assetName = "Spaceships.gif";
+        projectileAssetName = "?";
         position = { x = 150; y = 100; };
         scale = { x = 102; y = 57; };
         rect = { x = 0; y = 2; width = 34; height = 16; };
+        health = 100;
     },
     {
         assetName = "Spaceships.gif";
+        projectileAssetName = "?";
         position = { x = 150; y = 200; };
         scale = { x = 102; y = 57; };
         rect = { x = 0; y = 19; width = 34; height = 16; };
+        health = 100;
     },
     {
         assetName = "Spaceships.gif";
+        projectileAssetName = "?";
         position = { x = 150; y = 300; };
         scale = { x = 102; y = 57; };
         rect = { x = 0; y = 36; width = 34; height = 16; };
+        health = 100;
     },
     {
         assetName = "Spaceships.gif";
         position = { x = 150; y = 400; };
         scale = { x = 102; y = 57; };
         rect = { x = 0; y = 53; width = 34; height = 16; };
+        health = 100;
     }
 };
 
-obstacles = ();
+obstacles: {
+    {
+        assetName = "asset.gif";
+        projectileAssetName = "?";
+        position = { x = ?; y = ?; };
+        scale = { x = ?; y = ?; };
+        rect = { x = ?; y = ?; width = ?; height = ?; };
+        rotation = ?;
+        health = ?;
+    },
+    {
+        assetName = "asset.gif";
+        projectileAssetName = "?";
+        position = { x = ?; y = ?; };
+        scale = { x = ?; y = ?; };
+        rect = { x = ?; y = ?; width = ?; height = ?; };
+        rotation = ?;
+        health = ?;
+    },
+    {
+        assetName = "asset.gif";
+        projectileAssetName = "?";
+        position = { x = ?; y = ?; };
+        scale = { x = ?; y = ?; };
+        rect = { x = ?; y = ?; width = ?; height = ?; };
+        rotation = ?;
+        health = ?;
+    }
+};
 
 ennemies = ();
