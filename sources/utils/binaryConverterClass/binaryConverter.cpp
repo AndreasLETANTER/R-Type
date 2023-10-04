@@ -7,7 +7,6 @@
 
 #include <bitset>
 #include <stdexcept>
-
 #include "../debugColors/debugColors.hpp"
 #include "binaryConverter.hpp"
 

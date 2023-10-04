@@ -5,7 +5,7 @@
 ** CollisionSystem
 */
 
-#include "CollisionSystem.hpp"
+#include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
 
 CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Collision> &collisions)
 {
@@ -19,7 +19,7 @@ CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Comp
         }
         sf::IntRect rect1(pos.value().x, pos.value().y, col.value().width, col.value().height);
         col.value().entities_in_collision.clear();
-        for (size_t j = i; j < positions.size() && j < collisions.size(); j++) {
+        for (size_t j = 0; j < positions.size() && j < collisions.size(); j++) {
             auto &pos2 = positions[j];
             auto &col2 = collisions[j];
 
@@ -29,11 +29,9 @@ CollisionSystem CollisionSystem::operator()(Registry &registry, SparseArray<Comp
             sf::IntRect rect2(pos2.value().x, pos2.value().y, col2.value().width, col2.value().height);
 
             if (i != j && col.has_value() && col2.has_value() && rect1.intersects(rect2)) {
-                if (std::find(col.value().entities_in_collision.begin(), col.value().entities_in_collision.end(), registry.entity_from_index(j)) != col.value().entities_in_collision.end())
-                    break;
+                if (std::count(col.value().entities_in_collision.begin(), col.value().entities_in_collision.end(), registry.entity_from_index(j)) > 0)
+                    continue;
                 col.value().entities_in_collision.push_back(registry.entity_from_index(j));
-                col2.value().entities_in_collision.push_back(registry.entity_from_index(i));
-                break;
             }
         }
     }

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "debugColors.hpp"
+#include "utils/debugColors/debugColors.hpp"
 
 void printFatalError(std::string const &str)
 {

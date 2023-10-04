@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "../../RegistryClass/Registry.hpp"
-#include "../../Components/Position.hpp"
-#include "../../Components/Velocity.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Velocity.hpp"
 
 /**
  * @brief The LoggingSystem class is responsible for logging the positions and velocities of entities in the game.
