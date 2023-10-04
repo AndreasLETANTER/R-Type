@@ -28,9 +28,9 @@ MainMenu::MainMenu(sf::RenderWindow &window):
         .setButtonHoverColor(sf::Color::Green)
         .setButtonHoverOutlineColor(sf::Color::Yellow)
         .setTextString("Play")
-        .setTextSize(10000)
+        .setTextSize(50)
         .setTextFont(m_font)
-        .setTextPosition("center", "center")
+        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
         .setTextColor(sf::Color::Black)
         .setTextHoverColor(sf::Color::Black)
         .setCallback([]() {
@@ -48,8 +48,8 @@ MainMenu::MainMenu(sf::RenderWindow &window):
         .setButtonHoverOutlineColor(sf::Color::Yellow)
         .setTextString("Quit")
         .setTextFont(m_font)
-        .setTextPosition("center", "center")
-        .setTextSize(10000)
+        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
+        .setTextSize(50)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Black)
         .setCallback([this]() {
@@ -80,8 +80,8 @@ void MainMenu::resize()
     float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
 
     m_buttons[0].resize(sf::Vector2f(buttonWidth, buttonHeight),
-        sf::Vector2f(xPos, yPos), 10000, "center", "center");
+        sf::Vector2f(xPos, yPos), 50, TextButton::CENTER, TextButton::MIDDLE);
     yPos += buttonHeight + spacing;
     m_buttons[1].resize(sf::Vector2f(buttonWidth, buttonHeight),
-        sf::Vector2f(xPos, yPos), 10000, "center", "center");
+        sf::Vector2f(xPos, yPos), 50, TextButton::CENTER, TextButton::MIDDLE);
 }

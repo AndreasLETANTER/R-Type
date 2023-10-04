@@ -14,6 +14,16 @@ class TextButton {
     public:
         TextButton() = default;
 
+        enum HorizontalAlign {
+            LEFT,
+            CENTER,
+            RIGHT
+        };
+        enum VerticalAlign {
+            TOP,
+            MIDDLE,
+            BOTTOM
+        };
         TextButton &setButtonPosition(const sf::Vector2f &position);
         TextButton &setButtonSize(const sf::Vector2f &size);
         TextButton &setButtonColor(const sf::Color &color);
@@ -25,7 +35,8 @@ class TextButton {
         TextButton &setTextString(const std::string &text);
         TextButton &setTextFont(const sf::Font &font);
         TextButton &setTextSize(const int &size);
-        TextButton& setTextPosition(const std::string &horizontalAlign, const std::string &verticalAlign);
+        TextButton& setTextPosition(const TextButton::HorizontalAlign &horizontalAlign,
+            const TextButton::VerticalAlign &verticalAlign);
         TextButton &setTextColor(const sf::Color &color);
         TextButton &setTextHoverColor(const sf::Color &hoverColor);
 
@@ -35,7 +46,8 @@ class TextButton {
         void update(sf::RenderWindow &window);
         void resize(const sf::Vector2f &buttonSize,
             const sf::Vector2f &buttonPosition, const int &textSize,
-            const std::string &horizontalAlign, const std::string &verticalAlign);
+            const TextButton::HorizontalAlign &horizontalAlign,
+            const TextButton::VerticalAlign &verticalAlign);
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);

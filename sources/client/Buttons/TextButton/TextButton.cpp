@@ -8,10 +8,13 @@
 #include "client/Buttons/TextButton/TextButton.hpp"
 #include "TextButton.hpp"
 
+#include <iostream>
+
 TextButton &TextButton::setButtonPosition(const sf::Vector2f &position)
 {
     m_buttonPosition = position;
     m_shape.setPosition(position);
+
     return (*this);
 }
 
@@ -70,32 +73,32 @@ TextButton &TextButton::setTextSize(const int &size)
     return (*this);
 }
 
-TextButton& TextButton::setTextPosition(const std::string &horizontalAlign, const std::string &verticalAlign) {
+TextButton &TextButton::setTextPosition(const TextButton::HorizontalAlign &horizontalAlign,
+    const TextButton::VerticalAlign &verticalAlign)
+{
     sf::FloatRect buttonBounds = this->m_shape.getGlobalBounds();
     sf::FloatRect textBounds = this->m_text.getLocalBounds();
-
     float x, y = 0;
 
-    if (horizontalAlign == "left") {
+    if (horizontalAlign == TextButton::LEFT) {
         x = buttonBounds.left;
-    } else if (horizontalAlign == "center") {
+    } else if (horizontalAlign == TextButton::CENTER) {
         x = buttonBounds.left + (buttonBounds.width - textBounds.width) / 2.0f - textBounds.left;
-    } else if (horizontalAlign == "right") {
+    } else if (horizontalAlign == TextButton::RIGHT) {
         x = buttonBounds.left + buttonBounds.width - textBounds.width - textBounds.left;
     }
 
-    if (verticalAlign == "top") {
+    if (verticalAlign == TextButton::TOP) {
         y = buttonBounds.top;
-    } else if (verticalAlign == "center") {
+    } else if (verticalAlign == TextButton::MIDDLE) {
         y = buttonBounds.top + (buttonBounds.height - textBounds.height) / 2.0f - textBounds.top;
-    } else if (verticalAlign == "bottom") {
+    } else if (verticalAlign == TextButton::BOTTOM) {
         y = buttonBounds.top + buttonBounds.height - textBounds.height - textBounds.top;
     }
 
     this->m_text.setPosition(x, y);
     return (*this);
 }
-
 
 TextButton &TextButton::setTextColor(const sf::Color &color)
 {
@@ -141,7 +144,8 @@ void TextButton::update(sf::RenderWindow &window)
 
 void TextButton::resize(const sf::Vector2f &buttonSize,
     const sf::Vector2f &buttonPosition, const int &textSize,
-    const std::string &horizontalAlign, const std::string &verticalAlign)
+    const TextButton::HorizontalAlign &horizontalAlign,
+    const TextButton::VerticalAlign &verticalAlign)
 {
     this->setButtonSize(buttonSize)
     .setButtonPosition(buttonPosition)
