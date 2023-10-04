@@ -9,4 +9,4 @@ else
 fi
 
 ./vcpkg install sfml
-./vcpkg install boost-asio
+./vcpkg install asio

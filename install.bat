@@ -9,6 +9,6 @@ IF NOT EXIST vcpkg (
 )
 
 vcpkg install sfml
-vcpkg install boost-asio
+vcpkg install asio
 
 cd..

@@ -11,11 +11,16 @@ set(SERVER_TESTS_NAME "r-type_server_tests")
 set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
-set(VCPKG_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg")
-set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-set(CMAKE_PREFIX_PATH "${VCPKG_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/share/${PROJECT_NAME}" ${CMAKE_PREFIX_PATH})
 
 ###############################INSTALL PACKAGES###################################
+include(FetchContent)
+
+FetchContent_Declare(
+    libconfig
+    GIT_REPOSITORY https://github.com/hyperrealm/libconfig.git
+)
+FetchContent_MakeAvailable(libconfig)
+
 if(WIN32)
     execute_process(
         COMMAND install.bat
@@ -125,7 +130,7 @@ target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
@@ -149,14 +154,14 @@ target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
 
 add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
