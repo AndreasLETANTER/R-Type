@@ -18,6 +18,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
     float spacing = windowSize.y * 0.05;
     float xPos = (windowSize.x - buttonWidth) / 2;
     float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
+    m_font.loadFromFile("assets/font.ttf");
 
     TextButton playButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))
