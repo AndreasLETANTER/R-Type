@@ -39,18 +39,17 @@ set (ECS_SOURCES
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
+    sources/ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.cpp
     sources/ECS/Components/Drawable.cpp
 )
 
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
-    sources/server/udpSocket/udpSocket.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
 )
 
 set(CLIENT_SOURCES
-    sources/client/Game/Game.cpp
-    sources/client/Background/Background.cpp
     sources/utils/debugColors/debugColors.cpp
 )
 
@@ -75,7 +74,6 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
-    tests/server/handleArgument.cpp
 )
 
 set(CLIENT_TESTS

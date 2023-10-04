@@ -16,7 +16,7 @@ SparseArray<Component> &Registry::register_component()
         throw std::runtime_error{"Component already registered"};
     }
     register_erase_function<Component>([](Registry &registry, Entity const &entity) {
-        if (registry.get_components<Component>().size() < entity || registry.get_components<Component>()[entity].has_value() == false) {
+        if (registry.get_components<Component>().size() <= entity || registry.get_components<Component>()[entity].has_value() == false) {
             return;
         }
         registry.get_components<Component>()[entity].reset();
