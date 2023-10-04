@@ -18,14 +18,13 @@ include(FetchContent)
 FetchContent_Declare(
     libconfig
     GIT_REPOSITORY "https://github.com/hyperrealm/libconfig.git"
-    GIT_TAG "v1.7.3"
 )
 FetchContent_MakeAvailable(libconfig)
 
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-    GIT_TAG "2.5.1"
+    GIT_TAG "2.6.x"
 )
 FetchContent_MakeAvailable(SFML)
 
