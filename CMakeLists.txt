@@ -17,25 +17,16 @@ include(FetchContent)
 
 FetchContent_Declare(
     libconfig
-    GIT_REPOSITORY https://github.com/hyperrealm/libconfig.git
+    GIT_REPOSITORY "https://github.com/hyperrealm/libconfig.git"
 )
 FetchContent_MakeAvailable(libconfig)
 
-if(WIN32)
-    execute_process(
-        COMMAND install.bat
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
-else()
-    execute_process(
-        COMMAND ./install.sh
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
-endif()
-
-###############################FIND PACKAGES######################################
-
-find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
+FetchContent_Declare(
+    SFML
+    GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+    GIT_TAG 2.5.1
+)
+FetchContent_MakeAvailable(SFML)
 
 ###############################DIRECTORIES SRC####################################
 
