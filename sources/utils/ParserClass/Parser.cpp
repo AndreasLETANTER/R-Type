@@ -25,6 +25,19 @@ void Parser::loadFromFile()
     }
 }
 
+void loadLevelParams()
+{
+    const libconfig::Setting &params = m_config.lookup("params");
+
+    for (int i = 0; i < params.getLength(); i++) {
+        int level = params[i]["level"];
+        std::pair<int, int> resolution = std::make_pair(params[i]["resolution"]["width"], params[i]["resolution"]["height"]);
+
+        std::cout << "level: " << level << std::endl;
+        std::cout << "resolution: " << resolution.first << ", " << resolution.second << std::endl;
+    }
+}
+
 void Parser::loadBackgrounds()
 {
     const libconfig::Setting &backgrounds = m_config.lookup("backgrounds");
