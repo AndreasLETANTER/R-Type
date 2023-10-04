@@ -50,6 +50,7 @@ set(CLIENT_SOURCES
     sources/client/udpClient/udpClient.cpp
     sources/debugColors/debugColors.cpp
     sources/binaryConverter/binaryConverter.cpp
+    sources/client/Network/Network.cpp
 )
 
 set(SERVER_MAIN
