@@ -86,4 +86,32 @@ obstacles: {
     }
 };
 
-ennemies = ();
+ennemies: {
+    {
+        assetName = "asset.gif";
+        projectileAssetName = "?";
+        position = { x = ?; y = ?; };
+        scale = { x = ?; y = ?; };
+        rect = { x = ?; y = ?; width = ?; height = ?; };
+        rotation = ?;
+        health = ?;
+    },
+    {
+        assetName = "asset.gif";
+        projectileAssetName = "?";
+        position = { x = ?; y = ?; };
+        scale = { x = ?; y = ?; };
+        rect = { x = ?; y = ?; width = ?; height = ?; };
+        rotation = ?;
+        health = ?;
+    },
+    {
+        assetName = "asset.gif";
+        projectileAssetName = "?";
+        position = { x = ?; y = ?; };
+        scale = { x = ?; y = ?; };
+        rect = { x = ?; y = ?; width = ?; height = ?; };
+        rotation = ?;
+        health = ?;
+    }
+};

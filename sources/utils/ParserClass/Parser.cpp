@@ -71,12 +71,35 @@ void Parser::loadObstacles()
 
     for (int i = 0; obstacles.getLength(); i++) {
         std::string assetName = obstacles[i]["assetName"];
-        std::string projectileAssetName = players[i]["projectileAssetName"];
+        std::string projectileAssetName = obstacles[i]["projectileAssetName"];
         Component::Position position = Component::Position(obstacles[i]["position"]["x"], obstacles[i]["position"]["y"]);
         Component::Position scale = Component::Position(obstacles[i]["scale"]["x"], obstacles[i]["scale"]["y"]);
         sf::IntRect rect = sf::IntRect(obstacles[i]["rect"]["x"], obstacles[i]["rect"]["y"], obstacles[i]["rect"]["width"], obstacles[i]["rect"]["height"]);
         int rotation = obstacles[i]["rotation"];
         int health = obstacles[i]["health"];
+
+        std::cout << "assetName: " << assetName << std::endl;
+        std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
+        std::cout << "position: " << position.x << ", " << position.y << std::endl;
+        std::cout << "scale: " << scale.x << ", " << scale.y << std::endl;
+        std::cout << "rect: " << rect.left << ", " << rect.top << ", " << rect.width << ", " << rect.height << std::endl;
+        std::cout << "rotation: " << rotation << std::endl;
+        std::cout << "health: " << health << std::endl;
+    }
+}
+
+void Parser::loadEnemies()
+{
+    const libconfig::Setting &enemies = m_config.lookup("enemies");
+
+    for (int i = 0; enemies.getLength(); i++) {
+        std::string assetName = enemies[i]["assetName"];
+        std::string projectileAssetName = enemies[i]["projectileAssetName"];
+        Component::Position position = Component::Position(enemies[i]["position"]["x"], enemies[i]["position"]["y"]);
+        Component::Position scale = Component::Position(enemies[i]["scale"]["x"], enemies[i]["scale"]["y"]);
+        sf::IntRect rect = sf::IntRect(enemies[i]["rect"]["x"], enemies[i]["rect"]["y"], enemies[i]["rect"]["width"], enemies[i]["rect"]["height"]);
+        int rotation = enemies[i]["rotation"];
+        int health = enemies[i]["health"];
 
         std::cout << "assetName: " << assetName << std::endl;
         std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
