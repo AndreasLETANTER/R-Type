@@ -47,7 +47,6 @@ set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
     sources/server/udpSocket/udpSocket.cpp
     sources/debugColors/debugColors.cpp
-    sources/binaryConverter/binaryConverter.cpp
 )
 
 set(CLIENT_SOURCES
