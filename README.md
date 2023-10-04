@@ -63,9 +63,8 @@ called R-Type in C++.
 ### Execution
 
 ```bash
-mkdir build
 cmake -B build/
-make R-Type -C build/
+make -C build/
 ./r-type_server [port]
 ./r-type_client
 ```
@@ -87,7 +86,6 @@ docker run r-type-server-image
 There is a Doxygen documentation in the project. You can generate it with the following command:
 
 ```bash
-mkdir build
 cmake -B build/
 make doxygen -C build/
 ```
