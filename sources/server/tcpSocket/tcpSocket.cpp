@@ -27,6 +27,11 @@ tcpSocket::tcpSocket(u_int16_t t_tcpPort)
 
 tcpSocket::~tcpSocket()
 {
+    m_ioService.stop();
+    m_ioService.reset();
+    m_clients->clear();
+    m_socket.close();
+    m_tcpAcceptor.close();
     printTrace("Server stopped");
 }
 
@@ -34,10 +39,12 @@ void tcpSocket::run()
 {
     m_ioService.run();
 }
+
 void tcpSocket::handleRead(int clientId, std::size_t bytesTransferred)
 {
     std::string message(m_readBuffer.data(), bytesTransferred);
     printTrace("Received message from client " + std::to_string(clientId) + ": " + message);
+    std::fill(m_readBuffer.begin(), m_readBuffer.end(), 0);
 }
 
 void tcpSocket::startRead(int clientId)
@@ -45,10 +52,11 @@ void tcpSocket::startRead(int clientId)
     auto& clientSocket = m_clients->at(clientId);
     clientSocket.async_read_some(buffer(m_readBuffer),
         [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
-            if (ec == error::eof) {
+            if (ec == error::eof) { // Client disconnected
                 removeClient(clientId);
             } else if (!ec) {
-                handleRead(clientId, bytesTransferred);
+                handleRead(clientId, bytesTransferred); // Handle the received message
+                sendMessage(clientId, "Heyy je suis le serveur"); // Send a message to the client
                 startRead(clientId); // Continue reading
             } else {
                 printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());
@@ -57,6 +65,20 @@ void tcpSocket::startRead(int clientId)
         });
 }
 
+void tcpSocket::sendMessage(int clientId, const std::string &message)
+{
+    auto& clientSocket = m_clients->at(clientId);
+    clientSocket.async_send(buffer(message),
+        [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
+            (void)bytesTransferred;
+            if (!ec) {
+                printTrace("Sent message to client " + std::to_string(clientId));
+            } else {
+                printError("Error sending message to client " + std::to_string(clientId) + ": " + ec.message());
+                removeClient(clientId);
+            }
+        });
+}
 
 void tcpSocket::startAccept()
 {

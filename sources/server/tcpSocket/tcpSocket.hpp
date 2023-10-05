@@ -37,6 +37,7 @@ class tcpSocket {
         void removeClient(int clientId);
         void handleRead(int clientId, std::size_t bytesTransferred);
         void startRead(int clientId);
+        void sendMessage(int clientId, const std::string& message);
 
         /**
          * @brief Receive a message from a client.
