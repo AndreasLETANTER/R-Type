@@ -62,6 +62,7 @@ set (ECS_SOURCES
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
     sources/utils/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
 )
 
 set(CLIENT_SOURCES
@@ -89,6 +90,7 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
+    tests/binaryConverter/binaryConverterTests.cpp
 )
 
 set(CLIENT_TESTS
