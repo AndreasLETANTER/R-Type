@@ -16,6 +16,7 @@ latex/
 /.vscode
 /.idea
 assets/*.hpp
+vcpkg/
 
 # Prerequisites
 *.d
