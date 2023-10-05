@@ -40,6 +40,23 @@ void tcpSocket::handleRead(int clientId, std::size_t bytesTransferred)
     printTrace("Received message from client " + std::to_string(clientId) + ": " + message);
 }
 
+void tcpSocket::startRead(int clientId)
+{
+    auto& clientSocket = m_clients->at(clientId);
+    clientSocket.async_read_some(buffer(m_readBuffer),
+        [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
+            if (ec == error::eof) {
+                removeClient(clientId);
+            } else if (!ec) {
+                handleRead(clientId, bytesTransferred);
+                startRead(clientId); // Continue reading
+            } else {
+                printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());
+                removeClient(clientId);
+            }
+        });
+}
+
 
 void tcpSocket::startAccept()
 {
@@ -50,35 +67,17 @@ void tcpSocket::startAccept()
             printTrace("Number of clients: " + std::to_string(m_clients->size()));
             ++nextClientId;
 
-            // Start reading from the socket
+            // Start reading from the socket of the newly connected client
             auto clientId = nextClientId - 1;
-            auto& clientSocket = m_clients->at(clientId);
-            clientSocket.async_read_some(buffer(m_readBuffer),
-                [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
-                    if (ec == error::eof) {
-                        removeClient(clientId);
-                    } else if (!ec) {
-                        // Handle the received data
-                        handleRead(clientId, bytesTransferred);
-                        auto& clientSocket = m_clients->at(clientId);
-                        clientSocket.async_read_some(buffer(m_readBuffer),
-                            [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
-                                if (ec == error::eof) {
-                                    removeClient(clientId);
-                                } else if (!ec) {
-                                    handleRead(clientId, bytesTransferred);
-                                } else {
-                                    printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());
-                                    removeClient(clientId);
-                                }
-                            });
-                    } else {
-                        printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());
-                        removeClient(clientId);
-                    }
-                });
+            startRead(clientId);
+
+            // Continue accepting more clients
+            startAccept();
         }
-        startAccept();
+        else {
+            // Handle the error condition, if necessary
+            printError("Error accepting client: " + ec.message());
+        }
     });
 }
 
