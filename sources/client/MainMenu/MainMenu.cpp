@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "client/MainMenu/MainMenu.hpp"
+#include "../../../build/assets/font.hpp"
 
 MainMenu::MainMenu(sf::RenderWindow &window):
     m_window(window)
@@ -21,7 +22,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
     double spacing = windowSize.y / 20;
     double xPos = (windowSize.x - buttonWidth) / 2;
     double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
-    m_font.loadFromFile("assets/font.ttf");
+    m_font.loadFromMemory(___assets_font_ttf, ___assets_font_ttf_len);
 
     TextButton playButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))

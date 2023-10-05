@@ -40,6 +40,7 @@ set(ASSETS_FILES
     ../assets/Space_Background.png
     ../assets/BurpTemporaryBullet.png
     ../assets/NugoTemporaryIcon.png
+    ../assets/font.ttf
 )
 
 set (ECS_SOURCES
