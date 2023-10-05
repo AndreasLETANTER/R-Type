@@ -18,7 +18,6 @@ Test(Registry, basic_importFromMessages)
 {
     Registry reg;
     Registry importReg;
-    sf::RenderWindow window;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
@@ -47,7 +46,6 @@ Test(Registry, basic_importFromMessages)
 Test(Registry, 2_spawn_importFromMessages)
 {
     Registry reg;
-    sf::RenderWindow window;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
@@ -85,7 +83,6 @@ Test(Registry, 2_spawn_importFromMessages)
 Test(Registry, 50_spawn_importFromMessages)
 {
     Registry reg;
-    sf::RenderWindow window;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
@@ -117,7 +114,6 @@ Test(Registry, 50_spawn_importFromMessages)
 Test(Registry, 800_spawn_importFromMessages)
 {
     Registry reg;
-    sf::RenderWindow window;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
@@ -149,7 +145,6 @@ Test(Registry, 800_spawn_importFromMessages)
 Test(Registry, no_spawn_importFromMessages)
 {
     Registry reg;
-    sf::RenderWindow window;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();

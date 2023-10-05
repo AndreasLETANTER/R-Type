@@ -12,11 +12,27 @@ set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
+###############################INSTALL PACKAGES###################################
 include(FetchContent)
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x)
+
+FetchContent_Declare(
+    libconfig
+    GIT_REPOSITORY "https://github.com/hyperrealm/libconfig.git"
+)
+FetchContent_MakeAvailable(libconfig)
+
+FetchContent_Declare(
+    SFML
+    GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+    GIT_TAG "2.6.x"
+)
 FetchContent_MakeAvailable(SFML)
+
+FetchContent_Declare(
+    asio
+    GIT_REPOSITORY "https://github.com/chriskohlhoff/asio.git"
+)
+FetchContent_MakeAvailable(asio)
 
 ###############################DIRECTORIES SRC####################################
 
@@ -77,7 +93,6 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
-    tests/server/handleArgument.cpp
 )
 
 set(CLIENT_TESTS
@@ -96,6 +111,7 @@ foreach(asset_file ${ASSETS_FILES})
     add_custom_command(
         OUTPUT ${output_hpp_file}
         COMMAND xxd -i ${asset_file} > ${output_hpp_file}
+        COMMAND ${CMAKE_COMMAND} -E echo "Generated ${output_hpp_file}"
         DEPENDS ${asset_file}
     )
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
@@ -106,6 +122,7 @@ list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
 )
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
 target_link_libraries(${SERVER_NAME} PRIVATE config++)
@@ -115,8 +132,7 @@ target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
-target_link_libraries(${CLIENT_NAME} PRIVATE config++)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
@@ -131,6 +147,7 @@ target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
 target_include_directories(${SERVER_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
 )
 target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
@@ -139,14 +156,14 @@ target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
 
 add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
