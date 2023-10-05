@@ -13,14 +13,14 @@ MainMenu::MainMenu(sf::RenderWindow &window):
     m_window(window)
 {
     sf::Vector2u windowSize = m_window.getSize();
-    float buttonWidthRatio = 0.2;
-    float buttonHeightRatio = 0.1;
-    float textRatio = 15;
-    float buttonWidth = windowSize.x * buttonWidthRatio;
-    float buttonHeight = windowSize.y * buttonHeightRatio;
-    float spacing = windowSize.y * 0.05;
-    float xPos = (windowSize.x - buttonWidth) / 2;
-    float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
+    double buttonWidthRatio = 5;
+    double buttonHeightRatio = 10;
+    double textRatio = 15;
+    double buttonWidth = windowSize.x / buttonWidthRatio;
+    double buttonHeight = windowSize.y / buttonHeightRatio;
+    double spacing = windowSize.y / 20;
+    double xPos = (windowSize.x - buttonWidth) / 2;
+    double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
     m_font.loadFromFile("assets/font.ttf");
 
     TextButton playButton = TextButton()
@@ -77,14 +77,14 @@ void MainMenu::update()
 void MainMenu::resize()
 {
     sf::Vector2u windowSize = m_window.getSize();
-    float buttonWidthRatio = 0.2;
-    float buttonHeightRatio = 0.1;
-    float textRatio = 15;
-    float buttonWidth = windowSize.x * buttonWidthRatio;
-    float buttonHeight = windowSize.y * buttonHeightRatio;
-    float spacing = windowSize.y * 0.05;
-    float xPos = (windowSize.x - buttonWidth) / 2;
-    float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
+    double buttonWidthRatio = 5;
+    double buttonHeightRatio = 10;
+    double textRatio = 15;
+    double buttonWidth = windowSize.x / buttonWidthRatio;
+    double buttonHeight = windowSize.y / buttonHeightRatio;
+    double spacing = windowSize.y / 20;
+    double xPos = (windowSize.x - buttonWidth) / 2;
+    double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
 
     m_buttons[0].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);

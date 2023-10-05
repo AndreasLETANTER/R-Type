@@ -20,8 +20,8 @@ TextButton &TextButton::setButtonPosition(const sf::Vector2f &position)
 
 TextButton &TextButton::setButtonSize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio)
 {
-    m_buttonSize = sf::Vector2f(windowSize.x * buttonRatio.x,
-        windowSize.y * buttonRatio.y);
+    m_buttonSize = sf::Vector2f(windowSize.x / buttonRatio.x,
+        windowSize.y / buttonRatio.y);
     m_shape.setSize(m_buttonSize);
     return (*this);
 }
