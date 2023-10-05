@@ -68,8 +68,8 @@ entities: {
             id = 6;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 2500; y = 978; };
-            scale = { x = 102; y = 93; };
+            position = { x = 2500; y = 925; };
+            scale = { x = 170; y = 155; };
             rect = { x = 0; y = 1; width = 34; height = 31; };
             rotation = 0;
             health = 20;
@@ -79,7 +79,7 @@ entities: {
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2550; y = 0; };
-            scale = { x = 102; y = 93; };
+            scale = { x = 170; y = 155; };
             rect = { x = 165; y = 1; width = 34; height = 31; };
             rotation = 180;
             health = 20;
@@ -88,8 +88,8 @@ entities: {
             id = 8;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 2600; y = 978; };
-            scale = { x = 102; y = 93; };
+            position = { x = 2600; y = 925; };
+            scale = { x = 170; y = 155; };
             rect = { x = 0; y = 1; width = 34; height = 31; };
             rotation = 0;
             health = 20;

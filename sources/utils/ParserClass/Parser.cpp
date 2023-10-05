@@ -109,7 +109,6 @@ void Parser::loadPlayers()
         m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
         m_registry.add_component<Component::Controllable>(m_registry.entity_from_index(base.id), Component::Controllable(true));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
-        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
         m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(true, &m_clock, sf::Time(sf::milliseconds(250)), 20, projectileAssetName));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
     }
@@ -134,16 +133,13 @@ void Parser::loadObstacles()
         base.rectHeight = obstacles[i]["rect"]["height"];
         int rotation = obstacles[i]["rotation"];
         int health = obstacles[i]["health"];
+        (void) rotation;
+        (void) health;
 
         m_registry.spawn_entity();
-        std::cout << "===== Parsing: obstacle(" << i << ") =====" << std::endl;
-        std::cout << "assetName: " << base.assetName << std::endl;
-        std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
-        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
-        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
-        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
-        std::cout << "rotation: " << rotation << std::endl;
-        std::cout << "health: " << health << "\n" << std::endl;
+        m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
     }
 }
 

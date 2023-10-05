@@ -10,3 +10,4 @@
 #include "../../build/assets/Space_Background.hpp"
 #include "../../build/assets/SpaceShips.hpp"
 #include "../../build/assets/BurpTemporaryBullet.hpp"
+#include "../../build/assets/GreyRobotObstacle.hpp"

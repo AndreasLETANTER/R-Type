@@ -24,6 +24,7 @@ set(ASSETS_FILES
     ../assets/Space_Background.png
     ../assets/SpaceShips.gif
     ../assets/BurpTemporaryBullet.png
+    ../assets/GreyRobotObstacle.gif
 )
 
 set (ECS_SOURCES
