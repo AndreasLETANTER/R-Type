@@ -25,6 +25,8 @@ set(ASSETS_FILES
     ../assets/SpaceShips.gif
     ../assets/BurpTemporaryBullet.png
     ../assets/GreyRobotObstacle.gif
+    ../assets/OrangeCrabEnemy.gif
+    ../assets/YellowPopcornEnemy.gif
 )
 
 set (ECS_SOURCES

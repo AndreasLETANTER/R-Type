@@ -15,6 +15,7 @@
 #include "ECS/Components/Controllable.hpp"
 #include "ECS/Components/Shoot.hpp"
 #include "ECS/Components/Collision.hpp"
+#include "ECS/Components/AutoMove.hpp"
 
 Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesPath) :
     m_registry(registry),
@@ -162,15 +163,15 @@ void Parser::loadEnemies()
         base.rectHeight = enemies[i]["rect"]["height"];
         int rotation = enemies[i]["rotation"];
         int health = enemies[i]["health"];
+        (void) rotation;
+        (void) health;
 
         m_registry.spawn_entity();
-        std::cout << "===== Parsing: ennemy(" << i << ") =====" << std::endl;
-        std::cout << "assetName: " << base.assetName << std::endl;
-        std::cout << "projectileAssetName: " << projectileAssetName << std::endl;
-        std::cout << "position: " << base.posX << ", " << base.posY << std::endl;
-        std::cout << "scale: " << base.scaleX << ", " << base.scaleY << std::endl;
-        std::cout << "rect: " << base.rectX << ", " << base.rectY << ", " << base.rectWidth << ", " << base.rectHeight << std::endl;
-        std::cout << "rotation: " << rotation << std::endl;
-        std::cout << "health: " << health << "\n" << std::endl;
+        m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
+        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(true, &m_clock, sf::Time(sf::milliseconds(250)), 20, projectileAssetName));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
+        m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(0, 0)));
     }
 }

@@ -20,6 +20,8 @@ Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, 
     assets["SpaceShips.gif"] = std::make_pair(___assets_SpaceShips_gif, ___assets_SpaceShips_gif_len);
     assets["BurpTemporaryBullet.png"] = std::make_pair(___assets_BurpTemporaryBullet_png, ___assets_BurpTemporaryBullet_png_len);
     assets["GreyRobotObstacle.gif"] = std::make_pair(___assets_GreyRobotObstacle_gif, ___assets_GreyRobotObstacle_gif_len);
+    assets["OrangeCrabEnemy.gif"] = std::make_pair(___assets_OrangeCrabEnemy_gif, ___assets_OrangeCrabEnemy_gif_len);
+    assets["YellowPopcornEnemy.gif"] = std::make_pair(___assets_YellowPopcornEnemy_gif, ___assets_YellowPopcornEnemy_gif_len);
 
     if (needToLoadTexture) {
         this->texture = std::make_shared<sf::Texture>();
