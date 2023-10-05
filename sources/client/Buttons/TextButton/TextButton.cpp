@@ -96,7 +96,8 @@ TextButton &TextButton::setTextPosition(const TextButton::HorizontalAlign &horiz
     } else {
         y = buttonBounds.top + buttonBounds.height - textBounds.height - textBounds.top;
     }
-
+    m_horizontalAlign = horizontalAlign;
+    m_verticalAlign = verticalAlign;
     this->m_text.setPosition(x, y);
     return (*this);
 }
