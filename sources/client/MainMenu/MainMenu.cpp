@@ -13,8 +13,11 @@ MainMenu::MainMenu(sf::RenderWindow &window):
     m_window(window)
 {
     sf::Vector2u windowSize = m_window.getSize();
-    float buttonWidth = windowSize.x * 0.2;
-    float buttonHeight = windowSize.y * 0.1;
+    float buttonWidthRatio = 0.2;
+    float buttonHeightRatio = 0.1;
+    float textRatio = 15;
+    float buttonWidth = windowSize.x * buttonWidthRatio;
+    float buttonHeight = windowSize.y * buttonHeightRatio;
     float spacing = windowSize.y * 0.05;
     float xPos = (windowSize.x - buttonWidth) / 2;
     float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
@@ -22,14 +25,14 @@ MainMenu::MainMenu(sf::RenderWindow &window):
 
     TextButton playButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))
-        .setButtonSize(sf::Vector2f(buttonWidth, buttonHeight))
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::White)
         .setButtonOutlineThickness(5)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
         .setTextString("Play")
-        .setTextSize(50)
+        .setTextSize(windowSize, textRatio)
         .setTextFont(m_font)
         .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
         .setTextColor(sf::Color::White)
@@ -41,7 +44,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
     yPos += buttonHeight + spacing;
     TextButton quitButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))
-        .setButtonSize(sf::Vector2f(buttonWidth, buttonHeight))
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::White)
         .setButtonOutlineThickness(5)
@@ -50,7 +53,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
         .setTextString("Quit")
         .setTextFont(m_font)
         .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
-        .setTextSize(50)
+        .setTextSize(windowSize, textRatio)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Red)
         .setCallback([this]() {
@@ -74,15 +77,18 @@ void MainMenu::update()
 void MainMenu::resize()
 {
     sf::Vector2u windowSize = m_window.getSize();
-    float buttonWidth = windowSize.x * 0.2;
-    float buttonHeight = windowSize.y * 0.1;
+    float buttonWidthRatio = 0.2;
+    float buttonHeightRatio = 0.1;
+    float textRatio = 15;
+    float buttonWidth = windowSize.x * buttonWidthRatio;
+    float buttonHeight = windowSize.y * buttonHeightRatio;
     float spacing = windowSize.y * 0.05;
     float xPos = (windowSize.x - buttonWidth) / 2;
     float yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
 
-    m_buttons[0].resize(sf::Vector2f(buttonWidth, buttonHeight),
-        sf::Vector2f(xPos, yPos), 50, TextButton::CENTER, TextButton::MIDDLE);
+    m_buttons[0].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
+        sf::Vector2f(xPos, yPos), textRatio);
     yPos += buttonHeight + spacing;
-    m_buttons[1].resize(sf::Vector2f(buttonWidth, buttonHeight),
-        sf::Vector2f(xPos, yPos), 50, TextButton::CENTER, TextButton::MIDDLE);
+    m_buttons[1].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
+        sf::Vector2f(xPos, yPos), textRatio);
 }

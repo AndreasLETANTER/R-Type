@@ -13,15 +13,16 @@
 TextButton &TextButton::setButtonPosition(const sf::Vector2f &position)
 {
     m_buttonPosition = position;
-    m_shape.setPosition(position);
+    m_shape.setPosition(m_buttonPosition);
 
     return (*this);
 }
 
-TextButton &TextButton::setButtonSize(const sf::Vector2f &size)
+TextButton &TextButton::setButtonSize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio)
 {
-    m_buttonSize = size;
-    m_shape.setSize(size);
+    m_buttonSize = sf::Vector2f(windowSize.x * buttonRatio.x,
+        windowSize.y * buttonRatio.y);
+    m_shape.setSize(m_buttonSize);
     return (*this);
 }
 
@@ -67,9 +68,9 @@ TextButton &TextButton::setTextFont(const sf::Font &font)
     return (*this);
 }
 
-TextButton &TextButton::setTextSize(const int &size)
+TextButton &TextButton::setTextSize(const sf::Vector2u &windowSize, const float &textRatio)
 {
-    m_text.setCharacterSize(size);
+    m_text.setCharacterSize(windowSize.y / textRatio);
     return (*this);
 }
 
@@ -142,13 +143,10 @@ void TextButton::update(sf::RenderWindow &window)
     }
 }
 
-void TextButton::resize(const sf::Vector2f &buttonSize,
-    const sf::Vector2f &buttonPosition, const int &textSize,
-    const TextButton::HorizontalAlign &horizontalAlign,
-    const TextButton::VerticalAlign &verticalAlign)
+void TextButton::resize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio, const sf::Vector2f &buttonPosition, const int &textRatio)
 {
-    this->setButtonSize(buttonSize)
+    this->setButtonSize(windowSize, buttonRatio)
     .setButtonPosition(buttonPosition)
-    .setTextSize(textSize)
-    .setTextPosition(horizontalAlign, verticalAlign);
+    .setTextSize(windowSize, textRatio)
+    .setTextPosition(m_horizontalAlign, m_verticalAlign);
 }

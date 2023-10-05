@@ -25,7 +25,7 @@ class TextButton {
             BOTTOM
         };
         TextButton &setButtonPosition(const sf::Vector2f &position);
-        TextButton &setButtonSize(const sf::Vector2f &size);
+        TextButton &setButtonSize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio);
         TextButton &setButtonColor(const sf::Color &color);
         TextButton &setButtonOutlineColor(const sf::Color &outlineColor);
         TextButton &setButtonOutlineThickness(const int &outlineThickness);
@@ -34,7 +34,7 @@ class TextButton {
 
         TextButton &setTextString(const std::string &text);
         TextButton &setTextFont(const sf::Font &font);
-        TextButton &setTextSize(const int &size);
+        TextButton &setTextSize(const sf::Vector2u &windowSize, const float &textRatio);
         TextButton& setTextPosition(const TextButton::HorizontalAlign &horizontalAlign,
             const TextButton::VerticalAlign &verticalAlign);
         TextButton &setTextColor(const sf::Color &color);
@@ -44,10 +44,9 @@ class TextButton {
 
         void draw(sf::RenderWindow &window);
         void update(sf::RenderWindow &window);
-        void resize(const sf::Vector2f &buttonSize,
-            const sf::Vector2f &buttonPosition, const int &textSize,
-            const TextButton::HorizontalAlign &horizontalAlign,
-            const TextButton::VerticalAlign &verticalAlign);
+        void resize(const sf::Vector2u &windowSize,
+            const sf::Vector2f &buttonRatio,
+            const sf::Vector2f &buttonPosition, const int &textRatio);
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);
@@ -60,6 +59,8 @@ class TextButton {
         sf::Text m_text = sf::Text();
         sf::Color m_textColor = sf::Color::White;
         sf::Color m_textHoverColor = sf::Color::White;
+        TextButton::HorizontalAlign m_horizontalAlign = TextButton::CENTER;
+        TextButton::VerticalAlign m_verticalAlign = TextButton::MIDDLE;
 
         std::function<void()> m_callback = [](){};
 };
