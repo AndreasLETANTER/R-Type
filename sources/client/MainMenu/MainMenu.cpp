@@ -60,6 +60,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
             m_window.close();
         });
     m_buttons.push_back(quitButton);
+    this->resize();
 }
 
 void MainMenu::draw()

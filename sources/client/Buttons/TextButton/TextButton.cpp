@@ -85,7 +85,7 @@ TextButton &TextButton::setTextPosition(const TextButton::HorizontalAlign &horiz
         x = buttonBounds.left;
     } else if (horizontalAlign == TextButton::CENTER) {
         x = buttonBounds.left + (buttonBounds.width - textBounds.width) / 2.0f - textBounds.left;
-    } else if (horizontalAlign == TextButton::RIGHT) {
+    } else {
         x = buttonBounds.left + buttonBounds.width - textBounds.width - textBounds.left;
     }
 
@@ -93,7 +93,7 @@ TextButton &TextButton::setTextPosition(const TextButton::HorizontalAlign &horiz
         y = buttonBounds.top;
     } else if (verticalAlign == TextButton::MIDDLE) {
         y = buttonBounds.top + (buttonBounds.height - textBounds.height) / 2.0f - textBounds.top;
-    } else if (verticalAlign == TextButton::BOTTOM) {
+    } else {
         y = buttonBounds.top + buttonBounds.height - textBounds.height - textBounds.top;
     }
 
