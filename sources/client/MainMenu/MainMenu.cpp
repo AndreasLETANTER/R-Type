@@ -57,7 +57,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Red)
         .setCallback([this]() {
-            // m_window.close();
+            m_window.close();
         });
     m_buttons.push_back(quitButton);
 }
