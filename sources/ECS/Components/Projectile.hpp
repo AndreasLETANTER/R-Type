@@ -23,6 +23,10 @@ namespace Component {
              */
             Projectile() = default;
             /**
+             * @brief The start position of the projectile.
+             */
+            Component::Position start;
+            /**
              * @brief The end position of the projectile.
              */
             Component::Position end;
@@ -40,6 +44,6 @@ namespace Component {
              * @param speed The speed of the projectile in pixels per second.
              * @param damage The damage of the projectile.
              */
-            inline Projectile(Component::Position end, size_t speed, size_t damage) { this->end = end; this->speed = speed; this->damage = damage; }
+            inline Projectile(Component::Position start, Component::Position end, size_t speed, size_t damage) { this->start = start; this->end = end; this->speed = speed; this->damage = damage; }
     };
 }
