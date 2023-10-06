@@ -43,6 +43,8 @@ set(ASSETS_FILES
     ../assets/GreyRobotObstacle.gif
     ../assets/OrangeCrabEnemy.gif
     ../assets/YellowPopcornEnemy.gif
+    ../assets/NugoTemporaryIcon.png
+    ../assets/font.ttf
 )
 
 set (ECS_SOURCES
@@ -66,10 +68,12 @@ set (ECS_SOURCES
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
     sources/utils/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
 )
 
 set(CLIENT_SOURCES
-    sources/utils/debugColors/debugColors.cpp
+    sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/MainMenu/MainMenu.cpp
 )
 
 set(SERVER_MAIN
@@ -93,6 +97,7 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
+    tests/binaryConverter/binaryConverterTests.cpp
 )
 
 set(CLIENT_TESTS
