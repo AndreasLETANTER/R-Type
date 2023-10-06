@@ -21,7 +21,7 @@ Test(ProjectileCollisionSystem, when_an_entity_is_in_collision_with_a_projectile
     registry.register_component<Component::Collision>();
     registry.register_component<Component::Health>();
 
-    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(10, 10), 10, 10));
+    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(0, 10), Component::Position(10, 10), 10, 10));
     registry.add_component<Component::Collision>(entityProjectile, Component::Collision(10, 10));
     registry.add_component<Component::Collision>(entityTarget, Component::Collision(10, 10));
     registry.add_component<Component::Health>(entityTarget, Component::Health(100));
@@ -45,7 +45,7 @@ Test(ProjectileCollisionSystem, when_an_entity_is_not_in_collision_with_a_projec
     registry.register_component<Component::Collision>();
     registry.register_component<Component::Health>();
 
-    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(10, 10), 10, 10));
+    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(0, 10), Component::Position(10, 10), 10, 10));
     registry.add_component<Component::Collision>(entityProjectile, Component::Collision(10, 10));
     registry.add_component<Component::Collision>(entityTarget, Component::Collision(10, 10));
     registry.add_component<Component::Health>(entityTarget, Component::Health(100));
