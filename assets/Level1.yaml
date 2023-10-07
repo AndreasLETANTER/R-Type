@@ -1,0 +1,131 @@
+params:
+{
+    level = 1;
+    resolution = { width = 1920; height = 1080; };
+};
+
+entities: {
+    backgrounds = (
+        {
+            id = 0;
+            assetName = "Space_Background.png";
+            position = { x = 0; y = 0; };
+            scale = { x = 1920; y = 1080; };
+            rect = { x = 0; y = 0; width = 300; height = 207; };
+            offsetLimit = { x = -5700; y = 0; };
+        },
+        {
+            id = 1;
+            assetName = "Space_Background.png";
+            position = { x = 5700; y = 0; };
+            scale = { x = 1920; y = 1080; };
+            rect = { x = 0; y = 0; width = 300; height = 207; };
+            offsetLimit = { x = 0; y = 0; };
+        }
+    );
+
+    players = (
+        {
+            id = 2;
+            assetName = "SpaceShips.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 150; y = 100; };
+            scale = { x = 102; y = 57; };
+            rect = { x = 0; y = 2; width = 34; height = 16; };
+            health = 100;
+        },
+        {
+            id = 3;
+            assetName = "SpaceShips.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 200; y = 200; };
+            scale = { x = 102; y = 57; };
+            rect = { x = 0; y = 19; width = 34; height = 16; };
+            health = 100;
+        },
+        {
+            id = 4;
+            assetName = "SpaceShips.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 150; y = 300; };
+            scale = { x = 102; y = 57; };
+            rect = { x = 0; y = 36; width = 34; height = 16; };
+            health = 100;
+        },
+        {
+            id = 5;
+            assetName = "SpaceShips.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 200; y = 400; };
+            scale = { x = 102; y = 57; };
+            rect = { x = 0; y = 53; width = 34; height = 16; };
+            health = 100;
+        }
+    );
+
+    obstacles = (
+        {
+            id = 6;
+            assetName = "GreyRobotObstacle.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 2500; y = 925; };
+            scale = { x = 170; y = 155; };
+            rect = { x = 0; y = 1; width = 34; height = 31; };
+            rotation = 0;
+            health = 20;
+        },
+        {
+            id = 7;
+            assetName = "GreyRobotObstacle.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 2550; y = 0; };
+            scale = { x = 170; y = 155; };
+            rect = { x = 165; y = 1; width = 34; height = 31; };
+            rotation = 180;
+            health = 20;
+        },
+        {
+            id = 8;
+            assetName = "GreyRobotObstacle.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 2600; y = 925; };
+            scale = { x = 170; y = 155; };
+            rect = { x = 0; y = 1; width = 34; height = 31; };
+            rotation = 0;
+            health = 20;
+        }
+    );
+
+    enemies = (
+        {
+            id = 9;
+            assetName = "OrangeCrabEnemy.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 2000; y = 250; };
+            scale = { x = 99; y = 87; };
+            rect = { x = 0; y = 1; width = 33; height = 29; };
+            rotation = 0;
+            health = 10;
+        },
+        {
+            id = 10;
+            assetName = "OrangeCrabEnemy.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 2100; y = 315; };
+            scale = { x = 99; y = 87; };
+            rect = { x = 0; y = 1; width = 33; height = 29; };
+            rotation = 0;
+            health = 10;
+        },
+        {
+            id = 11;
+            assetName = "YellowPopcornEnemy.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 2100; y = 540; };
+            scale = { x = 87; y = 84; };
+            rect = { x = 4; y = 4; width = 29; height = 28; };
+            rotation = 0;
+            health = 5;
+        }
+    );
+};
