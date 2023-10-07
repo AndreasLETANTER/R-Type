@@ -16,6 +16,7 @@
 #include "ECS/Components/Shoot.hpp"
 #include "ECS/Components/Collision.hpp"
 #include "ECS/Components/AutoMove.hpp"
+#include "ECS/Components/Health.hpp"
 
 Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesPath) :
     m_registry(registry),
@@ -103,7 +104,6 @@ void Parser::loadPlayers()
         base.rectWidth = players[i]["rect"]["width"];
         base.rectHeight = players[i]["rect"]["height"];
         int health = players[i]["health"];
-        (void)health;
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
@@ -112,6 +112,7 @@ void Parser::loadPlayers()
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
         m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(true, &m_clock, sf::Time(sf::milliseconds(250)), 20, projectileAssetName, false));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
 }
 
@@ -135,13 +136,13 @@ void Parser::loadObstacles()
         int rotation = obstacles[i]["rotation"];
         int health = obstacles[i]["health"];
         (void) rotation;
-        (void) health;
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0)));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
 }
 
@@ -165,7 +166,6 @@ void Parser::loadEnemies()
         int rotation = enemies[i]["rotation"];
         int health = enemies[i]["health"];
         (void) rotation;
-        (void) health;
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
@@ -174,5 +174,6 @@ void Parser::loadEnemies()
         m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(true, &m_clock, sf::Time(sf::milliseconds(250)), 20, projectileAssetName, true));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(0, 0)));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
 }
