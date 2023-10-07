@@ -38,8 +38,11 @@ FetchContent_MakeAvailable(asio)
 
 set(ASSETS_FILES
     ../assets/Space_Background.png
+    ../assets/SpaceShips.gif
     ../assets/BurpTemporaryBullet.png
-    ../assets/NugoTemporaryIcon.png
+    ../assets/GreyRobotObstacle.gif
+    ../assets/OrangeCrabEnemy.gif
+    ../assets/YellowPopcornEnemy.gif
     ../assets/font.ttf
 )
 
@@ -58,6 +61,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.cpp
     sources/ECS/Components/Drawable.cpp
+    sources/utils/ParserClass/Parser.cpp
 )
 
 set(SERVER_SOURCES
@@ -125,6 +129,7 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/build
 )
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${SERVER_NAME} PRIVATE config++)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
