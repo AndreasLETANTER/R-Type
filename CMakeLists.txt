@@ -66,7 +66,7 @@ set (ECS_SOURCES
 
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
-    sources/server/udpSocket/udpSocket.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
     sources/debugColors/debugColors.cpp
 )
 
