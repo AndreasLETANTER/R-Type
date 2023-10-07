@@ -8,9 +8,9 @@
 #define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
 
-#include "../../sources/ECS/RegistryClass/Registry.hpp"
-#include "../../sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
-#include "../../sources/ECS/Systems/HealthSystem/HealthSystem.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 
 Test(HealthSystem, when_a_projectile_does_not_kill_an_entity)
 {
@@ -22,7 +22,7 @@ Test(HealthSystem, when_a_projectile_does_not_kill_an_entity)
     registry.register_component<Component::Collision>();
     registry.register_component<Component::Health>();
 
-    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(10, 10), 10, 10));
+    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(0, 10), Component::Position(10, 10), 10, 10));
     registry.add_component<Component::Collision>(entityProjectile, Component::Collision(10, 10));
     registry.add_component<Component::Collision>(entityTarget, Component::Collision(10, 10));
     registry.add_component<Component::Health>(entityTarget, Component::Health(100));
@@ -33,7 +33,7 @@ Test(HealthSystem, when_a_projectile_does_not_kill_an_entity)
 
     registry.run_systems();
 
-    cr_assert_eq(registry.m_entities[entityTarget].has_value(), true);
+    cr_assert_eq(registry.entity_from_index(entityTarget), entityTarget);
 }
 
 Test(HealthSystem, when_a_projectile_kills_an_entity)
@@ -46,7 +46,7 @@ Test(HealthSystem, when_a_projectile_kills_an_entity)
     registry.register_component<Component::Collision>();
     registry.register_component<Component::Health>();
 
-    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(10, 10), 10, 10));
+    registry.add_component<Component::Projectile>(entityProjectile, Component::Projectile(Component::Position(0, 10), Component::Position(10, 10), 10, 10));
     registry.add_component<Component::Collision>(entityProjectile, Component::Collision(10, 10));
     registry.add_component<Component::Collision>(entityTarget, Component::Collision(10, 10));
     registry.add_component<Component::Health>(entityTarget, Component::Health(10));
@@ -58,5 +58,5 @@ Test(HealthSystem, when_a_projectile_kills_an_entity)
 
     registry.run_systems();
 
-    cr_assert_eq(registry.m_entities[entityTarget].has_value(), false);
+    cr_assert_throw(registry.entity_from_index(entityTarget), std::runtime_error);
 }

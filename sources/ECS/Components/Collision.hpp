@@ -9,7 +9,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "../EntityClass/Entity.hpp"
+
+#include "ECS/EntityClass/Entity.hpp"
 
 namespace Component {
     /**

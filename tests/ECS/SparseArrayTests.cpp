@@ -7,7 +7,7 @@
 
 #define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
-#include "../../sources/ECS/SparseArrayClass/SparseArray.hpp"
+#include "ECS/SparseArrayClass/SparseArray.hpp"
 
 Test(GetValueIndex, basic_get_value_index)
 {

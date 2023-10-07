@@ -5,11 +5,12 @@
 ** Projectile
 */
 
-#include "Position.hpp"
-#include "Velocity.hpp"
+#pragma once
+
 #include <SFML/Graphics.hpp>
 
-#pragma once
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Velocity.hpp"
 
 namespace Component {
     /**
@@ -21,6 +22,10 @@ namespace Component {
              * @brief Default constructor for Projectile class.
              */
             Projectile() = default;
+            /**
+             * @brief The start position of the projectile.
+             */
+            Component::Position start;
             /**
              * @brief The end position of the projectile.
              */
@@ -39,6 +44,6 @@ namespace Component {
              * @param speed The speed of the projectile in pixels per second.
              * @param damage The damage of the projectile.
              */
-            inline Projectile(Component::Position end, size_t speed, size_t damage) { this->end = end; this->speed = speed; this->damage = damage; }
+            inline Projectile(Component::Position start, Component::Position end, size_t speed, size_t damage) { this->start = start; this->end = end; this->speed = speed; this->damage = damage; }
     };
 }

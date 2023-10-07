@@ -12,16 +12,38 @@ set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
 set(CXX_FLAGS -Wall -Wextra -Werror)
 
+###############################INSTALL PACKAGES###################################
 include(FetchContent)
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x)
+
+FetchContent_Declare(
+    libconfig
+    GIT_REPOSITORY "https://github.com/hyperrealm/libconfig.git"
+)
+FetchContent_MakeAvailable(libconfig)
+
+FetchContent_Declare(
+    SFML
+    GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+    GIT_TAG "2.6.x"
+)
 FetchContent_MakeAvailable(SFML)
+
+FetchContent_Declare(
+    asio
+    GIT_REPOSITORY "https://github.com/chriskohlhoff/asio.git"
+)
+FetchContent_MakeAvailable(asio)
 
 ###############################DIRECTORIES SRC####################################
 
 set(ASSETS_FILES
     ../assets/Space_Background.png
+    ../assets/SpaceShips.gif
+    ../assets/BurpTemporaryBullet.png
+    ../assets/GreyRobotObstacle.gif
+    ../assets/OrangeCrabEnemy.gif
+    ../assets/YellowPopcornEnemy.gif
+    ../assets/font.ttf
 )
 
 set (ECS_SOURCES
@@ -37,15 +59,20 @@ set (ECS_SOURCES
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
+    sources/ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.cpp
+    sources/ECS/Components/Drawable.cpp
+    sources/utils/ParserClass/Parser.cpp
 )
 
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
+    sources/utils/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
 )
 
 set(CLIENT_SOURCES
-    sources/client/Game/Game.cpp
-    sources/client/Background/Background.cpp
+    sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/MainMenu/MainMenu.cpp
 )
 
 set(SERVER_MAIN
@@ -64,10 +91,12 @@ set(ECS_TESTS
     tests/ECS/CollisionSystemTests.cpp
     tests/ECS/ProjectileCollisionSystemTests.cpp
     tests/ECS/HealthSystemTests.cpp
+    tests/ECS/RegistryExportTests.cpp
+    tests/ECS/RegistryImportTests.cpp
 )
 
 set(SERVER_TESTS
-    tests/server/handleArgument.cpp
+    tests/binaryConverter/binaryConverterTests.cpp
 )
 
 set(CLIENT_TESTS
@@ -86,30 +115,59 @@ foreach(asset_file ${ASSETS_FILES})
     add_custom_command(
         OUTPUT ${output_hpp_file}
         COMMAND xxd -i ${asset_file} > ${output_hpp_file}
+        COMMAND ${CMAKE_COMMAND} -E echo "Generated ${output_hpp_file}"
         DEPENDS ${asset_file}
     )
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
 endforeach()
 
-list(APPEND CLIENT_SOURCES ${GENERATED_ASSET_FILES})
+list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
-add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
+target_include_directories(${SERVER_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${SERVER_NAME} PRIVATE config++)
+
+add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
+target_include_directories(${CLIENT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
-#create the tests executable
+#create the tests executable with the criterion library
 add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
-add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
-add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
-add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
-#link the tests with the criterion library
-target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_include_directories(${ECS_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
 target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+
+add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
+target_include_directories(${SERVER_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
+target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+
+add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
+target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
+
+add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
+target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/sources
+    ${CMAKE_SOURCE_DIR}/build
+)
+target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
