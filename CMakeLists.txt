@@ -77,6 +77,7 @@ set(CLIENT_SOURCES
     sources/debugColors/debugColors.cpp
     sources/binaryConverter/binaryConverter.cpp
     sources/client/Network/Network.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
 )

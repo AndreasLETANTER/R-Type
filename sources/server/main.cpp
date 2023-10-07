@@ -5,7 +5,6 @@
 ** main
 */
 
-
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -21,46 +20,15 @@
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 
-int main(const int ac, const char **av)
+#include "tcpSocket/tcpSocket.hpp"
+#include "handleArgument/handleArgument.hpp"
+
+int main(int ac, char **av)
 {
-    (void) ac;
-    (void) av;
-    Registry registry;
-    sf::RenderWindow window {sf::VideoMode(1920, 1080), "R-Type" };
-    sf::Clock clock;
-    std::vector<std::string> filesPath = {"./assets/Level1.yaml"};
-    Parser parser(registry, window, clock, filesPath);
+    (void)ac;
+    handleArgument handleArgument;
+    tcpSocket server(handleArgument.getPort(av[1]));
 
-    registry.register_component<Component::Position>();
-    registry.register_component<Component::Velocity>();
-    registry.register_component<Component::Controllable>();
-    registry.register_component<Component::Drawable>();
-    registry.register_component<Component::AutoMove>();
-    registry.register_component<Component::Shoot>();
-    registry.register_component<Component::Projectile>();
-    registry.register_component<Component::Collision>();
-    registry.register_component<Component::Scroll>();
-
-    registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
-    registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
-    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
-    registry.add_system<Component::Position, Component::AutoMove>(AutoMoveSystem());
-    registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
-    registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
-    registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
-    registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
-
-    parser.loadFromFile();
-    window.setFramerateLimit(144);
-
-    while (window.isOpen()) {
-        for (auto event = sf::Event{}; window.pollEvent(event);) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
-        window.clear();
-        registry.run_systems();
-        window.display();
-    }
+    server.run();
+    return 0;
 }

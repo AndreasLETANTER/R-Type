@@ -38,3 +38,4 @@ std::string binaryConverter::binary_to_string(std::string t_str)
     }
     return str;
 }
+
