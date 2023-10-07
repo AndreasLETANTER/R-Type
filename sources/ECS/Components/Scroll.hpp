@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** MIRROR_R-Type
 ** File description:
-** ScrollingBackground
+** Scroll
 */
 
 #pragma once
@@ -15,7 +15,7 @@ namespace Component {
     /**
      * @brief Component representing a scrolling background.
      */
-    class ScrollingBackground {
+    class Scroll {
         public:
             Component::Position startingPos;
             Component::Position offsetLimit;
@@ -24,6 +24,6 @@ namespace Component {
              * @brief Construct a new Scrolling Background object.
              * @param offsetLimit The width limit of the background.
              */
-            inline ScrollingBackground(Component::Position startingPos, Component::Position offsetLimit) { this->startingPos = startingPos, this->offsetLimit = offsetLimit; };
+            inline Scroll(Component::Position startingPos, Component::Position offsetLimit) { this->startingPos = startingPos, this->offsetLimit = offsetLimit; };
     };
 }
