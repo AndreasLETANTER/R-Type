@@ -43,7 +43,6 @@ set(ASSETS_FILES
     ../assets/GreyRobotObstacle.gif
     ../assets/OrangeCrabEnemy.gif
     ../assets/YellowPopcornEnemy.gif
-    ../assets/NugoTemporaryIcon.png
     ../assets/font.ttf
 )
 
