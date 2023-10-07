@@ -10,7 +10,7 @@
 #include "Parser.hpp"
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
-#include "ECS/Components/ScrollingBackground.hpp"
+#include "ECS/Components/Scroll.hpp"
 #include "ECS/Components/Velocity.hpp"
 #include "ECS/Components/Controllable.hpp"
 #include "ECS/Components/Shoot.hpp"
@@ -81,7 +81,7 @@ void Parser::loadBackgrounds()
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
-        m_registry.add_component<Component::ScrollingBackground>(m_registry.entity_from_index(base.id), Component::ScrollingBackground(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY)));
+        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY)));
     }
 }
 
@@ -141,6 +141,7 @@ void Parser::loadObstacles()
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), true));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
+        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0)));
     }
 }
 

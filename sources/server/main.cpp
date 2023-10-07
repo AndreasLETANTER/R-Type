@@ -19,7 +19,7 @@
 #include "ECS/Systems/ProjectileSystem/ProjectileSystem.hpp"
 #include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
-#include "ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.hpp"
+#include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 
 int main(const int ac, const char **av)
 {
@@ -39,7 +39,7 @@ int main(const int ac, const char **av)
     registry.register_component<Component::Shoot>();
     registry.register_component<Component::Projectile>();
     registry.register_component<Component::Collision>();
-    registry.register_component<Component::ScrollingBackground>();
+    registry.register_component<Component::Scroll>();
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -48,7 +48,7 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
-    registry.add_system<Component::Position, Component::ScrollingBackground>(ScrollingBackgroundSystem());
+    registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
 
     parser.loadFromFile();
     window.setFramerateLimit(144);
