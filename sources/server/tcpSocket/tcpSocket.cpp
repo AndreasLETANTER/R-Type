@@ -10,6 +10,7 @@
 
 #include "tcpSocket.hpp"
 #include "utils/debugColors/debugColors.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 
 std::atomic<int> nextClientId(1);
 
@@ -52,11 +53,12 @@ void tcpSocket::startRead(int clientId)
     auto& clientSocket = m_clients->at(clientId);
     clientSocket.async_read_some(buffer(m_readBuffer),
         [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
+            binaryConverter converter;
             if (ec == error::eof) { // Client disconnected
                 removeClient(clientId);
             } else if (!ec) {
                 handleRead(clientId, bytesTransferred); // Handle the received message
-                sendMessage(clientId, "Heyy je suis le serveur"); // Send a message to the client
+                sendMessage(clientId, converter.convertStructToFirstMessage(clientId));
                 startRead(clientId); // Continue reading
             } else {
                 printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());

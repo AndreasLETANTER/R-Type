@@ -16,6 +16,11 @@ typedef struct s_header
     size_t nbEntities;
 } t_header;
 
+typedef struct s_first_message
+{
+    unsigned int id;
+} t_first_message;
+
 class binaryConverter {
 /**
  * @brief A class that provides methods to convert binary data to structured data and vice versa.
@@ -38,6 +43,7 @@ class binaryConverter {
          * @return A pointer to the structured data.
          */
         message_t *convertBinaryToStruct(char *buffer);
+        unsigned int convertBinaryToFirstMessage(char *buffer);
 
         /**
          * @brief Converts structured data to binary data.
@@ -47,6 +53,8 @@ class binaryConverter {
          * @return A pointer to the binary data.
          */
         char *convertStructToBinary(size_t nbEntites, message_t *messages);
+
+        char *convertStructToFirstMessage(unsigned int messageId);
 
     private:
         /**

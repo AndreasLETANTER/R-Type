@@ -23,6 +23,9 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 
+#include "handleArgument/handleArgument.hpp"
+#include "tcpSocket/tcpSocket.hpp"
+
 int main(const int ac, const char **av)
 {
     (void)ac;

@@ -35,6 +35,16 @@ message_t *binaryConverter::convertBinaryToStruct(char *buffer)
     return (messages);
 }
 
+unsigned int binaryConverter::convertBinaryToFirstMessage(char *buffer)
+{
+    t_header header = {0, 0, 0};
+    t_first_message firstMessage = {0};
+
+    memcpy(&header, buffer, sizeof(t_header));
+    memcpy(&firstMessage, buffer + sizeof(t_header), sizeof(t_first_message));
+    return (firstMessage.id);
+}
+
 char *binaryConverter::convertStructToBinary(size_t size, message_t *messages)
 {
     t_header header = createHeader(size);
@@ -44,5 +54,16 @@ char *binaryConverter::convertStructToBinary(size_t size, message_t *messages)
         memcpy(buffer + sizeof(t_header) + sizeof(message_t) * i, &messages[i], sizeof(message_t));
     }
     memcpy(buffer, &header, sizeof(t_header));
+    return (buffer);
+}
+
+char *binaryConverter::convertStructToFirstMessage(unsigned int messageId)
+{
+    t_header header = createHeader(0);
+    t_first_message firstMessage = {messageId};
+    char *buffer = new char[sizeof(t_header) + sizeof(t_first_message)];
+
+    memcpy(buffer, &header, sizeof(t_header));
+    memcpy(buffer + sizeof(t_header), &firstMessage, sizeof(t_first_message));
     return (buffer);
 }
