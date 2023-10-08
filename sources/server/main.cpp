@@ -5,6 +5,7 @@
 ** main
 */
 
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -22,10 +23,7 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 
-#include "tcpSocket/tcpSocket.hpp"
-#include "handleArgument/handleArgument.hpp"
-
-int main(int ac, char **av)
+int main(const int ac, const char **av)
 {
     (void)ac;
     handleArgument handleArgument;

@@ -6,23 +6,45 @@
 */
 
 #include <SFML/Graphics.hpp>
+#include <cstdlib>
 
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
+#include "client/Network/Network.hpp"
+#include "client/ArgumentsHandling/ArgumentsHandling.hpp"
+
+void signalHandler(int signum)
+{
+    std::cout << "Interrupt signal (" << signum << ") received.\n";
+    exit(signum);
+}
 
 int main(int ac, char **av)
 {
-    (void) ac;
-    (void) av;
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Hess-Type");
+    Network network;
+    std::string messageFromServer;
     Registry registry;
-    window.setFramerateLimit(144);
     sf::Clock clock;
-    MainMenu mainMenu(window);
 
+    if (handleArguments(ac, av) == 84)
+        return (84);
+    network = Network(strtoul(av[1], nullptr, 10), av[2]);
+    network.launchConnection();
+    signal(SIGINT, signalHandler);
+    network.sendMessageToServer("Hello World");
+    while (!network.getCommunicationEnded()) {
+        messageFromServer = network.receiveMessageFromServer();
+        if (!messageFromServer.empty())
+            std::cout << "received: " << messageFromServer << std::endl;
+    }
+    network.closeConnectedSocket();
+
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Hess-Type");
+    window.setFramerateLimit(144);
+    MainMenu mainMenu(window);
     registry.spawn_entity();
     registry.spawn_entity();
 

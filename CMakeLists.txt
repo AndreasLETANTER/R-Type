@@ -67,6 +67,18 @@ set (ECS_SOURCES
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
     sources/server/tcpSocket/tcpSocket.cpp
+    sources/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
+)
+
+set(CLIENT_SOURCES
+    sources/client/Game/Game.cpp
+    sources/client/Background/Background.cpp
+    sources/client/udpClient/udpClient.cpp
+    sources/debugColors/debugColors.cpp
+    sources/binaryConverter/binaryConverter.cpp
+    sources/client/Network/Network.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
 )
@@ -74,6 +86,8 @@ set(SERVER_SOURCES
 set(CLIENT_SOURCES
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
+    sources/client/Network/Network.cpp
+    sources/client/ArgumentsHandling/ArgumentsHandling.cpp
 )
 
 set(SERVER_MAIN
