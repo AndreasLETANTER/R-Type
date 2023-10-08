@@ -38,8 +38,12 @@ FetchContent_MakeAvailable(asio)
 
 set(ASSETS_FILES
     ../assets/Space_Background.png
+    ../assets/SpaceShips.gif
     ../assets/BurpTemporaryBullet.png
-    ../assets/NugoTemporaryIcon.png
+    ../assets/GreyRobotObstacle.gif
+    ../assets/OrangeCrabEnemy.gif
+    ../assets/YellowPopcornEnemy.gif
+    ../assets/font.ttf
 )
 
 set (ECS_SOURCES
@@ -55,18 +59,21 @@ set (ECS_SOURCES
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
-    sources/ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.cpp
+    sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
     sources/ECS/Components/Drawable.cpp
+    sources/utils/ParserClass/Parser.cpp
 )
 
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
     sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
 )
 
 set(CLIENT_SOURCES
-    sources/utils/debugColors/debugColors.cpp
+    sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/MainMenu/MainMenu.cpp
 )
 
 set(SERVER_MAIN
@@ -90,6 +97,7 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
+    tests/binaryConverter/binaryConverterTests.cpp
 )
 
 set(CLIENT_TESTS
@@ -122,6 +130,7 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/build
 )
 target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${SERVER_NAME} PRIVATE config++)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE

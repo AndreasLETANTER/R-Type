@@ -8,6 +8,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "utils/ParserClass/Parser.hpp"
 #include "ECS/Systems/LoggingSystem/LoggingSystem.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/ControlSystem/ControlSystem.hpp"
@@ -17,7 +18,9 @@
 #include "ECS/Systems/ProjectileSystem/ProjectileSystem.hpp"
 #include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
-#include "ECS/Systems/ScrollingBackgroundSystem/ScrollingBackgroundSystem.hpp"
+#include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
+#include "ECS/Systems/HealthSystem/HealthSystem.hpp"
+#include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 
 #include "tcpSocket/tcpSocket.hpp"
 #include "handleArgument/handleArgument.hpp"

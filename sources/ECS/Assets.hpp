@@ -7,6 +7,16 @@
 
 #pragma once
 
+// Backgrounds
 #include "../../build/assets/Space_Background.hpp"
-#include "../../build/assets/NugoTemporaryIcon.hpp"
+
+// Players
+#include "../../build/assets/SpaceShips.hpp"
 #include "../../build/assets/BurpTemporaryBullet.hpp"
+
+// Obstacles
+#include "../../build/assets/GreyRobotObstacle.hpp"
+
+// Enemies
+#include "../../build/assets/OrangeCrabEnemy.hpp"
+#include "../../build/assets/YellowPopcornEnemy.hpp"
