@@ -68,6 +68,7 @@ set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
     sources/server/tcpSocket/tcpSocket.cpp
     sources/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
 )
 
 set(CLIENT_SOURCES
