@@ -8,12 +8,14 @@
 #include "tcpClientSocket.hpp"
 #include <iostream>
 #include "utils/binaryConverter/binaryConverter.hpp"
+#include "utils/debugColors/debugColors.hpp"
 
 
 tcpClientSocket::tcpClientSocket(u_int16_t t_tcpPort) : m_socket(m_ioService), m_tcpPort(t_tcpPort)
 {
     ip::tcp::endpoint endpoint(ip::tcp::v4(), m_tcpPort);
     m_socket.connect(endpoint);
+    m_id = 0;
 }
 
 tcpClientSocket::~tcpClientSocket()
@@ -38,13 +40,15 @@ void tcpClientSocket::send(const std::string &t_message)
 char *tcpClientSocket::receive()
 {
     boost::system::error_code error;
+    binaryConverter converter;
     m_readBuffer.fill(0);
-    // read the async_send message
     boost::asio::read(m_socket, boost::asio::buffer(m_readBuffer), boost::asio::transfer_at_least(1), error);
     if (error) {
         std::cerr << "Error while receiving message: " << error.message() << std::endl;
     }
-    binaryConverter converter;
-    m_id = converter.convertBinaryToFirstMessage(m_readBuffer.data());
+    if (m_id == 0) {
+        m_id = converter.convertBinaryToFirstMessage(m_readBuffer.data());
+        printTrace("Received id: " + std::to_string(m_id));
+    }
     return m_readBuffer.data();
 }

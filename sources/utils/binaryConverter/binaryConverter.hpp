@@ -11,8 +11,8 @@
 
 typedef struct s_header
 {
-    int messageId;
-    int timestamp;
+    unsigned int messageId;
+    unsigned int timestamp;
 } t_header;
 
 typedef struct s_first_message
@@ -53,7 +53,7 @@ class binaryConverter {
          */
         char *convertStructToBinary(size_t nbEntites, message_t *messages);
 
-        char *convertStructToFirstMessage(unsigned int messageId);
+        std::vector<char> convertStructToFirstMessage(unsigned int messageId);
 
     private:
         /**

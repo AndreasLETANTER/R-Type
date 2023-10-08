@@ -67,7 +67,7 @@ void tcpSocket::startRead(int clientId)
         });
 }
 
-void tcpSocket::sendMessage(int clientId, const std::string &message)
+void tcpSocket::sendMessage(int clientId, std::vector<char> message)
 {
     auto& clientSocket = m_clients->at(clientId);
     clientSocket.async_send(buffer(message),

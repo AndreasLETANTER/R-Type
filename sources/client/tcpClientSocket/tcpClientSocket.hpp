@@ -22,8 +22,8 @@ class tcpClientSocket {
         void run();
         void send(const std::string &t_message);
         char *receive();
-        int m_id;
     private:
+        unsigned int m_id;
         io_service m_ioService;
         ip::tcp::socket m_socket;
         u_int16_t m_tcpPort;

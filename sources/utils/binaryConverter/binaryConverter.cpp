@@ -8,6 +8,7 @@
 #include <chrono>
 #include <random>
 #include <cstring>
+#include <random>
 
 #include "binaryConverter.hpp"
 #include "utils/debugColors/debugColors.hpp"
@@ -15,8 +16,9 @@
 t_header binaryConverter::createHeader(size_t nbEntities)
 {
     t_header header = {0, 0};
-    header.timestamp = 7;
-    header.messageId = 3;
+    header.timestamp = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() % 10000000);
+    header.messageId = std::rand() % 10000000;
+
     (void)nbEntities;
     return (header);
 }
@@ -37,22 +39,18 @@ message_t *binaryConverter::convertBinaryToStruct(char *buffer)
 
 unsigned int binaryConverter::convertBinaryToFirstMessage(char *buffer)
 {
-    std::cout << "len:" << strlen(buffer) << std::endl;
-    t_header header;
-    // t_first_message firstMessage;
-    memcpy(&header, buffer, sizeof(t_header));
+    t_header header = {0, 0};
+    t_first_message firstMessage = {0};
+    size_t offset = 0;
 
-    long long timestamp = header.timestamp;
-    long long messageId = header.messageId;
-    std::cout << "header.timestamp: " << timestamp << std::endl;
-    std::cout << "header.messageId: " << messageId << std::endl;
+    memcpy(&header.messageId, buffer + offset, sizeof(header.messageId));
+    offset += sizeof(header.messageId);
+    memcpy(&header.timestamp, buffer + offset, sizeof(header.timestamp));
+    offset += sizeof(header.timestamp);
+    memcpy(&firstMessage.id, buffer + offset, sizeof(firstMessage.id));
+    offset += sizeof(firstMessage.id);
 
-
-    std::cout << "header.timestamp2: " << header.timestamp << std::endl;
-    std::cout << "header.messageId2: " << header.messageId << std::endl;
-    // std::cout << "firstMessage.id: " << firstMessage->id << std::endl;
-    
-    return (1);
+    return (firstMessage.id);
 }
 
 char *binaryConverter::convertStructToBinary(size_t size, message_t *messages)
@@ -67,18 +65,26 @@ char *binaryConverter::convertStructToBinary(size_t size, message_t *messages)
     return (buffer);
 }
 
-char *binaryConverter::convertStructToFirstMessage(unsigned int messageId)
+std::vector<char> binaryConverter::convertStructToFirstMessage(unsigned int messageId)
 {
     (void)messageId;
-    t_header header = createHeader(1);
+    std::vector<char> buffer;
+    t_header header = createHeader(messageId);
+    t_first_message firstMessage = {messageId};
 
-    char *buffer = new char[sizeof(t_header)];
-    memcpy(buffer, &header, sizeof(t_header));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.messageId), reinterpret_cast<char *>(&header.messageId) + sizeof(header.messageId));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.timestamp), reinterpret_cast<char *>(&header.timestamp) + sizeof(header.timestamp));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&firstMessage.id), reinterpret_cast<char *>(&firstMessage.id) + sizeof(firstMessage.id));
+    // t_first_message firstMessage = {messageId};
+    // buffer.insert(buffer.end(), (char *)&firstMessage, (char *)&firstMessage + sizeof(t_first_message));
 
-    std::cout << "buffer: " << buffer << std::endl;
-    std::cout << "len:" << strlen(buffer) << std::endl;
+
+    std::cout << "buffer: " << buffer.data() << std::endl;
+    std::cout << "len:" << strlen(buffer.data()) << std::endl;
+    std::cout << "header.messageId: " << header.messageId << std::endl;
+    std::cout << "header.timestamp: " << header.timestamp << std::endl;
+    std::cout << "firstMessage: " << firstMessage.id << std::endl;
     // binaryConverter converter;
     // converter.convertBinaryToFirstMessage(buffer);
-
     return (buffer);
 }

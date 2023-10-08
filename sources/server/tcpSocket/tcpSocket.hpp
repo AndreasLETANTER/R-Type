@@ -79,5 +79,5 @@ class tcpSocket {
          * @param clientId The ID of the client.
          * @param message The message to send.
          */
-        void sendMessage(int clientId, const std::string& message);
+        void sendMessage(int clientId, std::vector<char> message);
 };
