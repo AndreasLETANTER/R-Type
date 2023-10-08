@@ -69,6 +69,7 @@ set(SERVER_SOURCES
     sources/server/tcpSocket/tcpSocket.cpp
     sources/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
+    sources/server/udpSocket/udpSocket.cpp
 )
 
 set(CLIENT_SOURCES
@@ -82,6 +83,7 @@ set(CLIENT_SOURCES
     sources/client/MainMenu/MainMenu.cpp
     sources/client/Network/Network.cpp
     sources/client/ArgumentsHandling/ArgumentsHandling.cpp
+    sources/client/udpClientSocket/udpClientSocket.cpp
 )
 
 set(SERVER_MAIN
