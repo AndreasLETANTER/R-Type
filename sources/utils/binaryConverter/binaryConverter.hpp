@@ -11,9 +11,8 @@
 
 typedef struct s_header
 {
-    long long timestamp;
-    unsigned int messageId;
-    size_t nbEntities;
+    int messageId;
+    int timestamp;
 } t_header;
 
 typedef struct s_first_message
