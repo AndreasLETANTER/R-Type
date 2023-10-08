@@ -14,6 +14,8 @@ Network::Network(uint16_t port, const char *ipAddress)
     m_isCommunicationEnded = false;
     m_clientFd = 0;
     m_status = 0;
+    if (strcmp(ipAddress, "localhost") == 0)
+        ipAddress = "127.0.0.1";
     m_ipAddress = ipAddress;
     m_readValue = 0;
     m_port = port;
