@@ -86,6 +86,7 @@ set(CLIENT_SOURCES
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/Network/Network.cpp
+    sources/client/ArgumentsHandling/ArgumentsHandling.cpp
 )
 
 set(SERVER_MAIN
