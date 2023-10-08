@@ -14,6 +14,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
 #include "client/Network/Network.hpp"
+#include "client/ArgumentsHandling/ArgumentsHandling.hpp"
 
 void signalHandler(int signum)
 {
@@ -23,18 +24,14 @@ void signalHandler(int signum)
 
 int main(int ac, char **av)
 {
-    Network network = Network(strtoul(av[1], nullptr, 10), av[2]);
+    Network network;
     std::string messageFromServer;
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Hess-Type");
     Registry registry;
-    window.setFramerateLimit(144);
     sf::Clock clock;
-    MainMenu mainMenu(window);
 
-    if (ac != 3) {
-        std::cerr << "Usage: ./r-type_client <port> <ip_address>" << std::endl;
+    if (handleArguments(ac, av) == 84)
         return (84);
-    }
+    network = Network(strtoul(av[1], nullptr, 10), av[2]);
     network.launchConnection();
     signal(SIGINT, signalHandler);
     network.sendMessageToServer("Hello World");
@@ -45,6 +42,9 @@ int main(int ac, char **av)
     }
     network.closeConnectedSocket();
 
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Hess-Type");
+    window.setFramerateLimit(144);
+    MainMenu mainMenu(window);
     registry.spawn_entity();
     registry.spawn_entity();
 
