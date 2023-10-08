@@ -20,6 +20,8 @@
 #include "ECS/Systems/CollisionSystem/CollisionSystem.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
+#include "ECS/Systems/HealthSystem/HealthSystem.hpp"
+#include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 
 int main(const int ac, const char **av)
 {
@@ -40,6 +42,7 @@ int main(const int ac, const char **av)
     registry.register_component<Component::Projectile>();
     registry.register_component<Component::Collision>();
     registry.register_component<Component::Scroll>();
+    registry.register_component<Component::Health>();
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -49,6 +52,8 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
+    registry.add_system<Component::Health>(HealthSystem());
+    registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
 
     parser.loadFromFile();
     window.setFramerateLimit(144);
