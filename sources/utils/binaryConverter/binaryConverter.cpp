@@ -47,10 +47,6 @@ std::pair<message_t *, size_t> binaryConverter::convertBinaryToStruct(char *buff
         memcpy(&messages[i].position, buffer + offset, sizeof(messages[i].position));
         offset += sizeof(messages[i].position);
     }
-    // std::cout << "rect: " << messages[0].rect.getSize().x << std::endl;
-    // std::cout << "position: " << messages[0].position.x << std::endl;
-    // std::cout << "position: " << messages[0].position.y << std::endl;
-    // std::cout << "buffer len: " << strlen(buffer) << std::endl;
     return (std::make_pair(messages, header.nbEntities));
 }
 
@@ -85,14 +81,9 @@ std::vector<char> binaryConverter::convertStructToBinary(size_t size, message_t 
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].sprite_name), reinterpret_cast<char *>(&messages[i].sprite_name) + sizeof(messages[i].sprite_name));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].x), reinterpret_cast<char *>(&messages[i].x) + sizeof(messages[i].x));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].y), reinterpret_cast<char *>(&messages[i].y) + sizeof(messages[i].y));
-        std::cout << "sprite_name: " << messages[i].sprite_name << std::endl;
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].rect), reinterpret_cast<char *>(&messages[i].rect) + sizeof(messages[i].rect));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].position), reinterpret_cast<char *>(&messages[i].position) + sizeof(messages[i].position));
     }
-    // std::cout << "rect: " << messages[0].rect.getSize().x << std::endl;
-    // std::cout << "position: " << messages[0].position.x << std::endl;
-    // std::cout << "position: " << s[0].position.y << std::endl;
-    // std::cout << "buffer len: " << strlen(buffer.data()) << std::endl;
     return (buffer);
 }
 
@@ -108,18 +99,5 @@ std::vector<char> binaryConverter::convertStructToFirstMessage(unsigned int mess
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.nbEntities), reinterpret_cast<char *>(&header.nbEntities) + sizeof(header.nbEntities));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&firstMessage.id), reinterpret_cast<char *>(&firstMessage.id) + sizeof(firstMessage.id));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&firstMessage.udp_port), reinterpret_cast<char *>(&firstMessage.udp_port) + sizeof(firstMessage.udp_port));
-    // t_first_message firstMessage = {messageId};
-    // buffer.insert(buffer.end(), (char *)&firstMessage, (char *)&firstMessage + sizeof(t_first_message));
-
-
-    std::cout << "buffer: " << buffer.data() << std::endl;
-    std::cout << "len:" << strlen(buffer.data()) << std::endl;
-    std::cout << "header.messageId: " << header.messageId << std::endl;
-    std::cout << "header.timestamp: " << header.timestamp << std::endl;
-    std::cout << "header.nbEntities: " << header.nbEntities << std::endl;
-    std::cout << "firstMessage: " << firstMessage.id << std::endl;
-    std::cout << "firstMessage: " << firstMessage.udp_port << std::endl;
-    // binaryConverter converter;
-    // converter.convertBinaryToFirstMessage(buffer);
     return (buffer);
 }

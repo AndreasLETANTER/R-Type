@@ -15,6 +15,5 @@ class udpSocket {
         io_service m_ioService;
         ip::udp::socket m_socket;
         ip::udp::endpoint m_endpoint;
-        u_int16_t m_udpPort;
         std::array<char, 4096> m_readBuffer;
 };
