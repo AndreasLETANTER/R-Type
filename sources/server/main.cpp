@@ -22,6 +22,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "../../build/assets/LevelConfig.hpp"
 
 int main(const int ac, const char **av)
 {
@@ -30,8 +31,8 @@ int main(const int ac, const char **av)
     Registry registry;
     sf::RenderWindow window {sf::VideoMode(1920, 1080), "R-Type" };
     sf::Clock clock;
-    std::vector<std::string> filesPath = {"./assets/Level1.yaml"};
-    Parser parser(registry, window, clock, filesPath);
+    std::vector<std::string> filesContents = {LevelConfig::levelConfig};
+    Parser parser(registry, window, clock, filesContents);
 
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
