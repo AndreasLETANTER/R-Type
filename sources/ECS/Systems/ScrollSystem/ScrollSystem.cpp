@@ -2,16 +2,16 @@
 ** EPITECH PROJECT, 2023
 ** MIRROR_R-Type
 ** File description:
-** ScrollingBackgroundSystem
+** ScrollSystem
 */
 
-#include "ScrollingBackgroundSystem.hpp"
+#include "ScrollSystem.hpp"
 
-ScrollingBackgroundSystem ScrollingBackgroundSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::ScrollingBackground> &scrollingBackgrounds)
+ScrollSystem ScrollSystem::operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Scroll> &scrolls)
 {
     (void) registry;
-    for (size_t i = 0; i < positions.size() && i < scrollingBackgrounds.size(); i++) {
-        auto &sb = scrollingBackgrounds[i];
+    for (size_t i = 0; i < positions.size() && i < scrolls.size(); i++) {
+        auto &sb = scrolls[i];
         auto &pos = positions[i];
         if (sb.has_value() && pos.has_value()) {
             pos.value().x -= 0.5;
