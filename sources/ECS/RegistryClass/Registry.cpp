@@ -51,22 +51,22 @@ void Registry::run_systems()
     }
 }
 
-std::pair<message_t *, size_t>Registry::exportToMessages()
+std::pair<message_t *, size_t>Registry::exportToMessages(message_t *messages)
 {
-    message_t *messages = new message_t[m_entities.size()];
     size_t size = 0;
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
 
-    for (size_t i = 0; i < drawables.size() && i < positions.size(); ++i) {
+    for (size_t i = 0; i < drawables.size() && i < positions.size(); i++) {
         auto &drawable = drawables[i];
         auto &position = positions[i];
+
         if (drawable.has_value() && position.has_value()) {
-            strcpy(messages[i].sprite_name, drawable.value().spriteName.c_str());
-            messages[i].x = position.value().x;
-            messages[i].y = position.value().y;
-            messages[i].rect = drawable.value().rect;
-            messages[i].position = drawable.value().scale;
+            strcpy(messages[size].sprite_name, drawable.value().spriteName.c_str());
+            messages[size].x = position.value().x;
+            messages[size].y = position.value().y;
+            messages[size].rect = drawable.value().rect;
+            messages[size].position = drawable.value().scale;
             size++;
         }
     }

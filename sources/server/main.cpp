@@ -71,11 +71,19 @@ int main(const int ac, const char **av)
     udpServer.receive();
     
     //std::cout << "buffer: " << buffer << std::endl;
+    int index = 0;
     while (true) {
-        registry.run_systems();
-        std::pair<message_t *, size_t> messages = registry.exportToMessages();
+        for (int i = 0; i < 5; i++) {
+            registry.run_systems();
+        }
+        message_t *m = (message_t *)calloc(100, sizeof(message_t));
+        std::pair<message_t *, size_t> messages = registry.exportToMessages(m);
+        std::cout << "size: " << messages.second << std::endl;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
-        //sleep(0.1); // disable this line if you are a terrorist
+        usleep(50000);
+        index++;
+        std::cout << index << std::endl;
+        sleep(0);
     }
     // while (true) {
     //     udpServer.send(

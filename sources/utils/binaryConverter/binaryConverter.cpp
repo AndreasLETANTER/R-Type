@@ -89,10 +89,10 @@ std::vector<char> binaryConverter::convertStructToBinary(size_t size, message_t 
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].rect), reinterpret_cast<char *>(&messages[i].rect) + sizeof(messages[i].rect));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].position), reinterpret_cast<char *>(&messages[i].position) + sizeof(messages[i].position));
     }
-    std::cout << "rect: " << messages[0].rect.getSize().x << std::endl;
-    std::cout << "position: " << messages[0].position.x << std::endl;
-    std::cout << "position: " << messages[0].position.y << std::endl;
-    std::cout << "buffer len: " << strlen(buffer.data()) << std::endl;
+    // std::cout << "rect: " << messages[0].rect.getSize().x << std::endl;
+    // std::cout << "position: " << messages[0].position.x << std::endl;
+    // std::cout << "position: " << s[0].position.y << std::endl;
+    // std::cout << "buffer len: " << strlen(buffer.data()) << std::endl;
     return (buffer);
 }
 
