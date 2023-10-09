@@ -18,7 +18,6 @@ void udpClientSocket::run()
 
 void udpClientSocket::send(const std::string &t_message)
 {
-    // check if port is open before sending
     m_socket.send_to(buffer(t_message), m_endpoint);
 }
 

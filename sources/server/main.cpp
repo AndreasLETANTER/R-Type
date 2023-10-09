@@ -37,7 +37,6 @@ int main(const int ac, const char **av)
     udpSocket udpServer(handleArgument.getPort(av[2]));
     
     Registry registry;
-
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Drawable>();
@@ -45,7 +44,6 @@ int main(const int ac, const char **av)
     registry.add_component<Component::Position>(entity1, Component::Position(0, 0));
     registry.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
     registry.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
-
     message_t *messages = registry.exportToMessages().first;
     size_t size = registry.exportToMessages().second;
     // server.run();
@@ -57,10 +55,8 @@ int main(const int ac, const char **av)
     std::cout << "buffer: " << buffer << std::endl;
     while (true) {
         udpServer.send(converter.convertStructToBinary(size, messages));
-        sleep(1);
+        // sleep(1); disable this line if you are a terrorist
     }
-    (void)messages;
-    (void)size;
     // while (true) {
     //     udpServer.send(
     // }

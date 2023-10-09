@@ -30,21 +30,22 @@ int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
+    binaryConverter converter;
+    udpClientSocket udpClient(4242);
     // tcpClientSocket client(8080);
     // client.run();
 
-    std::string message = "Hello from client";
-    binaryConverter converter;
-    // client.send(message);
+    // client.send("zizi");
     // while (client.getId() == 0) {
     //     client.receive();
     // }
-    udpClientSocket udpClient(4242);
     udpClient.run();
-    udpClient.send("sza");
+    udpClient.send("connect");
 
     while (true) {
         message_t *messages = converter.convertBinaryToStruct(udpClient.receive());
+        std::cout << "message: " << messages[0].sprite_name << std::endl;
+        (void)messages;
         // load messages in registry with export function
     }
     return 0;
