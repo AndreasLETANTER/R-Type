@@ -123,6 +123,23 @@ endforeach()
 
 list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
+file(WRITE ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#ifndef LEVEL_CONFIG_HPP\n")
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#define LEVEL_CONFIG_HPP\n\n")
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#include <string>\n\n")
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "namespace LevelConfig {\n")
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "    const std::string levelConfig = R\"yaml_content(\n")
+
+file(READ assets/Level1.yaml LEVEL_CONFIG_CONTENT)
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "${LEVEL_CONFIG_CONTENT}")
+
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "    )yaml_content\";\n")
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "}\n\n")
+file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#endif // LEVEL_CONFIG_HPP\n")
+
+configure_file(${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp @ONLY)
+
+set(ECS_SOURCES ${ECS_SOURCES} ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp)
+
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
