@@ -20,3 +20,16 @@
 // Enemies
 #include "../../build/assets/OrangeCrabEnemy.hpp"
 #include "../../build/assets/YellowPopcornEnemy.hpp"
+
+// Icons
+#include "../../build/assets/NugoTemporaryIcon.hpp"
+
+#include <SFML/Graphics.hpp>
+
+class Assets {
+    public:
+        Assets();
+        ~Assets() = default;
+    private:
+        std::map<std::string, sf::Texture> m_textures;
+};
