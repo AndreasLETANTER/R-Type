@@ -12,13 +12,15 @@
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
+#include "ECS/Assets/Assets.hpp"
 
 int main(int ac, char **av)
 {
     (void) ac;
     (void) av;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Hess-Type");
-    Registry registry;
+    Assets assets;
+    Registry registry(assets);
     window.setFramerateLimit(144);
     sf::Clock clock;
     MainMenu mainMenu(window);
@@ -32,10 +34,10 @@ int main(int ac, char **av)
     registry.register_component<Component::Scroll>();
 
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
-    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(0, 0), true));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(0, 0), true, assets.get_texture("Space_Background.png")));
     registry.add_component<Component::Scroll>(registry.entity_from_index(0), Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0)));
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
-    registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(0, 0), true));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(0, 0), true, assets.get_texture("Space_Background.png")));
     registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(5700, 0), Component::Position(0, 0)));
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());

@@ -26,7 +26,7 @@ Test(Registry, basic_importFromMessages)
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
+    reg.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
 
     message_t *messages = reg.exportToMessages().first;
     size_t size = reg.exportToMessages().second;
@@ -54,12 +54,12 @@ Test(Registry, 2_spawn_importFromMessages)
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
+    reg.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
 
     auto entity2 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity2, Component::Position(1, 1));
     reg.add_component<Component::Velocity>(entity2, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity2, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
+    reg.add_component<Component::Drawable>(entity2, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
 
     message_t *messages = reg.exportToMessages().first;
     size_t size = reg.exportToMessages().second;
@@ -92,7 +92,7 @@ Test(Registry, 50_spawn_importFromMessages)
         auto entity = reg.spawn_entity();
         reg.add_component<Component::Position>(entity, Component::Position(i, i));
         reg.add_component<Component::Velocity>(entity, Component::Velocity(0, 0));
-        reg.add_component<Component::Drawable>(entity, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
+        reg.add_component<Component::Drawable>(entity, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
     }
 
     message_t *messages = reg.exportToMessages().first;
@@ -123,7 +123,7 @@ Test(Registry, 800_spawn_importFromMessages)
         auto entity = reg.spawn_entity();
         reg.add_component<Component::Position>(entity, Component::Position(i, i));
         reg.add_component<Component::Velocity>(entity, Component::Velocity(0, 0));
-        reg.add_component<Component::Drawable>(entity, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
+        reg.add_component<Component::Drawable>(entity, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
     }
 
     message_t *messages = reg.exportToMessages().first;

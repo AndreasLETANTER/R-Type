@@ -8,28 +8,38 @@
 #pragma once
 
 // Backgrounds
-#include "../../build/assets/Space_Background.hpp"
+#include "assets/Space_Background.hpp"
 
 // Players
-#include "../../build/assets/SpaceShips.hpp"
-#include "../../build/assets/BurpTemporaryBullet.hpp"
+#include "assets/SpaceShips.hpp"
+#include "assets/BurpTemporaryBullet.hpp"
 
 // Obstacles
-#include "../../build/assets/GreyRobotObstacle.hpp"
+#include "assets/GreyRobotObstacle.hpp"
 
 // Enemies
-#include "../../build/assets/OrangeCrabEnemy.hpp"
-#include "../../build/assets/YellowPopcornEnemy.hpp"
-
-// Icons
-#include "../../build/assets/NugoTemporaryIcon.hpp"
+#include "assets/OrangeCrabEnemy.hpp"
+#include "assets/YellowPopcornEnemy.hpp"
 
 #include <SFML/Graphics.hpp>
 
+
+/// @brief The Assets class is used to store all the assets of the game.
 class Assets {
     public:
+        /// @brief The constructor of Assets, it loads all the assets.
         Assets();
+        /// @brief The destructor of Assets.
         ~Assets() = default;
+
+        /**
+         * @brief Retrieves a texture by name.
+         *
+         * @param name The name of the texture to retrieve.
+         * @return A reference to the texture.
+         */
+        sf::Texture &get_texture(const std::string &name);
+
     private:
         std::map<std::string, sf::Texture> m_textures;
 };

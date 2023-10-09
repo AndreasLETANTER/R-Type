@@ -15,5 +15,9 @@ Assets::Assets()
     m_textures["GreyRobotObstacle.gif"].loadFromMemory(___assets_GreyRobotObstacle_gif, ___assets_GreyRobotObstacle_gif_len);
     m_textures["OrangeCrabEnemy.gif"].loadFromMemory(___assets_OrangeCrabEnemy_gif, ___assets_OrangeCrabEnemy_gif_len);
     m_textures["YellowPopcornEnemy.gif"].loadFromMemory(___assets_YellowPopcornEnemy_gif, ___assets_YellowPopcornEnemy_gif_len);
-    m_textures["NugoTemporaryIcon.png"].loadFromMemory(___assets_NugoTemporaryIcon_png, ___assets_NugoTemporaryIcon_png_len);
+}
+
+sf::Texture &Assets::get_texture(const std::string &name)
+{
+    return m_textures[name];
 }

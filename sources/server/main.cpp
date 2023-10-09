@@ -22,7 +22,6 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
-#include "ECS/Assets/Assets.hpp"
 
 int main(const int ac, const char **av)
 {
@@ -33,7 +32,6 @@ int main(const int ac, const char **av)
     sf::Clock clock;
     std::vector<std::string> filesPath = {"./assets/Level1.yaml"};
     Parser parser(registry, window, clock, filesPath);
-    Assets assets;
 
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
