@@ -10,9 +10,9 @@
 #include "server/handleArgument/handleArgument.hpp"
 #include "utils/debugColors/debugColors.hpp"
 
-u_int16_t handleArgument::getPort(char const *t_av) const
+uint16_t handleArgument::getPort(char const *t_av) const
 {
-    u_int16_t port = DEFAULT_PORT;
+    uint16_t port = DEFAULT_PORT;
 
     if (t_av != nullptr) {
         try {

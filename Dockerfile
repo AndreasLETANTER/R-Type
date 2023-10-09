@@ -16,9 +16,10 @@ WORKDIR /r-type
 COPY . /r-type
 
 # Build the project using CMake
-RUN mkdir -p r-type/build && \
-	cmake -B r-type/build && \
-	make server -C r-type/build
+RUN rm -rf build && \
+	mkdir -p build && \
+	cmake -B build && \
+	make server -C build
 
 # Run the server
 CMD ["./r-type_server", "8080"]
