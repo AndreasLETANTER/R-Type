@@ -42,6 +42,10 @@ std::pair<message_t *, size_t> binaryConverter::convertBinaryToStruct(char *buff
         offset += sizeof(messages[i].x);
         memcpy(&messages[i].y, buffer + offset, sizeof(messages[i].y));
         offset += sizeof(messages[i].y);
+        memcpy(&messages[i].rect, buffer + offset, sizeof(messages[i].rect));
+        offset += sizeof(messages[i].rect);
+        memcpy(&messages[i].position, buffer + offset, sizeof(messages[i].position));
+        offset += sizeof(messages[i].position);
     }
     return (std::make_pair(messages, header.nbEntities));
 }
@@ -78,6 +82,8 @@ std::vector<char> binaryConverter::convertStructToBinary(size_t size, message_t 
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].sprite_name), reinterpret_cast<char *>(&messages[i].sprite_name) + sizeof(messages[i].sprite_name));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].x), reinterpret_cast<char *>(&messages[i].x) + sizeof(messages[i].x));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].y), reinterpret_cast<char *>(&messages[i].y) + sizeof(messages[i].y));
+        buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].rect), reinterpret_cast<char *>(&messages[i].rect) + sizeof(messages[i].rect));
+        buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].position), reinterpret_cast<char *>(&messages[i].position) + sizeof(messages[i].position));
     }
     return (buffer);
 }
