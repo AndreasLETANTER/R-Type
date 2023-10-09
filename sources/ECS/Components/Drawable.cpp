@@ -22,6 +22,7 @@ Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, 
     assets["GreyRobotObstacle.gif"] = std::make_pair(___assets_GreyRobotObstacle_gif, ___assets_GreyRobotObstacle_gif_len);
     assets["OrangeCrabEnemy.gif"] = std::make_pair(___assets_OrangeCrabEnemy_gif, ___assets_OrangeCrabEnemy_gif_len);
     assets["YellowPopcornEnemy.gif"] = std::make_pair(___assets_YellowPopcornEnemy_gif, ___assets_YellowPopcornEnemy_gif_len);
+    assets["NugoTemporaryIcon.png"] = std::make_pair(___assets_NugoTemporaryIcon_png, ___assets_NugoTemporaryIcon_png_len);
 
     if (needToLoadTexture) {
         this->texture = std::make_shared<sf::Texture>();

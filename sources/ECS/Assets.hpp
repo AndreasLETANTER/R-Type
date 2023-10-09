@@ -20,3 +20,6 @@
 // Enemies
 #include "../../build/assets/OrangeCrabEnemy.hpp"
 #include "../../build/assets/YellowPopcornEnemy.hpp"
+
+// Icons
+#include "../../build/assets/NugoTemporaryIcon.hpp"

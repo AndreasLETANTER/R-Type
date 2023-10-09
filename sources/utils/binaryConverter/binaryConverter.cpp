@@ -22,7 +22,7 @@ t_header binaryConverter::createHeader(size_t nbEntities)
     return (header);
 }
 
-message_t *binaryConverter::convertBinaryToStruct(char *buffer)
+std::pair<message_t *, size_t> binaryConverter::convertBinaryToStruct(char *buffer)
 {
     t_header header = {0, 0, 0};
     size_t offset = 0;
@@ -43,7 +43,7 @@ message_t *binaryConverter::convertBinaryToStruct(char *buffer)
         memcpy(&messages[i].y, buffer + offset, sizeof(messages[i].y));
         offset += sizeof(messages[i].y);
     }
-    return (messages);
+    return (std::make_pair(messages, header.nbEntities));
 }
 
 t_first_message binaryConverter::convertBinaryToFirstMessage(char *buffer)

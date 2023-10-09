@@ -41,12 +41,25 @@ int main(int ac, char **av)
     // }
     udpClient.run();
     udpClient.send("connect");
+    Registry registry;
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
+    sf::IntRect rect(0, 0, 0, 0);
+    Component::Position position(0, 0);
 
-    while (true) {
-        message_t *messages = converter.convertBinaryToStruct(udpClient.receive());
-        std::cout << "message: " << messages[0].sprite_name << std::endl;
-        (void)messages;
-        // load messages in registry with export function
+    while (window.isOpen()) {
+        for (auto event = sf::Event{}; window.pollEvent(event);) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
+        std::cout << "message: " << messages.first[0].sprite_name << std::endl;
+        std::cout << "message: " << messages.first[0].x << std::endl;
+        std::cout << "message: " << messages.first[0].y << std::endl;
+        registry = Registry();
+        registry.importFromMessages(messages.first, messages.second, &window, rect, position);
+        window.clear();
+        registry.run_systems();
+        window.display();
     }
     return 0;
 }

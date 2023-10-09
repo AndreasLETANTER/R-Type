@@ -37,13 +37,32 @@ int main(const int ac, const char **av)
     udpSocket udpServer(handleArgument.getPort(av[2]));
     
     Registry registry;
+    sf::Clock clock;
+    sf::RenderWindow window;
+    std::vector<std::string> filePath = {"./assets/Level1.yaml"};
+    Parser parser(registry, window, clock, filePath);
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
+    registry.register_component<Component::Controllable>();
     registry.register_component<Component::Drawable>();
-    auto entity1 = registry.spawn_entity();
-    registry.add_component<Component::Position>(entity1, Component::Position(0, 0));
-    registry.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    registry.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
+    registry.register_component<Component::AutoMove>();
+    registry.register_component<Component::Shoot>();
+    registry.register_component<Component::Projectile>();
+    registry.register_component<Component::Collision>();
+    registry.register_component<Component::Scroll>();
+    registry.register_component<Component::Health>();
+
+    registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
+    registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
+    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
+    registry.add_system<Component::Position, Component::AutoMove>(AutoMoveSystem());
+    registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
+    registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
+    registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
+    registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
+    registry.add_system<Component::Health>(HealthSystem());
+    registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
+    parser.loadFromFile();
     message_t *messages = registry.exportToMessages().first;
     size_t size = registry.exportToMessages().second;
     // server.run();
@@ -55,7 +74,7 @@ int main(const int ac, const char **av)
     std::cout << "buffer: " << buffer << std::endl;
     while (true) {
         udpServer.send(converter.convertStructToBinary(size, messages));
-        // sleep(1); disable this line if you are a terrorist
+        sleep(1); // disable this line if you are a terrorist
     }
     // while (true) {
     //     udpServer.send(

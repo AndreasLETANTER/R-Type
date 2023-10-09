@@ -43,7 +43,7 @@ class binaryConverter {
          * @param buffer A pointer to the buffer containing the binary data.
          * @return A pointer to the structured data.
          */
-        message_t *convertBinaryToStruct(char *buffer);
+        std::pair<message_t *, size_t> convertBinaryToStruct(char *buffer);
         t_first_message convertBinaryToFirstMessage(char *buffer);
 
         /**
