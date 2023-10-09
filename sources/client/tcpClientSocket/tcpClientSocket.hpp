@@ -30,5 +30,5 @@ class tcpClientSocket {
         ip::tcp::socket m_socket;
         u_int16_t m_tcpPort;
         u_int16_t m_udpPort;
-        std::array<char, 1024> m_readBuffer;  
+        std::array<char, 4096> m_readBuffer;  
 };

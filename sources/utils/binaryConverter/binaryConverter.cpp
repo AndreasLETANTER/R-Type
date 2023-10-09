@@ -47,6 +47,10 @@ std::pair<message_t *, size_t> binaryConverter::convertBinaryToStruct(char *buff
         memcpy(&messages[i].position, buffer + offset, sizeof(messages[i].position));
         offset += sizeof(messages[i].position);
     }
+    // std::cout << "rect: " << messages[0].rect.getSize().x << std::endl;
+    // std::cout << "position: " << messages[0].position.x << std::endl;
+    // std::cout << "position: " << messages[0].position.y << std::endl;
+    // std::cout << "buffer len: " << strlen(buffer) << std::endl;
     return (std::make_pair(messages, header.nbEntities));
 }
 
@@ -66,7 +70,6 @@ t_first_message binaryConverter::convertBinaryToFirstMessage(char *buffer)
     offset += sizeof(firstMessage.id);
     memcpy(&firstMessage.udp_port, buffer + offset, sizeof(firstMessage.udp_port));
     offset += sizeof(firstMessage.udp_port);
-
     return (firstMessage);
 }
 
@@ -82,9 +85,14 @@ std::vector<char> binaryConverter::convertStructToBinary(size_t size, message_t 
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].sprite_name), reinterpret_cast<char *>(&messages[i].sprite_name) + sizeof(messages[i].sprite_name));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].x), reinterpret_cast<char *>(&messages[i].x) + sizeof(messages[i].x));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].y), reinterpret_cast<char *>(&messages[i].y) + sizeof(messages[i].y));
+        std::cout << "sprite_name: " << messages[i].sprite_name << std::endl;
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].rect), reinterpret_cast<char *>(&messages[i].rect) + sizeof(messages[i].rect));
         buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].position), reinterpret_cast<char *>(&messages[i].position) + sizeof(messages[i].position));
     }
+    std::cout << "rect: " << messages[0].rect.getSize().x << std::endl;
+    std::cout << "position: " << messages[0].position.x << std::endl;
+    std::cout << "position: " << messages[0].position.y << std::endl;
+    std::cout << "buffer len: " << strlen(buffer.data()) << std::endl;
     return (buffer);
 }
 

@@ -63,18 +63,19 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     parser.loadFromFile();
-    message_t *messages = registry.exportToMessages().first;
-    size_t size = registry.exportToMessages().second;
+   
     // server.run();
     udpServer.run();
 
 
-    char *buffer = udpServer.receive();
+    udpServer.receive();
     
-    std::cout << "buffer: " << buffer << std::endl;
+    //std::cout << "buffer: " << buffer << std::endl;
     while (true) {
-        udpServer.send(converter.convertStructToBinary(size, messages));
-        sleep(1); // disable this line if you are a terrorist
+        registry.run_systems();
+        std::pair<message_t *, size_t> messages = registry.exportToMessages();
+        udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
+        //sleep(0.1); // disable this line if you are a terrorist
     }
     // while (true) {
     //     udpServer.send(

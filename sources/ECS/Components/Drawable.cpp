@@ -25,6 +25,7 @@ Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, 
     assets["NugoTemporaryIcon.png"] = std::make_pair(___assets_NugoTemporaryIcon_png, ___assets_NugoTemporaryIcon_png_len);
 
     if (needToLoadTexture) {
+        std::cout << "Loading texture: " << spriteName << std::endl;
         this->texture = std::make_shared<sf::Texture>();
         this->texture->loadFromMemory(assets[spriteName].first, assets[spriteName].second);
         this->sprite.setTexture(*this->texture);

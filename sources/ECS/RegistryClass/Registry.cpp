@@ -65,6 +65,8 @@ std::pair<message_t *, size_t>Registry::exportToMessages()
             strcpy(messages[i].sprite_name, drawable.value().spriteName.c_str());
             messages[i].x = position.value().x;
             messages[i].y = position.value().y;
+            messages[i].rect = drawable.value().rect;
+            messages[i].position = drawable.value().scale;
             size++;
         }
     }
