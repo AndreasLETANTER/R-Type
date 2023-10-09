@@ -31,7 +31,7 @@ int main(const int ac, const char **av)
     Registry registry;
     sf::RenderWindow window {sf::VideoMode(1920, 1080), "R-Type" };
     sf::Clock clock;
-    std::vector<std::string> filesContents = {LevelConfig::Level1Config};
+    std::vector<std::string> filesContents = {Level1Config};
     Parser parser(registry, window, clock, filesContents);
 
     registry.register_component<Component::Position>();

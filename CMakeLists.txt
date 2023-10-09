@@ -128,22 +128,13 @@ file(GLOB LEVEL_FILES "assets/levels/*.yaml")
 foreach(LEVEL_FILE ${LEVEL_FILES})
     get_filename_component(LEVEL_NAME ${LEVEL_FILE} NAME_WE)
     set(LEVEL_CONFIG_HPP "${CMAKE_BINARY_DIR}/assets/${LEVEL_NAME}Config.hpp")
-    set(LEVEL_CONFIG_HPP_IN "${CMAKE_BINARY_DIR}/assets/${LEVEL_NAME}Config.hpp.in")
 
-    file(WRITE ${LEVEL_CONFIG_HPP_IN} "#ifndef ${LEVEL_NAME}_CONFIG_HPP\n")
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "#define ${LEVEL_NAME}_CONFIG_HPP\n\n")
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "#include <string>\n\n")
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "namespace LevelConfig {\n")
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "    const std::string ${LEVEL_NAME}Config = R\"yaml_content(\n")
-
+    file(REMOVE ${LEVEL_CONFIG_HPP})
+    file(APPEND ${LEVEL_CONFIG_HPP} "#include <string>\n\n")
+    file(APPEND ${LEVEL_CONFIG_HPP} "const std::string ${LEVEL_NAME}Config = R\"yaml_content(\n")
     file(READ ${LEVEL_FILE} LEVEL_CONFIG_CONTENT)
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "${LEVEL_CONFIG_CONTENT}")
-
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "    )yaml_content\";\n")
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "}\n\n")
-    file(APPEND ${LEVEL_CONFIG_HPP_IN} "#endif // LEVEL${LEVEL_NAME}_CONFIG_HPP\n")
-
-    configure_file(${LEVEL_CONFIG_HPP_IN} ${LEVEL_CONFIG_HPP} @ONLY)
+    file(APPEND ${LEVEL_CONFIG_HPP} "${LEVEL_CONFIG_CONTENT}")
+    file(APPEND ${LEVEL_CONFIG_HPP} "    )yaml_content\";\n")
 
     set(ECS_SOURCES ${ECS_SOURCES} ${LEVEL_CONFIG_HPP})
 endforeach()
