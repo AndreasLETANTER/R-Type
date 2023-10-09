@@ -26,35 +26,41 @@
 #include "handleArgument/handleArgument.hpp"
 #include "tcpSocket/tcpSocket.hpp"
 #include "udpSocket/udpSocket.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 
 int main(const int ac, const char **av)
 {
     (void)ac;
     handleArgument handleArgument;
-    tcpSocket server(handleArgument.getPort(av[1]));
-    // udpSocket udpServer(handleArgument.getPort(av[2]));
+    binaryConverter converter;
+    // tcpSocket server(handleArgument.getPort(av[1]));
+    udpSocket udpServer(handleArgument.getPort(av[2]));
     
-    server.run();
-    // udpServer.run();
-    // char *buffer = udpServer.receive();
-    // std::cout << "buffer: " << buffer << std::endl;
-    // Registry registry;
+    Registry registry;
 
-    // registry.register_component<Component::Position>();
-    // // registry.register_component<Component::Draw>();
-    // Registry reg;
+    registry.register_component<Component::Position>();
+    registry.register_component<Component::Velocity>();
+    registry.register_component<Component::Drawable>();
+    auto entity1 = registry.spawn_entity();
+    registry.add_component<Component::Position>(entity1, Component::Position(0, 0));
+    registry.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
+    registry.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
 
-    // reg.register_component<Component::Position>();
-    // reg.register_component<Component::Velocity>();
-    // reg.register_component<Component::Drawable>();
+    message_t *messages = registry.exportToMessages().first;
+    size_t size = registry.exportToMessages().second;
+    // server.run();
+    udpServer.run();
 
-    // auto entity1 = reg.spawn_entity();
-    // reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
-    // reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    // reg.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false));
 
-    // message_t *messages = reg.exportToMessages().first;
-    // size_t size = reg.exportToMessages().second;
+    char *buffer = udpServer.receive();
+    
+    std::cout << "buffer: " << buffer << std::endl;
+    while (true) {
+        udpServer.send(converter.convertStructToBinary(size, messages));
+        sleep(1);
+    }
+    (void)messages;
+    (void)size;
     // while (true) {
     //     udpServer.send(
     // }

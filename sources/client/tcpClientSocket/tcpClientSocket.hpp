@@ -22,10 +22,13 @@ class tcpClientSocket {
         void run();
         void send(const std::string &t_message);
         char *receive();
+        unsigned int getId() const {return m_id;};
+        unsigned int getUdpPort() const {return m_udpPort;};
     private:
         unsigned int m_id;
         io_service m_ioService;
         ip::tcp::socket m_socket;
         u_int16_t m_tcpPort;
+        u_int16_t m_udpPort;
         std::array<char, 1024> m_readBuffer;  
 };

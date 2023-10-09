@@ -18,6 +18,7 @@
 
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 
 void signalHandler(int signum)
 {
@@ -29,22 +30,22 @@ int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
-    tcpClientSocket client(8080);
-    client.run();
+    // tcpClientSocket client(8080);
+    // client.run();
 
     std::string message = "Hello from client";
-    client.send(message);
-    char *buffer = client.receive();
-    // udpClientSocket udpClient;
-    // udpClient.run();
-    // udpClient.send("sza");
-
-
-    // Registry registry;
-    // while (true) {
-        
-        // std::cout << "buffer: " << udpClient.receive() << std::endl;
+    binaryConverter converter;
+    // client.send(message);
+    // while (client.getId() == 0) {
+    //     client.receive();
     // }
-    // buffer = udpClient.receive();
+    udpClientSocket udpClient(4242);
+    udpClient.run();
+    udpClient.send("sza");
+
+    while (true) {
+        message_t *messages = converter.convertBinaryToStruct(udpClient.receive());
+        // load messages in registry with export function
+    }
     return 0;
 }

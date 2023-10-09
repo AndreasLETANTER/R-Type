@@ -47,8 +47,11 @@ char *tcpClientSocket::receive()
         std::cerr << "Error while receiving message: " << error.message() << std::endl;
     }
     if (m_id == 0) {
-        m_id = converter.convertBinaryToFirstMessage(m_readBuffer.data());
+        t_first_message firstMessage = converter.convertBinaryToFirstMessage(m_readBuffer.data());
+        m_id = firstMessage.id;
+        m_udpPort = firstMessage.udp_port;
         printTrace("Received id: " + std::to_string(m_id));
+        printTrace("Received udp port: " + std::to_string(m_udpPort));
     }
     return m_readBuffer.data();
 }

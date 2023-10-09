@@ -16,7 +16,7 @@ void udpSocket::run()
     m_ioService.run();
 }
 
-void udpSocket::send(const std::string &t_message)
+void udpSocket::send(std::vector<char> t_message)
 {
     m_socket.send_to(buffer(t_message), m_endpoint);
 }

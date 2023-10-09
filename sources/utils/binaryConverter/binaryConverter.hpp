@@ -13,11 +13,13 @@ typedef struct s_header
 {
     unsigned int messageId;
     unsigned int timestamp;
+    unsigned int nbEntities;
 } t_header;
 
 typedef struct s_first_message
 {
     unsigned int id;
+    unsigned int udp_port;
 } t_first_message;
 
 class binaryConverter {
@@ -42,7 +44,7 @@ class binaryConverter {
          * @return A pointer to the structured data.
          */
         message_t *convertBinaryToStruct(char *buffer);
-        unsigned int convertBinaryToFirstMessage(char *buffer);
+        t_first_message convertBinaryToFirstMessage(char *buffer);
 
         /**
          * @brief Converts structured data to binary data.
@@ -51,7 +53,7 @@ class binaryConverter {
          * @param messages A pointer to the structured data.
          * @return A pointer to the binary data.
          */
-        char *convertStructToBinary(size_t nbEntites, message_t *messages);
+        std::vector<char> convertStructToBinary(size_t nbEntites, message_t *messages);
 
         std::vector<char> convertStructToFirstMessage(unsigned int messageId);
 

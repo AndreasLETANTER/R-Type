@@ -9,7 +9,7 @@ class udpSocket {
         udpSocket(int t_udpPort);
         ~udpSocket();
         void run();
-        void send(const std::string &t_message);
+        void send(std::vector<char> t_message);
         char *receive();
     private:
         io_service m_ioService;
