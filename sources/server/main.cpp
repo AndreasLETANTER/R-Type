@@ -22,7 +22,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
-#include "../../build/assets/LevelConfig.hpp"
+#include "../../build/assets/Level1Config.hpp"
 
 int main(const int ac, const char **av)
 {
@@ -31,7 +31,7 @@ int main(const int ac, const char **av)
     Registry registry;
     sf::RenderWindow window {sf::VideoMode(1920, 1080), "R-Type" };
     sf::Clock clock;
-    std::vector<std::string> filesContents = {LevelConfig::levelConfig};
+    std::vector<std::string> filesContents = {LevelConfig::Level1Config};
     Parser parser(registry, window, clock, filesContents);
 
     registry.register_component<Component::Position>();

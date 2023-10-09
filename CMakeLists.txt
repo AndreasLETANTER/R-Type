@@ -123,22 +123,30 @@ endforeach()
 
 list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
-file(WRITE ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#ifndef LEVEL_CONFIG_HPP\n")
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#define LEVEL_CONFIG_HPP\n\n")
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#include <string>\n\n")
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "namespace LevelConfig {\n")
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "    const std::string levelConfig = R\"yaml_content(\n")
+####################### Handle Levels' Configurations Files #######################
+file(GLOB LEVEL_FILES "assets/levels/*.yaml")
+foreach(LEVEL_FILE ${LEVEL_FILES})
+    get_filename_component(LEVEL_NAME ${LEVEL_FILE} NAME_WE)
+    set(LEVEL_CONFIG_HPP "${CMAKE_BINARY_DIR}/assets/${LEVEL_NAME}Config.hpp")
+    set(LEVEL_CONFIG_HPP_IN "${CMAKE_BINARY_DIR}/assets/${LEVEL_NAME}Config.hpp.in")
 
-file(READ assets/Level1.yaml LEVEL_CONFIG_CONTENT)
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "${LEVEL_CONFIG_CONTENT}")
+    file(WRITE ${LEVEL_CONFIG_HPP_IN} "#ifndef ${LEVEL_NAME}_CONFIG_HPP\n")
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "#define ${LEVEL_NAME}_CONFIG_HPP\n\n")
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "#include <string>\n\n")
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "namespace LevelConfig {\n")
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "    const std::string ${LEVEL_NAME}Config = R\"yaml_content(\n")
 
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "    )yaml_content\";\n")
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "}\n\n")
-file(APPEND ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in "#endif // LEVEL_CONFIG_HPP\n")
+    file(READ ${LEVEL_FILE} LEVEL_CONFIG_CONTENT)
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "${LEVEL_CONFIG_CONTENT}")
 
-configure_file(${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp.in ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp @ONLY)
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "    )yaml_content\";\n")
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "}\n\n")
+    file(APPEND ${LEVEL_CONFIG_HPP_IN} "#endif // LEVEL${LEVEL_NAME}_CONFIG_HPP\n")
 
-set(ECS_SOURCES ${ECS_SOURCES} ${CMAKE_BINARY_DIR}/assets/LevelConfig.hpp)
+    configure_file(${LEVEL_CONFIG_HPP_IN} ${LEVEL_CONFIG_HPP} @ONLY)
+
+    set(ECS_SOURCES ${ECS_SOURCES} ${LEVEL_CONFIG_HPP})
+endforeach()
 
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
