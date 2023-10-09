@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <cstdint>
 
 #define MAX_PORT 65535
 #define MIN_PORT 1024
@@ -36,7 +37,7 @@ class handleArgument
          * @param t_av The command line arguments.
          * @return The port number.
          */
-        u_int16_t getPort(char const *t_av) const;
+        uint16_t getPort(char const *t_av) const;
     protected:
         /**
          * @brief Check if a string is a number.
