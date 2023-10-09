@@ -43,8 +43,6 @@ int main(int ac, char **av)
     udpClient.send("connect");
     Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
-    sf::IntRect rect(0, 0, 0, 0);
-    Component::Position position(0, 0);
 
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
@@ -56,7 +54,7 @@ int main(int ac, char **av)
         std::cout << "message: " << messages.first[0].x << std::endl;
         std::cout << "message: " << messages.first[0].y << std::endl;
         registry = Registry();
-        registry.importFromMessages(messages.first, messages.second, &window, rect, position);
+        registry.importFromMessages(messages.first, messages.second, &window);
         window.clear();
         registry.run_systems();
         window.display();

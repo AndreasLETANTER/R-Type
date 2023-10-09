@@ -25,6 +25,8 @@ typedef struct message_s {
     char sprite_name[128]; /**< The name of the sprite associated with the entity. */
     double x; /**< The x-coordinate of the entity's position. */
     double y; /**< The y-coordinate of the entity's position. */
+    sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
+    Component::Position position; /**< The position of the rect. */
 } message_t;
 
 /**
@@ -183,7 +185,7 @@ class Registry {
          * @param size Size of the array of messages.
          * @param window The window to draw the entities in.
          */
-        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window, sf::IntRect rect, Component::Position position);
+        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */

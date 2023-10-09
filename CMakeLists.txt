@@ -37,6 +37,7 @@ FetchContent_MakeAvailable(asio)
 ###############################DIRECTORIES SRC####################################
 
 set(ASSETS_FILES
+    ../assets/NugoTemporaryIcon.png
     ../assets/Space_Background.png
     ../assets/SpaceShips.gif
     ../assets/BurpTemporaryBullet.png
