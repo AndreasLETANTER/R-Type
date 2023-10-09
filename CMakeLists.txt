@@ -62,6 +62,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
+    sources/ECS/Assets/Assets.cpp
 )
 
 set(SERVER_SOURCES
