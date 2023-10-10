@@ -51,9 +51,10 @@ void Registry::run_systems()
     }
 }
 
-std::pair<message_t *, size_t>Registry::exportToMessages(message_t *messages)
+std::pair<message_t *, size_t>Registry::exportToMessages()
 {
     size_t size = 0;
+    message_t *messages = new message_t[m_entities.size()];
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
 
@@ -78,7 +79,9 @@ void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWi
     register_component<Component::Position>();
     register_component<Component::Drawable>();
     add_system<Component::Position, Component::Drawable>(DrawSystem());
-    for (size_t i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; i++) {
+        if (strlen(messages[i].sprite_name) == 0)
+            continue;
         auto entity = spawn_entity();
         add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, messages[i].rect, messages[i].position, true));
         add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));

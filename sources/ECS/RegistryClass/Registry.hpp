@@ -176,7 +176,7 @@ class Registry {
          * 
          * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
          */
-        std::pair<message_t *, size_t>exportToMessages(message_t *messages);
+        std::pair<message_t *, size_t>exportToMessages();
 
         /**
          * @brief Imports entities from an array of messages.

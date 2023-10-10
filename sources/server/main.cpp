@@ -71,10 +71,8 @@ int main(const int ac, const char **av)
         for (int i = 0; i < 5; i++) {
             registry.run_systems();
         }
-        message_t *m = (message_t *)calloc(100, sizeof(message_t));
-        std::pair<message_t *, size_t> messages = registry.exportToMessages(m);
+        std::pair<message_t *, size_t> messages = registry.exportToMessages();
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
-        sleep(0);
     }
 }
