@@ -2,6 +2,8 @@
 
 #include <boost/asio.hpp>
 
+#include "server/udpSocket/udpSocket.hpp"
+
 using namespace boost::asio;
 
 class udpClientSocket {
@@ -16,5 +18,5 @@ class udpClientSocket {
         ip::udp::socket m_socket;
         ip::udp::endpoint m_endpoint;
         size_t m_udpPort;
-        std::array<char, 4096> m_readBuffer;
+        std::array<char, UDP_PACKET_SIZE> m_readBuffer;
 };
