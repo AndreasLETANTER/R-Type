@@ -7,25 +7,12 @@
 
 #pragma once
 
-// Backgrounds
-#include "assets/Space_Background.hpp"
-
-// Players
-#include "assets/SpaceShips.hpp"
-#include "assets/BurpTemporaryBullet.hpp"
-
-// Obstacles
-#include "assets/GreyRobotObstacle.hpp"
-
-// Enemies
-#include "assets/OrangeCrabEnemy.hpp"
-#include "assets/YellowPopcornEnemy.hpp"
-
-// Fonts
-#include "assets/font.hpp"
-
 #include <SFML/Graphics.hpp>
+#include <memory>
 
+#include <cmrc/cmrc.hpp>
+
+CMRC_DECLARE(Assets);
 
 /// @brief The Assets class is used to store all the assets of the game.
 class Assets {
@@ -41,7 +28,7 @@ class Assets {
          * @param name The name of the texture to retrieve.
          * @return A reference to the texture.
          */
-        sf::Texture &get_texture(const std::string &name);
+        std::shared_ptr<sf::Texture> &get_texture(const std::string &name);
 
         /**
          * @brief Retrieves a font by name.
@@ -51,7 +38,23 @@ class Assets {
          */
         sf::Font &get_font(const std::string &name);
 
+        /**
+         * @brief Loads a texture from a file.
+         *
+         * @param name The name of the texture.
+         * @param path The path to the texture.
+         */
+        void load_texture(const std::string &name, const std::string &path);
+
+        /**
+         * @brief Loads a font from a file.
+         *
+         * @param name The name of the font.
+         * @param path The path to the font.
+         */
+        void load_font(const std::string &name, const std::string &path);
     private:
-        std::map<std::string, sf::Texture> m_textures;
+        std::map<std::string, std::shared_ptr<sf::Texture>> m_textures;
         std::map<std::string, sf::Font> m_fonts;
+        cmrc::embedded_filesystem m_fs = cmrc::Assets::get_filesystem();
 };

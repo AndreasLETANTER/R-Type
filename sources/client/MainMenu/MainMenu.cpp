@@ -8,7 +8,6 @@
 #include <iostream>
 
 #include "client/MainMenu/MainMenu.hpp"
-#include "../../../build/assets/font.hpp"
 
 MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
     m_window(window), m_assets(assets)

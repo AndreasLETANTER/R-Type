@@ -81,7 +81,7 @@ void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWi
     register_component<Component::Drawable>();
     for (size_t i = 0; i < size; ++i) {
         auto entity = spawn_entity();
-        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, rect, position, true, m_assets.get_texture(messages[i].sprite_name)));
+        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, rect, position, m_assets.get_texture(messages[i].sprite_name)));
         add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
     }
 }
