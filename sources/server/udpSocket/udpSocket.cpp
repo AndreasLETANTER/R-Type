@@ -15,10 +15,17 @@ void udpSocket::run()
 {
     m_ioService.run();
 }
-
+#include <iostream>
 void udpSocket::send(std::vector<char> t_message)
 {
-    m_socket.send_to(buffer(t_message), m_endpoint);
+    try
+    {
+        m_socket.send_to(buffer(t_message), m_endpoint);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 char *udpSocket::receive()
