@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** MIRROR_R-Type
+** File description:
+** debugColors
+*/
+
 #include <iostream>
 
 #include "utils/debugColors/debugColors.hpp"

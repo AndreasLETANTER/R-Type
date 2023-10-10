@@ -68,7 +68,7 @@ set (ECS_SOURCES
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
     sources/server/tcpSocket/tcpSocket.cpp
-    sources/debugColors/debugColors.cpp
+    sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/server/udpSocket/udpSocket.cpp
 )
@@ -108,7 +108,6 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
-    tests/binaryConverter/binaryConverterTests.cpp
 )
 
 set(CLIENT_TESTS

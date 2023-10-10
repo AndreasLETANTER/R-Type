@@ -31,7 +31,7 @@ Test(Registry, basic_importFromMessages)
     message_t *messages = reg.exportToMessages().first;
     size_t size = reg.exportToMessages().second;
 
-    importReg.importFromMessages(messages, size, nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0));
+    importReg.importFromMessages(messages, size, nullptr);
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -65,7 +65,7 @@ Test(Registry, 2_spawn_importFromMessages)
     size_t size = reg.exportToMessages().second;
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0));
+    importReg.importFromMessages(messages, size, nullptr);
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -99,7 +99,7 @@ Test(Registry, 50_spawn_importFromMessages)
     size_t size = reg.exportToMessages().second;
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0));
+    importReg.importFromMessages(messages, size, nullptr);
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -130,7 +130,7 @@ Test(Registry, 800_spawn_importFromMessages)
     size_t size = reg.exportToMessages().second;
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0));
+    importReg.importFromMessages(messages, size, nullptr);
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -154,7 +154,7 @@ Test(Registry, no_spawn_importFromMessages)
     size_t size = reg.exportToMessages().second;
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0));
+    importReg.importFromMessages(messages, size, nullptr);
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
