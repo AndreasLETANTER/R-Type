@@ -15,9 +15,11 @@ set(CXX_FLAGS -Wall -Wextra -Werror)
 ###############################INSTALL PACKAGES###################################
 include(FetchContent)
 
-file(DOWNLOAD "https://raw.githubusercontent.com/vector-of-bool/cmrc/master/CMakeRC.cmake"
-                 "${CMAKE_BINARY_DIR}/CMakeRC.cmake")
-include("${CMAKE_BINARY_DIR}/CMakeRC.cmake")
+FetchContent_Declare(
+    cmrc
+    GIT_REPOSITORY "https://github.com/vector-of-bool/cmrc.git"
+)
+FetchContent_MakeAvailable(cmrc)
 
 FetchContent_Declare(
     libconfig
