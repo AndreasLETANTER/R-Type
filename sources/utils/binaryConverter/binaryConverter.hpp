@@ -22,18 +22,6 @@ typedef struct s_first_message
     unsigned int udp_port;
 } t_first_message;
 
-typedef struct s_first_packet
-{
-    t_header header;
-    t_first_message message;
-} t_first_packet;
-
-typedef struct s_packet
-{
-    t_header header;
-    message_t *messages;
-} t_packet;
-
 class binaryConverter {
 /**
  * @brief A class that provides methods to convert binary data to structured data and vice versa.
