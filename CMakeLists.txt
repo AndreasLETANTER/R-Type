@@ -20,7 +20,6 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/vector-of-bool/cmrc.git"
 )
 FetchContent_MakeAvailable(cmrc)
-include_directories(${cmrc_SOURCE_DIR}/include)
 
 FetchContent_Declare(
     libconfig
@@ -129,6 +128,7 @@ list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
+    ${cmrc_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
@@ -138,6 +138,7 @@ target_link_libraries(${SERVER_NAME} PRIVATE config++)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
+    ${cmrc_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
@@ -149,6 +150,7 @@ find_library(CRITERION criterion)
 #create the tests executable with the criterion library
 add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
 target_include_directories(${ECS_TESTS_NAME} PRIVATE
+    ${cmrc_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
@@ -156,6 +158,7 @@ target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
 target_include_directories(${SERVER_TESTS_NAME} PRIVATE
+    ${cmrc_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
@@ -163,6 +166,7 @@ target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
 
 add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
 target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
+    ${cmrc_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
@@ -170,6 +174,7 @@ target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics co
 
 add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
+    ${cmrc_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
