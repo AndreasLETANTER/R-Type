@@ -11,6 +11,11 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
 
+
+Registry::Registry(Assets assets) : m_assets(assets)
+{
+}
+
 Entity Registry::spawn_entity()
 {
     for (std::size_t i = 0; i < m_entities.size(); i++) {

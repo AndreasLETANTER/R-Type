@@ -41,7 +41,7 @@ class Registry {
          * @brief Construct a new Registry object.
          * 
          */
-        Registry();
+        Registry() = default;
         /**
          * @brief Construct a new Registry object with a given Assets object.
          * 

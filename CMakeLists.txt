@@ -113,13 +113,24 @@ file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/assets")
 foreach(asset_file ${ASSETS_FILES})
     get_filename_component(asset_name ${asset_file} NAME_WE)
     set(output_hpp_file "${CMAKE_BINARY_DIR}/assets/${asset_name}.hpp")
+    set(output_cpp_file "${CMAKE_BINARY_DIR}/assets/${asset_name}.cpp")
+    string(REGEX REPLACE "[^a-zA-Z0-9:]" "_" name ${asset_file})
+    add_custom_command(
+        OUTPUT ${output_cpp_file}
+        COMMAND xxd -i ${asset_file} > ${output_cpp_file}
+        COMMAND ${CMAKE_COMMAND} -E echo "Generated ${output_cpp_file}"
+        DEPENDS ${asset_file}
+    )
     add_custom_command(
         OUTPUT ${output_hpp_file}
-        COMMAND xxd -i ${asset_file} > ${output_hpp_file}
+        COMMAND echo "#pragma once\\n" > ${output_hpp_file} VERBATIM
+        COMMAND echo "extern unsigned char ${name}[];\\n" >> ${output_hpp_file} VERBATIM
+        COMMAND echo "extern unsigned char ${name}_len;\\n" >> ${output_hpp_file} VERBATIM
         COMMAND ${CMAKE_COMMAND} -E echo "Generated ${output_hpp_file}"
         DEPENDS ${asset_file}
     )
     list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
+    list(APPEND GENERATED_ASSET_FILES ${output_cpp_file})
 endforeach()
 
 list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
