@@ -33,7 +33,6 @@ int main(const int ac, const char **av)
     (void)ac;
     handleArgument handleArgument;
     binaryConverter converter;
-    // tcpSocket server(handleArgument.getPort(av[1]));
     udpSocket udpServer(handleArgument.getPort(av[2]));
     
     Registry registry;
@@ -63,31 +62,19 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     parser.loadFromFile();
-   
-    // server.run();
+
     udpServer.run();
 
-
     udpServer.receive();
-    
-    //std::cout << "buffer: " << buffer << std::endl;
-    int index = 0;
+
     while (true) {
         for (int i = 0; i < 5; i++) {
             registry.run_systems();
         }
         message_t *m = (message_t *)calloc(100, sizeof(message_t));
         std::pair<message_t *, size_t> messages = registry.exportToMessages(m);
-        std::cout << "size: " << messages.second << std::endl;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
-        index++;
-        std::cout << index << std::endl;
         sleep(0);
     }
-    // while (true) {
-    //     udpServer.send(
-    // }
-    // std::cout << "buffer: " << buffer << std::endl;
-    // return 0;
 }

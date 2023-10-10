@@ -44,7 +44,6 @@ int main(int ac, char **av)
     Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
-    int index = 0;
 
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
@@ -52,14 +51,8 @@ int main(int ac, char **av)
                 window.close();
         }
         std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
-        // std::cout << "message: " << messages.first[0].sprite_name << std::endl;
-        // std::cout << "message: " << messages.first[0].x << std::endl;
-        // std::cout << "message: " << messages.first[0].y << std::endl;
-        // std::cout << "message: " << messages.first[0].rect.left << std::endl;
         registry = Registry();
         registry.importFromMessages(messages.first, messages.second, &window);
-        index++;
-        std::cout << index << std::endl;
         window.clear();
         registry.run_systems();
         window.display();
