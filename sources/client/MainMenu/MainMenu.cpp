@@ -10,8 +10,8 @@
 #include "client/MainMenu/MainMenu.hpp"
 #include "../../../build/assets/font.hpp"
 
-MainMenu::MainMenu(sf::RenderWindow &window):
-    m_window(window)
+MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
+    m_window(window), m_assets(assets)
 {
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 5;
@@ -22,7 +22,7 @@ MainMenu::MainMenu(sf::RenderWindow &window):
     double spacing = windowSize.y / 20;
     double xPos = (windowSize.x - buttonWidth) / 2;
     double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
-    m_font.loadFromMemory(___assets_font_ttf, ___assets_font_ttf_len);
+    m_font = m_assets.get_font("font.ttf");
 
     TextButton playButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))

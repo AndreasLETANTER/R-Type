@@ -23,7 +23,7 @@ int main(int ac, char **av)
     Registry registry(assets);
     window.setFramerateLimit(144);
     sf::Clock clock;
-    MainMenu mainMenu(window);
+    MainMenu mainMenu(window, assets);
 
     registry.spawn_entity();
     registry.spawn_entity();
