@@ -67,6 +67,7 @@ int main(const int ac, const char **av)
 
     udpServer.receive();
 
+    //int j = 0;
     while (true) {
         for (int i = 0; i < 5; i++) {
             registry.run_systems();
@@ -74,5 +75,9 @@ int main(const int ac, const char **av)
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
+        //if (j > 200) {
+       //     return 0;
+        //}
+        //j++;
     }
 }
