@@ -20,6 +20,7 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/vector-of-bool/cmrc.git"
 )
 FetchContent_MakeAvailable(cmrc)
+include_directories(${cmrc_SOURCE_DIR}/include)
 
 FetchContent_Declare(
     libconfig
