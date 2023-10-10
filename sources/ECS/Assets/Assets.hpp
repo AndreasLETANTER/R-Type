@@ -21,6 +21,9 @@
 #include "assets/OrangeCrabEnemy.hpp"
 #include "assets/YellowPopcornEnemy.hpp"
 
+// Fonts
+#include "assets/font.hpp"
+
 #include <SFML/Graphics.hpp>
 
 
@@ -40,6 +43,15 @@ class Assets {
          */
         sf::Texture &get_texture(const std::string &name);
 
+        /**
+         * @brief Retrieves a font by name.
+         *
+         * @param name The name of the font to retrieve.
+         * @return A reference to the font.
+         */
+        sf::Font &get_font(const std::string &name);
+
     private:
         std::map<std::string, sf::Texture> m_textures;
+        std::map<std::string, sf::Font> m_fonts;
 };

@@ -15,9 +15,16 @@ Assets::Assets()
     m_textures["GreyRobotObstacle.gif"].loadFromMemory(___assets_GreyRobotObstacle_gif, ___assets_GreyRobotObstacle_gif_len);
     m_textures["OrangeCrabEnemy.gif"].loadFromMemory(___assets_OrangeCrabEnemy_gif, ___assets_OrangeCrabEnemy_gif_len);
     m_textures["YellowPopcornEnemy.gif"].loadFromMemory(___assets_YellowPopcornEnemy_gif, ___assets_YellowPopcornEnemy_gif_len);
+
+    m_fonts["font.ttf"].loadFromMemory(___assets_font_ttf, ___assets_font_ttf_len);
 }
 
 sf::Texture &Assets::get_texture(const std::string &name)
 {
     return m_textures[name];
+}
+
+sf::Font &Assets::get_font(const std::string &name)
+{
+    return m_fonts[name];
 }
