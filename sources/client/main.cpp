@@ -14,7 +14,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
 #include "client/Network/Network.hpp"
-#include "client/ArgumentsHandling/ArgumentsHandling.hpp"
+#include "utils/handleArgument/handleArgument.hpp"
 
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
@@ -31,17 +31,17 @@ int main(int ac, char **av)
     (void)ac;
     (void)av;
     binaryConverter converter;
-    tcpClientSocket tcpClient(8080);
-    udpClientSocket udpClient(4242);
+    handleArgument handleArguments;
+    tcpClientSocket tcpClient(handleArguments.getPort(av[1]));
+    udpClientSocket udpClient(handleArguments.getPort(av[2]));
     
-    handleArguments(ac, av);
     tcpClient.run();
     udpClient.run();
     Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
 
-    udpClient.send("connect");
+    udpClient.send("");
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
@@ -52,7 +52,6 @@ int main(int ac, char **av)
         registry.importFromMessages(messages.first, messages.second, &window);
         window.clear();
         registry.run_systems();
-        std::cout << "test" << std::endl;
         window.display();
     }
     return 0;
