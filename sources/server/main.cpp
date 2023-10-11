@@ -38,7 +38,7 @@ int main(const int ac, const char **av)
 
     Registry registry;
     sf::Clock clock;
-    sf::RenderWindow window (sf::VideoMode(1920, 1080), "Hess-Type");
+    sf::RenderWindow window;
     std::vector<std::string> filePath = {Level1Config};
     Parser parser(registry, window, clock, filePath);
     registry.register_component<Component::Position>();
@@ -67,10 +67,9 @@ int main(const int ac, const char **av)
     tcpServer.run();
     udpServer.run();
 
-    //udpServer.receive();
+    udpServer.receive();
 
     while (true) {
-        udpServer.receive();
         registry.run_systems();
         if (tcpServer.getNbClients() == 0) {
             continue;
