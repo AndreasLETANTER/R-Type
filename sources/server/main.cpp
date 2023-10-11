@@ -22,17 +22,25 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "../../build/assets/Level1Config.hpp"
+
+#include "handleArgument/handleArgument.hpp"
+#include "tcpSocket/tcpSocket.hpp"
+#include "udpSocket/udpSocket.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 
 int main(const int ac, const char **av)
 {
-    (void) ac;
-    (void) av;
+    (void)ac;
+    handleArgument handleArgument;
+    binaryConverter converter;
+    udpSocket udpServer(handleArgument.getPort(av[2]));
+    
     Registry registry;
-    sf::RenderWindow window {sf::VideoMode(1920, 1080), "R-Type" };
     sf::Clock clock;
-    std::vector<std::string> filesPath = {"./assets/Level1.yaml"};
-    Parser parser(registry, window, clock, filesPath);
-
+    sf::RenderWindow window;
+    std::vector<std::string> filePath = {"./assets/Level1.yaml"};
+    Parser parser(registry, window, clock, filePath);
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();
@@ -54,18 +62,23 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
-
     parser.loadFromFile();
-    window.setFramerateLimit(144);
 
-    while (window.isOpen()) {
-        for (auto event = sf::Event{}; window.pollEvent(event);) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
+    udpServer.run();
+
+    udpServer.receive();
+
+    //int j = 0;
+    while (true) {
+        for (int i = 0; i < 5; i++) {
+            registry.run_systems();
         }
-        window.clear();
-        registry.run_systems();
-        window.display();
+        std::pair<message_t *, size_t> messages = registry.exportToMessages();
+        udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
+        usleep(50000);
+        //if (j > 200) {
+       //     return 0;
+        //}
+        //j++;
     }
 }

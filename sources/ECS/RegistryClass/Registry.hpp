@@ -23,9 +23,11 @@
  * @brief Struct representing a message containing the sprite name and position of an entity.
  */
 typedef struct message_s {
-    char sprite_name[128]; /**< The name of the sprite associated with the entity. */
+    char sprite_name[128] = {0}; /**< The name of the sprite associated with the entity. */
     double x; /**< The x-coordinate of the entity's position. */
     double y; /**< The y-coordinate of the entity's position. */
+    sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
+    Component::Position position; /**< The position of the rect. */
 } message_t;
 
 /**

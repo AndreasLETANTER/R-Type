@@ -8,6 +8,7 @@
 #include <chrono>
 #include <random>
 #include <cstring>
+#include <random>
 
 #include "binaryConverter.hpp"
 #include "utils/debugColors/debugColors.hpp"
@@ -15,34 +16,95 @@
 t_header binaryConverter::createHeader(size_t nbEntities)
 {
     t_header header = {0, 0, 0};
-
-    header.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>
-    (std::chrono::system_clock::now().time_since_epoch()).count();
-    header.messageId = header.timestamp + (rand() % 900 + 100);
+    header.timestamp = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() % 10000000);
+    header.messageId = std::rand() % 10000000;
     header.nbEntities = nbEntities;
     return (header);
 }
 
-message_t *binaryConverter::convertBinaryToStruct(char *buffer)
+std::pair<message_t *, size_t> binaryConverter::convertBinaryToStruct(char *buffer)
 {
     t_header header = {0, 0, 0};
+    size_t offset = 0;
+    message_t *messages = nullptr;
 
-    memcpy(&header, buffer, sizeof(t_header));
-    message_t *messages = new message_t[header.nbEntities];
+    memcpy(&header.messageId, buffer + offset, sizeof(header.messageId));
+    offset += sizeof(header.messageId);
+    memcpy(&header.timestamp, buffer + offset, sizeof(header.timestamp));
+    offset += sizeof(header.timestamp);
+    memcpy(&header.nbEntities, buffer + offset, sizeof(header.nbEntities));
+    offset += sizeof(header.nbEntities);
+    messages = new message_t[header.nbEntities];
     for (size_t i = 0; i < header.nbEntities; i++) {
-        memcpy(&messages[i], buffer + sizeof(t_header) + sizeof(message_t) * i, sizeof(message_t));
+        memcpy(&messages[i].sprite_name, buffer + offset, sizeof(messages[i].sprite_name));
+        offset += sizeof(messages[i].sprite_name);
+        memcpy(&messages[i].x, buffer + offset, sizeof(messages[i].x));
+        offset += sizeof(messages[i].x);
+        memcpy(&messages[i].y, buffer + offset, sizeof(messages[i].y));
+        offset += sizeof(messages[i].y);
+        memcpy(&messages[i].rect, buffer + offset, sizeof(messages[i].rect));
+        offset += sizeof(messages[i].rect);
+        memcpy(&messages[i].position, buffer + offset, sizeof(messages[i].position));
+        offset += sizeof(messages[i].position);
     }
-    return (messages);
+    std::cout << "Message NB: " << header.nbEntities << std::endl;
+    for (int i = 0; (size_t)i < header.nbEntities; i++) {
+        std::cout << "Message TRIPLE COUCOU " << i << ": " << messages[i].sprite_name << std::endl;
+    }
+    return (std::make_pair(messages, header.nbEntities));
 }
 
-char *binaryConverter::convertStructToBinary(size_t size, message_t *messages)
+t_first_message binaryConverter::convertBinaryToFirstMessage(char *buffer)
 {
-    t_header header = createHeader(size);
-    char *buffer = new char[sizeof(t_header) + sizeof(message_t) * size];
+    t_header header = {0, 0, 0};
+    t_first_message firstMessage = {0, 0};
+    size_t offset = 0;
 
+    memcpy(&header.messageId, buffer + offset, sizeof(header.messageId));
+    offset += sizeof(header.messageId);
+    memcpy(&header.timestamp, buffer + offset, sizeof(header.timestamp));
+    offset += sizeof(header.timestamp);
+    memcpy(&header.nbEntities, buffer + offset, sizeof(header.nbEntities));
+    offset += sizeof(header.nbEntities);
+    memcpy(&firstMessage.id, buffer + offset, sizeof(firstMessage.id));
+    offset += sizeof(firstMessage.id);
+    memcpy(&firstMessage.udp_port, buffer + offset, sizeof(firstMessage.udp_port));
+    offset += sizeof(firstMessage.udp_port);
+    return (firstMessage);
+}
+
+std::vector<char> binaryConverter::convertStructToBinary(size_t size, message_t *messages)
+{
+    std::vector <char> buffer;
+    t_header header = createHeader(size);
     for (size_t i = 0; i < size; i++) {
-        memcpy(buffer + sizeof(t_header) + sizeof(message_t) * i, &messages[i], sizeof(message_t));
+        std::cout << "Message COUCOU " << i << ": " << messages[i].sprite_name << std::endl;
     }
-    memcpy(buffer, &header, sizeof(t_header));
+
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.messageId), reinterpret_cast<char *>(&header.messageId) + sizeof(header.messageId));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.timestamp), reinterpret_cast<char *>(&header.timestamp) + sizeof(header.timestamp));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.nbEntities), reinterpret_cast<char *>(&header.nbEntities) + sizeof(header.nbEntities));
+    for (size_t i = 0; i < size; i++) {
+        buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].sprite_name), reinterpret_cast<char *>(&messages[i].sprite_name) + sizeof(messages[i].sprite_name));
+        buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].x), reinterpret_cast<char *>(&messages[i].x) + sizeof(messages[i].x));
+        buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].y), reinterpret_cast<char *>(&messages[i].y) + sizeof(messages[i].y));
+        buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].rect), reinterpret_cast<char *>(&messages[i].rect) + sizeof(messages[i].rect));
+        buffer.insert(buffer.end(), reinterpret_cast<char *>(&messages[i].position), reinterpret_cast<char *>(&messages[i].position) + sizeof(messages[i].position));
+    }
+    return (buffer);
+}
+
+std::vector<char> binaryConverter::convertStructToFirstMessage(unsigned int messageId)
+{
+    (void)messageId;
+    std::vector<char> buffer;
+    t_header header = createHeader(messageId);
+    t_first_message firstMessage = {messageId, 4242};
+
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.messageId), reinterpret_cast<char *>(&header.messageId) + sizeof(header.messageId));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.timestamp), reinterpret_cast<char *>(&header.timestamp) + sizeof(header.timestamp));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.nbEntities), reinterpret_cast<char *>(&header.nbEntities) + sizeof(header.nbEntities));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&firstMessage.id), reinterpret_cast<char *>(&firstMessage.id) + sizeof(firstMessage.id));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&firstMessage.udp_port), reinterpret_cast<char *>(&firstMessage.udp_port) + sizeof(firstMessage.udp_port));
     return (buffer);
 }

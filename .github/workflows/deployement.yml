@@ -117,7 +117,7 @@ jobs:
             echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           fi
           if [ -n "$(find "tests/client" -name '*.ftest.toml')" ]; then
-            $GITHUB_WORKSPACE/ftest tests/server
+            $GITHUB_WORKSPACE/ftest tests/client
             error=0
             if [ $? -ne 0 ]; then
               $error = 1
@@ -130,7 +130,7 @@ jobs:
             echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           fi
           if [ -n "$(find "tests/ecs" -name '*.ftest.toml')" ]; then
-            $GITHUB_WORKSPACE/ftest tests/server
+            $GITHUB_WORKSPACE/ftest tests/ecs
             error=0
             if [ $? -ne 0 ]; then
               $error = 1

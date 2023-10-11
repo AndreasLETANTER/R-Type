@@ -18,18 +18,18 @@
 #include "ECS/Components/AutoMove.hpp"
 #include "ECS/Components/Health.hpp"
 
-Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesPath) :
+Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesContents) :
     m_registry(registry),
     m_window(window),
     m_clock(clock),
-    m_filesPaths(filesPath)
+    m_filesContents(filesContents)
 {}
 
 void Parser::loadFromFile()
 {
-    for (auto &filePath : m_filesPaths) {
+    for (auto &filePath : m_filesContents) {
         try {
-            m_config.readFile(filePath.c_str());
+            m_config.readString(filePath.c_str());
             loadLevelParams();
             loadBackgrounds();
             loadPlayers();

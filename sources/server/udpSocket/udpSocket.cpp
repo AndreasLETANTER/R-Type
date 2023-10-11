@@ -1,66 +1,36 @@
-/*
-** EPITECH PROJECT, 2023
-** R-Type
-** File description:
-** udpSocket
-*/
+#include "udpSocket.hpp"
+#include "utils/debugColors/debugColors.hpp"
 
-#include <boost/array.hpp>
-#include <boost/system/system_error.hpp>
-
-#include "server/udpSocket/udpSocket.hpp"
-#include "utils/debugColorsClass/debugColors.hpp"
-#include "utils/binaryConverterClass/binaryConverter.hpp"
-
-
-#define MAXLINE 1024
-
-udpSocket::udpSocket(u_int16_t t_port) :
-m_socket(m_ioService, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), t_port))
+udpSocket::udpSocket(int t_udpPort) : m_socket(m_ioService, ip::udp::endpoint(ip::udp::v4(), t_udpPort))
 {
-    printInfo("Server is running on port " + std::to_string(t_port));
+    m_endpoint = ip::udp::endpoint(ip::udp::v4(), t_udpPort);
+    printTrace("UDP socket created on port " + std::to_string(t_udpPort));
 }
 
 udpSocket::~udpSocket()
 {
-    m_socket.close();
-    printTrace("Socket closed");
 }
 
-std::string udpSocket::receive()
+void udpSocket::run()
 {
-    binaryConverter converter;
-    boost::array<char, MAXLINE> buffer;
-    boost::asio::ip::udp::endpoint senderEndpoint;
-    boost::system::error_code error;
-    std::string msg;
-
-    try {
-        m_socket.receive_from(boost::asio::buffer(buffer), senderEndpoint, 0, error);
-        if (error)
-            throw boost::system::system_error(error);
-        msg = converter.binary_to_string(buffer.data());
-    } catch (const std::exception &e) {
-        printError(e.what());
+    m_ioService.run();
+}
+#include <iostream>
+void udpSocket::send(std::vector<char> t_message)
+{
+    try
+    {
+        m_socket.send_to(buffer(t_message), m_endpoint);
     }
-    printSuccess("Message received from " + senderEndpoint.address().to_string() + ":" + std::to_string(senderEndpoint.port()));
-    printSuccess("Message: " + msg);
-    return msg;
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }
 
-void udpSocket::send(std::string t_msg)
+char *udpSocket::receive()
 {
-    binaryConverter converter;
-    boost::asio::ip::udp::endpoint receiverEndpoint = m_socket.remote_endpoint();
-    boost::system::error_code error;
-
-    try {
-        m_socket.send_to(boost::asio::buffer(converter.string_to_binary(t_msg)), receiverEndpoint, 0, error);
-        if (error)
-            throw boost::system::system_error(error);
-    } catch (const std::exception &e) {
-        printError(e.what());
-    }
-    printSuccess("Message sent to " + receiverEndpoint.address().to_string() + ":" + std::to_string(receiverEndpoint.port()));
-    printSuccess("Message: " + t_msg);
+    m_readBuffer.fill(0);
+    m_socket.receive_from(buffer(m_readBuffer), m_endpoint);
+    return m_readBuffer.data();
 }

@@ -34,11 +34,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SFML)
 
+set(BOOST_INCLUDE_LIBRARIES asio system)
+set(BOOST_ENABLE_CMAKE ON)
+
+include(FetchContent)
 FetchContent_Declare(
-    asio
-    GIT_REPOSITORY "https://github.com/chriskohlhoff/asio.git"
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_PROGRESS TRUE
+  GIT_TAG boost-1.82.0
 )
-FetchContent_MakeAvailable(asio)
+FetchContent_MakeAvailable(Boost)
 
 ###############################DIRECTORIES SRC####################################
 
@@ -73,13 +79,24 @@ set (ECS_SOURCES
 
 set(SERVER_SOURCES
     sources/server/handleArgument/handleArgument.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
+    sources/server/udpSocket/udpSocket.cpp
 )
 
 set(CLIENT_SOURCES
+
+    sources/client/Network/Network.cpp
+    sources/client/tcpClientSocket/tcpClientSocket.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
+    sources/utils/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
+    sources/client/Network/Network.cpp
+    sources/client/ArgumentsHandling/ArgumentsHandling.cpp
+    sources/client/udpClientSocket/udpClientSocket.cpp
 )
 
 set(SERVER_MAIN
@@ -103,7 +120,6 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
-    tests/binaryConverter/binaryConverterTests.cpp
 )
 
 set(CLIENT_TESTS
@@ -126,19 +142,35 @@ cmrc_add_resource_library(
 
 list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
+####################### Handle Levels' Configurations Files #######################
+file(GLOB LEVEL_FILES "assets/levels/*.yaml")
+foreach(LEVEL_FILE ${LEVEL_FILES})
+    get_filename_component(LEVEL_NAME ${LEVEL_FILE} NAME_WE)
+    set(LEVEL_CONFIG_HPP "${CMAKE_BINARY_DIR}/assets/${LEVEL_NAME}Config.hpp")
+
+    file(REMOVE ${LEVEL_CONFIG_HPP})
+    file(APPEND ${LEVEL_CONFIG_HPP} "#include <string>\n\n")
+    file(APPEND ${LEVEL_CONFIG_HPP} "const std::string ${LEVEL_NAME}Config = R\"yaml_content(\n")
+    file(READ ${LEVEL_FILE} LEVEL_CONFIG_CONTENT)
+    file(APPEND ${LEVEL_CONFIG_HPP} "${LEVEL_CONFIG_CONTENT}")
+    file(APPEND ${LEVEL_CONFIG_HPP} "    )yaml_content\";\n")
+
+    set(ECS_SOURCES ${ECS_SOURCES} ${LEVEL_CONFIG_HPP})
+endforeach()
+
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::system Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::system Boost::asio)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
@@ -148,28 +180,28 @@ target_include_directories(${ECS_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType)
+target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::system Boost::asio)
 
 add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
 target_include_directories(${SERVER_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType)
+target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::system Boost::asio)
 
 add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
 target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::system Boost::asio)
 
 add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType)
+target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::system Boost::asio)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
