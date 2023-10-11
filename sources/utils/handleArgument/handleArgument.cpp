@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "server/handleArgument/handleArgument.hpp"
+#include "utils/handleArgument/handleArgument.hpp"
 #include "utils/debugColors/debugColors.hpp"
 
 uint16_t handleArgument::getPort(char const *t_av) const

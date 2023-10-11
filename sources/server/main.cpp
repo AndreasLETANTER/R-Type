@@ -23,8 +23,7 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "../../build/assets/Level1Config.hpp"
-
-#include "handleArgument/handleArgument.hpp"
+#include "utils/handleArgument/handleArgument.hpp"
 #include "tcpSocket/tcpSocket.hpp"
 #include "udpSocket/udpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
@@ -34,6 +33,7 @@ int main(const int ac, const char **av)
     (void)ac;
     handleArgument handleArgument;
     binaryConverter converter;
+    tcpSocket tcpServer(handleArgument.getPort(av[1]));
     udpSocket udpServer(handleArgument.getPort(av[2]));
 
     Registry registry;
@@ -64,15 +64,18 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     parser.loadFromFile();
 
+    tcpServer.run();
     udpServer.run();
 
     udpServer.receive();
 
     while (true) {
-        for (int i = 0; i < 5; i++) {
-            registry.run_systems();
+        registry.run_systems();
+        if (tcpServer.getNbClients() == 0) {
+            continue;
         }
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
+        (void)messages;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
     }
