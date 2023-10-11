@@ -38,9 +38,15 @@ int main(const int ac, const char **av)
 
     Registry registry;
     sf::Clock clock;
+<<<<<<< Updated upstream
     sf::RenderWindow window;
     std::vector<std::string> fileContent = {Level1Config};
     Parser parser(registry, window, clock, fileContent);
+=======
+    sf::RenderWindow window (sf::VideoMode(1920, 1080), "Hess-Type");
+    std::vector<std::string> filePath = {Level1Config};
+    Parser parser(registry, window, clock, filePath);
+>>>>>>> Stashed changes
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();
@@ -68,7 +74,6 @@ int main(const int ac, const char **av)
 
     udpServer.receive();
 
-    //int j = 0;
     while (true) {
         for (int i = 0; i < 5; i++) {
             registry.run_systems();
@@ -76,9 +81,5 @@ int main(const int ac, const char **av)
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
-        //if (j > 200) {
-       //     return 0;
-        //}
-        //j++;
     }
 }
