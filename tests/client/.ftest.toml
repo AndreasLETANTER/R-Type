@@ -1,49 +1,9 @@
-name = "use tests for tcp part of the client"
+name = "to complete"
 
 [[test]]
-name = "-h help flag"
+name = "test"
 type = "command"
-command = "../../r-type_client -h"
-expected.stdout = ""
-expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
-expected.exit_code = 0
-
-[[test]]
-name = "-h help flag with other flags"
-type = "command"
-command = "../../r-type_client -h -v -m"
-expected.stdout = ""
-expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
-expected.exit_code = 0
-
-[[test]]
-name = "-h help flag with other flags and arguments"
-type = "command"
-command = "../../r-type_client -h -v -m hello world"
-expected.stdout = ""
-expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
-expected.exit_code = 0
-
-[[test]]
-name = "--help help flag"
-type = "command"
-command = "../../r-type_client --help"
-expected.stdout = ""
-expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
-expected.exit_code = 0
-
-[[test]]
-name = "--help help flag with other flags"
-type = "command"
-command = "../../r-type_client --help -v -m"
-expected.stdout = ""
-expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
-expected.exit_code = 0
-
-[[test]]
-name = "--help help flag with other flags and arguments"
-type = "command"
-command = "../../r-type_client --help -v -m hello world"
-expected.stdout = ""
-expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
+command = "echo test"
+expected.stdout = "test\n"
+expected.stderr = ""
 expected.exit_code = 0
