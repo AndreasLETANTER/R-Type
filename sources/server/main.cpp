@@ -67,9 +67,10 @@ int main(const int ac, const char **av)
     tcpServer.run();
     udpServer.run();
 
-    udpServer.receive();
+    //udpServer.receive();
 
     while (true) {
+        udpServer.receive();
         registry.run_systems();
         if (tcpServer.getNbClients() == 0) {
             continue;
