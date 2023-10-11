@@ -13,7 +13,7 @@ udpSocket::~udpSocket()
 
 void udpSocket::run()
 {
-    m_ioService.run();
+    m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
 }
 #include <iostream>
 void udpSocket::send(std::vector<char> t_message)

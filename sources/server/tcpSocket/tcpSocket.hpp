@@ -30,6 +30,7 @@ class tcpSocket {
         u_int16_t m_tcpPort; /**< The TCP port number. */
         std::shared_ptr<std::map<int, ip::tcp::socket>> m_clients; /**< The map of connected clients. */
         std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The buffer used to read data from the socket. */
+        std::thread m_ioServiceThread; /**< The thread used to run the io service object. */
     public:
         /**
          * @brief Construct a new tcpSocket object with the specified TCP port number.
@@ -82,4 +83,6 @@ class tcpSocket {
          * @param message The message to send.
          */
         void sendMessage(int clientId, std::vector<char> message);
+
+        unsigned int getNbClients() const {return m_clients->size();};
 };
