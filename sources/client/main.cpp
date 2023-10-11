@@ -31,15 +31,17 @@ int main(int ac, char **av)
     (void)ac;
     (void)av;
     binaryConverter converter;
+    tcpClientSocket tcpClient(8080);
     udpClientSocket udpClient(4242);
     
     handleArguments(ac, av);
+    tcpClient.run();
     udpClient.run();
-    udpClient.send("connect");
     Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
 
+    udpClient.send("connect");
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
@@ -50,6 +52,7 @@ int main(int ac, char **av)
         registry.importFromMessages(messages.first, messages.second, &window);
         window.clear();
         registry.run_systems();
+        std::cout << "test" << std::endl;
         window.display();
     }
     return 0;

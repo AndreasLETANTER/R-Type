@@ -18,4 +18,5 @@ class udpSocket {
         ip::udp::socket m_socket;
         ip::udp::endpoint m_endpoint;
         std::array<char, UDP_PACKET_SIZE> m_readBuffer;
+        std::thread m_ioServiceThread;
 };

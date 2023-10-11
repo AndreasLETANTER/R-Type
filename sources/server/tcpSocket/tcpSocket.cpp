@@ -38,7 +38,8 @@ tcpSocket::~tcpSocket()
 
 void tcpSocket::run()
 {
-    m_ioService.run();
+    // Start the io_service object on the background thread
+    m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
 }
 
 void tcpSocket::handleRead(int clientId, std::size_t bytesTransferred)
