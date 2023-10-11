@@ -74,10 +74,8 @@ int main(const int ac, const char **av)
         if (tcpServer.getNbClients() == 0) {
             continue;
         }
-        std::cout << "exported 1" << std::endl;
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
         (void)messages;
-        std::cout << "exported 2" << std::endl;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
     }
