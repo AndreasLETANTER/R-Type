@@ -21,6 +21,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "../../build/assets/Level1Config.hpp"
 
 #include "tcpSocket/tcpSocket.hpp"
 #include "handleArgument/handleArgument.hpp"

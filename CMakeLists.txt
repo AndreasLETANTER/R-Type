@@ -124,6 +124,22 @@ endforeach()
 
 list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
+####################### Handle Levels' Configurations Files #######################
+file(GLOB LEVEL_FILES "assets/levels/*.yaml")
+foreach(LEVEL_FILE ${LEVEL_FILES})
+    get_filename_component(LEVEL_NAME ${LEVEL_FILE} NAME_WE)
+    set(LEVEL_CONFIG_HPP "${CMAKE_BINARY_DIR}/assets/${LEVEL_NAME}Config.hpp")
+
+    file(REMOVE ${LEVEL_CONFIG_HPP})
+    file(APPEND ${LEVEL_CONFIG_HPP} "#include <string>\n\n")
+    file(APPEND ${LEVEL_CONFIG_HPP} "const std::string ${LEVEL_NAME}Config = R\"yaml_content(\n")
+    file(READ ${LEVEL_FILE} LEVEL_CONFIG_CONTENT)
+    file(APPEND ${LEVEL_CONFIG_HPP} "${LEVEL_CONFIG_CONTENT}")
+    file(APPEND ${LEVEL_CONFIG_HPP} "    )yaml_content\";\n")
+
+    set(ECS_SOURCES ${ECS_SOURCES} ${LEVEL_CONFIG_HPP})
+endforeach()
+
 add_executable(${SERVER_NAME} ${SERVER_MAIN} ${ECS_SOURCES} ${SERVER_SOURCES})
 target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
