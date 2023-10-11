@@ -34,15 +34,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SFML)
 
-set(BOOST_INCLUDE_LIBRARIES asio system)
-set(BOOST_ENABLE_CMAKE ON)
-
-include(FetchContent)
 FetchContent_Declare(
-  Boost
-  GIT_REPOSITORY https://github.com/boostorg/boost.git
-  GIT_PROGRESS TRUE
-  GIT_TAG boost-1.82.0
+    Boost
+    GIT_REPOSITORY "https://github.com/boostorg/boost.git"
 )
 FetchContent_MakeAvailable(Boost)
 
@@ -163,14 +157,14 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::system Boost::asio)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::system Boost::asio)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
@@ -180,28 +174,28 @@ target_include_directories(${ECS_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::system Boost::asio)
+target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
 add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
 target_include_directories(${SERVER_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::system Boost::asio)
+target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
 add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
 target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::system Boost::asio)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
 
 add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::system Boost::asio)
+target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
