@@ -19,12 +19,14 @@
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
+#include "ECS/Assets/Assets.hpp"
 
 void signalHandler(int signum)
 {
     std::cout << "Interrupt signal (" << signum << ") received.\n";
     exit(signum);
 }
+#include "ECS/Assets/Assets.hpp"
 
 int main(int ac, char **av)
 {
@@ -37,9 +39,13 @@ int main(int ac, char **av)
     
     tcpClient.run();
     udpClient.run();
-    Registry registry;
+    udpClient.send("connect");
+    Assets assets;
+    Registry registry(assets);
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
+    sf::Clock clock;
+    MainMenu mainMenu(window, assets);
 
     udpClient.send("");
     while (window.isOpen()) {
@@ -49,7 +55,7 @@ int main(int ac, char **av)
         }
         std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
         registry = Registry();
-        registry.importFromMessages(messages.first, messages.second, &window);
+        registry.importFromMessages(messages.first, messages.second, &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080));
         window.clear();
         registry.run_systems();
         window.display();
