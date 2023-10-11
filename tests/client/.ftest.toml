@@ -4,6 +4,6 @@ name = "to complete"
 name = "test"
 type = "command"
 command = "echo test"
-expected.stdout = "test"
+expected.stdout = "test\n"
 expected.stderr = ""
 expected.exit_code = 0
