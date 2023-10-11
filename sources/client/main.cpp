@@ -37,15 +37,21 @@ int main(int ac, char **av)
     
     tcpClient.run();
     udpClient.run();
+    tcpClient.receive();
     Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
 
-    udpClient.send("");
+    udpClient.send(std::vector<char>({'1'}));
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
+                std::cout << "Key pressed: " << event.key.code << std::endl;
+                std::cout << "zoulou" << tcpClient.getId() << std::endl;
+                udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
+            }
         }
         std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
         registry = Registry();

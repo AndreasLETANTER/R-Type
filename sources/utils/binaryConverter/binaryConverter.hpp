@@ -22,6 +22,12 @@ typedef struct s_first_message
     unsigned int udp_port;
 } t_first_message;
 
+typedef struct s_input
+{
+    unsigned int id;
+    sf::Keyboard::Key key;
+} t_input;
+
 class binaryConverter {
 /**
  * @brief A class that provides methods to convert binary data to structured data and vice versa.
@@ -45,6 +51,7 @@ class binaryConverter {
          */
         std::pair<message_t *, size_t> convertBinaryToStruct(char *buffer);
         t_first_message convertBinaryToFirstMessage(char *buffer);
+        t_input convertBinaryToInput(char *buffer);
 
         /**
          * @brief Converts structured data to binary data.
@@ -54,8 +61,8 @@ class binaryConverter {
          * @return A pointer to the binary data.
          */
         std::vector<char> convertStructToBinary(size_t nbEntites, message_t *messages);
-
         std::vector<char> convertStructToFirstMessage(unsigned int messageId);
+        std::vector<char> convertStructToInput(unsigned int t_id, sf::Keyboard::Key key);
 
     private:
         /**

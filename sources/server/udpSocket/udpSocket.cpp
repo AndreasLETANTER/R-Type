@@ -30,7 +30,10 @@ void udpSocket::send(std::vector<char> t_message)
 
 char *udpSocket::receive()
 {
-    m_readBuffer.fill(0);
-    m_socket.receive_from(buffer(m_readBuffer), m_endpoint);
+    
+    std::thread([this]() {
+        m_readBuffer.fill(0);
+        m_socket.receive_from(buffer(m_readBuffer), m_endpoint);
+    }).detach();
     return m_readBuffer.data();
 }

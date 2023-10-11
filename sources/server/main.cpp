@@ -66,16 +66,20 @@ int main(const int ac, const char **av)
 
     tcpServer.run();
     udpServer.run();
-
-    udpServer.receive();
+    char *received;
 
     while (true) {
         registry.run_systems();
         if (tcpServer.getNbClients() == 0) {
             continue;
         }
+        received = udpServer.receive();
+        if (received != nullptr) {
+            t_input input = converter.convertBinaryToInput(received);
+            std::cout << "Input received: " << input.id << std::endl;
+            std::cout << "Input received: " << input.key << std::endl;
+        }
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
-        (void)messages;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
     }

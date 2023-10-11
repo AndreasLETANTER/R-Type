@@ -41,8 +41,10 @@ char *tcpClientSocket::receive()
 {
     boost::system::error_code error;
     binaryConverter converter;
-    m_readBuffer.fill(0);
-    boost::asio::read(m_socket, boost::asio::buffer(m_readBuffer), boost::asio::transfer_at_least(1), error);
+    std::thread([this]() {
+        m_readBuffer.fill(0);
+        boost::asio::read(m_socket, boost::asio::buffer(m_readBuffer), boost::asio::transfer_at_least(1));
+    }).detach();
     if (error) {
         std::cerr << "Error while receiving message: " << error.message() << std::endl;
     }
