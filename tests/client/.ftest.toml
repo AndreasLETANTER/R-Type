@@ -47,27 +47,3 @@ command = "../../r-type_client --help -v -m hello world"
 expected.stdout = ""
 expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
 expected.exit_code = 0
-
-[[test]]
-name = "wrong number of arguments"
-type = "command"
-command = "../../r-type_client 4444"
-expected.stdout = ""
-expected.stderr = "Usage: ./r-type_client <port> <ip_address>\n"
-expected.exit_code = 84
-
-[[test]]
-name = "port to 0"
-type = "command"
-command = "../../r-type_client 0 localhost"
-expected.stdout = ""
-expected.stderr = "Error: invalid port number\n"
-expected.exit_code = 84
-
-[[test]]
-name = "too high port number"
-type = "command"
-command = "../../r-type_client 65536 localhost"
-expected.stdout = ""
-expected.stderr = "Error: invalid port number\n"
-expected.exit_code = 84

@@ -22,12 +22,12 @@ int handleArguments(int ac, char **av)
     }
     if (ac != 3) {
         std::cerr << usageMessage << std::endl;
-        return (84);
+        exit(84);
     }
     port = strtoul(av[1], nullptr, 10);
     if (port == 0 || port > 65535) {
         std::cerr << "Error: invalid port number" << std::endl;
-        return (84);
+        exit(84);
     }
     return (0);
 }

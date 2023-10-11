@@ -32,13 +32,8 @@ int main(int ac, char **av)
     (void)av;
     binaryConverter converter;
     udpClientSocket udpClient(4242);
-    // tcpClientSocket client(8080);
-    // client.run();
-
-    // client.send("zizi");
-    // while (client.getId() == 0) {
-    //     client.receive();
-    // }
+    
+    handleArguments(ac, av);
     udpClient.run();
     udpClient.send("connect");
     Registry registry;
