@@ -26,7 +26,7 @@ Test(Registry, basic_importFromMessages)
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
+    reg.add_component<Component::Drawable>(entity1, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
 
     message_t *messages = reg.exportToMessages().first;
     size_t size = reg.exportToMessages().second;
@@ -40,7 +40,7 @@ Test(Registry, basic_importFromMessages)
     cr_assert_eq(drawables.size(), 1);
     cr_assert_eq(positions[0].value().x, 0);
     cr_assert_eq(positions[0].value().y, 0);
-    cr_assert_eq(strcmp(drawables[0].value().spriteName.c_str(), "NugoTemporaryIcon.png"), 0);
+    cr_assert_eq(strcmp(drawables[0].value().spriteName.c_str(), "BurpTemporaryBullet.png"), 0);
 }
 
 Test(Registry, 2_spawn_importFromMessages)
@@ -54,12 +54,12 @@ Test(Registry, 2_spawn_importFromMessages)
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity1, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
+    reg.add_component<Component::Drawable>(entity1, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
 
     auto entity2 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity2, Component::Position(1, 1));
     reg.add_component<Component::Velocity>(entity2, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity2, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
+    reg.add_component<Component::Drawable>(entity2, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
 
     message_t *messages = reg.exportToMessages().first;
     size_t size = reg.exportToMessages().second;
@@ -76,8 +76,8 @@ Test(Registry, 2_spawn_importFromMessages)
     cr_assert_eq(positions[0].value().y, 0);
     cr_assert_eq(positions[1].value().x, 1);
     cr_assert_eq(positions[1].value().y, 1);
-    cr_assert_eq(strcmp(drawables[0].value().spriteName.c_str(), "NugoTemporaryIcon.png"), 0);
-    cr_assert_eq(strcmp(drawables[1].value().spriteName.c_str(), "NugoTemporaryIcon.png"), 0);
+    cr_assert_eq(strcmp(drawables[0].value().spriteName.c_str(), "BurpTemporaryBullet.png"), 0);
+    cr_assert_eq(strcmp(drawables[1].value().spriteName.c_str(), "BurpTemporaryBullet.png"), 0);
 }
 
 Test(Registry, 50_spawn_importFromMessages)
@@ -92,7 +92,7 @@ Test(Registry, 50_spawn_importFromMessages)
         auto entity = reg.spawn_entity();
         reg.add_component<Component::Position>(entity, Component::Position(i, i));
         reg.add_component<Component::Velocity>(entity, Component::Velocity(0, 0));
-        reg.add_component<Component::Drawable>(entity, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
+        reg.add_component<Component::Drawable>(entity, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
     }
 
     message_t *messages = reg.exportToMessages().first;
@@ -107,7 +107,7 @@ Test(Registry, 50_spawn_importFromMessages)
     for (int i = 0; i < 50; i++) {
         cr_assert_eq(positions[i].value().x, i);
         cr_assert_eq(positions[i].value().y, i);
-        cr_assert_eq(strcmp(drawables[i].value().spriteName.c_str(), "NugoTemporaryIcon.png"), 0);
+        cr_assert_eq(strcmp(drawables[i].value().spriteName.c_str(), "BurpTemporaryBullet.png"), 0);
     }
 }
 
@@ -123,7 +123,7 @@ Test(Registry, 800_spawn_importFromMessages)
         auto entity = reg.spawn_entity();
         reg.add_component<Component::Position>(entity, Component::Position(i, i));
         reg.add_component<Component::Velocity>(entity, Component::Velocity(0, 0));
-        reg.add_component<Component::Drawable>(entity, Component::Drawable("NugoTemporaryIcon.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), false, reg.get_assets().get_texture("NugoTemporaryIcon.png")));
+        reg.add_component<Component::Drawable>(entity, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
     }
 
     message_t *messages = reg.exportToMessages().first;
@@ -138,7 +138,7 @@ Test(Registry, 800_spawn_importFromMessages)
     for (int i = 0; i < 800; i++) {
         cr_assert_eq(positions[i].value().x, i);
         cr_assert_eq(positions[i].value().y, i);
-        cr_assert_eq(strcmp(drawables[i].value().spriteName.c_str(), "NugoTemporaryIcon.png"), 0);
+        cr_assert_eq(strcmp(drawables[i].value().spriteName.c_str(), "BurpTemporaryBullet.png"), 0);
     }
 }
 

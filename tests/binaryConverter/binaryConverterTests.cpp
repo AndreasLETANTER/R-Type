@@ -1,3 +1,11 @@
+/*
+** EPITECH PROJECT, 2023
+** MIRROR_R-Type
+** File description:
+** binaryConverterTests
+*/
+
+#define _LIBCPP_DISABLE_DEPRECATION_WARNINGS
 #include <criterion/criterion.h>
 #include <cstring>
 
