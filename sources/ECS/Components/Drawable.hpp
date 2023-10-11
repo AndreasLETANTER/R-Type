@@ -27,13 +27,17 @@ namespace Component {
             sf::IntRect rect; /**< The rectangle of the sprite. */
             Component::Position scale; /**< The scale values of the drawable object. */
             sf::RenderWindow *window; /**< The render window to draw the object on. */
+
             /**
              * @brief Construct a new Drawable object.
              *
              * @param sprite The sprite of the drawable object.
              * @param window The render window to draw the object on.
+             * @param rect The rectangle of the sprite.
+             * @param position The position of the drawable object.
+             * @param texture The texture of the drawable object.
              */
-            Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position position, bool needToLoadTexture);
+            Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position position, std::shared_ptr<sf::Texture> texture);
 
         private:
             std::map<std::string, std::pair<const unsigned char *, std::size_t>> assets;
