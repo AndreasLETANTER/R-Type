@@ -15,6 +15,8 @@
 
 #include <boost/asio.hpp>
 
+#include "server/udpSocket/udpSocket.hpp"
+
 using namespace boost::asio;
 
 /**
@@ -27,7 +29,7 @@ class tcpSocket {
         ip::tcp::socket m_socket; /**< The boost asio TCP socket object. */
         u_int16_t m_tcpPort; /**< The TCP port number. */
         std::shared_ptr<std::map<int, ip::tcp::socket>> m_clients; /**< The map of connected clients. */
-        std::array<char, 1024> m_readBuffer; /**< The buffer used to read data from the socket. */
+        std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The buffer used to read data from the socket. */
     public:
         /**
          * @brief Construct a new tcpSocket object with the specified TCP port number.
@@ -79,5 +81,5 @@ class tcpSocket {
          * @param clientId The ID of the client.
          * @param message The message to send.
          */
-        void sendMessage(int clientId, const std::string& message);
+        void sendMessage(int clientId, std::vector<char> message);
 };

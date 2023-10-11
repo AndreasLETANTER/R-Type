@@ -37,6 +37,7 @@ FetchContent_MakeAvailable(asio)
 ###############################DIRECTORIES SRC####################################
 
 set(ASSETS_FILES
+    ../assets/NugoTemporaryIcon.png
     ../assets/Space_Background.png
     ../assets/SpaceShips.gif
     ../assets/BurpTemporaryBullet.png
@@ -69,11 +70,21 @@ set(SERVER_SOURCES
     sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
+    sources/server/udpSocket/udpSocket.cpp
 )
 
 set(CLIENT_SOURCES
+
+    sources/client/Network/Network.cpp
+    sources/client/tcpClientSocket/tcpClientSocket.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
+    sources/utils/debugColors/debugColors.cpp
+    sources/utils/binaryConverter/binaryConverter.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
+    sources/client/Network/Network.cpp
+    sources/client/ArgumentsHandling/ArgumentsHandling.cpp
+    sources/client/udpClientSocket/udpClientSocket.cpp
 )
 
 set(SERVER_MAIN
@@ -97,7 +108,6 @@ set(ECS_TESTS
 )
 
 set(SERVER_TESTS
-    tests/binaryConverter/binaryConverterTests.cpp
 )
 
 set(CLIENT_TESTS

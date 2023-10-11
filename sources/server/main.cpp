@@ -5,6 +5,7 @@
 ** main
 */
 
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -23,15 +24,61 @@
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "../../build/assets/Level1Config.hpp"
 
-#include "tcpSocket/tcpSocket.hpp"
 #include "handleArgument/handleArgument.hpp"
+#include "tcpSocket/tcpSocket.hpp"
+#include "udpSocket/udpSocket.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 
-int main(int ac, char **av)
+int main(const int ac, const char **av)
 {
     (void)ac;
     handleArgument handleArgument;
-    tcpSocket server(handleArgument.getPort(av[1]));
+    binaryConverter converter;
+    udpSocket udpServer(handleArgument.getPort(av[2]));
+    
+    Registry registry;
+    sf::Clock clock;
+    sf::RenderWindow window;
+    std::vector<std::string> filePath = {"./assets/Level1.yaml"};
+    Parser parser(registry, window, clock, filePath);
+    registry.register_component<Component::Position>();
+    registry.register_component<Component::Velocity>();
+    registry.register_component<Component::Controllable>();
+    registry.register_component<Component::Drawable>();
+    registry.register_component<Component::AutoMove>();
+    registry.register_component<Component::Shoot>();
+    registry.register_component<Component::Projectile>();
+    registry.register_component<Component::Collision>();
+    registry.register_component<Component::Scroll>();
+    registry.register_component<Component::Health>();
 
-    server.run();
-    return 0;
+    registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
+    registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
+    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
+    registry.add_system<Component::Position, Component::AutoMove>(AutoMoveSystem());
+    registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
+    registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
+    registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
+    registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
+    registry.add_system<Component::Health>(HealthSystem());
+    registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
+    parser.loadFromFile();
+
+    udpServer.run();
+
+    udpServer.receive();
+
+    //int j = 0;
+    while (true) {
+        for (int i = 0; i < 5; i++) {
+            registry.run_systems();
+        }
+        std::pair<message_t *, size_t> messages = registry.exportToMessages();
+        udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
+        usleep(50000);
+        //if (j > 200) {
+       //     return 0;
+        //}
+        //j++;
+    }
 }
