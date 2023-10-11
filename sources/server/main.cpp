@@ -76,8 +76,8 @@ int main(const int ac, const char **av)
         received = udpServer.receive();
         if (received != nullptr) {
             t_input input = converter.convertBinaryToInput(received);
-            std::cout << "Input received: " << input.id << std::endl;
-            std::cout << "Input received: " << input.key << std::endl;
+            std::cout << "Input received id: " << input.id << std::endl;
+            std::cout << "Input received key: " << input.key << std::endl;
         }
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));

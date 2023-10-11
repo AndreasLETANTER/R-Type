@@ -39,15 +39,14 @@ void tcpClientSocket::send(const std::string &t_message)
 
 char *tcpClientSocket::receive()
 {
-    boost::system::error_code error;
-    binaryConverter converter;
     std::thread([this]() {
+        boost::system::error_code error;
+        binaryConverter converter;
         m_readBuffer.fill(0);
         boost::asio::read(m_socket, boost::asio::buffer(m_readBuffer), boost::asio::transfer_at_least(1));
-    }).detach();
-    if (error) {
-        std::cerr << "Error while receiving message: " << error.message() << std::endl;
-    }
+        if (error) {
+            std::cerr << "Error while receiving message: " << error.message() << std::endl;
+        }
     if (m_id == 0) {
         t_first_message firstMessage = converter.convertBinaryToFirstMessage(m_readBuffer.data());
         m_id = firstMessage.id;
@@ -55,5 +54,6 @@ char *tcpClientSocket::receive()
         printTrace("Received id: " + std::to_string(m_id));
         printTrace("Received udp port: " + std::to_string(m_udpPort));
     }
+    }).detach();
     return m_readBuffer.data();
 }
