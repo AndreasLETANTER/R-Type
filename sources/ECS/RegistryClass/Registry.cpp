@@ -11,6 +11,7 @@
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
+#include "ECS/Components/Controllable.hpp"
 
 Entity Registry::spawn_entity()
 {
@@ -85,5 +86,21 @@ void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWi
         auto entity = spawn_entity();
         add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, messages[i].rect, messages[i].position, true));
         add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
+    }
+}
+
+void Registry::updateEntityKeyPressed(t_input input)
+{
+    for (auto &entity : m_entities) {
+        if (entity.has_value()) {
+            auto &controllable = get_components<Component::Controllable>();
+            for (size_t i = 0; i < controllable.size(); i++) {
+                if (controllable[i].has_value()) {
+                    if (controllable[i].value().playerId == input.id) {
+                        controllable[i].value().keyPressed = input.key;
+                    }
+                }
+            }
+        }
     }
 }

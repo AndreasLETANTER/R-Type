@@ -22,7 +22,10 @@ namespace Component {
              */
             unsigned int playerId;
 
-            unsigned int keyPressed = 0;
+            /**
+             * @brief The key pressed by the player controlling the entity.
+             */
+            sf::Keyboard::Key keyPressed = sf::Keyboard::Unknown;
 
             /**
              * @brief Constructor for the Controllable component.

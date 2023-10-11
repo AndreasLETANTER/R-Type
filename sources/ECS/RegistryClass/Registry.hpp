@@ -18,6 +18,12 @@
 #include "ECS/EntityClass/Entity.hpp"
 #include "ECS/Components/Position.hpp"
 
+typedef struct s_input
+{
+    unsigned int id;
+    sf::Keyboard::Key key;
+} t_input;
+
 /**
  * @brief Struct representing a message containing the sprite name and position of an entity.
  */
@@ -186,6 +192,13 @@ class Registry {
          * @param window The window to draw the entities in.
          */
         void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
+
+        /**
+         * @brief Update the key pressed of an entity.
+         * 
+         * @param input The input of the entity.
+         */
+        void updateEntityKeyPressed(t_input input);
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */

@@ -22,12 +22,6 @@ typedef struct s_first_message
     unsigned int udp_port;
 } t_first_message;
 
-typedef struct s_input
-{
-    unsigned int id;
-    sf::Keyboard::Key key;
-} t_input;
-
 class binaryConverter {
 /**
  * @brief A class that provides methods to convert binary data to structured data and vice versa.

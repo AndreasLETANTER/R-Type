@@ -68,7 +68,6 @@ void tcpSocket::startRead(int clientId)
 
 void tcpSocket::sendMessage(int clientId, std::vector<char> message)
 {
-    std::cout << "debug4:" << clientId << std::endl;
     auto& clientSocket = m_clients->at(clientId);
     clientSocket.async_send(buffer(message),
         [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
