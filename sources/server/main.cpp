@@ -35,12 +35,12 @@ int main(const int ac, const char **av)
     handleArgument handleArgument;
     binaryConverter converter;
     udpSocket udpServer(handleArgument.getPort(av[2]));
-    
+
     Registry registry;
     sf::Clock clock;
     sf::RenderWindow window;
-    std::vector<std::string> filePath = {"./assets/Level1.yaml"};
-    Parser parser(registry, window, clock, filePath);
+    std::vector<std::string> fileContent = {Level1Config};
+    Parser parser(registry, window, clock, fileContent);
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();
