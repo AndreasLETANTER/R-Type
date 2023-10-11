@@ -18,7 +18,7 @@ Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, 
     this->scale = scale;
 
     this->texture = texture;
-    this->sprite.setTexture(&this->texture);
+    this->sprite.setTexture(*this->texture);
     if (static_cast<unsigned int>(this->rect.left) != 0 || static_cast<unsigned int>(this->rect.top) != 0) {
         this->sprite.setTextureRect(this->rect);
     }

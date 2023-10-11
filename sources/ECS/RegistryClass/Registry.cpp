@@ -79,7 +79,7 @@ std::pair<message_t *, size_t>Registry::exportToMessages()
     return std::make_pair(messages, size);
 }
 
-void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window)
+void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window, sf::IntRect rect, Component::Position position)
 {
     register_component<Component::Position>();
     register_component<Component::Drawable>();
