@@ -285,6 +285,7 @@ Test(Registry, advanced_add_component)
     cr_assert_eq(reg.get_components<double>()[0].value(), 15);
     cr_assert_eq(reg.get_components<int>()[1].value(), 11);
     cr_assert_eq(reg.get_components<char>()[0].value(), 'a');
+    std::cout << reg.get_components<char>()[1].has_value() << std::endl;
     cr_assert_eq(reg.get_components<char>()[1].has_value(), true);
 }
 
