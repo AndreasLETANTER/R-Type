@@ -39,8 +39,8 @@ int main(const int ac, const char **av)
     Registry registry;
     sf::Clock clock;
     sf::RenderWindow window;
-    std::vector<std::string> fileContent = {Level1Config};
-    Parser parser(registry, window, clock, fileContent);
+    std::vector<std::string> filePath = {Level1Config};
+    Parser parser(registry, window, clock, filePath);
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();
@@ -75,7 +75,6 @@ int main(const int ac, const char **av)
             continue;
         }
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
-        (void)messages;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
         usleep(50000);
     }

@@ -31,7 +31,7 @@ ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::S
                     registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position(x - (projectileDraw.value().sprite.getTextureRect().width + 1), y), Component::Position(0, y), 10, shoot.value().damage));
                 } else {
                     registry.add_component<Component::Position>(projectile, Component::Position(x + projectileDraw.value().sprite.getTextureRect().width + 1, y));
-                    registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position(x - (projectileDraw.value().sprite.getTextureRect().width + 1), y), Component::Position(window->getSize().x, y), 10, shoot.value().damage));
+                    registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position(x + (projectileDraw.value().sprite.getTextureRect().width + 1), y), Component::Position(1920, y), 10, shoot.value().damage));
                 }
                 registry.add_component<Component::Collision>(projectile, Component::Collision(projectileDraw.value().sprite.getTextureRect().height, projectileDraw.value().sprite.getTextureRect().width));
             }

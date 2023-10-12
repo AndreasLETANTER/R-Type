@@ -197,7 +197,7 @@ class Registry {
          * @param size Size of the array of messages.
          * @param window The window to draw the entities in.
          */
-        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window, sf::IntRect rect, Component::Position position);
+        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
         /**
          * @brief Returns the assets of the registry.
          * 

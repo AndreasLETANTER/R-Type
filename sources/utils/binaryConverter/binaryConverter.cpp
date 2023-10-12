@@ -47,10 +47,6 @@ std::pair<message_t *, size_t> binaryConverter::convertBinaryToStruct(char *buff
         memcpy(&messages[i].position, buffer + offset, sizeof(messages[i].position));
         offset += sizeof(messages[i].position);
     }
-    std::cout << "Message NB: " << header.nbEntities << std::endl;
-    for (int i = 0; (size_t)i < header.nbEntities; i++) {
-        std::cout << "Message TRIPLE COUCOU " << i << ": " << messages[i].sprite_name << std::endl;
-    }
     return (std::make_pair(messages, header.nbEntities));
 }
 
@@ -77,9 +73,6 @@ std::vector<char> binaryConverter::convertStructToBinary(size_t size, message_t 
 {
     std::vector <char> buffer;
     t_header header = createHeader(size);
-    for (size_t i = 0; i < size; i++) {
-        std::cout << "Message COUCOU " << i << ": " << messages[i].sprite_name << std::endl;
-    }
 
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.messageId), reinterpret_cast<char *>(&header.messageId) + sizeof(header.messageId));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.timestamp), reinterpret_cast<char *>(&header.timestamp) + sizeof(header.timestamp));
