@@ -14,7 +14,7 @@ Assets::Assets()
     this->load_texture("GreyRobotObstacle.gif", "assets/GreyRobotObstacle.gif");
     this->load_texture("OrangeCrabEnemy.gif", "assets/OrangeCrabEnemy.gif");
     this->load_texture("Space_Background.png", "assets/Space_Background.png");
-    this->load_texture("SpacheShips.gif", "assets/SpaceShips.gif");
+    this->load_texture("SpaceShips.gif", "assets/SpaceShips.gif");
     this->load_texture("YellowPopcornEnemy.gif", "assets/YellowPopcornEnemy.gif");
 
     this->load_font("font.ttf", "assets/font.ttf");

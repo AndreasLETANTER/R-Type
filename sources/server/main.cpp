@@ -77,6 +77,6 @@ int main(const int ac, const char **av)
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
         (void)messages;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
-        usleep(50000);
+        //usleep(50000);
     }
 }
