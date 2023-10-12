@@ -3,7 +3,7 @@
 **Date:** *25 / 09 / 2023*
 **Author**: *To complete*
 **Status**: *Draft*
-**Version:** *0.1*
+**Version:** *0.2*
 
 ## 1 - Introduction
 
@@ -19,102 +19,103 @@ The primary goals of the network component are as follows:
 
 ## 3 - Network Protocol
 
-The network should use a standardized protocol for communication. 
-
-| Status codes | Description |
-| --- | --- |
-| 1xx | Informational, Request   |
-| 2xx | Client |
-| 3xx | Server |
-
-| Status codes | Description |
-| --- | --- |
-| 100 | I want to connect to the server |
-| 200 |  |
-| 300 | Connexion established |
-| 301 | Connection not successful |
+The network should use a standardized protocol for communication.
 
 ## 3.1 - Command structure
 
-Commands must all be composed the same according to the following model
+Commands must all be composed the same according to the following model.
+
+All messages must be composed of a header and a body.
+
+### Header :
 
 ```bash
-[STATUS CODE]:[PARAMETER OR ANSWER];[PARAMETER OR ANSWER]
+typedef struct s_header
+{
+    unsigned int messageId;
+    unsigned int timestamp;
+    unsigned int nbEntities;
+} t_header;
 ```
 
-- [STATUS CODE]
+- **messageId**
 
-*The return code according to the response table*
-
-- :
-
-*The first separator that differentiates status code and parameters*
-
-- [PARAMETER OR ANSWER]
-
-*The different feedback information, this can be player positions, displays, etc.*
-
-- ;
-
-*Separator which allows you to differentiate between the different parameters*
-
-## 3.2 - Client-Server Initialization
-
-When a client requests to connect to the server it must send the following messages
-
-### Client request :
+Message identifier generated with the random library like this :
 
 ```bash
-100:
+std::rand() % 10000000
 ```
 
-- **100**
+- **timestamp**
 
-*Return code*
-
-### Server answer ✔️:
+Timestamp of the message in milliseconds generated with the chrono library like this :
 
 ```bash
-300:id=2;{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]};{sprite_name=”mob.jpeg”,pos=[x=”23.19”,y=“68.22”]}
+static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() % 10000000);
 ```
 
-- **300**
+- **nbEntities**
 
-*Status code*
+Number of entities in the message transmitted with the export message function of the registry.
 
-- **id=2**
+### Body :
 
-*Id of the player*
+The body message can be composed of several things :
 
-- **{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}**
-
-*Entity of the map :*
-
-- **sprite_name=”plane.jpeg”**
-
-*Entity sprite name for the display processus*
-
-- **pos=[x=”-92.92”,y=“686.16”]**
-
-*Entity position :*
-
-- **x=”-92.92”**
-
-*X position*
-
-- **y=“686.16”**
-
-*Y position*
-
-### Server answer ✖️:
+- **First message**
 
 ```bash
-301:
+typedef struct s_first_message
+{
+    unsigned int id;
+    unsigned int udp_port;
+} t_first_message;
 ```
 
-- **301**
+- **Entity message**
 
-*Status code*
+```bash
+typedef struct message_s {
+    char sprite_name[128] = {0};
+    double x;
+    double y;
+    sf::IntRect rect;
+    Component::Position position;
+} message_t;
+```
+
+## 3.2 - Client-Server tcp Initialization
+
+When a client requests to connect to the server it must send the following messages.
+
+### Server response ✔️:
+
+Header :
+```bash
+typedef struct s_header
+{
+    unsigned int messageId;
+    unsigned int timestamp;
+    unsigned int nbEntities;
+} t_header;
+```
+
+Message :
+```bash
+typedef struct s_first_message
+{
+    unsigned int id;
+    unsigned int udp_port;
+} t_first_message;
+```
+
+- **id**
+
+*Unique identifier of the player* (start at 1)
+
+- **udp_port**
+
+*Port of the udp socket*
 
 ## 3.3 - Client-Server Disconnection
 
