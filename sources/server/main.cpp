@@ -69,10 +69,7 @@ int main(const int ac, const char **av)
 
     udpServer.receive();
 
-    unsigned int i = 0;
     while (true) {
-        std::cout << "loop " << i << std::endl;
-        i++;
         registry.run_systems();
         if (tcpServer.getNbClients() == 0) {
             continue;
@@ -80,6 +77,6 @@ int main(const int ac, const char **av)
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
         (void)messages;
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
-        //usleep(50000);
+        usleep(50000);
     }
 }
