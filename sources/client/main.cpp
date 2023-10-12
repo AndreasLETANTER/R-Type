@@ -48,7 +48,10 @@ int main(int ac, char **av)
     MainMenu mainMenu(window, assets);
 
     udpClient.send("");
+    unsigned int i = 0;
     while (window.isOpen()) {
+        std::cout << "loop " << i << std::endl;
+        i++;
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();

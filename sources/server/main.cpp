@@ -69,7 +69,10 @@ int main(const int ac, const char **av)
 
     udpServer.receive();
 
+    unsigned int i = 0;
     while (true) {
+        std::cout << "loop " << i << std::endl;
+        i++;
         registry.run_systems();
         if (tcpServer.getNbClients() == 0) {
             continue;
