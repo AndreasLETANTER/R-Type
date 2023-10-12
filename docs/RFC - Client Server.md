@@ -88,6 +88,10 @@ typedef struct message_s {
 
 When a client requests to connect to the server it must send the following messages.
 
+### Client request ✔️:
+
+The client must send an empty message to the server to request a connection.
+
 ### Server response ✔️:
 
 Header :
@@ -121,99 +125,25 @@ typedef struct s_first_message
 
 With the udp process we do not need to send a connection or disconnection message
 
-## 4 - Data Exchange
+## 4 - Message datas
 
-The network component is responsible for facilitating the exchange of data between the client and the server. The following data must be exchanged between the client and the server:
-
-- Player position and sprite
-- Player actions
-- Player health
-- Player score
-
-## 4.1 - Player position and sprite
-
-The player position and sprite are sent by the client to the server and by the server to the client. The player position and sprite are sent in the following format:
+Before sending a message, the server export the entities in the following format :
 
 ```bash
-{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}
+std::pair<size_t nbEntities, message_t> exportMessage();
 ```
 
-- **{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}**
+The message is composed message_t * nbEntities.
+For example, if the server has 3 entities, the message will be composed of 3 message_t.
 
-*Entity of the map :*
-
-- **sprite_name=”plane.jpeg”**
-
-*Entity sprite name for the display processus*
-
-- **pos=[x=”-92.92”,y=“686.16”]**
-
-*Entity position :*
+Filled like this :
 
 ```bash
-pos=[x=”-92.92”,y=“686.16”]
+struct message_s {
+    sprite_name = "plane.jpeg";
+    x=-92.92;
+    y=686.16;
+    rect = sf::IntRect(263, 11, 80, 3);
+    position = {22, 98};
+};
 ```
-
-- **x=”-92.92”**
-
-*X position*
-
-- **y=“686.16”**
-
-*Y position*
-
-## 4.2 - Player actions
-
-The player actions are sent by the client to the server and by the server to the client. The player actions are sent in the following format:
-
-```bash
-action=[up=“true”,down=“false”,left=“false”,right=“false”,shoot=“false”]
-```
-
-- **up=“true”**
-
-*Up action*
-
-- **down=“false”**
-
-*Down action*
-
-- **left=“false”**
-
-*Left action*
-
-- **right=“false”**
-
-*Right action*
-
-- **shoot=“false”**
-
-*Shoot action*
-
-
-## 4.3 - Player health
-
-The player health is sent by the client to the server and by the server to the client. The player health is sent in the following format:
-
-```bash
-health=“100”
-```
-
-- **health=“100”**
-
-*Health value*
-
-## 4.4 - Player score
-
-The player score is sent by the client to the server and by the server to the client. The player score is sent in the following format:
-
-```bash
-score=“100”
-```
-
-- **score=“100”**
-
-*Score value*
-
-## 5 - Binary data exchange
-
