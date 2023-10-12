@@ -13,6 +13,11 @@
 #include "ECS/Components/Drawable.hpp"
 #include "ECS/Components/Controllable.hpp"
 
+
+Registry::Registry(Assets assets) : m_assets(assets)
+{
+}
+
 Entity Registry::spawn_entity()
 {
     for (std::size_t i = 0; i < m_entities.size(); i++) {
@@ -84,9 +89,14 @@ void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWi
         if (strlen(messages[i].sprite_name) == 0)
             continue;
         auto entity = spawn_entity();
-        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, messages[i].rect, messages[i].position, true));
+        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, messages[i].rect, messages[i].position, m_assets.get_texture(messages[i].sprite_name)));
         add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
     }
+}
+
+Assets &Registry::get_assets()
+{
+    return m_assets;
 }
 
 void Registry::updateEntityKeyPressed(t_input input)

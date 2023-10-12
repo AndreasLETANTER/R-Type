@@ -15,6 +15,10 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
 
         if (projectile.has_value() && collision.has_value()) {
             if (collision.value().entities_in_collision.size() > 0) {
+                if (healths.size() < collision.value().entities_in_collision[0] || healths.size() < registry.entity_from_index(i)) {
+                    registry.kill_entity(registry.entity_from_index(i));
+                    continue;
+                }
                 auto &health = healths[collision.value().entities_in_collision[0]];
                 if (health.has_value()) {
                     health.value().health -= projectile.value().damage;

@@ -17,6 +17,7 @@
 #include "ECS/SparseArrayClass/SparseArray.hpp"
 #include "ECS/EntityClass/Entity.hpp"
 #include "ECS/Components/Position.hpp"
+#include "ECS/Assets/Assets.hpp"
 
 typedef struct s_input
 {
@@ -44,6 +45,17 @@ typedef struct message_s {
  */
 class Registry {
     public:
+        /**
+         * @brief Construct a new Registry object.
+         * 
+         */
+        Registry() = default;
+        /**
+         * @brief Construct a new Registry object with a given Assets object.
+         * 
+         * @param assets The assets to use for the registry.
+         */
+        Registry(Assets assets);
         /**
          * @brief The type of function used to erase a component from the registry.
          * 
@@ -192,6 +204,12 @@ class Registry {
          * @param window The window to draw the entities in.
          */
         void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
+        /**
+         * @brief Returns the assets of the registry.
+         * 
+         * @return Assets& A reference to the assets of the registry.
+         */
+        Assets &get_assets();
 
         /**
          * @brief Update the key pressed of an entity.
@@ -204,6 +222,7 @@ class Registry {
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
         SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
+        Assets m_assets; /**< The assets of the registry. */
 };
 
 #include "ECS/RegistryClass/Registry.tpp"

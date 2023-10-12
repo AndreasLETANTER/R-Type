@@ -19,12 +19,14 @@
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
+#include "ECS/Assets/Assets.hpp"
 
 void signalHandler(int signum)
 {
     std::cout << "Interrupt signal (" << signum << ") received.\n";
     exit(signum);
 }
+#include "ECS/Assets/Assets.hpp"
 
 int main(int ac, char **av)
 {
@@ -34,6 +36,7 @@ int main(int ac, char **av)
     handleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]));
+    Assets assets;
     
     tcpClient.run();
     udpClient.run();
@@ -41,6 +44,8 @@ int main(int ac, char **av)
     Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
+    sf::Clock clock;
+    MainMenu mainMenu(window, assets);
 
     udpClient.send(std::vector<char>({'1'}));
     while (window.isOpen()) {

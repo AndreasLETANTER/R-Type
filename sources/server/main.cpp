@@ -39,8 +39,8 @@ int main(const int ac, const char **av)
     Registry registry;
     sf::Clock clock;
     sf::RenderWindow window;
-    std::vector<std::string> fileContent = {Level1Config};
-    Parser parser(registry, window, clock, fileContent);
+    std::vector<std::string> filePath = {Level1Config};
+    Parser parser(registry, window, clock, filePath);
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();

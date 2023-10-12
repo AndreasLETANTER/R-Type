@@ -16,6 +16,12 @@ set(CXX_FLAGS -Wall -Wextra -Werror)
 include(FetchContent)
 
 FetchContent_Declare(
+    cmrc
+    GIT_REPOSITORY "https://github.com/vector-of-bool/cmrc.git"
+)
+FetchContent_MakeAvailable(cmrc)
+
+FetchContent_Declare(
     libconfig
     GIT_REPOSITORY "https://github.com/hyperrealm/libconfig.git"
 )
@@ -29,22 +35,21 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 
 FetchContent_Declare(
-    asio
-    GIT_REPOSITORY "https://github.com/chriskohlhoff/asio.git"
+    Boost
+    GIT_REPOSITORY "https://github.com/boostorg/boost.git"
 )
-FetchContent_MakeAvailable(asio)
+FetchContent_MakeAvailable(Boost)
 
 ###############################DIRECTORIES SRC####################################
 
 set(ASSETS_FILES
-    ../assets/NugoTemporaryIcon.png
-    ../assets/Space_Background.png
-    ../assets/SpaceShips.gif
-    ../assets/BurpTemporaryBullet.png
-    ../assets/GreyRobotObstacle.gif
-    ../assets/OrangeCrabEnemy.gif
-    ../assets/YellowPopcornEnemy.gif
-    ../assets/font.ttf
+    assets/Space_Background.png
+    assets/SpaceShips.gif
+    assets/BurpTemporaryBullet.png
+    assets/GreyRobotObstacle.gif
+    assets/OrangeCrabEnemy.gif
+    assets/YellowPopcornEnemy.gif
+    assets/font.ttf
 )
 
 set (ECS_SOURCES
@@ -63,6 +68,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
+    sources/ECS/Assets/Assets.cpp
 )
 
 set(SERVER_SOURCES
@@ -119,18 +125,14 @@ include_directories("/usr/local/include")
 link_directories("/usr/local/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/assets")
-foreach(asset_file ${ASSETS_FILES})
-    get_filename_component(asset_name ${asset_file} NAME_WE)
-    set(output_hpp_file "${CMAKE_BINARY_DIR}/assets/${asset_name}.hpp")
-    add_custom_command(
-        OUTPUT ${output_hpp_file}
-        COMMAND xxd -i ${asset_file} > ${output_hpp_file}
-        COMMAND ${CMAKE_COMMAND} -E echo "Generated ${output_hpp_file}"
-        DEPENDS ${asset_file}
-    )
-    list(APPEND GENERATED_ASSET_FILES ${output_hpp_file})
-endforeach()
+cmrc_add_resource_library(
+    assets
+
+    ALIAS Assets::RType
+    NAMESPACE Assets
+
+    ${ASSETS_FILES}
+)
 
 list(APPEND ECS_SOURCES ${GENERATED_ASSET_FILES})
 
@@ -155,15 +157,14 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics)
-target_link_libraries(${SERVER_NAME} PRIVATE config++)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
 
 ###############################COMPILATION TESTS##################################
 find_library(CRITERION criterion)
@@ -173,28 +174,28 @@ target_include_directories(${ECS_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
 add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
 target_include_directories(${SERVER_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics)
+target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
 add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
 target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
+target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
 
 add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
 target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++)
+target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
