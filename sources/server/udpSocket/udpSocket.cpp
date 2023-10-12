@@ -1,5 +1,6 @@
 #include "udpSocket.hpp"
 #include "utils/debugColors/debugColors.hpp"
+#include <iostream>
 
 udpSocket::udpSocket(int t_udpPort) : m_socket(m_ioService, ip::udp::endpoint(ip::udp::v4(), t_udpPort))
 {
@@ -15,7 +16,7 @@ void udpSocket::run()
 {
     m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
 }
-#include <iostream>
+
 void udpSocket::send(std::vector<char> t_message)
 {
     try

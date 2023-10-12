@@ -26,7 +26,6 @@ void signalHandler(int signum)
     std::cout << "Interrupt signal (" << signum << ") received.\n";
     exit(signum);
 }
-#include "ECS/Assets/Assets.hpp"
 
 int main(int ac, char **av)
 {
