@@ -11,6 +11,7 @@
 #include "utils/handleArgument/handleArgument.hpp"
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
+#include "PlayMenu.hpp"
 
 PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry):
     m_window(window), m_assets(assets), m_registry(registry)
@@ -26,7 +27,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
     m_font = assets.get_font("font.ttf");
 
-    TextButton ipButton = TextButton()
+    TextButton IPButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
@@ -42,8 +43,9 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setTextHoverColor(sf::Color::Green)
         .setCallback([this]() {
             std::cout << "IP button pressed" << std::endl;
+            m_isIPEditable = true;
         });
-    m_buttons.push_back(ipButton);
+    m_buttons.push_back(IPButton);
 
     yPos += buttonHeight + spacing;
     TextButton editableTextButton = TextButton()
@@ -62,6 +64,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setTextHoverColor(sf::Color::Green)
         .setCallback([this]() {
             std::cout << "Editable text button pressed" << std::endl;
+            m_isPortEditable = true;
         });
     m_buttons.push_back(editableTextButton);
 
@@ -96,6 +99,8 @@ void PlayMenu::update()
 {
     for (auto &button : m_buttons)
         button.update(m_window);
+    editTextButton(m_buttons[0], "IP", m_isIPEditable);
+    editTextButton(m_buttons[1], "Port", m_isPortEditable);
 }
 
 void PlayMenu::resize()
@@ -115,7 +120,36 @@ void PlayMenu::resize()
     yPos += buttonHeight + spacing;
     m_buttons[1].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);
-    yPos += buttonHeight + spacing;
-    m_buttons[2].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
-        sf::Vector2f(xPos, yPos), textRatio);
+}
+
+void PlayMenu::editTextButton(TextButton &button,
+    const std::string &initialText, bool &isEditable)
+{
+    if (isEditable) {
+        sf::Event event;
+        while (m_window.pollEvent(event)) {
+            if (event.type == sf::Event::TextEntered) {
+                if (button.getTextString() == initialText)
+                    button.setTextString("");
+                if (event.text.unicode < 128 && event.text.unicode != 8) {
+                    std::string newText = button.getTextString();
+                    newText += static_cast<char>(event.text.unicode);
+                    button.setTextString(newText);
+                } else if (event.text.unicode == 8 && !button.getTextString().empty()) {
+                    std::string newText = button.getTextString();
+                    newText.pop_back();
+                    button.setTextString(newText);
+                }
+                button.setTextPosition(TextButton::CENTER, TextButton::MIDDLE);
+            } else if (event.type == sf::Event::Closed) {
+                m_window.close();
+            } else if (event.type == sf::Event::MouseButtonPressed) {
+                isEditable = false;
+                if (button.getTextString() == "") {
+                    button.setTextString(initialText);
+                    button.setTextPosition(TextButton::CENTER, TextButton::MIDDLE);
+                }
+            }
+        }
+    }
 }

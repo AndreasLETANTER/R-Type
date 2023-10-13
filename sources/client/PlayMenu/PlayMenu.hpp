@@ -19,10 +19,13 @@ public:
     void draw();
     void update();
     void resize();
+    void editTextButton(TextButton &button, const std::string &initialText, bool &isEditable);
 private:
     sf::RenderWindow &m_window;
     Assets &m_assets;
     Registry &m_registry;
     std::vector<TextButton> m_buttons;
     sf::Font m_font;
+    bool m_isIPEditable = false;
+    bool m_isPortEditable = false;
 };
