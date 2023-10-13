@@ -69,18 +69,19 @@ int main(const int ac, const char **av)
     char *received;
 
     while (true) {
-        registry.run_systems();
         if (tcpServer.getNbClients() == 0) {
             continue;
         }
+        registry.run_systems();
         received = udpServer.receive();
         if (received != nullptr) {
             t_input input = converter.convertBinaryToInput(received);
-            std::cout << "id: " << input.id << " key: " << input.key << std::endl;
-            registry.updateEntityKeyPressed(input);
+            if (input.id != 0) {
+                registry.updateEntityKeyPressed(input);
+            }
         }
         std::pair<message_t *, size_t> messages = registry.exportToMessages();
         udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
-        usleep(50000);
+        //usleep(50000);
     }
 }

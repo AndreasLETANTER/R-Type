@@ -130,8 +130,5 @@ std::vector<char> binaryConverter::convertStructToInput(unsigned int t_id, sf::K
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.nbEntities), reinterpret_cast<char *>(&header.nbEntities) + sizeof(header.nbEntities));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&input.id), reinterpret_cast<char *>(&input.id) + sizeof(input.id));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&input.key), reinterpret_cast<char *>(&input.key) + sizeof(input.key));
-    std::cout << "send to udp :'" << t_key << "'" << std::endl;
-    std::cout << "id = " << t_id << std::endl;
-    std::cout << "send to udp :'" << buffer.data() << "'" << std::endl;
     return (buffer);
 }
