@@ -9,6 +9,8 @@
 
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
+#include "ECS/Components/Controllable.hpp"
+#include "ECS/Components/Shoot.hpp"
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
 
@@ -92,7 +94,38 @@ void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWi
         add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
     }
 }
+
 Assets &Registry::get_assets()
 {
     return m_assets;
+}
+
+bool Registry::playersAreDead()
+{
+    SparseArray<Component::Controllable> &controllables = get_components<Component::Controllable>();
+
+    for (size_t entity = 0; entity < controllables.size(); entity++) {
+        if (controllables[entity].has_value() == false) {
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+
+bool Registry::enemiesAreDead()
+{
+    int nbEntitiesLeft = 0;
+    SparseArray<Component::Controllable> &controllables = get_components<Component::Controllable>();
+    SparseArray<Component::Shoot> &shoots = get_components<Component::Shoot>();
+
+    for (size_t entity = 0; entity < shoots.size(); entity++) {
+        if (controllables[entity].has_value() == false && shoots[entity].has_value() == true) {
+            nbEntitiesLeft++;
+        }
+    }
+    if (nbEntitiesLeft == 0) {
+        return true;
+    }
+    return false;
 }
