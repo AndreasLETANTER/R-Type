@@ -21,6 +21,12 @@ The primary goals of the network component are as follows:
 
 The network should use a standardized protocol for communication.
 
+The protocol is composed of two parts :
+
+- **TCP** (Transmission Control Protocol) for the connection between the client and the server for exchange external data (like the udp port, the id of the player, etc...).
+
+- **UDP** (User Datagram Protocol) for the communication between the client and the server for the game data (like the position of the entities, the sprite name, etc...).
+
 ## 3.1 - Command structure
 
 Commands must all be composed the same according to the following model.
@@ -123,7 +129,7 @@ typedef struct s_first_message
 
 ## 3.3 - Client-Server Disconnection
 
-With the udp process we do not need to send a connection or disconnection message
+With the tcp connection, the client can be down without sending message. When the server detect a disconnection, it remove the client from the list of clients.
 
 ## 4 - Message datas
 

@@ -19,6 +19,7 @@ called R-Type in C++.
   - [Supported OS](#supported-os)
   - [Requirements](#requirements)
   - [Dependencies](#dependencies)
+  - [Installation](#installation)
   - [Execution](#execution)
 - [Documentation](#documentation)
 - [How to report a bug](#how-to-report-a-bug)
@@ -60,12 +61,26 @@ called R-Type in C++.
 - [Ftest](https://github.com/Atomot/ftest)
 - [Doxygen](https://github.com/doxygen/doxygen)
 
+
+### Installation
+
+
+**On Linux:**
+
+```bash
+git clone git@github.com:EpitechPromo2026/B-CPP-500-NAN-5-1-rtype-louis.barreteau.git R-Type && cd R-Type/ && cmake -B build/ && make -j$(($(nproc) - 2)) -C build/
+```
+
+**On Windows:**
+
+```bash
+git clone git@github.com:EpitechPromo2026/B-CPP-500-NAN-5-1-rtype-louis.barreteau.git R-Type && cd R-Type/ && cmake -B build/ && make -C build/
+```
+
 ### Execution
 
 ```bash
-cmake -B build/
-make -C build/
-./r-type_server [port]
+./r-type_server [tcp port] [udp port]
 ./r-type_client
 ```
 
@@ -90,6 +105,13 @@ cmake -B build/
 make doxygen -C build/
 ```
 Then open the file `docs/html/index.html` in your browser.
+
+You can also find the documentation on docs folder.
+
+In the docs folder, you can find the following files:
+- [RFC - Client Server](docs/RFC%20-%20Client%20Server.md)
+
+- [GUIDE - Gameplay config file](docs/GUIDE%20-%20Gameplay%20config%20file.md)
 
 ## How to report a bug
 
