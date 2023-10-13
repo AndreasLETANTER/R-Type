@@ -3,7 +3,7 @@
 **Date:** *25 / 09 / 2023*
 **Author**: *To complete*
 **Status**: *Draft*
-**Version:** *0.1*
+**Version:** *0.2*
 
 ## 1 - Introduction
 
@@ -19,200 +19,137 @@ The primary goals of the network component are as follows:
 
 ## 3 - Network Protocol
 
-The network should use a standardized protocol for communication. 
+The network should use a standardized protocol for communication.
 
-| Status codes | Description |
-| --- | --- |
-| 1xx | Informational, Request   |
-| 2xx | Client |
-| 3xx | Server |
+The protocol is composed of two parts :
 
-| Status codes | Description |
-| --- | --- |
-| 100 | I want to connect to the server |
-| 200 |  |
-| 300 | Connexion established |
-| 301 | Connection not successful |
+- **TCP** (Transmission Control Protocol) for the connection between the client and the server for exchange external data (like the udp port, the id of the player, etc...).
+
+- **UDP** (User Datagram Protocol) for the communication between the client and the server for the game data (like the position of the entities, the sprite name, etc...).
 
 ## 3.1 - Command structure
 
-Commands must all be composed the same according to the following model
+Commands must all be composed the same according to the following model.
+
+All messages must be composed of a header and a body.
+
+### Header :
 
 ```bash
-[STATUS CODE]:[PARAMETER OR ANSWER];[PARAMETER OR ANSWER]
+typedef struct s_header
+{
+    unsigned int messageId;
+    unsigned int timestamp;
+    unsigned int nbEntities;
+} t_header;
 ```
 
-- [STATUS CODE]
+- **messageId**
 
-*The return code according to the response table*
-
-- :
-
-*The first separator that differentiates status code and parameters*
-
-- [PARAMETER OR ANSWER]
-
-*The different feedback information, this can be player positions, displays, etc.*
-
-- ;
-
-*Separator which allows you to differentiate between the different parameters*
-
-## 3.2 - Client-Server Initialization
-
-When a client requests to connect to the server it must send the following messages
-
-### Client request :
+Message identifier generated with the random library like this :
 
 ```bash
-100:
+std::rand() % 10000000
 ```
 
-- **100**
+- **timestamp**
 
-*Return code*
-
-### Server answer ✔️:
+Timestamp of the message in milliseconds generated with the chrono library like this :
 
 ```bash
-300:id=2;{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]};{sprite_name=”mob.jpeg”,pos=[x=”23.19”,y=“68.22”]}
+static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() % 10000000);
 ```
 
-- **300**
+- **nbEntities**
 
-*Status code*
+Number of entities in the message transmitted with the export message function of the registry.
 
-- **id=2**
+### Body :
 
-*Id of the player*
+The body message can be composed of several things :
 
-- **{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}**
-
-*Entity of the map :*
-
-- **sprite_name=”plane.jpeg”**
-
-*Entity sprite name for the display processus*
-
-- **pos=[x=”-92.92”,y=“686.16”]**
-
-*Entity position :*
-
-- **x=”-92.92”**
-
-*X position*
-
-- **y=“686.16”**
-
-*Y position*
-
-### Server answer ✖️:
+- **First message**
 
 ```bash
-301:
+typedef struct s_first_message
+{
+    unsigned int id;
+    unsigned int udp_port;
+} t_first_message;
 ```
 
-- **301**
+- **Entity message**
 
-*Status code*
+```bash
+typedef struct message_s {
+    char sprite_name[128] = {0};
+    double x;
+    double y;
+    sf::IntRect rect;
+    Component::Position position;
+} message_t;
+```
+
+## 3.2 - Client-Server tcp Initialization
+
+When a client requests to connect to the server it must send the following messages.
+
+### Client request ✔️:
+
+The client must send an empty message to the server to request a connection.
+
+### Server response ✔️:
+
+Header :
+```bash
+typedef struct s_header
+{
+    unsigned int messageId;
+    unsigned int timestamp;
+    unsigned int nbEntities;
+} t_header;
+```
+
+Message :
+```bash
+typedef struct s_first_message
+{
+    unsigned int id;
+    unsigned int udp_port;
+} t_first_message;
+```
+
+- **id**
+
+*Unique identifier of the player* (start at 1)
+
+- **udp_port**
+
+*Port of the udp socket*
 
 ## 3.3 - Client-Server Disconnection
 
-With the udp process we do not need to send a connection or disconnection message
+With the tcp connection, the client can be down without sending message. When the server detect a disconnection, it remove the client from the list of clients.
 
-## 4 - Data Exchange
+## 4 - Message datas
 
-The network component is responsible for facilitating the exchange of data between the client and the server. The following data must be exchanged between the client and the server:
-
-- Player position and sprite
-- Player actions
-- Player health
-- Player score
-
-## 4.1 - Player position and sprite
-
-The player position and sprite are sent by the client to the server and by the server to the client. The player position and sprite are sent in the following format:
+Before sending a message, the server export the entities in the following format :
 
 ```bash
-{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}
+std::pair<size_t nbEntities, message_t> exportMessage();
 ```
 
-- **{sprite_name=”plane.jpeg”,pos=[x=”-92.92”,y=“686.16”]}**
+The message is composed message_t * nbEntities.
+For example, if the server has 3 entities, the message will be composed of 3 message_t.
 
-*Entity of the map :*
-
-- **sprite_name=”plane.jpeg”**
-
-*Entity sprite name for the display processus*
-
-- **pos=[x=”-92.92”,y=“686.16”]**
-
-*Entity position :*
+Filled like this :
 
 ```bash
-pos=[x=”-92.92”,y=“686.16”]
+struct message_s {
+    sprite_name = "plane.jpeg";
+    x=-92.92;
+    y=686.16;
+    rect = sf::IntRect(263, 11, 80, 3);
+    position = {22, 98};
+};
 ```
-
-- **x=”-92.92”**
-
-*X position*
-
-- **y=“686.16”**
-
-*Y position*
-
-## 4.2 - Player actions
-
-The player actions are sent by the client to the server and by the server to the client. The player actions are sent in the following format:
-
-```bash
-action=[up=“true”,down=“false”,left=“false”,right=“false”,shoot=“false”]
-```
-
-- **up=“true”**
-
-*Up action*
-
-- **down=“false”**
-
-*Down action*
-
-- **left=“false”**
-
-*Left action*
-
-- **right=“false”**
-
-*Right action*
-
-- **shoot=“false”**
-
-*Shoot action*
-
-
-## 4.3 - Player health
-
-The player health is sent by the client to the server and by the server to the client. The player health is sent in the following format:
-
-```bash
-health=“100”
-```
-
-- **health=“100”**
-
-*Health value*
-
-## 4.4 - Player score
-
-The player score is sent by the client to the server and by the server to the client. The player score is sent in the following format:
-
-```bash
-score=“100”
-```
-
-- **score=“100”**
-
-*Score value*
-
-## 5 - Binary data exchange
-
