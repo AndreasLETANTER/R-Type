@@ -110,6 +110,7 @@ void tcpSocket::startAccept()
 void tcpSocket::removeClient(int clientId)
 {
     m_clients->erase(clientId);
+    nextClientId--;
     printTrace("Client " + std::to_string(clientId) + " disconnected");
     printTrace("Number of clients: " + std::to_string(m_clients->size()));
 }
