@@ -1,3 +1,6 @@
+#include <string>
+
+const std::string Level1Config = R"yaml_content(
 params:
 {
     level = 1;
@@ -68,26 +71,6 @@ entities: {
             id = 6;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 2500; y = 925; };
-            scale = { x = 170; y = 155; };
-            rect = { x = 0; y = 1; width = 34; height = 31; };
-            rotation = 0;
-            health = 20;
-        },
-        {
-            id = 7;
-            assetName = "GreyRobotObstacle.gif";
-            projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 2550; y = 0; };
-            scale = { x = 170; y = 155; };
-            rect = { x = 165; y = 1; width = 34; height = 31; };
-            rotation = 180;
-            health = 20;
-        },
-        {
-            id = 8;
-            assetName = "GreyRobotObstacle.gif";
-            projectileAssetName = "BurpTemporaryBullet.png";
             position = { x = 2600; y = 925; };
             scale = { x = 170; y = 155; };
             rect = { x = 0; y = 1; width = 34; height = 31; };
@@ -98,10 +81,33 @@ entities: {
 
     enemies = (
         {
+            id = 7;
+            assetName = "OrangeCrabEnemy.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 1450; y = 600; };
+            autoMove = { x = 1450; y = 100; };
+            scale = { x = 99; y = 87; };
+            rect = { x = 0; y = 1; width = 33; height = 29; };
+            rotation = 0;
+            health = 10;
+        },
+        {
+            id = 8;
+            assetName = "YellowPopcornEnemy.gif";
+            projectileAssetName = "BurpTemporaryBullet.png";
+            position = { x = 1500; y = 700; };
+            autoMove = { x = 1500; y = 200; };
+            scale = { x = 87; y = 84; };
+            rect = { x = 4; y = 4; width = 29; height = 28; };
+            rotation = 0;
+            health = 5;
+        },
+        {
             id = 9;
             assetName = "OrangeCrabEnemy.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 2000; y = 250; };
+            position = { x = 1450; y = 800; };
+            autoMove = { x = 1450; y = 300; };
             scale = { x = 99; y = 87; };
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
@@ -109,19 +115,10 @@ entities: {
         },
         {
             id = 10;
-            assetName = "OrangeCrabEnemy.gif";
-            projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 2100; y = 315; };
-            scale = { x = 99; y = 87; };
-            rect = { x = 0; y = 1; width = 33; height = 29; };
-            rotation = 0;
-            health = 10;
-        },
-        {
-            id = 11;
             assetName = "YellowPopcornEnemy.gif";
             projectileAssetName = "BurpTemporaryBullet.png";
-            position = { x = 2100; y = 540; };
+            position = { x = 1500; y = 900; };
+            autoMove = { x = 1500; y = 400; };
             scale = { x = 87; y = 84; };
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
@@ -129,3 +126,4 @@ entities: {
         }
     );
 };
+)yaml_content";

@@ -157,6 +157,8 @@ void Parser::loadEnemies()
         std::string projectileAssetName = enemies[i]["projectileAssetName"];
         base.posX = enemies[i]["position"]["x"];
         base.posY = enemies[i]["position"]["y"];
+        int automove_x = enemies[i]["autoMove"]["x"];
+        int automove_y = enemies[i]["autoMove"]["y"];
         base.scaleX = enemies[i]["scale"]["x"];
         base.scaleY = enemies[i]["scale"]["y"];
         base.rectX = enemies[i]["rect"]["x"];
@@ -173,7 +175,7 @@ void Parser::loadEnemies()
         m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, &m_clock, sf::Time(sf::milliseconds(3000)), 20, projectileAssetName, true));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
-        m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(0, 0)));
+        m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(automove_x, automove_y)));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
 }
