@@ -33,6 +33,7 @@ entities: {
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 2; width = 34; height = 16; };
             health = 100;
+            damage = 5;
         },
         {
             id = 3;
@@ -42,6 +43,7 @@ entities: {
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 19; width = 34; height = 16; };
             health = 100;
+            damage = 5;
         },
         {
             id = 4;
@@ -51,6 +53,7 @@ entities: {
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 36; width = 34; height = 16; };
             health = 100;
+            damage = 5;
         },
         {
             id = 5;
@@ -60,6 +63,7 @@ entities: {
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 53; width = 34; height = 16; };
             health = 100;
+            damage = 5;
         }
     );
 
@@ -87,6 +91,7 @@ entities: {
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
             health = 10;
+            damage = 25;
         },
         {
             id = 8;
@@ -109,6 +114,7 @@ entities: {
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
             health = 10;
+            damage = 25;
         },
         {
             id = 10;
@@ -120,6 +126,7 @@ entities: {
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
             health = 5;
+            damage = 25;
         }
     );
 };
