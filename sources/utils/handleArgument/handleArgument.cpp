@@ -36,3 +36,18 @@ void handleArgument::check_if_number(std::string const &t_str) const
         }
     }
 }
+
+boost::asio::ip::address handleArgument::getIp(char const *t_av) const
+{
+    boost::asio::ip::address ip = boost::asio::ip::address::from_string("0.0.0.0");
+    
+    if (t_av != nullptr) {
+        try {
+            std::cout << t_av << std::endl;
+            ip = boost::asio::ip::address::from_string(t_av);
+        } catch (std::exception const &e) {
+            printError(e.what());
+        }
+    }
+    return ip;
+}

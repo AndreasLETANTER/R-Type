@@ -23,7 +23,7 @@ class udpSocket {
          * 
          * @param t_udpPort The UDP port to use.
          */
-        udpSocket(int t_udpPort);
+        udpSocket(int t_udpPort, ip::address t_ip);
 
         /**
          * @brief Destroy the udpSocket object.

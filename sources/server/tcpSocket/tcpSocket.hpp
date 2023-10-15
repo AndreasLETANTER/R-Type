@@ -37,7 +37,7 @@ class tcpSocket {
          * 
          * @param t_tcpPort The TCP port number.
          */
-        tcpSocket(u_int16_t t_tcpPort);
+        tcpSocket(u_int16_t t_tcpPort, boost::asio::ip::address t_ip);
 
         /**
          * @brief Destroy the tcpSocket object.
