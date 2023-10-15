@@ -20,44 +20,37 @@
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 #include "ECS/Assets/Assets.hpp"
+#include "client/PlayMenu/PlayMenu.hpp"
 
-void signalHandler(int signum)
-{
-    std::cout << "Interrupt signal (" << signum << ") received.\n";
-    exit(signum);
-}
-#include "ECS/Assets/Assets.hpp"
 
 int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
-    binaryConverter converter;
-    handleArgument handleArguments;
-    tcpClientSocket tcpClient(handleArguments.getPort(av[1]));
-    udpClientSocket udpClient(handleArguments.getPort(av[2]));
-    
-    tcpClient.run();
-    udpClient.run();
-    udpClient.send("connect");
     Assets assets;
     Registry registry(assets);
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
-    sf::Clock clock;
     MainMenu mainMenu(window, assets);
+    PlayMenu playMenu(window, assets, registry);
 
-    udpClient.send("");
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::Resized) {
+                sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+                window.setView(sf::View(visibleArea));
+                playMenu.resize();
+            }
         }
-        std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
+        // std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
         registry = Registry();
-        registry.importFromMessages(messages.first, messages.second, &window);
+        // registry.importFromMessages(messages.first, messages.second, &window);
         window.clear();
-        registry.run_systems();
+        playMenu.draw();
+        playMenu.update();
+        // registry.run_systems();
         window.display();
     }
     return 0;

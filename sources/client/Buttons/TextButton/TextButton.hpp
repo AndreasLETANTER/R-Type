@@ -40,6 +40,8 @@ class TextButton {
         /// @return The object with the new size
         TextButton &setButtonSize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio);
 
+
+
         /// @brief Set the color of the button
         /// @param color The color wanted for the button
         /// @return The object with the new color
@@ -70,6 +72,10 @@ class TextButton {
         /// @return The object with the text with the new string
         TextButton &setTextString(const std::string &text);
 
+        /// @brief Get the string of the text
+        /// @return The string of the text
+        std::string getTextString() const;
+
         /// @brief Set the font of the text
         /// @param font The font wanted for the text
         /// @return The object with the text with the new font
@@ -80,6 +86,10 @@ class TextButton {
         /// @param textRatio The ratio to apply to the window size
         /// @return The object with the text resized
         TextButton &setTextSize(const sf::Vector2u &windowSize, const float &textRatio);
+
+        /// @brief Get the size of the text
+        /// @return The size of the text
+        int getTextSize() const;
 
         /// @brief Set the position of the text
         /// @param horizontalAlign The horizontal alignment of the text
@@ -129,6 +139,7 @@ class TextButton {
         sf::Color m_buttonHoverOutlineColor = sf::Color::White;
 
         sf::Text m_text = sf::Text();
+        int m_textSize = 0;
         sf::Color m_textColor = sf::Color::White;
         sf::Color m_textHoverColor = sf::Color::White;
         TextButton::HorizontalAlign m_horizontalAlign = TextButton::CENTER;

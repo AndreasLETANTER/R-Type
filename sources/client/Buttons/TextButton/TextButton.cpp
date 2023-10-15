@@ -62,6 +62,11 @@ TextButton &TextButton::setTextString(const std::string &text)
     return (*this);
 }
 
+std::string TextButton::getTextString() const
+{
+    return (m_text.getString());
+}
+
 TextButton &TextButton::setTextFont(const sf::Font &font)
 {
     m_text.setFont(font);
@@ -70,8 +75,14 @@ TextButton &TextButton::setTextFont(const sf::Font &font)
 
 TextButton &TextButton::setTextSize(const sf::Vector2u &windowSize, const float &textRatio)
 {
-    m_text.setCharacterSize(windowSize.y / textRatio);
+    m_textSize = windowSize.y / textRatio;
+    m_text.setCharacterSize(m_textSize);
     return (*this);
+}
+
+int TextButton::getTextSize() const
+{
+    return (m_text.getCharacterSize());
 }
 
 TextButton &TextButton::setTextPosition(const TextButton::HorizontalAlign &horizontalAlign,
