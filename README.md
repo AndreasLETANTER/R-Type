@@ -80,8 +80,8 @@ git clone git@github.com:EpitechPromo2026/B-CPP-500-NAN-5-1-rtype-louis.barretea
 ### Execution
 
 ```bash
-./r-type_server [tcp port] [udp port]
-./r-type_client
+./r-type_server [tcp port] [udp port] [ip address]
+./r-type_client [tcp port] [udp port] [ip address]
 ```
 
 ##### I you wish to execute the server within a Docker container:

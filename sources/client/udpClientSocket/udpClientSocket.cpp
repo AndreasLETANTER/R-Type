@@ -10,9 +10,10 @@
 
 #include <iostream>
 
-udpClientSocket::udpClientSocket(size_t t_udpPort) : m_socket(m_ioService, ip::udp::endpoint(ip::udp::v4(), 0))
+udpClientSocket::udpClientSocket(size_t t_udpPort, ip::address t_ip) : m_socket(m_ioService)
 {
-    m_endpoint = ip::udp::endpoint(ip::address::from_string("127.0.0.1"), t_udpPort);
+    m_endpoint = ip::udp::endpoint(t_ip, t_udpPort);
+    m_socket.open(ip::udp::v4());
     m_udpPort = t_udpPort;
 }
 

@@ -22,8 +22,9 @@ class udpSocket {
          * @brief Construct a new udpSocket object with the specified UDP port.
          * 
          * @param t_udpPort The UDP port to use.
+         * @param t_ip The IP address to use.
          */
-        udpSocket(int t_udpPort);
+        udpSocket(int t_udpPort, ip::address t_ip);
 
         /**
          * @brief Destroy the udpSocket object.

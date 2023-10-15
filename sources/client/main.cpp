@@ -26,7 +26,6 @@ int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
-
     Assets assets;
     Registry registry(assets);
 

@@ -14,14 +14,14 @@
 
 std::atomic<int> nextClientId(1);
 
-tcpSocket::tcpSocket(u_int16_t t_tcpPort)
+tcpSocket::tcpSocket(u_int16_t t_tcpPort, boost::asio::ip::address t_ip)
     : m_ioService(),
-    m_tcpAcceptor(m_ioService, ip::tcp::endpoint(ip::tcp::v4(), t_tcpPort)),
+    m_tcpAcceptor(m_ioService, ip::tcp::endpoint(t_ip, t_tcpPort)),
     m_socket(m_ioService),
     m_tcpPort(t_tcpPort),
     m_clients(std::make_shared<std::map<int, ip::tcp::socket>>())
 {
-    printTrace("Server started on port " + std::to_string(m_tcpPort));
+    printTrace("Server started on ip " + t_ip.to_string() + " and port " + std::to_string(t_tcpPort));
     startAccept();
 }
 
