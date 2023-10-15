@@ -9,8 +9,9 @@
 
 #include "client/MainMenu/MainMenu.hpp"
 
-MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
-    m_window(window), m_assets(assets)
+MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
+    Registry &registry):
+    m_window(window), m_assets(assets), m_registry(registry), m_playMenu(window, assets, registry)
 {
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 5;
@@ -37,8 +38,9 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
         .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Green)
-        .setCallback([]() {
-            std::cout << "Play button clicked" << std::endl;
+        .setCallback([this]() {
+            PlayMenu playMenu(m_window, m_assets, m_registry);
+            m_isPlayMenuOpen = true;
         });
     m_buttons.push_back(playButton);
     yPos += buttonHeight + spacing;
@@ -65,18 +67,30 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
 
 void MainMenu::draw()
 {
+    if (m_isPlayMenuOpen) {
+        m_playMenu.draw();
+        return;
+    }
     for (auto &button : m_buttons)
         button.draw(m_window);
 }
 
 void MainMenu::update()
 {
+    if (m_isPlayMenuOpen) {
+        m_playMenu.update();
+        return;
+    }
     for (auto &button : m_buttons)
         button.update(m_window);
 }
 
 void MainMenu::resize()
 {
+    if (m_isPlayMenuOpen) {
+        m_playMenu.resize();
+        return;
+    }
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 5;
     double buttonHeightRatio = 10;

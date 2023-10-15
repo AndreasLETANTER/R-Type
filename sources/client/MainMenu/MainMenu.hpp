@@ -11,6 +11,8 @@
 
 #include "client/Buttons/TextButton/TextButton.hpp"
 #include "ECS/Assets/Assets.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+#include "client/PlayMenu/PlayMenu.hpp"
 
 /// @brief Class to create the main menu with Play and Quit buttons
 class MainMenu {
@@ -18,7 +20,7 @@ class MainMenu {
         /// @brief Constructor of MainMenu which display a scrolling background and two buttons (Play and Quit)
         /// @param window The window where the main menu will be displayed
         /// @param assets The assets of the game
-        MainMenu(sf::RenderWindow &window, Assets &assets);
+        MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry);
 
         /// @brief Draw the buttons on the window
         void draw();
@@ -32,6 +34,9 @@ class MainMenu {
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;
+        Registry &m_registry;
+        PlayMenu m_playMenu;
         std::vector<TextButton> m_buttons;
         sf::Font m_font;
+        bool m_isPlayMenuOpen = false;
 };
