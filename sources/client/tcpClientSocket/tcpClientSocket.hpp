@@ -27,6 +27,7 @@ class tcpClientSocket {
          * @brief Construct a new tcpClientSocket object
          * 
          * @param t_tcpPort The TCP port to connect to.
+         * @param t_ip The IP address to use.
          */
         tcpClientSocket(u_int16_t t_tcpPort, ip::address t_ip);
 
