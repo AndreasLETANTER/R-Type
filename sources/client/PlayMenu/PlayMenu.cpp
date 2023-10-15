@@ -86,6 +86,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
 
             tcpClient.run();
             udpClient.run();
+            tcpClient.receive();
             udpClient.send(std::vector<char>({'c', 'o', 'n', 'n', 'e', 'c', 't'}));
             udpClient.send(std::vector<char>({'1'}));
             this->launchGame(tcpClient, udpClient);
@@ -165,6 +166,7 @@ void PlayMenu::editTextButton(TextButton &button,
 
 void PlayMenu::launchGame(tcpClientSocket &tcpClient, udpClientSocket &udpClient)
 {
+    sf::Clock clock;
     sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
     while (m_window.isOpen()) {
         udpClient.send(std::vector<char>({'1'}));
