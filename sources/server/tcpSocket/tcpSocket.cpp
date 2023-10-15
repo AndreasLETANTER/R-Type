@@ -54,12 +54,10 @@ void tcpSocket::startRead(int clientId)
     auto& clientSocket = m_clients->at(clientId);
     clientSocket.async_read_some(buffer(m_readBuffer),
         [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
-            binaryConverter converter;
             if (ec == error::eof) { // Client disconnected
                 removeClient(clientId);
             } else if (!ec) {
                 handleRead(clientId, bytesTransferred); // Handle the received message
-                sendMessage(clientId, converter.convertStructToFirstMessage(clientId));
                 startRead(clientId); // Continue reading
             } else {
                 printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());
@@ -86,6 +84,7 @@ void tcpSocket::sendMessage(int clientId, std::vector<char> message)
 void tcpSocket::startAccept()
 {
     m_tcpAcceptor.async_accept(m_socket, [this](boost::system::error_code ec) {
+        binaryConverter converter;
         if (!ec) {
             printInfo("New client connected");
             m_clients->insert_or_assign(nextClientId, std::move(m_socket));
@@ -93,8 +92,10 @@ void tcpSocket::startAccept()
             ++nextClientId;
 
             // Start reading from the socket of the newly connected client
-            auto clientId = nextClientId - 1;
-            startRead(clientId);
+            // auto clientId = nextClientId - 1;
+            std::cout << "nextClientId = " << nextClientId - 1 << std::endl;
+            sendMessage((nextClientId - 1), converter.convertStructToFirstMessage((nextClientId - 1)));
+            startRead(nextClientId - 1);
 
             // Continue accepting more clients
             startAccept();
@@ -109,6 +110,7 @@ void tcpSocket::startAccept()
 void tcpSocket::removeClient(int clientId)
 {
     m_clients->erase(clientId);
+    nextClientId--;
     printTrace("Client " + std::to_string(clientId) + " disconnected");
     printTrace("Number of clients: " + std::to_string(m_clients->size()));
 }

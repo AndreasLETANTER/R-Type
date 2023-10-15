@@ -26,6 +26,17 @@ namespace Component {
             size_t damage; /**< The damage of the bullet. */
             sf::Clock *clock; /**< A pointer to the clock used to measure time. */
             bool isMonster; /**< A boolean indicating whether the entity is a monster or not. */
+
+            /**
+             * @brief The ID of the player controlling the entity.
+             */
+            unsigned int playerId;
+
+            /**
+             * @brief The key pressed by the player controlling the entity.
+             */
+            sf::Keyboard::Key keyPressed = sf::Keyboard::Unknown;
+
             /**
              * @brief Construct a new Shoot object with specified values.
              * 
@@ -34,6 +45,6 @@ namespace Component {
              * @param shootDelay The delay between each shot.
              * @param bulletSpriteName The name of the bullet sprite.
              */
-            inline Shoot(bool canShoot, sf::Clock *clock, sf::Time shootDelay, size_t damage, std::string bulletSpriteName, bool isMonster) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSpriteName = bulletSpriteName; this->damage = damage; this->isMonster = isMonster; }
+            inline Shoot(unsigned int playerId, bool canShoot, sf::Clock *clock, sf::Time shootDelay, size_t damage, std::string bulletSpriteName, bool isMonster) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSpriteName = bulletSpriteName; this->damage = damage; this->isMonster = isMonster; this->playerId = playerId; }
     };
 }

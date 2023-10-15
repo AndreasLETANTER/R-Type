@@ -1,5 +1,14 @@
+/*
+** EPITECH PROJECT, 2023
+** MIRROR_R-Type
+** File description:
+** udpClientSocket
+*/
+
 #include "udpClientSocket.hpp"
 #include "utils/debugColors/debugColors.hpp"
+
+#include <iostream>
 
 udpClientSocket::udpClientSocket(size_t t_udpPort) : m_socket(m_ioService, ip::udp::endpoint(ip::udp::v4(), 0))
 {
@@ -16,7 +25,7 @@ void udpClientSocket::run()
     m_ioService.run();
 }
 
-void udpClientSocket::send(const std::string &t_message)
+void udpClientSocket::send(std::vector<char> t_message)
 {
     m_socket.send_to(buffer(t_message), m_endpoint);
 }

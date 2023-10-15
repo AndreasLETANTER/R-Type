@@ -69,11 +69,29 @@ t_first_message binaryConverter::convertBinaryToFirstMessage(char *buffer)
     return (firstMessage);
 }
 
+t_input binaryConverter::convertBinaryToInput(char *buffer)
+{
+    t_header header = {0, 0, 0};
+    t_input key = {0, sf::Keyboard::Unknown};
+    size_t offset = 0;
+
+    memcpy(&header.messageId, buffer + offset, sizeof(header.messageId));
+    offset += sizeof(header.messageId);
+    memcpy(&header.timestamp, buffer + offset, sizeof(header.timestamp));
+    offset += sizeof(header.timestamp);
+    memcpy(&header.nbEntities, buffer + offset, sizeof(header.nbEntities));
+    offset += sizeof(header.nbEntities);
+    memcpy(&key.id, buffer + offset, sizeof(key.id));
+    offset += sizeof(key.id);
+    memcpy(&key.key, buffer + offset, sizeof(key.key));
+    offset += sizeof(key.key);
+    return (key);
+}
+
 std::vector<char> binaryConverter::convertStructToBinary(size_t size, message_t *messages)
 {
     std::vector <char> buffer;
     t_header header = createHeader(size);
-
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.messageId), reinterpret_cast<char *>(&header.messageId) + sizeof(header.messageId));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.timestamp), reinterpret_cast<char *>(&header.timestamp) + sizeof(header.timestamp));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.nbEntities), reinterpret_cast<char *>(&header.nbEntities) + sizeof(header.nbEntities));
@@ -99,5 +117,18 @@ std::vector<char> binaryConverter::convertStructToFirstMessage(unsigned int mess
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.nbEntities), reinterpret_cast<char *>(&header.nbEntities) + sizeof(header.nbEntities));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&firstMessage.id), reinterpret_cast<char *>(&firstMessage.id) + sizeof(firstMessage.id));
     buffer.insert(buffer.end(), reinterpret_cast<char *>(&firstMessage.udp_port), reinterpret_cast<char *>(&firstMessage.udp_port) + sizeof(firstMessage.udp_port));
+    return (buffer);
+}
+
+std::vector<char> binaryConverter::convertStructToInput(unsigned int t_id, sf::Keyboard::Key t_key)
+{
+    std::vector<char> buffer;
+    t_header header = createHeader(0);
+    t_input input = {t_id, t_key};
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.messageId), reinterpret_cast<char *>(&header.messageId) + sizeof(header.messageId));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.timestamp), reinterpret_cast<char *>(&header.timestamp) + sizeof(header.timestamp));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&header.nbEntities), reinterpret_cast<char *>(&header.nbEntities) + sizeof(header.nbEntities));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&input.id), reinterpret_cast<char *>(&input.id) + sizeof(input.id));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&input.key), reinterpret_cast<char *>(&input.key) + sizeof(input.key));
     return (buffer);
 }

@@ -26,7 +26,6 @@ void signalHandler(int signum)
     std::cout << "Interrupt signal (" << signum << ") received.\n";
     exit(signum);
 }
-#include "ECS/Assets/Assets.hpp"
 
 int main(int ac, char **av)
 {
@@ -36,22 +35,36 @@ int main(int ac, char **av)
     handleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]));
+    Assets assets;
     
     tcpClient.run();
     udpClient.run();
-    udpClient.send("connect");
-    Assets assets;
-    Registry registry(assets);
+    tcpClient.receive();
+    Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
     sf::Clock clock;
     MainMenu mainMenu(window, assets);
 
-    udpClient.send("");
+    sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
+
     while (window.isOpen()) {
+        udpClient.send(std::vector<char>({'1'}));
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code != lastKey) {
+                    lastKey = event.key.code;
+                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
+                }
+            }
+            if (event.type == sf::Event::KeyReleased) {
+                if (event.key.code == lastKey) {
+                    lastKey = sf::Keyboard::Unknown;
+                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
+                }
+            }
         }
         std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
         registry = Registry();
