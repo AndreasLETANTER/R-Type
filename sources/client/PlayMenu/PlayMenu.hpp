@@ -33,8 +33,9 @@ private:
     Registry &m_registry;
     std::vector<TextButton> m_buttons;
     sf::Font m_font;
-    bool m_isIPEditable = false;
-    bool m_isPortEditable = false;
+    bool m_isIpEditable = false;
+    bool m_isTcpPortEditable = false;
+    bool m_isUdpPortEditable = false;
     bool m_areInfosValid = false;
     binaryConverter m_converter;
 };

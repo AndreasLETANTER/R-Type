@@ -23,7 +23,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
     m_font = assets.get_font("font.ttf");
 
-    TextButton IPButton = TextButton()
+    TextButton tcpPortButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
@@ -31,7 +31,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setButtonOutlineThickness(5)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
-        .setTextString("IP")
+        .setTextString("TCP Port")
         .setTextSize(windowSize, textRatio)
         .setTextFont(m_font)
         .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
@@ -39,12 +39,12 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setTextHoverColor(sf::Color::Green)
         .setCallback([this]() {
             std::cout << "IP button pressed" << std::endl;
-            m_isIPEditable = true;
+            m_isTcpPortEditable = true;
         });
-    m_buttons.push_back(IPButton);
+    m_buttons.push_back(tcpPortButton);
 
     yPos += buttonHeight + spacing;
-    TextButton editableTextButton = TextButton()
+    TextButton udpPortButton = TextButton()
         .setButtonPosition(sf::Vector2f(xPos, yPos))
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
@@ -52,7 +52,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setButtonOutlineThickness(5)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
-        .setTextString("Port")
+        .setTextString("UDP Port")
         .setTextSize(windowSize, textRatio)
         .setTextFont(m_font)
         .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
@@ -60,9 +60,30 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setTextHoverColor(sf::Color::Green)
         .setCallback([this]() {
             std::cout << "Editable text button pressed" << std::endl;
-            m_isPortEditable = true;
+            m_isUdpPortEditable = true;
         });
-    m_buttons.push_back(editableTextButton);
+    m_buttons.push_back(udpPortButton);
+
+    yPos += buttonHeight + spacing;
+    TextButton ipButton = TextButton()
+        .setButtonPosition(sf::Vector2f(xPos, yPos))
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setTextString("IP Address")
+        .setTextSize(windowSize, textRatio)
+        .setTextFont(m_font)
+        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
+        .setTextColor(sf::Color::White)
+        .setTextHoverColor(sf::Color::Green)
+        .setCallback([this]() {
+            std::cout << "IP button pressed" << std::endl;
+            m_isIpEditable = true;
+        });
+    m_buttons.push_back(ipButton);
 
     yPos += buttonHeight + spacing;
     TextButton confirmButton = TextButton()
@@ -105,8 +126,9 @@ void PlayMenu::update()
 {
     for (auto &button : m_buttons)
         button.update(m_window);
-    editTextButton(m_buttons[0], "IP", m_isIPEditable, 15, "0123456789.");
-    editTextButton(m_buttons[1], "Port", m_isPortEditable, 5, "0123456789");
+    editTextButton(m_buttons[0], "TCP Port", m_isTcpPortEditable, 15, "0123456789.");
+    editTextButton(m_buttons[1], "UDP Port", m_isUdpPortEditable, 5, "0123456789");
+    editTextButton(m_buttons[2], "IP Address", m_isIpEditable, 15, "0123456789.");
 }
 
 void PlayMenu::resize()
