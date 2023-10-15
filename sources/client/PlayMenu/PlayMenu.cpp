@@ -102,8 +102,10 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setTextHoverColor(sf::Color::Blue)
         .setCallback([this]() {
             handleArgument handleArguments;
-            tcpClientSocket tcpClient(handleArguments.getPort(m_buttons[0].getTextString().c_str()));
-            udpClientSocket udpClient(handleArguments.getPort(m_buttons[1].getTextString().c_str()));
+            tcpClientSocket tcpClient(handleArguments.getPort(m_buttons[0].getTextString().c_str()),
+                handleArguments.getIp(m_buttons[2].getTextString().c_str()));
+            udpClientSocket udpClient(handleArguments.getPort(m_buttons[1].getTextString().c_str()),
+                handleArguments.getIp(m_buttons[2].getTextString().c_str()));
 
             tcpClient.run();
             udpClient.run();
