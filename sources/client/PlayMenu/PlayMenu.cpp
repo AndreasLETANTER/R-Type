@@ -81,7 +81,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setCallback([this]() {
             handleArgument handleArguments;
             tcpClientSocket tcpClient(handleArguments.getPort(m_buttons[0].getTextString().c_str()));
-            udpClientSocket udpClient(handleArguments.getPort(m_buttons[0].getTextString().c_str()));
+            udpClientSocket udpClient(handleArguments.getPort(m_buttons[1].getTextString().c_str()));
 
             tcpClient.run();
             udpClient.run();
@@ -165,6 +165,14 @@ void PlayMenu::editTextButton(TextButton &button,
 void PlayMenu::launchGame(udpClientSocket &udpClient)
 {
     while (m_window.isOpen()) {
+        for (auto event = sf::Event{}; m_window.pollEvent(event);) {
+            if (event.type == sf::Event::Closed)
+                m_window.close();
+            if (event.type == sf::Event::Resized) {
+                sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+                m_window.setView(sf::View(visibleArea));
+            }
+        }
         std::pair<message_t *, size_t> messages = m_converter.convertBinaryToStruct(udpClient.receive());
         m_registry = Registry();
         m_registry.importFromMessages(messages.first, messages.second, &m_window);
