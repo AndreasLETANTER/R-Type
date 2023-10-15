@@ -45,7 +45,8 @@ FetchContent_MakeAvailable(Boost)
 set(ASSETS_FILES
     assets/Space_Background.png
     assets/SpaceShips.gif
-    assets/BurpTemporaryBullet.png
+    assets/BulletSprite.png
+    assets/BulletSpriteMonster.png
     assets/GreyRobotObstacle.gif
     assets/OrangeCrabEnemy.gif
     assets/YellowPopcornEnemy.gif

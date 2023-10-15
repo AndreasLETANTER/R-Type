@@ -9,8 +9,12 @@
 
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
+#include "ECS/Components/Controllable.hpp"
+#include "ECS/Components/Shoot.hpp"
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
+#include "ECS/Components/Controllable.hpp"
+#include "ECS/Components/Shoot.hpp"
 
 
 Registry::Registry(Assets assets) : m_assets(assets)
@@ -92,7 +96,62 @@ void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWi
         add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
     }
 }
+
 Assets &Registry::get_assets()
 {
     return m_assets;
+}
+
+void Registry::updateEntityKeyPressed(t_input input)
+{
+    for (auto &entity : m_entities) {
+        if (entity.has_value()) {
+            auto &controllable = get_components<Component::Controllable>();
+            auto &shoots = get_components<Component::Shoot>();
+            for (size_t i = 0; i < shoots.size(); i++) {
+                if (shoots[i].has_value()) {
+                    if (shoots[i].value().playerId == input.id) {
+                        shoots[i].value().keyPressed = input.key;
+                    }
+                }
+            }
+            for (size_t i = 0; i < controllable.size(); i++) {
+                if (controllable[i].has_value()) {
+                    if (controllable[i].value().playerId == input.id) {
+                        controllable[i].value().keyPressed = input.key;
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool Registry::playersAreDead()
+{
+    SparseArray<Component::Controllable> &controllables = get_components<Component::Controllable>();
+
+    for (size_t entity = 0; entity < controllables.size(); entity++) {
+        if (controllables[entity].has_value() == false) {
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+
+bool Registry::enemiesAreDead()
+{
+    int nbEntitiesLeft = 0;
+    SparseArray<Component::Controllable> &controllables = get_components<Component::Controllable>();
+    SparseArray<Component::Shoot> &shoots = get_components<Component::Shoot>();
+
+    for (size_t entity = 0; entity < shoots.size(); entity++) {
+        if (controllables[entity].has_value() == false && shoots[entity].has_value() == true) {
+            nbEntitiesLeft++;
+        }
+    }
+    if (nbEntitiesLeft == 0) {
+        return true;
+    }
+    return false;
 }

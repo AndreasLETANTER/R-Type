@@ -17,11 +17,21 @@ namespace Component {
              * @brief The status of the controllable component.
              */
             bool status;
+            /**
+             * @brief The ID of the player controlling the entity.
+             */
+            unsigned int playerId;
+
+            /**
+             * @brief The key pressed by the player controlling the entity.
+             */
+            sf::Keyboard::Key keyPressed = sf::Keyboard::Unknown;
 
             /**
              * @brief Constructor for the Controllable component.
              * @param status The initial status of the component.
+             * @param playerId The ID of the player controlling the entity.
              */
-            inline Controllable(bool status) { this->status = status; }
+            inline Controllable(bool status, unsigned int playerId) { this->status = status; this->playerId = playerId; }
     };
 }

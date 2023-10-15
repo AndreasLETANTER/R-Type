@@ -22,13 +22,14 @@
 #include "ECS/Assets/Assets.hpp"
 #include "client/PlayMenu/PlayMenu.hpp"
 
-
 int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
+
     Assets assets;
     Registry registry(assets);
+
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
 
@@ -51,7 +52,9 @@ int main(int ac, char **av)
     registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0)));
 
     MainMenu mainMenu(window, assets, registry);
+    sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
     while (window.isOpen()) {
+        udpClient.send(std::vector<char>({'1'}));
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -59,6 +62,17 @@ int main(int ac, char **av)
                 sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
                 window.setView(sf::View(visibleArea));
                 mainMenu.resize();
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code != lastKey) {
+                    lastKey = event.key.code;
+                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
+                }
+            }
+            if (event.type == sf::Event::KeyReleased) {
+                if (event.key.code == lastKey) {
+                    lastKey = sf::Keyboard::Unknown;
+                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
+                }
             }
         }
         window.clear();
