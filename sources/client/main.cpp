@@ -33,8 +33,8 @@ int main(int ac, char **av)
     (void)av;
     binaryConverter converter;
     handleArgument handleArguments;
-    tcpClientSocket tcpClient(handleArguments.getPort(av[1]));
-    udpClientSocket udpClient(handleArguments.getPort(av[2]));
+    tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
+    udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     Assets assets;
     
     tcpClient.run();

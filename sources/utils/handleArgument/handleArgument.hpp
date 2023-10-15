@@ -10,6 +10,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstdint>
+#include <boost/asio.hpp>
 
 #define MAX_PORT 65535
 #define MIN_PORT 1024
@@ -38,6 +39,13 @@ class handleArgument
          * @return The port number.
          */
         uint16_t getPort(char const *t_av) const;
+        /**
+         * @brief Get the IP address from the command line arguments.
+         * @param t_av The command line arguments.
+         * @return The IP address.
+         */
+        boost::asio::ip::address getIp(char const *t_av) const;
+
     protected:
         /**
          * @brief Check if a string is a number.

@@ -33,8 +33,8 @@ int main(const int ac, const char **av)
     (void)ac;
     handleArgument handleArgument;
     binaryConverter converter;
-    tcpSocket tcpServer(handleArgument.getPort(av[1]));
-    udpSocket udpServer(handleArgument.getPort(av[2]));
+    tcpSocket tcpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[3]));
+    udpSocket udpServer(handleArgument.getPort(av[2]), handleArgument.getIp(av[3]));
 
     Registry registry;
     sf::Clock clock;
@@ -67,7 +67,6 @@ int main(const int ac, const char **av)
     tcpServer.run();
     udpServer.run();
     char *received;
-
 
     while (true) {
         if (tcpServer.getNbClients() == 0) {
