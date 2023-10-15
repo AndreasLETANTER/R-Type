@@ -23,7 +23,7 @@ class udpClientSocket {
          * 
          * @param t_udpPort The UDP port to use.
          */
-        udpClientSocket(size_t t_udpPort);
+        udpClientSocket(size_t t_udpPort, ip::address t_ip);
 
         /**
          * @brief Destroy the udpClientSocket object.

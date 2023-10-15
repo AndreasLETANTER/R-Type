@@ -11,9 +11,9 @@
 #include "utils/debugColors/debugColors.hpp"
 
 
-tcpClientSocket::tcpClientSocket(u_int16_t t_tcpPort) : m_socket(m_ioService), m_tcpPort(t_tcpPort)
+tcpClientSocket::tcpClientSocket(u_int16_t t_tcpPort, ip::address t_ip) : m_socket(m_ioService), m_tcpPort(t_tcpPort)
 {
-    ip::tcp::endpoint endpoint(ip::tcp::v4(), m_tcpPort);
+    ip::tcp::endpoint endpoint(t_ip, t_tcpPort);
     m_socket.connect(endpoint);
     m_id = 0;
 }
