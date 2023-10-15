@@ -218,6 +218,7 @@ class Registry {
          */
         void updateEntityKeyPressed(t_input input);
  
+        /**
          * @brief Returns true or false if all players are dead or not.
          * 
          * @return true if all players are dead.
