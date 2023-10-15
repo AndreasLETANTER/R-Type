@@ -32,8 +32,26 @@ int main(int ac, char **av)
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
     MainMenu mainMenu(window, assets);
-    PlayMenu playMenu(window, assets, registry);
 
+    registry.register_component<Component::Position>();
+    registry.register_component<Component::Drawable>();
+    registry.register_component<Component::Scroll>();
+
+    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
+    registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
+
+    registry.spawn_entity();
+    registry.spawn_entity();
+
+    registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("Space_Background.png")));
+    registry.add_component<Component::Scroll>(registry.entity_from_index(0), Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0)));
+
+    registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("Space_Background.png")));
+    registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0)));
+
+    PlayMenu playMenu(window, assets, registry);
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
@@ -44,13 +62,10 @@ int main(int ac, char **av)
                 playMenu.resize();
             }
         }
-        // std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
-        registry = Registry();
-        // registry.importFromMessages(messages.first, messages.second, &window);
         window.clear();
+        registry.run_systems();
         playMenu.draw();
         playMenu.update();
-        // registry.run_systems();
         window.display();
     }
     return 0;
