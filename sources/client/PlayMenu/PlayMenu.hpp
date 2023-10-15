@@ -26,7 +26,7 @@ public:
     void editTextButton(TextButton &button,
         const std::string &initialText, bool &isEditable,
         const long unsigned int &maxSize, const std::string &acceptedChars = "");
-    void launchGame(udpClientSocket &udpClient);
+    void launchGame(tcpClientSocket &tcpClient, udpClientSocket &udpClient);
 private:
     sf::RenderWindow &m_window;
     Assets &m_assets;

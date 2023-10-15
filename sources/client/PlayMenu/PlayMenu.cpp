@@ -5,8 +5,9 @@
 ** PlayMenu
 */
 
-#include "client/PlayMenu/PlayMenu.hpp"
 #include <iostream>
+
+#include "client/PlayMenu/PlayMenu.hpp"
 
 PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry):
     m_window(window), m_assets(assets), m_registry(registry)
@@ -85,9 +86,9 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
 
             tcpClient.run();
             udpClient.run();
-            udpClient.send("connect");
-            udpClient.send("");
-            this->launchGame(udpClient);
+            udpClient.send(std::vector<char>({'c', 'o', 'n', 'n', 'e', 'c', 't'}));
+            udpClient.send(std::vector<char>({'1'}));
+            this->launchGame(tcpClient, udpClient);
         });
     m_buttons.push_back(confirmButton);
     this->resize();
@@ -162,15 +163,29 @@ void PlayMenu::editTextButton(TextButton &button,
     }
 }
 
-void PlayMenu::launchGame(udpClientSocket &udpClient)
+void PlayMenu::launchGame(tcpClientSocket &tcpClient, udpClientSocket &udpClient)
 {
+    sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
     while (m_window.isOpen()) {
+        udpClient.send(std::vector<char>({'1'}));
         for (auto event = sf::Event{}; m_window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 m_window.close();
             if (event.type == sf::Event::Resized) {
                 sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
                 m_window.setView(sf::View(visibleArea));
+            }
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code != lastKey) {
+                    lastKey = event.key.code;
+                    udpClient.send(m_converter.convertStructToInput(tcpClient.getId(), event.key.code));
+                }
+            }
+            if (event.type == sf::Event::KeyReleased) {
+                if (event.key.code == lastKey) {
+                    lastKey = sf::Keyboard::Unknown;
+                    udpClient.send(m_converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
+                }
             }
         }
         std::pair<message_t *, size_t> messages = m_converter.convertBinaryToStruct(udpClient.receive());
