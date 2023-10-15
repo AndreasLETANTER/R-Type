@@ -12,6 +12,10 @@
 #include "client/Buttons/TextButton/TextButton.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
+#include "utils/handleArgument/handleArgument.hpp"
+#include "client/tcpClientSocket/tcpClientSocket.hpp"
+#include "client/udpClientSocket/udpClientSocket.hpp"
 
 class PlayMenu {
 public:
@@ -19,7 +23,10 @@ public:
     void draw();
     void update();
     void resize();
-    void editTextButton(TextButton &button, const std::string &initialText, bool &isEditable);
+    void editTextButton(TextButton &button,
+        const std::string &initialText, bool &isEditable,
+        const long unsigned int &maxSize, const std::string &acceptedChars = "");
+    void launchGame(udpClientSocket &udpClient);
 private:
     sf::RenderWindow &m_window;
     Assets &m_assets;
@@ -28,4 +35,6 @@ private:
     sf::Font m_font;
     bool m_isIPEditable = false;
     bool m_isPortEditable = false;
+    bool m_areInfosValid = false;
+    binaryConverter m_converter;
 };

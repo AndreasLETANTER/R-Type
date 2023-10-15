@@ -7,11 +7,6 @@
 
 #include "client/PlayMenu/PlayMenu.hpp"
 #include <iostream>
-#include "utils/binaryConverter/binaryConverter.hpp"
-#include "utils/handleArgument/handleArgument.hpp"
-#include "client/tcpClientSocket/tcpClientSocket.hpp"
-#include "client/udpClientSocket/udpClientSocket.hpp"
-#include "PlayMenu.hpp"
 
 PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry):
     m_window(window), m_assets(assets), m_registry(registry)
@@ -19,7 +14,7 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 5;
     double buttonHeightRatio = 10;
-    double textRatio = 15;
+    double textRatio = 30;
     double buttonWidth = windowSize.x / buttonWidthRatio;
     double buttonHeight = windowSize.y / buttonHeightRatio;
     double spacing = windowSize.y / 20;
@@ -84,6 +79,15 @@ PlayMenu::PlayMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Blue)
         .setCallback([this]() {
+            handleArgument handleArguments;
+            tcpClientSocket tcpClient(handleArguments.getPort(m_buttons[0].getTextString().c_str()));
+            udpClientSocket udpClient(handleArguments.getPort(m_buttons[0].getTextString().c_str()));
+
+            tcpClient.run();
+            udpClient.run();
+            udpClient.send("connect");
+            udpClient.send("");
+            this->launchGame(udpClient);
         });
     m_buttons.push_back(confirmButton);
     this->resize();
@@ -99,8 +103,8 @@ void PlayMenu::update()
 {
     for (auto &button : m_buttons)
         button.update(m_window);
-    editTextButton(m_buttons[0], "IP", m_isIPEditable);
-    editTextButton(m_buttons[1], "Port", m_isPortEditable);
+    editTextButton(m_buttons[0], "IP", m_isIPEditable, 15, "0123456789.");
+    editTextButton(m_buttons[1], "Port", m_isPortEditable, 5, "0123456789");
 }
 
 void PlayMenu::resize()
@@ -108,7 +112,7 @@ void PlayMenu::resize()
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 5;
     double buttonHeightRatio = 10;
-    double textRatio = 15;
+    double textRatio = 30;
     double buttonWidth = windowSize.x / buttonWidthRatio;
     double buttonHeight = windowSize.y / buttonHeightRatio;
     double spacing = windowSize.y / 20;
@@ -123,15 +127,19 @@ void PlayMenu::resize()
 }
 
 void PlayMenu::editTextButton(TextButton &button,
-    const std::string &initialText, bool &isEditable)
+    const std::string &initialText, bool &isEditable,
+    const long unsigned int &maxSize, const std::string &acceptedChars)
 {
     if (isEditable) {
         sf::Event event;
         while (m_window.pollEvent(event)) {
+            if (button.getTextString() == initialText &&
+                (acceptedChars.find(event.text.unicode) != std::string::npos
+                || event.text.unicode == 8))
+                button.setTextString("");
             if (event.type == sf::Event::TextEntered) {
-                if (button.getTextString() == initialText)
-                    button.setTextString("");
-                if (event.text.unicode < 128 && event.text.unicode != 8) {
+                if (acceptedChars.find(event.text.unicode) != std::string::npos &&
+                    button.getTextString().size() < maxSize) {
                     std::string newText = button.getTextString();
                     newText += static_cast<char>(event.text.unicode);
                     button.setTextString(newText);
@@ -151,5 +159,17 @@ void PlayMenu::editTextButton(TextButton &button,
                 }
             }
         }
+    }
+}
+
+void PlayMenu::launchGame(udpClientSocket &udpClient)
+{
+    while (m_window.isOpen()) {
+        std::pair<message_t *, size_t> messages = m_converter.convertBinaryToStruct(udpClient.receive());
+        m_registry = Registry();
+        m_registry.importFromMessages(messages.first, messages.second, &m_window);
+        m_window.clear();
+        m_registry.run_systems();
+        m_window.display();
     }
 }
