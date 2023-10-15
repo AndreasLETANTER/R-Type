@@ -103,6 +103,7 @@ entities: {
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
             health = 5;
+            damage = 25;
         },
         {
             id = 9;
