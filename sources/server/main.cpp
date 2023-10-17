@@ -24,7 +24,6 @@
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "../../build/assets/Level1Config.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
-#include "tcpSocket/tcpSocket.hpp"
 #include "udpSocket/udpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 
@@ -33,8 +32,7 @@ int main(const int ac, const char **av)
     (void)ac;
     handleArgument handleArgument;
     binaryConverter converter;
-    tcpSocket tcpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[3]));
-    udpSocket udpServer(handleArgument.getPort(av[2]), handleArgument.getIp(av[3]));
+    udpSocket udpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[2]));
 
     Registry registry;
     sf::Clock clock;
@@ -64,14 +62,10 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     parser.loadFromFile();
 
-    tcpServer.run();
     udpServer.run();
     char *received;
 
     while (true) {
-        if (tcpServer.getNbClients() == 0) {
-            continue;
-        }
         registry.run_systems();
         received = udpServer.receive();
         if (received != nullptr) {

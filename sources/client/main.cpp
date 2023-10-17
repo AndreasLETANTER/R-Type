@@ -13,10 +13,7 @@
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
-#include "client/Network/Network.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
-
-#include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 #include "ECS/Assets/Assets.hpp"
@@ -33,13 +30,10 @@ int main(int ac, char **av)
     (void)av;
     binaryConverter converter;
     handleArgument handleArguments;
-    tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
-    udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
+    udpClientSocket udpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[2]));
     Assets assets;
-    
-    tcpClient.run();
+
     udpClient.run();
-    tcpClient.receive();
     Registry registry;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
@@ -56,13 +50,13 @@ int main(int ac, char **av)
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code != lastKey) {
                     lastKey = event.key.code;
-                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
+                    //udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
                 }
             }
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == lastKey) {
                     lastKey = sf::Keyboard::Unknown;
-                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
+                    //udpClient.send(converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
                 }
             }
         }
