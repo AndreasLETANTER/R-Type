@@ -12,15 +12,19 @@
     */
 namespace Component {
     class Score {
-        /**
-         * @brief Default constructor for Score class.
-         */
-        Score() = default;
-        int score;
-        /**
-         * @brief Constructor for Score class.
-         * @param score The score of the entity.
-         */
-        inline Score(int score) { this->score = score; }
+        public:
+            /**
+             * @brief Default constructor for Score class.
+             */
+            Score() = default;
+            int score;
+            sf::Clock *clock;
+            sf::Time lastScoreIncrease;
+            /**
+             * @brief Constructor for Score class.
+             * @param score The score of the entity.
+             * @param clock A pointer to the clock used to measure time.
+             */
+            inline Score(int score, sf::Clock *clock) { this->score = score, this->clock = clock, this->lastScoreIncrease = clock->getElapsedTime(); }
     };
 }

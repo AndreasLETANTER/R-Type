@@ -13,6 +13,13 @@ ScoreSystem ScoreSystem::operator()(Registry &registry, SparseArray<Component::S
     for (size_t i = 0; i < scores.size(); ++i)
     {
         auto &score = scores[i];
+        if (score.has_value()) {
+            sf::Time elapsedTime = score.value().clock->getElapsedTime() - score.value().lastScoreIncrease;
+            if (elapsedTime >= sf::seconds(1)) {
+                score.value().score += 1;
+                score.value().lastScoreIncrease = score.value().clock->getElapsedTime();
+            }
+        }
     }
     return *this;
 }

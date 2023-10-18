@@ -70,6 +70,7 @@ set (ECS_SOURCES
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
+    sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
 )
 
 set(SERVER_SOURCES

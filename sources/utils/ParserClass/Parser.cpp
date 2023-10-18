@@ -17,6 +17,7 @@
 #include "ECS/Components/Collision.hpp"
 #include "ECS/Components/AutoMove.hpp"
 #include "ECS/Components/Health.hpp"
+#include "ECS/Components/Score.hpp"
 
 Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesContents) :
     m_registry(registry),
@@ -114,6 +115,7 @@ void Parser::loadPlayers()
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
+        m_registry.add_component<Component::Score>(m_registry.entity_from_index(base.id), Component::Score(0, &m_clock));
     }
 }
 
