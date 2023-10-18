@@ -19,12 +19,6 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Assets/Assets.hpp"
 
-typedef struct s_input
-{
-    unsigned int id;
-    sf::Keyboard::Key key;
-} t_input;
-
 /**
  * @brief Struct representing a message containing the sprite name and position of an entity.
  */
@@ -32,9 +26,22 @@ typedef struct message_s {
     char sprite_name[128] = {0}; /**< The name of the sprite associated with the entity. */
     double x; /**< The x-coordinate of the entity's position. */
     double y; /**< The y-coordinate of the entity's position. */
+    unsigned int entity_id; /**< The id of the entity. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
     Component::Position position; /**< The position of the rect. */
 } message_t;
+
+typedef struct packet_s
+{
+    unsigned int messageType;
+    message_t message;
+} packet_t;
+
+typedef struct input_s
+{
+    unsigned int id;
+    sf::Keyboard::Key key;
+} input_t;
 
 /**
  * @brief The Registry class is responsible for managing entities and their components.
@@ -216,7 +223,7 @@ class Registry {
          * 
          * @param input The input of the entity.
          */
-        void updateEntityKeyPressed(t_input input);
+        void updateEntityKeyPressed(input_t input);
  
         /**
          * @brief Returns true or false if all players are dead or not.

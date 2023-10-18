@@ -102,7 +102,7 @@ Assets &Registry::get_assets()
     return m_assets;
 }
 
-void Registry::updateEntityKeyPressed(t_input input)
+void Registry::updateEntityKeyPressed(input_t input)
 {
     for (auto &entity : m_entities) {
         if (entity.has_value()) {

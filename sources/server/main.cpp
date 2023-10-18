@@ -77,7 +77,7 @@ int main(const int ac, const char **av)
         registry.run_systems();
         received = udpServer.receive();
         if (received != nullptr) {
-            t_input input = converter.convertBinaryToInput(received);
+            input_t input = converter.convertBinaryToInput(received);
             if (input.id != 0) {
                 registry.updateEntityKeyPressed(input);
             }
@@ -86,7 +86,7 @@ int main(const int ac, const char **av)
             //     udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
             // }
         }
-        std::pair<message_t *, size_t> messages = registry.exportToMessages();
-        udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
+        //std::pair<message_t *, size_t> messages = registry.exportToMessages();
+        //udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
     }
 }

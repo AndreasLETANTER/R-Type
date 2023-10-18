@@ -60,9 +60,9 @@ int main(int ac, char **av)
                 }
             }
         }
-        std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
+        //std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
         registry = Registry();
-        registry.importFromMessages(messages.first, messages.second, &window);
+        //registry.importFromMessages(messages.first, messages.second, &window);
         window.clear();
         registry.run_systems();
         window.display();
