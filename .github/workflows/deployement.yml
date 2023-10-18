@@ -57,10 +57,10 @@ jobs:
           fetch-depth: 0
       - name: Compile project
         run: |
-          mkdir build
           cmake -B build
-          make server -C build
-          make client -C build
+          cd build
+          make server
+          make client
       - id: check_binaries
         name: Check if executable exists
         run: |
