@@ -15,14 +15,15 @@
 
 packet_t binaryConverter::createpacket(unsigned int messageType)
 {
-    packet_t packet = {0, 0};
+    packet_t packet;
+
     packet.messageType = messageType;
     return (packet);
 }
 
 packet_t binaryConverter::convertBinaryToStruct(char *buffer)
 {
-    packet_t packet = {0, 0};
+    packet_t packet;
 
     memcpy(&packet, buffer, sizeof(packet));
     return (packet);

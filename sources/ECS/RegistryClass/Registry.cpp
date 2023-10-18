@@ -23,14 +23,16 @@ Registry::Registry(Assets assets) : m_assets(assets)
 
 Entity Registry::spawn_entity()
 {
+    unsigned int id = std::rand() % 10000000;
+
     for (std::size_t i = 0; i < m_entities.size(); i++) {
         if (!m_entities[i].has_value()) {
-            m_entities[i] = Entity(i);
-            return m_entities[i].value();
+            m_entities[i] = std::make_pair(Entity(i), id);
+            return m_entities[i].value().first;
         }
     }
-    m_entities.insert_at(m_entities.size(), Entity(m_entities.size()));
-    return m_entities[m_entities.size() - 1].value();
+    m_entities.insert_at(m_entities.size(), std::make_pair(Entity(m_entities.size()), id));
+    return m_entities[m_entities.size() - 1].value().first;
 }
 
 Entity Registry::entity_from_index(std::size_t idx)
@@ -40,7 +42,7 @@ Entity Registry::entity_from_index(std::size_t idx)
     } else if (m_entities[idx].has_value() == false) {
         throw std::runtime_error{"Entity no value"};
     } else {
-        return m_entities[idx].value();
+        return m_entities[idx].value().first;
     }
 }
 
