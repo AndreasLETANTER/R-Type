@@ -19,15 +19,12 @@ namespace Component {
         public:
             Component::Position startingPos;
             Component::Position offsetLimit;
-            sf::Clock *clock;
-            sf::Time lastTime;
             int pausePosX;
-            sf::Time pauseTime;
 
             /**
              * @brief Construct a new Scrolling Background object.
              * @param offsetLimit The width limit of the background.
              */
-            inline Scroll(Component::Position startingPos, Component::Position offsetLimit, sf::Clock *clock, int pausePosX, sf::Time pauseTime) { this->startingPos = startingPos, this->offsetLimit = offsetLimit, this->clock = clock, this->lastTime = clock->getElapsedTime(), this->pausePosX = pausePosX, this->pauseTime = pauseTime; };
+            inline Scroll(Component::Position startingPos, Component::Position offsetLimit, int pausePosX) { this->startingPos = startingPos, this->offsetLimit = offsetLimit, this->pausePosX = pausePosX; };
     };
 }
