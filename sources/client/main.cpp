@@ -20,6 +20,7 @@
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 #include "ECS/Assets/Assets.hpp"
+#include "client/Buttons/TextButton/TextButton.hpp"
 
 void signalHandler(int signum)
 {
@@ -36,7 +37,7 @@ int main(int ac, char **av)
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     Assets assets;
-    
+
     tcpClient.run();
     udpClient.run();
     tcpClient.receive();
@@ -45,6 +46,22 @@ int main(int ac, char **av)
     window.setFramerateLimit(144);
     sf::Clock clock;
     MainMenu mainMenu(window, assets);
+    TextButton scoreButton = TextButton()
+        .setButtonPosition(sf::Vector2f(0, 0))
+        .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::Transparent)
+        .setButtonOutlineThickness(1)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Transparent)
+        .setTextString("Score: ")
+        .setTextSize(window.getSize(), 15)
+        .setTextFont(assets.get_font("font.ttf"))
+        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
+        .setTextColor(sf::Color::White)
+        .setTextHoverColor(sf::Color::Transparent)
+        .setCallback([]() {
+        });
 
     sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
 
@@ -71,6 +88,8 @@ int main(int ac, char **av)
         registry.importFromMessages(messages.first, messages.second, &window);
         window.clear();
         registry.run_systems();
+        scoreButton.draw(window);
+        mainMenu.draw();
         window.display();
     }
     return 0;
