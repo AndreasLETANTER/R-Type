@@ -11,16 +11,9 @@
 
 typedef struct s_header
 {
-    unsigned int messageId;
-    unsigned int timestamp;
     unsigned int nbEntities;
+    unsigned int messageType;
 } t_header;
-
-typedef struct s_first_message
-{
-    unsigned int id;
-    unsigned int udp_port;
-} t_first_message;
 
 class binaryConverter {
 /**
@@ -44,7 +37,6 @@ class binaryConverter {
          * @return A pointer to the structured data.
          */
         std::pair<message_t *, size_t> convertBinaryToStruct(char *buffer);
-        t_first_message convertBinaryToFirstMessage(char *buffer);
         t_input convertBinaryToInput(char *buffer);
 
         /**
@@ -55,7 +47,6 @@ class binaryConverter {
          * @return A pointer to the binary data.
          */
         std::vector<char> convertStructToBinary(size_t nbEntites, message_t *messages);
-        std::vector<char> convertStructToFirstMessage(unsigned int messageId);
         std::vector<char> convertStructToInput(unsigned int t_id, sf::Keyboard::Key key);
 
     private:
