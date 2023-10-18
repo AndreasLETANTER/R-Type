@@ -14,10 +14,17 @@ ScrollSystem ScrollSystem::operator()(Registry &registry, SparseArray<Component:
         auto &sb = scrolls[i];
         auto &pos = positions[i];
         if (sb.has_value() && pos.has_value()) {
-            pos.value().x -= 0.5;
-            if (pos.value().x <= sb.value().offsetLimit.x) {
+            if (pos.value().x == sb.value().pausePosX) {
+                sf::Time elapsedTime = sb.value().clock->getElapsedTime() - sb.value().lastTime;
+                if (elapsedTime < sb.value().pauseTime) {
+                    pos.value().x = sb.value().pausePosX;
+                } else {
+                    pos.value().x -= 0.5;
+                }
+            } else if (pos.value().x <= sb.value().offsetLimit.x) {
                 pos.value().x = sb.value().startingPos.x + (pos.value().x - sb.value().offsetLimit.x);
-            }
+            } else
+                pos.value().x -= 0.5;
         }
     }
     return *this;
