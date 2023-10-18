@@ -11,7 +11,8 @@ entities: {
             assetName = "Space_Background.png";
             position = { x = 0; y = 0; };
             scale = { x = 1920; y = 1080; };
-            rect = { x = 0; y = 0; width = 300; height = 207; };
+            textureRect = { x = 0; y = 0; width = 300; height = 207; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             offsetLimit = { x = -5700; y = 0; };
         },
         {
@@ -19,7 +20,8 @@ entities: {
             assetName = "Space_Background.png";
             position = { x = 5700; y = 0; };
             scale = { x = 1920; y = 1080; };
-            rect = { x = 0; y = 0; width = 300; height = 207; };
+            textureRect = { x = 0; y = 0; width = 300; height = 207; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             offsetLimit = { x = 0; y = 0; };
         }
     );
@@ -31,7 +33,8 @@ entities: {
             projectileAssetName = "BulletSprite.png";
             position = { x = 150; y = 300; };
             scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 2; width = 34; height = 16; };
+            textureRect = { x = 0; y = 2; width = 34; height = 16; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             health = 100;
             damage = 5;
         },
@@ -41,7 +44,8 @@ entities: {
             projectileAssetName = "BulletSprite.png";
             position = { x = 200; y = 400; };
             scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 19; width = 34; height = 16; };
+            textureRect = { x = 0; y = 19; width = 34; height = 16; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             health = 100;
             damage = 5;
         },
@@ -51,7 +55,8 @@ entities: {
             projectileAssetName = "BulletSprite.png";
             position = { x = 150; y = 500; };
             scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 36; width = 34; height = 16; };
+            textureRect = { x = 0; y = 36; width = 34; height = 16; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             health = 100;
             damage = 5;
         },
@@ -61,7 +66,8 @@ entities: {
             projectileAssetName = "BulletSprite.png";
             position = { x = 200; y = 600; };
             scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 53; width = 34; height = 16; };
+            textureRect = { x = 0; y = 53; width = 34; height = 16; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             health = 100;
             damage = 5;
         }
@@ -74,7 +80,8 @@ entities: {
             projectileAssetName = "BulletSprite.png";
             position = { x = 2600; y = 925; };
             scale = { x = 170; y = 155; };
-            rect = { x = 0; y = 1; width = 34; height = 31; };
+            textureRect = { x = 0; y = 1; width = 34; height = 31; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             rotation = 0;
             health = 20;
         }
@@ -88,7 +95,8 @@ entities: {
             position = { x = 1450; y = 600; };
             autoMove = { x = 1450; y = 100; };
             scale = { x = 99; y = 87; };
-            rect = { x = 0; y = 1; width = 33; height = 29; };
+            textureRect = { x = 0; y = 1; width = 33; height = 29; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             rotation = 0;
             health = 10;
             damage = 25;
@@ -100,7 +108,8 @@ entities: {
             position = { x = 1500; y = 700; };
             autoMove = { x = 1500; y = 200; };
             scale = { x = 87; y = 84; };
-            rect = { x = 4; y = 4; width = 29; height = 28; };
+            textureRect = { x = 4; y = 4; width = 29; height = 28; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             rotation = 0;
             health = 5;
             damage = 25;
@@ -112,7 +121,8 @@ entities: {
             position = { x = 1450; y = 800; };
             autoMove = { x = 1450; y = 300; };
             scale = { x = 99; y = 87; };
-            rect = { x = 0; y = 1; width = 33; height = 29; };
+            textureRect = { x = 0; y = 1; width = 33; height = 29; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             rotation = 0;
             health = 10;
             damage = 25;
@@ -124,7 +134,8 @@ entities: {
             position = { x = 1500; y = 900; };
             autoMove = { x = 1500; y = 400; };
             scale = { x = 87; y = 84; };
-            rect = { x = 4; y = 4; width = 29; height = 28; };
+            textureRect = { x = 4; y = 4; width = 29; height = 28; };
+            textureOffsetRect = { x = 0; y = 0; width = 300; height = 207; };
             rotation = 0;
             health = 5;
             damage = 25;

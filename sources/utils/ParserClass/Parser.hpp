@@ -24,10 +24,14 @@ struct basicEntity {
     int posY;
     int scaleX;
     int scaleY;
-    int rectX;
-    int rectY;
-    int rectWidth;
-    int rectHeight;
+    int textureRectX;
+    int textureRectY;
+    int textureRectWidth;
+    int textureRectHeight;
+    int textureOffsetRectX;
+    int textureOffsetRectY;
+    int textureOffsetRectWidth;
+    int textureOffsetRectHeight;
 };
 
 /**
