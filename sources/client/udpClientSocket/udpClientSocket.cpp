@@ -28,12 +28,28 @@ void udpClientSocket::run()
 
 void udpClientSocket::send(std::vector<char> t_message)
 {
-    m_socket.send_to(buffer(t_message), m_endpoint);
+    m_ioService.reset();
+    m_ioService.poll();
+    m_socket.async_send_to(buffer(t_message), m_endpoint, [](const boost::system::error_code &error, std::size_t bytes_transferred) {
+        (void)bytes_transferred;
+        std::cout << RED << "Sent " << bytes_transferred << " bytes" << RESET << std::endl;
+        if (error) {
+            std::cerr << RED << "Error: " << error.message() << RESET << std::endl;
+        }
+    });
 }
 
 char *udpClientSocket::receive()
 {
-    m_readBuffer.fill(0);
-    m_socket.receive_from(buffer(m_readBuffer), m_endpoint);
+    m_ioService.reset();
+    m_ioService.poll();
+    m_socket.async_receive_from(buffer(m_readBuffer), m_endpoint, [this](const boost::system::error_code &error, std::size_t bytes_transferred) {
+        (void)bytes_transferred;
+        std::cout << GREEN << "Received " << bytes_transferred << " bytes" << RESET << std::endl;
+        if (error && error != boost::asio::error::message_size) {
+            std::cerr << RED << "Error: " << error.message() << RESET << std::endl;
+        }
+        return (m_readBuffer.data());
+    });
     return m_readBuffer.data();
 }

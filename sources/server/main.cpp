@@ -27,6 +27,8 @@
 #include "udpSocket/udpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 
+#define TICKRATE 66
+
 int main(const int ac, const char **av)
 {
     (void)ac;
@@ -64,8 +66,14 @@ int main(const int ac, const char **av)
 
     udpServer.run();
     char *received;
-
+    
+    sf::Time lastUpdate = clock.getElapsedTime();
     while (true) {
+        if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
+            continue;
+        } else {
+            lastUpdate = clock.getElapsedTime();
+        }
         registry.run_systems();
         received = udpServer.receive();
         if (received != nullptr) {

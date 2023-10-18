@@ -42,21 +42,21 @@ int main(int ac, char **av)
 
     sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
 
+    udpClient.send(converter.convertStructToInput(1, sf::Keyboard::Unknown));
     while (window.isOpen()) {
-        udpClient.send(std::vector<char>({'1'}));
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code != lastKey) {
                     lastKey = event.key.code;
-                    //udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
+                    udpClient.send(converter.convertStructToInput(1, event.key.code));
                 }
             }
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == lastKey) {
                     lastKey = sf::Keyboard::Unknown;
-                    //udpClient.send(converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
+                    udpClient.send(converter.convertStructToInput(1, sf::Keyboard::Unknown));
                 }
             }
         }
