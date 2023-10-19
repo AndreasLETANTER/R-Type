@@ -133,6 +133,14 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
         add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.position, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
     }
+    if (packet.messageType == ENTITY_DEATH_CODE) {
+        for (unsigned int i = 0; i < m_entities.size(); i++) {
+            if (m_entities[i].has_value() && m_entities[i].value().second == packet.message.entity_id) {
+                kill_entity(m_entities[i].value().first);
+                break;
+            }
+        }
+    }
 }
 
 Assets &Registry::get_assets()
