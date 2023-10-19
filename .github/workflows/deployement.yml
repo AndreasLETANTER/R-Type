@@ -53,6 +53,11 @@ jobs:
     container:
       image: epitechcontent/epitest-docker
     steps:
+      - name: Cache pulled image
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-epitechcontent-epitest-docker
       - name: Fetch repository
         uses: actions/checkout@v3
         with:
