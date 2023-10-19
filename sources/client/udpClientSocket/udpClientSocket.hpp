@@ -7,6 +7,11 @@
 
 #pragma once
 
+#include "utils/debugColors/debugColors.hpp"
+
+#include "utils/binaryConverter/binaryConverter.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+
 #include <boost/asio.hpp>
 
 #include "server/udpSocket/udpSocket.hpp"
@@ -43,7 +48,7 @@ class udpClientSocket {
          */
         void send(std::vector<char> t_message);
 
-        std::vector<const char *> get_packet_queue();
+        std::vector<packet_t> get_packet_queue();
 
         /**
          * @brief Receive a message through the UDP client socket.
@@ -57,6 +62,7 @@ class udpClientSocket {
         ip::udp::socket m_socket; /**< The boost UDP socket object. */
         ip::udp::endpoint m_endpoint; /**< The boost UDP endpoint object. */
         size_t m_udpPort; /**< The UDP port to use. */
-        std::vector<const char *> m_packet_queue;
-        std::array<char, UDP_PACKET_SIZE> m_readBuffer;
+        std::vector<packet_t> m_packet_queue;
+        streambuf m_readBuffer;
+        std::istream m_iStream;
 };
