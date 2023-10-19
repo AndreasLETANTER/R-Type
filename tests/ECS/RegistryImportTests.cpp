@@ -28,8 +28,8 @@ Test(Registry, basic_importFromMessages)
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
     reg.add_component<Component::Drawable>(entity1, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     importReg.importFromMessages(messages, size, nullptr);
 
@@ -61,8 +61,8 @@ Test(Registry, 2_spawn_importFromMessages)
     reg.add_component<Component::Velocity>(entity2, Component::Velocity(0, 0));
     reg.add_component<Component::Drawable>(entity2, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     Registry importReg;
     importReg.importFromMessages(messages, size, nullptr);
@@ -95,8 +95,8 @@ Test(Registry, 50_spawn_importFromMessages)
         reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     Registry importReg;
     importReg.importFromMessages(messages, size, nullptr);
@@ -126,8 +126,8 @@ Test(Registry, 800_spawn_importFromMessages)
         reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     Registry importReg;
     importReg.importFromMessages(messages, size, nullptr);
@@ -150,8 +150,8 @@ Test(Registry, no_spawn_importFromMessages)
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     Registry importReg;
     importReg.importFromMessages(messages, size, nullptr);

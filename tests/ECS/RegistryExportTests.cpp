@@ -14,7 +14,7 @@
 #include "../../sources/ECS/Components/Velocity.hpp"
 #include "../../sources/ECS/Components/Drawable.hpp"
 
-Test(Registry, basic_exportToMessages)
+Test(Registry, basic_exportToPackets)
 {
     Registry reg;
 
@@ -27,8 +27,8 @@ Test(Registry, basic_exportToMessages)
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
     reg.add_component<Component::Drawable>(entity1, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     cr_assert_eq(strcmp(messages[0].sprite_name, "BulletSprite.png"), 0);
     cr_assert_eq(messages[0].x, 0);
@@ -36,7 +36,7 @@ Test(Registry, basic_exportToMessages)
     cr_assert_eq(size, 1);
 }
 
-Test(Registry, 2_spawn_exportToMessages)
+Test(Registry, 2_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -54,8 +54,8 @@ Test(Registry, 2_spawn_exportToMessages)
     reg.add_component<Component::Velocity>(entity2, Component::Velocity(0, 0));
     reg.add_component<Component::Drawable>(entity2, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     cr_assert_eq(strcmp(messages[0].sprite_name, "BulletSprite.png"), 0);
     cr_assert_eq(messages[0].x, 0);
@@ -66,7 +66,7 @@ Test(Registry, 2_spawn_exportToMessages)
     cr_assert_eq(size, 2);
 }
 
-Test(Registry, 50_spawn_exportToMessages)
+Test(Registry, 50_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -81,8 +81,8 @@ Test(Registry, 50_spawn_exportToMessages)
         reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     for (int i = 0; i < 50; i++) {
         cr_assert_eq(strcmp(messages[i].sprite_name, "BulletSprite.png"), 0);
@@ -92,7 +92,7 @@ Test(Registry, 50_spawn_exportToMessages)
     cr_assert_eq(size, 50);
 }
 
-Test(Registry, 800_spawn_exportToMessages)
+Test(Registry, 800_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -107,8 +107,8 @@ Test(Registry, 800_spawn_exportToMessages)
         reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    message_t *messages = reg.exportToPackets().first;
+    size_t size = reg.exportToPackets().second;
 
     for (int i = 0; i < 800; i++) {
         cr_assert_eq(strcmp(messages[i].sprite_name, "BulletSprite.png"), 0);
@@ -118,7 +118,7 @@ Test(Registry, 800_spawn_exportToMessages)
     cr_assert_eq(size, 800);
 }
 
-Test(Registry, no_spawn_exportToMessages)
+Test(Registry, no_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -126,7 +126,7 @@ Test(Registry, no_spawn_exportToMessages)
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
 
-    size_t size = reg.exportToMessages().second;
+    size_t size = reg.exportToPackets().second;
 
     cr_assert_eq(size, 0);
 }

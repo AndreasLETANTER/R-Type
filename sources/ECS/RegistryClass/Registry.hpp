@@ -201,7 +201,7 @@ class Registry {
          * 
          * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
          */
-        std::pair<message_t *, size_t>exportToMessages();
+        std::vector<packet_t> exportToPackets();
 
         /**
          * @brief Imports entities from an array of messages.
@@ -246,6 +246,7 @@ class Registry {
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
         SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
+        SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
         Assets m_assets; /**< The assets of the registry. */
 };
 

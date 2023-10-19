@@ -62,27 +62,56 @@ void Registry::run_systems()
     }
 }
 
-std::pair<message_t *, size_t>Registry::exportToMessages()
+std::vector<packet_t> Registry::exportToPackets()
 {
-    size_t size = 0;
-    message_t *messages = new message_t[m_entities.size()];
+    std::vector<packet_t> Packets;
+    packet_t tempPacket;
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
 
-    for (size_t i = 0; i < drawables.size() && i < positions.size(); i++) {
-        auto &drawable = drawables[i];
-        auto &position = positions[i];
-
-        if (drawable.has_value() && position.has_value()) {
-            strcpy(messages[size].sprite_name, drawable.value().spriteName.c_str());
-            messages[size].x = position.value().x;
-            messages[size].y = position.value().y;
-            messages[size].rect = drawable.value().rect;
-            messages[size].position = drawable.value().scale;
-            size++;
+    //get all dead entities
+    for (unsigned int i = 0; i < m_previous_entities.size(); i++) {
+        if (m_previous_entities[i].has_value() && m_entities[i].has_value()) {
+            if (m_previous_entities[i].value().second != m_entities[i].value().second) {
+                tempPacket.messageType = 101;
+                tempPacket.message.entity_id = m_previous_entities[i].value().second;
+                Packets.push_back(tempPacket);
+            }
+        }
+        if (m_previous_entities[i].has_value() && m_entities[i].has_value() == false) {
+            tempPacket.messageType = 101;
+            tempPacket.message.entity_id = m_previous_entities[i].value().second;
+            Packets.push_back(tempPacket);
         }
     }
-    return std::make_pair(messages, size);
+
+    //get all spawned entities
+    for (unsigned int i = 0; i < m_entities.size(); i++) {
+        if (m_previous_entities.size() > i && m_previous_entities[i].has_value() && m_entities[i].has_value()) {
+            if (m_previous_entities[i].value().second != m_entities[i].value().second) {
+                tempPacket.messageType = 102;
+                tempPacket.message.entity_id = m_entities[i].value().second;
+                strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
+                tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
+                tempPacket.message.position = drawables[m_entities[i].value().first].value().scale;
+                tempPacket.message.x = positions[m_entities[i].value().first].value().x;
+                tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+                Packets.push_back(tempPacket);
+            }
+        }
+        if ((m_previous_entities.size() <= i || m_previous_entities[i].has_value() == false) && m_entities[i].has_value()) {
+                tempPacket.messageType = 102;
+                tempPacket.message.entity_id = m_entities[i].value().second;
+                strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
+                tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
+                tempPacket.message.position = drawables[m_entities[i].value().first].value().scale;
+                tempPacket.message.x = positions[m_entities[i].value().first].value().x;
+                tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+                Packets.push_back(tempPacket);
+        }
+    }
+    m_previous_entities = m_entities;
+    return Packets;
 }
 
 void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window)

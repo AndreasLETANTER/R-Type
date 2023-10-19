@@ -81,12 +81,8 @@ int main(const int ac, const char **av)
             if (input.id != 0) {
                 registry.updateEntityKeyPressed(input);
             }
-            // if (input.key == sf::Keyboard::Space) {
-            //     std::pair<message_t *, size_t> messages = registry.exportToMessages();
-            //     udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
-            // }
         }
-        //std::pair<message_t *, size_t> messages = registry.exportToMessages();
+        std::vector<packet_t> messages = registry.exportToPackets();
         //udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
     }
 }
