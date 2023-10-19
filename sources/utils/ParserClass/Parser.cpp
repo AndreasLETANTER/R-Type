@@ -78,11 +78,12 @@ void Parser::loadBackgrounds()
         base.rectHeight = backgrounds[i]["rect"]["height"];
         int offsetLimitX = backgrounds[i]["offsetLimit"]["x"];
         int offsetLimitY = backgrounds[i]["offsetLimit"]["y"];
+        int pauseX = backgrounds[i]["pauseX"];
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY)));
+        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY), pauseX));
     }
 }
 
@@ -136,13 +137,14 @@ void Parser::loadObstacles()
         base.rectHeight = obstacles[i]["rect"]["height"];
         int rotation = obstacles[i]["rotation"];
         int health = obstacles[i]["health"];
+        int pauseX = obstacles[i]["pauseX"];
         (void) rotation;
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
-        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0)));
+        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0), pauseX));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
 }

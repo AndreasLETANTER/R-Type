@@ -13,6 +13,7 @@ entities: {
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
             offsetLimit = { x = -5700; y = 0; };
+            pauseX = 0;
         },
         {
             id = 1;
@@ -21,6 +22,7 @@ entities: {
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
             offsetLimit = { x = 0; y = 0; };
+            pauseX = 0;
         }
     );
 
@@ -72,11 +74,12 @@ entities: {
             id = 6;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BulletSprite.png";
-            position = { x = 2600; y = 925; };
+            position = { x = 2000; y = 925; };
             scale = { x = 170; y = 155; };
             rect = { x = 0; y = 1; width = 34; height = 31; };
             rotation = 0;
             health = 20;
+            pauseX = 1500;
         }
     );
 

@@ -19,11 +19,12 @@ namespace Component {
         public:
             Component::Position startingPos;
             Component::Position offsetLimit;
+            int pausePosX;
 
             /**
              * @brief Construct a new Scrolling Background object.
              * @param offsetLimit The width limit of the background.
              */
-            inline Scroll(Component::Position startingPos, Component::Position offsetLimit) { this->startingPos = startingPos, this->offsetLimit = offsetLimit; };
+            inline Scroll(Component::Position startingPos, Component::Position offsetLimit, int pausePosX) { this->startingPos = startingPos, this->offsetLimit = offsetLimit, this->pausePosX = pausePosX; };
     };
 }
