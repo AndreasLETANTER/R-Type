@@ -32,12 +32,8 @@ packet_t binaryConverter::convertBinaryToStruct(char *buffer)
 input_t binaryConverter::convertBinaryToInput(char *buffer)
 {
     input_t key = {0, sf::Keyboard::Unknown};
-    size_t offset = 0;
 
-    memcpy(&key.id, buffer + offset, sizeof(key.id));
-    offset += sizeof(key.id);
-    memcpy(&key.key, buffer + offset, sizeof(key.key));
-    offset += sizeof(key.key);
+    memcpy(&key, buffer, sizeof(key));
     return (key);
 }
 
