@@ -19,6 +19,9 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Assets/Assets.hpp"
 
+#define ENTITY_DEATH_CODE 101
+#define ENTITY_SPAWN_CODE 102
+
 /**
  * @brief Struct representing a message containing the sprite name and position of an entity.
  */
@@ -123,6 +126,13 @@ class Registry {
         Entity spawn_entity();
 
         /**
+         * @brief Spawns a new entity in the registry.
+         * 
+         * @return Entity The newly spawned entity.
+         */
+        Entity spawn_entity(unsigned int id);
+
+        /**
          * @brief Returns the entity corresponding to a given index in the registry.
          * 
          * @param idx The index of the entity to get.
@@ -210,7 +220,7 @@ class Registry {
          * @param size Size of the array of messages.
          * @param window The window to draw the entities in.
          */
-        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window);
         /**
          * @brief Returns the assets of the registry.
          * 

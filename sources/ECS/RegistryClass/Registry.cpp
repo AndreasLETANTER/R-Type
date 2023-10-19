@@ -35,6 +35,18 @@ Entity Registry::spawn_entity()
     return m_entities[m_entities.size() - 1].value().first;
 }
 
+Entity Registry::spawn_entity(unsigned int id)
+{
+    for (std::size_t i = 0; i < m_entities.size(); i++) {
+        if (!m_entities[i].has_value()) {
+            m_entities[i] = std::make_pair(Entity(i), id);
+            return m_entities[i].value().first;
+        }
+    }
+    m_entities.insert_at(m_entities.size(), std::make_pair(Entity(m_entities.size()), id));
+    return m_entities[m_entities.size() - 1].value().first;
+}
+
 Entity Registry::entity_from_index(std::size_t idx)
 {
     if (idx >= m_entities.size()) {
@@ -89,7 +101,7 @@ std::vector<packet_t> Registry::exportToPackets()
     for (unsigned int i = 0; i < m_entities.size(); i++) {
         if (m_previous_entities.size() > i && m_previous_entities[i].has_value() && m_entities[i].has_value()) {
             if (m_previous_entities[i].value().second != m_entities[i].value().second) {
-                tempPacket.messageType = 102;
+                tempPacket.messageType = ENTITY_DEATH_CODE;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                 tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
@@ -100,7 +112,7 @@ std::vector<packet_t> Registry::exportToPackets()
             }
         }
         if ((m_previous_entities.size() <= i || m_previous_entities[i].has_value() == false) && m_entities[i].has_value()) {
-                tempPacket.messageType = 102;
+                tempPacket.messageType = ENTITY_SPAWN_CODE;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                 tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
@@ -114,17 +126,12 @@ std::vector<packet_t> Registry::exportToPackets()
     return Packets;
 }
 
-void Registry::importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window)
+void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
 {
-    register_component<Component::Position>();
-    register_component<Component::Drawable>();
-    add_system<Component::Position, Component::Drawable>(DrawSystem());
-    for (size_t i = 0; i < size; i++) {
-        if (strlen(messages[i].sprite_name) == 0)
-            continue;
-        auto entity = spawn_entity();
-        add_component<Component::Drawable>(entity, Component::Drawable(messages[i].sprite_name, window, messages[i].rect, messages[i].position, m_assets.get_texture(messages[i].sprite_name)));
-        add_component<Component::Position>(entity, Component::Position(messages[i].x, messages[i].y));
+    if (packet.messageType == ENTITY_SPAWN_CODE) {
+        auto entity = spawn_entity(packet.message.entity_id);
+        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.position, m_assets.get_texture(packet.message.sprite_name)));
+        add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
     }
 }
 

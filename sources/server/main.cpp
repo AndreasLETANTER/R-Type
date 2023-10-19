@@ -69,6 +69,7 @@ int main(const int ac, const char **av)
     
     sf::Time lastUpdate = clock.getElapsedTime();
     while (true) {
+        sleep(5);
         if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
             continue;
         } else {
@@ -82,7 +83,7 @@ int main(const int ac, const char **av)
                 registry.updateEntityKeyPressed(input);
             }
         }
-        std::vector<packet_t> messages = registry.exportToPackets();
-        //udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
+        std::vector<packet_t> packets = registry.exportToPackets();
+        //udpServer.send(converter.convertStructToBinary(packets[0]));
     }
 }

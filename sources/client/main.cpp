@@ -35,6 +35,9 @@ int main(int ac, char **av)
 
     udpClient.run();
     Registry registry;
+    registry.register_component<Component::Drawable>();
+    registry.register_component<Component::Position>();
+    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
     sf::Clock clock;
@@ -60,9 +63,8 @@ int main(int ac, char **av)
                 }
             }
         }
-        //std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
-        registry = Registry();
-        //registry.importFromMessages(messages.first, messages.second, &window);
+        packet_t received_packet = converter.convertBinaryToStruct(udpClient.receive());
+        registry.updateFromPacket(received_packet, &window);
         window.clear();
         registry.run_systems();
         window.display();
