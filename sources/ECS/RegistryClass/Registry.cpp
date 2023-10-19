@@ -81,21 +81,21 @@ std::vector<packet_t> Registry::exportToPackets()
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
 
-    //get all dead entities
-    for (unsigned int i = 0; i < m_previous_entities.size(); i++) {
-        if (m_previous_entities[i].has_value() && m_entities[i].has_value()) {
-            if (m_previous_entities[i].value().second != m_entities[i].value().second) {
-                tempPacket.messageType = 101;
-                tempPacket.message.entity_id = m_previous_entities[i].value().second;
-                Packets.push_back(tempPacket);
-            }
-        }
-        if (m_previous_entities[i].has_value() && m_entities[i].has_value() == false) {
-            tempPacket.messageType = 101;
-            tempPacket.message.entity_id = m_previous_entities[i].value().second;
-            Packets.push_back(tempPacket);
-        }
-    }
+    // // //get all dead entities
+    // for (unsigned int i = 0; i < m_previous_entities.size(); i++) {
+    //     if (m_previous_entities[i].has_value() && m_entities[i].has_value()) {
+    //         if (m_previous_entities[i].value().second != m_entities[i].value().second) {
+    //             tempPacket.messageType = 101;
+    //             tempPacket.message.entity_id = m_previous_entities[i].value().second;
+    //             Packets.push_back(tempPacket);
+    //         }
+    //     }
+    //     if (m_previous_entities[i].has_value() && m_entities[i].has_value() == false) {
+    //         tempPacket.messageType = 101;
+    //         tempPacket.message.entity_id = m_previous_entities[i].value().second;
+    //         Packets.push_back(tempPacket);
+    //     }
+    // }
 
     //get all spawned entities
     for (unsigned int i = 0; i < m_entities.size(); i++) {

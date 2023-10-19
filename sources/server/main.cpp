@@ -66,10 +66,9 @@ int main(const int ac, const char **av)
 
     udpServer.run();
     char *received;
-    
+    sleep(4);
     sf::Time lastUpdate = clock.getElapsedTime();
     while (true) {
-        sleep(5);
         if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
             continue;
         } else {
@@ -84,6 +83,9 @@ int main(const int ac, const char **av)
             }
         }
         std::vector<packet_t> packets = registry.exportToPackets();
-        //udpServer.send(converter.convertStructToBinary(packets[0]));
+        for (unsigned int i = 0; i < packets.size(); i++) {
+            std::cout << packets[i].message.sprite_name << std::endl;
+            udpServer.send(converter.convertStructToBinary(packets[i]));
+        }
     }
 }

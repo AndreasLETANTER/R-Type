@@ -63,8 +63,16 @@ int main(int ac, char **av)
                 }
             }
         }
-        packet_t received_packet = converter.convertBinaryToStruct(udpClient.receive());
-        registry.updateFromPacket(received_packet, &window);
+        udpClient.receive();
+        std::vector<const char *> packets = udpClient.get_packet_queue();
+        for (unsigned int i = 0; i < packets.size(); i++) {
+            registry.updateFromPacket(converter.convertBinaryToStruct(packets[i]), &window);
+        }
+        for (unsigned int i = 0; i < registry.get_components<Component::Drawable>().size(); i++) {
+            //std::cout << registry.get_components<Component::Drawable>()[i].value().spriteName << std::endl;
+        }
+        // packet_t received_packet = converter.convertBinaryToStruct();
+        // registry.updateFromPacket(received_packet, &window);
         window.clear();
         registry.run_systems();
         window.display();

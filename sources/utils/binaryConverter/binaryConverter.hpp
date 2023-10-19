@@ -30,8 +30,8 @@ class binaryConverter {
          * @param buffer A pointer to the buffer containing the binary data.
          * @return A pointer to the structured data.
          */
-        packet_t convertBinaryToStruct(char *buffer);
-        input_t convertBinaryToInput(char *buffer);
+        packet_t convertBinaryToStruct(const char *buffer);
+        input_t convertBinaryToInput(const char *buffer);
 
         /**
          * @brief Converts structured data to binary data.

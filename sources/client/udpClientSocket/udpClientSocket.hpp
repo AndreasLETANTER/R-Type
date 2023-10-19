@@ -43,17 +43,20 @@ class udpClientSocket {
          */
         void send(std::vector<char> t_message);
 
+        std::vector<const char *> get_packet_queue();
+
         /**
          * @brief Receive a message through the UDP client socket.
          * 
          * @return char* The received message.
          */
-        char *receive();
+        void receive();
 
     private:
         io_service m_ioService; /**< The boost io_service object. */
         ip::udp::socket m_socket; /**< The boost UDP socket object. */
         ip::udp::endpoint m_endpoint; /**< The boost UDP endpoint object. */
         size_t m_udpPort; /**< The UDP port to use. */
-        std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The buffer to read incoming messages into. */
+        std::vector<const char *> m_packet_queue;
+        std::array<char, UDP_PACKET_SIZE> m_readBuffer;
 };

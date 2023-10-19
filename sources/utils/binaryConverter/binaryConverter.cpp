@@ -21,7 +21,7 @@ packet_t binaryConverter::createpacket(unsigned int messageType)
     return (packet);
 }
 
-packet_t binaryConverter::convertBinaryToStruct(char *buffer)
+packet_t binaryConverter::convertBinaryToStruct(const char *buffer)
 {
     packet_t packet;
 
@@ -29,7 +29,7 @@ packet_t binaryConverter::convertBinaryToStruct(char *buffer)
     return (packet);
 }
 
-input_t binaryConverter::convertBinaryToInput(char *buffer)
+input_t binaryConverter::convertBinaryToInput(const char *buffer)
 {
     input_t key = {0, sf::Keyboard::Unknown};
 
