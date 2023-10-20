@@ -84,7 +84,6 @@ int main(const int ac, const char **av)
         }
         std::vector<packet_t> packets = registry.exportToPackets();
         for (unsigned int i = 0; i < packets.size(); i++) {
-            std::cout << packets[i].message.sprite_name << std::endl;
             udpServer.send(converter.convertStructToBinary(packets[i]));
         }
     }

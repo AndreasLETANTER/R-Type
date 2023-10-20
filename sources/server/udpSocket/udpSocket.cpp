@@ -7,6 +7,7 @@
 
 #include "udpSocket.hpp"
 #include "utils/debugColors/debugColors.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 #include <iostream>
 
 udpSocket::udpSocket(int t_udpPort, ip::address t_ip) : m_socket(m_ioService, ip::udp::endpoint(t_ip, t_udpPort))
@@ -30,7 +31,10 @@ void udpSocket::send(std::vector<char> t_message)
     m_ioService.poll();
     try
     {
-        m_socket.async_send_to(buffer(t_message), m_endpoint, [](const boost::system::error_code &error, std::size_t bytes_transferred) {
+        m_socket.async_send_to(buffer(t_message), m_endpoint, [t_message](const boost::system::error_code &error, std::size_t bytes_transferred) {
+            binaryConverter converter;
+
+            std::cout << "sent message sprite_name: " << converter.convertBinaryToStruct(t_message.data()).message.sprite_name << std::endl;
             (void)bytes_transferred;
             if (error)
                 throw std::runtime_error(error.message());
