@@ -92,20 +92,20 @@ std::vector<packet_t> Registry::exportToPackets()
     auto &positions = get_components<Component::Position>();
 
     //get all dead entities
-    // for (unsigned int i = 0; i < m_previous_entities.size(); i++) {
-    //     if (m_previous_entities[i].has_value() && m_entities[i].has_value()) {
-    //         if (m_previous_entities[i].value().second != m_entities[i].value().second) {
-    //             tempPacket.messageType = 101;
-    //             tempPacket.message.entity_id = m_previous_entities[i].value().second;
-    //             Packets.push_back(tempPacket);
-    //         }
-    //     }
-    //     if (m_previous_entities[i].has_value() && m_entities[i].has_value() == false) {
-    //         tempPacket.messageType = 101;
-    //         tempPacket.message.entity_id = m_previous_entities[i].value().second;
-    //         Packets.push_back(tempPacket);
-    //     }
-    // }
+    for (unsigned int i = 0; i < m_previous_entities.size(); i++) {
+        if (m_previous_entities[i].has_value() && m_entities[i].has_value()) {
+            if (m_previous_entities[i].value().second != m_entities[i].value().second) {
+                tempPacket.messageType = 101;
+                tempPacket.message.entity_id = m_previous_entities[i].value().second;
+                Packets.push_back(tempPacket);
+            }
+        }
+        if (m_previous_entities[i].has_value() && m_entities[i].has_value() == false) {
+            tempPacket.messageType = 101;
+            tempPacket.message.entity_id = m_previous_entities[i].value().second;
+            Packets.push_back(tempPacket);
+        }
+    }
 
     //get all spawned entities
     for (unsigned int i = 0; i < m_entities.size(); i++) {
@@ -164,14 +164,14 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
         add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.position, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
     }
-    // if (packet.messageType == ENTITY_DEATH_CODE) {
-    //     for (unsigned int i = 0; i < m_entities.size(); i++) {
-    //         if (m_entities[i].has_value() && m_entities[i].value().second == packet.message.entity_id) {
-    //             kill_entity(m_entities[i].value().first);
-    //             break;
-    //         }
-    //     }
-    // }
+    if (packet.messageType == ENTITY_DEATH_CODE) {
+        for (unsigned int i = 0; i < m_entities.size(); i++) {
+            if (m_entities[i].has_value() && m_entities[i].value().second == packet.message.entity_id) {
+                kill_entity(m_entities[i].value().first);
+                break;
+            }
+        }
+    }
     if (packet.messageType == ENTITY_MOVE_CODE) {
         auto entity = entity_from_id(packet.message.entity_id);
         auto &positions = get_components<Component::Position>();
