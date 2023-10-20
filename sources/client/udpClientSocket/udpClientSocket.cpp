@@ -21,7 +21,6 @@ udpClientSocket::~udpClientSocket()
 
 void udpClientSocket::run()
 {
-    m_ioService.reset();
     m_ioService.run();
 }
 

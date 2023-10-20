@@ -33,7 +33,6 @@ int main(int ac, char **av)
     udpClientSocket udpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[2]));
     Assets assets;
 
-    udpClient.run();
     Registry registry;
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::Position>();
@@ -64,6 +63,7 @@ int main(int ac, char **av)
             }
         }
         udpClient.receive();
+        udpClient.run();
         std::vector<packet_t> packets = udpClient.get_packet_queue();
         for (unsigned int i = 0; i < packets.size(); i++) {
             registry.updateFromPacket(packets[i], &window);
