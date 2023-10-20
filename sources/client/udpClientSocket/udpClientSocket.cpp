@@ -50,7 +50,6 @@ void udpClientSocket::receive()
         m_readBuffer.commit(bytes_transferred);
         packet_t packet;
         m_iStream.read(reinterpret_cast<char *>(&packet), bytes_transferred);
-        //m_readBuffer.consume(bytes_transferred);
         std::cout << GREEN << "Received " << bytes_transferred << " bytes" << RESET << std::endl;
         if (error) {
             std::cerr << RED << "Error: " << error.message() << RESET << std::endl;
