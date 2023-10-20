@@ -78,4 +78,5 @@ class udpClientSocket {
         std::vector<packet_t> m_packet_queue;
         streambuf m_readBuffer;
         std::istream m_iStream;
+        std::mutex m_mutex;
 };

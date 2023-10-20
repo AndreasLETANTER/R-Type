@@ -28,6 +28,7 @@ void udpClientSocket::run()
 
 std::vector<packet_t> udpClientSocket::get_packet_queue()
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     return m_packet_queue;
 }
 
@@ -49,16 +50,20 @@ void udpClientSocket::receive()
         m_readBuffer.commit(bytes_transferred);
         packet_t packet;
         m_iStream.read(reinterpret_cast<char *>(&packet), bytes_transferred);
+        //m_readBuffer.consume(bytes_transferred);
         std::cout << GREEN << "Received " << bytes_transferred << " bytes" << RESET << std::endl;
-        if (error && error != boost::asio::error::message_size) {
+        if (error) {
             std::cerr << RED << "Error: " << error.message() << RESET << std::endl;
         }
+        m_mutex.lock();
         m_packet_queue.push_back(packet);
+        m_mutex.unlock();
         receive();
     });
 }
 
 void udpClientSocket::clear_packet_queue()
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     m_packet_queue.clear();
 }
