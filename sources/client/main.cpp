@@ -45,6 +45,12 @@ int main(int ac, char **av)
     sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
 
     udpClient.send(converter.convertStructToInput(1, sf::Keyboard::Unknown));
+    std::thread udpThread([&udpClient]() {
+        while (true) {
+            udpClient.receive();
+            udpClient.run();
+        }
+    });
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
@@ -62,8 +68,6 @@ int main(int ac, char **av)
                 }
             }
         }
-        udpClient.receive();
-        udpClient.run();
         std::vector<packet_t> packets = udpClient.get_packet_queue();
         for (unsigned int i = 0; i < packets.size(); i++) {
             registry.updateFromPacket(packets[i], &window);
@@ -72,5 +76,6 @@ int main(int ac, char **av)
         registry.run_systems();
         window.display();
     }
+    udpThread.join();
     return 0;
 }

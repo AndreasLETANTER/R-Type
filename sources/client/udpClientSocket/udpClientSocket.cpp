@@ -21,7 +21,9 @@ udpClientSocket::~udpClientSocket()
 
 void udpClientSocket::run()
 {
-    m_ioService.run();
+    m_ioService.reset();
+    m_ioService.run();//_until(std::chrono::steady_clock::now() + std::chrono::milliseconds(2000));
+    m_ioService.poll();
 }
 
 std::vector<packet_t> udpClientSocket::get_packet_queue()
@@ -43,8 +45,6 @@ void udpClientSocket::send(std::vector<char> t_message)
 void udpClientSocket::receive()
 {
     auto buff = m_readBuffer.prepare(192);
-    m_ioService.reset();
-    m_ioService.poll();
     m_socket.async_receive_from(buff, m_endpoint, [this](const boost::system::error_code &error, std::size_t bytes_transferred) {
         m_readBuffer.commit(bytes_transferred);
         packet_t packet;
