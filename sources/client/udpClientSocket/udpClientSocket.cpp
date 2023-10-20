@@ -22,7 +22,7 @@ udpClientSocket::~udpClientSocket()
 void udpClientSocket::run()
 {
     m_ioService.reset();
-    m_ioService.run();//_until(std::chrono::steady_clock::now() + std::chrono::milliseconds(2000));
+    m_ioService.run();
     m_ioService.poll();
 }
 
@@ -49,7 +49,6 @@ void udpClientSocket::receive()
         m_readBuffer.commit(bytes_transferred);
         packet_t packet;
         m_iStream.read(reinterpret_cast<char *>(&packet), bytes_transferred);
-        std::cout << "received message sprite_name: " << packet.message.sprite_name << std::endl;
         std::cout << GREEN << "Received " << bytes_transferred << " bytes" << RESET << std::endl;
         if (error && error != boost::asio::error::message_size) {
             std::cerr << RED << "Error: " << error.message() << RESET << std::endl;
