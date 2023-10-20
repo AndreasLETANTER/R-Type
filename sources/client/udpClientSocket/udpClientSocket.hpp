@@ -48,6 +48,11 @@ class udpClientSocket {
          */
         void send(std::vector<char> t_message);
 
+        /**
+         * @brief Returns the packet queue of the UDP client socket.
+         * 
+         * @return std::vector<packet_t> The packet queue of the UDP client socket.
+         */
         std::vector<packet_t> get_packet_queue();
 
         /**
@@ -56,6 +61,14 @@ class udpClientSocket {
          * @return char* The received message.
          */
         void receive();
+
+        /**
+         * @brief Clears the packet queue.
+         * 
+         * This function removes all packets from the queue, freeing up memory and ensuring
+         * that the queue is empty.
+         */
+        void clear_packet_queue();
 
     private:
         io_service m_ioService; /**< The boost io_service object. */

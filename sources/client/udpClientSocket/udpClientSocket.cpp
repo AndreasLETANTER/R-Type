@@ -57,3 +57,8 @@ void udpClientSocket::receive()
         receive();
     });
 }
+
+void udpClientSocket::clear_packet_queue()
+{
+    m_packet_queue.clear();
+}

@@ -72,6 +72,7 @@ int main(int ac, char **av)
         for (unsigned int i = 0; i < packets.size(); i++) {
             registry.updateFromPacket(packets[i], &window);
         }
+        udpClient.clear_packet_queue();
         window.clear();
         registry.run_systems();
         window.display();
