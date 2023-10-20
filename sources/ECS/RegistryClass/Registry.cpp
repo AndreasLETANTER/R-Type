@@ -58,6 +58,16 @@ Entity Registry::entity_from_index(std::size_t idx)
     }
 }
 
+Entity Registry::entity_from_id(unsigned int id)
+{
+    for (auto &entity : m_entities) {
+        if (entity.has_value() && entity.value().second == id) {
+            return entity.value().first;
+        }
+    }
+    return Entity();
+}
+
 void Registry::kill_entity(Entity const &e)
 {
     m_entities[e].reset();
@@ -122,7 +132,28 @@ std::vector<packet_t> Registry::exportToPackets()
                 Packets.push_back(tempPacket);
         }
     }
+
+    //get all moved entities
+    for (unsigned int i = 0; i < positions.size(); i++) {
+        if (m_previous_positions.size() > i && positions[i].has_value() && m_previous_positions[i].has_value()) {
+            if (positions[i].value().x != m_previous_positions[i].value().x || positions[i].value().y != m_previous_positions[i].value().y) {
+                tempPacket.messageType = ENTITY_MOVE_CODE;
+                tempPacket.message.entity_id = m_entities[i].value().second;
+                tempPacket.message.x = positions[m_entities[i].value().first].value().x;
+                tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+                Packets.push_back(tempPacket);
+            }
+        }
+        if ((m_previous_positions.size() <= i || m_previous_positions[i].has_value() == false) && positions[i].has_value()) {
+            tempPacket.messageType = ENTITY_MOVE_CODE;
+            tempPacket.message.entity_id = m_entities[i].value().second;
+            tempPacket.message.x = positions[m_entities[i].value().first].value().x;
+            tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+            Packets.push_back(tempPacket);
+        }
+    }
     m_previous_entities = m_entities;
+    m_previous_positions = positions;
     return Packets;
 }
 
@@ -141,6 +172,12 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
     //         }
     //     }
     // }
+    if (packet.messageType == ENTITY_MOVE_CODE) {
+        auto entity = entity_from_id(packet.message.entity_id);
+        auto &positions = get_components<Component::Position>();
+        positions[entity].value().x = packet.message.x;
+        positions[entity].value().y = packet.message.y;
+    }
 }
 
 Assets &Registry::get_assets()

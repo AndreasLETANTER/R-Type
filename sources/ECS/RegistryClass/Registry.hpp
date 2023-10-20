@@ -21,6 +21,7 @@
 
 #define ENTITY_DEATH_CODE 101
 #define ENTITY_SPAWN_CODE 102
+#define ENTITY_MOVE_CODE 103
 
 /**
  * @brief Struct representing a message containing the sprite name and position of an entity.
@@ -141,6 +142,14 @@ class Registry {
         Entity entity_from_index(std ::size_t idx);
 
         /**
+         * @brief Returns the entity associated with the given ID.
+         * 
+         * @param id The ID of the entity to retrieve.
+         * @return Entity The entity associated with the given ID.
+         */
+        Entity entity_from_id(unsigned int id);
+
+        /**
          * @brief Kills an entity in the registry.
          * 
          * @param e The entity to kill.
@@ -257,6 +266,7 @@ class Registry {
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
         SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
         SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
+        SparseArray<Component::Position> m_previous_positions;
         Assets m_assets; /**< The assets of the registry. */
 };
 
