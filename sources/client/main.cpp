@@ -47,6 +47,7 @@ int main(int ac, char **av)
 
     udpClient.send(converter.convertStructToInput(1, sf::Keyboard::Unknown));
     while (window.isOpen()) {
+        udpClient.receive();
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -63,16 +64,10 @@ int main(int ac, char **av)
                 }
             }
         }
-        udpClient.receive();
         std::vector<packet_t> packets = udpClient.get_packet_queue();
         for (unsigned int i = 0; i < packets.size(); i++) {
             registry.updateFromPacket(packets[i], &window);
         }
-        for (unsigned int i = 0; i < registry.get_components<Component::Drawable>().size(); i++) {
-            //std::cout << registry.get_components<Component::Drawable>()[i].value().spriteName << std::endl;
-        }
-        // packet_t received_packet = converter.convertBinaryToStruct();
-        // registry.updateFromPacket(received_packet, &window);
         window.clear();
         registry.run_systems();
         window.display();

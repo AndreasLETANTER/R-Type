@@ -86,7 +86,6 @@ int main(const int ac, const char **av)
         for (unsigned int i = 0; i < packets.size(); i++) {
             std::cout << packets[i].message.sprite_name << std::endl;
             udpServer.send(converter.convertStructToBinary(packets[i]));
-            sleep(1);
         }
     }
 }
