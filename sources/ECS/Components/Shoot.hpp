@@ -54,10 +54,15 @@ namespace Component {
             /**
              * @brief Construct a new Shoot object with specified values.
              *
+             * @param playerId The ID of the player controlling the entity.
              * @param canShoot A boolean indicating whether the entity can shoot or not.
+             * @param pattern The shooting pattern of the entity.
              * @param clock A pointer to the clock used to measure time.
              * @param shootDelay The delay between each shot.
+             * @param damage The damage of the bullet.
              * @param bulletSpriteName The name of the bullet sprite.
+             * @param direction The direction of the bullet.
+             * @param offsetLimit The offset limit of the bullet.
              */
             inline Shoot(unsigned int playerId, bool canShoot, ShootingPattern pattern, sf::Clock *clock, sf::Time shootDelay, size_t damage, std::string bulletSpriteName, int direction, int offsetLimit) { this->canShoot = canShoot; this->pattern = pattern; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSpriteName = bulletSpriteName; this->damage = damage; this->playerId = playerId; this->direction = direction; this->offsetLimit = offsetLimit; }
     };

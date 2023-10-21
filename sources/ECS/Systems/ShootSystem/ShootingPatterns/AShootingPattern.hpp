@@ -21,9 +21,35 @@ namespace Component {
     class Collision;
 }
 
+/**
+ * @brief Abstract class representing a shooting pattern.
+ */
 class AShootingPattern : public IShootingPattern {
     public:
+        /**
+         * @brief Construct a new AShootingPattern object.
+         */
         virtual ~AShootingPattern() = default;
+
+        /**
+         * @brief Shoots a projectile.
+         *
+         * @param registry The registry containing the entity.
+         * @param shoot The shoot component of the entity.
+         * @param pos The position component of the entity.
+         * @param draw The drawable component of the entity.
+         */
         virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) = 0;
+
+        /**
+         * @brief Creates a projectile.
+         *
+         * @param registry The registry containing the entity.
+         * @param draw The drawable component of the entity.
+         * @param bulletSpriteName The name of the bullet sprite.
+         * @param initialPos The initial position of the projectile.
+         * @param endPos The end position of the projectile.
+         * @param damage The damage of the projectile.
+         */
         void createProjectile(Registry &registry, Component::Drawable &draw, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage);
 };

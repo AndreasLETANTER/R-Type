@@ -32,5 +32,9 @@ class IShootingPattern {
          * @param draw The drawable component.
          */
         virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) = 0;
+
+        /**
+         * @brief Destroy the IShootingPattern object.
+         */
         virtual ~IShootingPattern() = default;
 };
