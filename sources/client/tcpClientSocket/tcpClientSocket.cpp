@@ -13,8 +13,7 @@
 
 tcpClientSocket::tcpClientSocket(u_int16_t t_tcpPort, ip::address t_ip) : m_socket(m_ioService)
 {
-    ip::tcp::endpoint endpoint(t_ip, t_tcpPort);
-    m_socket.connect(endpoint);
+    m_endpoint = ip::tcp::endpoint(t_ip, t_tcpPort);
     m_id = 0;
 }
 
@@ -25,6 +24,7 @@ tcpClientSocket::~tcpClientSocket()
 
 void tcpClientSocket::run()
 {
+    m_socket.connect(m_endpoint);
     m_ioService.run();
 }
 
