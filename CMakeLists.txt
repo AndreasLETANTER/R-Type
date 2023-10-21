@@ -10,7 +10,18 @@ set(ECS_TESTS_NAME "r-type_ecs_tests")
 set(SERVER_TESTS_NAME "r-type_server_tests")
 set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
-set(CXX_FLAGS -Wall -Wextra -Werror)
+
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+  set(CXX_FLAGS "${CXX_FLAGS} /W4")
+endif()
+
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+  set(CXX_FLAGS "${CXX_FLAGS} -Wall -Werror")
+endif()
+
+if (CMAKE_BUILD_TYPE MATCHES "Darwin")
+    set(CXX_FLAGS "${CXX_FLAGS} -Wall -Werror")
+endif()
 
 ###############################INSTALL PACKAGES###################################
 include(FetchContent)
