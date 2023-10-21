@@ -26,10 +26,19 @@
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
  */
-static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, sf::RenderWindow *window)
+static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window)
 {
     std::vector<packet_t> packets = udpClient.get_packet_queue();
+    (void) window;
+    (void) registry;
     for (unsigned int i = 0; i < packets.size(); i++) {
+        if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
+            needGameInfos = false;
+            continue;
+        }
+        if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
+            continue;
+        }
         registry.updateFromPacket(packets[i], window);
     }
     if (packets.size() > 0) {
@@ -52,6 +61,7 @@ int main(int ac, char **av)
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
     MainMenu mainMenu(window, assets);
+    bool needGameInfos = true;
 
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::Position>();
@@ -79,7 +89,7 @@ int main(int ac, char **av)
                 }
             }
         }
-        update_game_from_packets(udpClient, registry, &window);
+        update_game_from_packets(udpClient, registry, needGameInfos, &window);
         window.clear();
         registry.run_systems();
         window.display();

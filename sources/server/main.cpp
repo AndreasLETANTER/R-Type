@@ -87,7 +87,10 @@ int main(const int ac, const char **av)
                 registry.updateEntityKeyPressed(input);
             }
         }
-        std::vector<packet_t> packets = registry.exportToPackets();
+        std::vector<packet_t> packets = registry.exportToPackets(tcpServer.isNewClient());
+        if (tcpServer.isNewClient()) {
+            tcpServer.setNewClient(false);
+        }
         for (unsigned int i = 0; i < packets.size(); i++) {
             udpServer.send(converter.convertStructToBinary(packets[i]));
         }

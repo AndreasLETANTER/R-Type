@@ -19,9 +19,11 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Assets/Assets.hpp"
 
-#define ENTITY_DEATH_CODE 101
-#define ENTITY_SPAWN_CODE 102
-#define ENTITY_MOVE_CODE 103
+#define ALL_GAME_INFO_CODE 100
+#define NO_MORE_GAME_INFO_CODE 101
+#define ENTITY_DEATH_CODE 102
+#define ENTITY_SPAWN_CODE 103
+#define ENTITY_MOVE_CODE 104
 
 /**
  * @brief Struct representing a message containing the sprite name and position of an entity.
@@ -217,10 +219,11 @@ class Registry {
 
         /**
          * @brief Exports the registry's entities and components to an array of messages.
+         * @param needAllGameInfo If true, all the game info will be sent.
          * 
          * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
          */
-        std::vector<packet_t> exportToPackets();
+        std::vector<packet_t> exportToPackets(bool needAllGameInfo = false);
 
         /**
          * @brief Imports entities from an array of messages.

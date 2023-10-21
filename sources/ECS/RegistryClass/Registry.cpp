@@ -84,7 +84,7 @@ void Registry::run_systems()
     }
 }
 
-std::vector<packet_t> Registry::exportToPackets()
+std::vector<packet_t> Registry::exportToPackets(bool newClient)
 {
     std::vector<packet_t> Packets;
     packet_t tempPacket;
@@ -95,13 +95,13 @@ std::vector<packet_t> Registry::exportToPackets()
     for (unsigned int i = 0; i < m_previous_entities.size(); i++) {
         if (m_previous_entities[i].has_value() && m_entities[i].has_value()) {
             if (m_previous_entities[i].value().second != m_entities[i].value().second) {
-                tempPacket.messageType = 101;
+                tempPacket.messageType = ENTITY_DEATH_CODE;
                 tempPacket.message.entity_id = m_previous_entities[i].value().second;
                 Packets.push_back(tempPacket);
             }
         }
         if (m_previous_entities[i].has_value() && m_entities[i].has_value() == false) {
-            tempPacket.messageType = 101;
+            tempPacket.messageType = ENTITY_DEATH_CODE;
             tempPacket.message.entity_id = m_previous_entities[i].value().second;
             Packets.push_back(tempPacket);
         }
@@ -111,7 +111,7 @@ std::vector<packet_t> Registry::exportToPackets()
     for (unsigned int i = 0; i < m_entities.size(); i++) {
         if (m_previous_entities.size() > i && m_previous_entities[i].has_value() && m_entities[i].has_value()) {
             if (m_previous_entities[i].value().second != m_entities[i].value().second) {
-                tempPacket.messageType = ENTITY_DEATH_CODE;
+                tempPacket.messageType = ENTITY_SPAWN_CODE;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                 tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
@@ -152,6 +152,26 @@ std::vector<packet_t> Registry::exportToPackets()
             Packets.push_back(tempPacket);
         }
     }
+    if (newClient == true) {
+        for (unsigned int i = 0; i < m_entities.size(); i++) {
+            if (m_entities[i].has_value()) {
+                if (drawables[i].has_value() && positions[i].has_value()) {
+                    tempPacket.messageType = ALL_GAME_INFO_CODE;
+                    tempPacket.message.entity_id = m_entities[i].value().second;
+                    strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
+                    tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
+                    tempPacket.message.position = drawables[m_entities[i].value().first].value().scale;
+                    tempPacket.message.x = positions[m_entities[i].value().first].value().x;
+                    tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+                    Packets.push_back(tempPacket);
+                }
+            }
+        }
+    }
+    if (newClient == true) {
+        tempPacket.messageType = NO_MORE_GAME_INFO_CODE;
+        Packets.push_back(tempPacket);
+    }
     m_previous_entities = m_entities;
     m_previous_positions = positions;
     return Packets;
@@ -159,6 +179,11 @@ std::vector<packet_t> Registry::exportToPackets()
 
 void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
 {
+    if (packet.messageType == ALL_GAME_INFO_CODE) {
+        auto entity = spawn_entity(packet.message.entity_id);
+        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.position, m_assets.get_texture(packet.message.sprite_name)));
+        add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
+    }
     if (packet.messageType == ENTITY_SPAWN_CODE) {
         auto entity = spawn_entity(packet.message.entity_id);
         add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.position, m_assets.get_texture(packet.message.sprite_name)));
