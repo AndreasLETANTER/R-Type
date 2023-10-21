@@ -21,11 +21,12 @@ namespace Component {
             Shoot() = default;
             bool canShoot; /**< A boolean indicating whether the entity can shoot or not. */
             std::string bulletSpriteName; /**< The name of the bullet sprite. */
+            int direction; /**< The direction of the bullet. */
+            int offsetLimit; /**< The offset limit of the bullet. */
             sf::Time lastShot; /**< The time when the entity last shot. */
             sf::Time shootDelay; /**< The delay between each shot. */
             size_t damage; /**< The damage of the bullet. */
             sf::Clock *clock; /**< A pointer to the clock used to measure time. */
-            bool isMonster; /**< A boolean indicating whether the entity is a monster or not. */
 
             /**
              * @brief The ID of the player controlling the entity.
@@ -45,6 +46,6 @@ namespace Component {
              * @param shootDelay The delay between each shot.
              * @param bulletSpriteName The name of the bullet sprite.
              */
-            inline Shoot(unsigned int playerId, bool canShoot, sf::Clock *clock, sf::Time shootDelay, size_t damage, std::string bulletSpriteName, bool isMonster) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSpriteName = bulletSpriteName; this->damage = damage; this->isMonster = isMonster; this->playerId = playerId; }
+            inline Shoot(unsigned int playerId, bool canShoot, sf::Clock *clock, sf::Time shootDelay, size_t damage, std::string bulletSpriteName, int direction, int offsetLimit) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSpriteName = bulletSpriteName; this->damage = damage; this->playerId = playerId; this->direction = direction; this->offsetLimit = offsetLimit; }
     };
 }
