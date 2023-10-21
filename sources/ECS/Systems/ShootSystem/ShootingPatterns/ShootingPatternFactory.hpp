@@ -10,6 +10,7 @@
 #include "AShootingPattern.hpp"
 #include "LinearShootingPattern.hpp"
 #include "SpreadShootingPattern.hpp"
+#include "CircularShootingPattern.hpp"
 #include "WaveShootingPattern.hpp"
 
 class ShootingPatternFactory {

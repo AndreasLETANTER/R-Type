@@ -127,14 +127,14 @@ entities: {
             id = 10;
             assetName = "YellowPopcornEnemy.gif";
             projectileAssetName = "BulletSpriteMonster.png";
-            position = { x = 1500; y = 900; };
-            autoMove = { x = 1500; y = 400; };
+            position = { x = 1700; y = 900; };
+            autoMove = { x = 1700; y = 400; };
             scale = { x = 87; y = 84; };
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
             health = 5;
             damage = 25;
-            shootingPattern = 0;
+            shootingPattern = 3;
         }
     );
 };
