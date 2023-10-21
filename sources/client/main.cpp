@@ -19,10 +19,22 @@
 #include "utils/binaryConverter/binaryConverter.hpp"
 #include "ECS/Assets/Assets.hpp"
 
-void signalHandler(int signum)
+/**
+ * @brief Updates the game state by processing packets received from the server.
+ * 
+ * @param udpClient The UDP client socket used to receive packets.
+ * @param registry The entity registry used to update the game state.
+ * @param window The SFML window used to render the game.
+ */
+static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, sf::RenderWindow *window)
 {
-    std::cout << "Interrupt signal (" << signum << ") received.\n";
-    exit(signum);
+    std::vector<packet_t> packets = udpClient.get_packet_queue();
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        registry.updateFromPacket(packets[i], window);
+    }
+    if (packets.size() > 0) {
+        udpClient.clear_packet_queue();
+    }
 }
 
 int main(int ac, char **av)
@@ -67,13 +79,7 @@ int main(int ac, char **av)
                 }
             }
         }
-        std::vector<packet_t> packets = udpClient.get_packet_queue();
-        for (unsigned int i = 0; i < packets.size(); i++) {
-            registry.updateFromPacket(packets[i], &window);
-        }
-        if (packets.size() > 0) {
-            udpClient.clear_packet_queue();
-        }
+        update_game_from_packets(udpClient, registry, &window);
         window.clear();
         registry.run_systems();
         window.display();
