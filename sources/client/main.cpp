@@ -14,6 +14,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
+#include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 #include "ECS/Assets/Assets.hpp"
@@ -30,10 +31,10 @@ int main(int ac, char **av)
     (void)av;
     binaryConverter converter;
     handleArgument handleArguments;
-    udpClientSocket udpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[2]));
+    udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     Assets assets;
-
     Registry registry;
+
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::Position>();
     registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
@@ -41,7 +42,6 @@ int main(int ac, char **av)
     window.setFramerateLimit(144);
     sf::Clock clock;
     MainMenu mainMenu(window, assets);
-
     sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
 
     udpClient.send(converter.convertStructToInput(1, sf::Keyboard::Unknown));
@@ -53,6 +53,9 @@ int main(int ac, char **av)
             udpClient.run();
         }
     });
+    tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
+    tcpClient.run();
+    tcpClient.receive();
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
@@ -60,13 +63,13 @@ int main(int ac, char **av)
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code != lastKey) {
                     lastKey = event.key.code;
-                    udpClient.send(converter.convertStructToInput(1, event.key.code));
+                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
                 }
             }
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == lastKey) {
                     lastKey = sf::Keyboard::Unknown;
-                    udpClient.send(converter.convertStructToInput(1, sf::Keyboard::Unknown));
+                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
                 }
             }
         }

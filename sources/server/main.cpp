@@ -25,6 +25,7 @@
 #include "../../build/assets/Level1Config.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
 #include "udpSocket/udpSocket.hpp"
+#include "tcpSocket/tcpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 
 #define TICKRATE 64
@@ -34,7 +35,8 @@ int main(const int ac, const char **av)
     (void)ac;
     handleArgument handleArgument;
     binaryConverter converter;
-    udpSocket udpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[2]));
+    tcpSocket tcpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[3]));
+    udpSocket udpServer(handleArgument.getPort(av[2]), handleArgument.getIp(av[3]));
 
     Registry registry;
     sf::Clock clock;
@@ -64,11 +66,14 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     parser.loadFromFile();
 
+    tcpServer.run();
     udpServer.run();
     char *received;
-    sleep(4);
     sf::Time lastUpdate = clock.getElapsedTime();
     while (true) {
+        if (tcpServer.getNbClients() == 0) {
+            continue;
+        }
         if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
             continue;
         } else {
