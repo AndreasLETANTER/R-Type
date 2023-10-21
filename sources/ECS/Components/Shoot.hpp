@@ -9,6 +9,18 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "ECS/Systems/ShootSystem/ShootingPatterns/IShootingPattern.hpp"
+
+enum ShootingPattern {
+    LINEAR,
+    SPREAD,
+    SPIRAL,
+    CIRCULAR,
+    WAVE,
+    RANDOM,
+    LASER
+};
+
 namespace Component {
     /**
      * @brief The Shoot class represents the ability of an entity to shoot.
@@ -20,6 +32,7 @@ namespace Component {
              */
             Shoot() = default;
             bool canShoot; /**< A boolean indicating whether the entity can shoot or not. */
+            ShootingPattern pattern; /**< The shooting pattern of the entity. */
             std::string bulletSpriteName; /**< The name of the bullet sprite. */
             int direction; /**< The direction of the bullet. */
             int offsetLimit; /**< The offset limit of the bullet. */
@@ -40,12 +53,12 @@ namespace Component {
 
             /**
              * @brief Construct a new Shoot object with specified values.
-             * 
+             *
              * @param canShoot A boolean indicating whether the entity can shoot or not.
              * @param clock A pointer to the clock used to measure time.
              * @param shootDelay The delay between each shot.
              * @param bulletSpriteName The name of the bullet sprite.
              */
-            inline Shoot(unsigned int playerId, bool canShoot, sf::Clock *clock, sf::Time shootDelay, size_t damage, std::string bulletSpriteName, int direction, int offsetLimit) { this->canShoot = canShoot; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSpriteName = bulletSpriteName; this->damage = damage; this->playerId = playerId; this->direction = direction; this->offsetLimit = offsetLimit; }
+            inline Shoot(unsigned int playerId, bool canShoot, ShootingPattern pattern, sf::Clock *clock, sf::Time shootDelay, size_t damage, std::string bulletSpriteName, int direction, int offsetLimit) { this->canShoot = canShoot; this->pattern = pattern; this->clock = clock; this->shootDelay = shootDelay; this->lastShot = clock->getElapsedTime(); this->bulletSpriteName = bulletSpriteName; this->damage = damage; this->playerId = playerId; this->direction = direction; this->offsetLimit = offsetLimit; }
     };
 }

@@ -95,6 +95,7 @@ entities: {
             rotation = 0;
             health = 10;
             damage = 25;
+            shootingPattern = 0;
         },
         {
             id = 8;
@@ -107,6 +108,7 @@ entities: {
             rotation = 0;
             health = 5;
             damage = 25;
+            shootingPattern = 0;
         },
         {
             id = 9;
@@ -119,6 +121,7 @@ entities: {
             rotation = 0;
             health = 10;
             damage = 25;
+            shootingPattern = 0;
         },
         {
             id = 10;
@@ -131,6 +134,7 @@ entities: {
             rotation = 0;
             health = 5;
             damage = 25;
+            shootingPattern = 0;
         }
     );
 };
