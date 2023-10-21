@@ -63,9 +63,7 @@ jobs:
           cmake -B build
       - name: Compile project
         run: |
-          cmake --build build --config Release
-          make server -C build
-          make client -C build
+          cmake --build build --target r-type_server r-type_client --config Release
       - id: check_binaries
         name: Check if executable exists
         run: |
