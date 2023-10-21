@@ -34,7 +34,7 @@ typedef struct message_s {
     double y; /**< The y-coordinate of the entity's position. */
     unsigned int entity_id; /**< The id of the entity. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
-    Component::Position position; /**< The position of the rect. */
+    Component::Position scale; /**< The scale of the texture. */
 } message_t;
 
 typedef struct packet_s

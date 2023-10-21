@@ -115,7 +115,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                 tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
-                tempPacket.message.position = drawables[m_entities[i].value().first].value().scale;
+                tempPacket.message.scale = drawables[m_entities[i].value().first].value().scale;
                 tempPacket.message.x = positions[m_entities[i].value().first].value().x;
                 tempPacket.message.y = positions[m_entities[i].value().first].value().y;
                 Packets.push_back(tempPacket);
@@ -126,7 +126,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                 tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
-                tempPacket.message.position = drawables[m_entities[i].value().first].value().scale;
+                tempPacket.message.scale = drawables[m_entities[i].value().first].value().scale;
                 tempPacket.message.x = positions[m_entities[i].value().first].value().x;
                 tempPacket.message.y = positions[m_entities[i].value().first].value().y;
                 Packets.push_back(tempPacket);
@@ -160,7 +160,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
                     tempPacket.message.entity_id = m_entities[i].value().second;
                     strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                     tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
-                    tempPacket.message.position = drawables[m_entities[i].value().first].value().scale;
+                    tempPacket.message.scale = drawables[m_entities[i].value().first].value().scale;
                     tempPacket.message.x = positions[m_entities[i].value().first].value().x;
                     tempPacket.message.y = positions[m_entities[i].value().first].value().y;
                     Packets.push_back(tempPacket);
@@ -181,12 +181,12 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
 {
     if (packet.messageType == ALL_GAME_INFO_CODE) {
         auto entity = spawn_entity(packet.message.entity_id);
-        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.position, m_assets.get_texture(packet.message.sprite_name)));
+        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
     }
     if (packet.messageType == ENTITY_SPAWN_CODE) {
         auto entity = spawn_entity(packet.message.entity_id);
-        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.position, m_assets.get_texture(packet.message.sprite_name)));
+        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
     }
     if (packet.messageType == ENTITY_DEATH_CODE) {
