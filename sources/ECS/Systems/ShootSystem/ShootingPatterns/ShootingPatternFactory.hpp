@@ -7,10 +7,12 @@
 
 #pragma once
 
+#include "AShootingPattern.hpp"
 #include "LinearShootingPattern.hpp"
 #include "SpreadShootingPattern.hpp"
+#include "WaveShootingPattern.hpp"
 
 class ShootingPatternFactory {
     public:
-        static std::unique_ptr<IShootingPattern> createShootingPattern(ShootingPattern pattern);
+        static std::unique_ptr<AShootingPattern> createShootingPattern(ShootingPattern pattern);
 };

@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "ECS/Systems/ShootSystem/ShootingPatterns/IShootingPattern.hpp"
+#include "ECS/Systems/ShootSystem/ShootingPatterns/AShootingPattern.hpp"
 
-class LinearShootingPattern : public IShootingPattern {
+class LinearShootingPattern : public AShootingPattern {
     public:
         void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) override;
 };
