@@ -12,6 +12,8 @@ std::unique_ptr<IShootingPattern> ShootingPatternFactory::createShootingPattern(
     switch (pattern) {
         case LINEAR:
             return std::make_unique<LinearShootingPattern>();
+        case SPREAD:
+            return std::make_unique<SpreadShootingPattern>();
         default:
             return std::make_unique<LinearShootingPattern>();
     }

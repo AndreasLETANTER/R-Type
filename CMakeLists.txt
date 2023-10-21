@@ -66,6 +66,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootingPatterns/ShootingPatternFactory.cpp
     sources/ECS/Systems/ShootSystem/ShootingPatterns/LinearShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/SpreadShootingPattern.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp

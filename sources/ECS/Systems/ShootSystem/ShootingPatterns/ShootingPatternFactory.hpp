@@ -8,6 +8,7 @@
 #pragma once
 
 #include "LinearShootingPattern.hpp"
+#include "SpreadShootingPattern.hpp"
 
 class ShootingPatternFactory {
     public:
