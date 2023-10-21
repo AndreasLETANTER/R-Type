@@ -34,6 +34,7 @@ void tcpClientSocket::send(const std::string &t_message)
     boost::asio::write(m_socket, boost::asio::buffer(t_message), error);
     if (error) {
         std::cerr << "Error while sending message: " << error.message() << std::endl;
+        return;
     }
 }
 
@@ -45,6 +46,7 @@ char *tcpClientSocket::receive()
     boost::asio::read(m_socket, boost::asio::buffer(m_readBuffer), boost::asio::transfer_at_least(1));
     if (error) {
         std::cerr << "Error while receiving message: " << error.message() << std::endl;
+        return nullptr;
     }
     if (m_id == 0) {
         input_t firstMessage = converter.convertBinaryToInput(m_readBuffer.data());
