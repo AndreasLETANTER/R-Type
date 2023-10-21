@@ -12,4 +12,6 @@
 class SpreadShootingPattern : public IShootingPattern {
     public:
         void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) override;
+    private:
+        void createProjectile(Registry &registry, Component::Drawable &draw, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage);
 };
