@@ -55,12 +55,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Compile project
+      - name: Install dependencies
+        run: |
+          choco install cmake
+      - name: Configure project
         run: |
           cmake -B build
-          cd build
-          make server
-          make client
+      - name: Compile project
+        run: |
+          cmake --build build --config Release
+          make server -C build
+          make client -C build
       - id: check_binaries
         name: Check if executable exists
         run: |
