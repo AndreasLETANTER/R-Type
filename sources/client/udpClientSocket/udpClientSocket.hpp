@@ -45,6 +45,7 @@ class udpClientSocket {
          * @brief Send a message through the UDP client socket.
          * 
          * @param t_message The message to send.
+         * @return true If the message was sent successfully.
          */
         void send(std::vector<char> t_message);
 
@@ -58,7 +59,7 @@ class udpClientSocket {
         /**
          * @brief Receive a message through the UDP client socket.
          * 
-         * @return char* The received message.
+         * @return true If the message was received successfully.
          */
         void receive();
 

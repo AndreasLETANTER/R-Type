@@ -64,7 +64,7 @@ int main(int ac, char **av)
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {
                 window.close();
-                return 0;
+                exit(0);
             } 
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code != lastKey) {
