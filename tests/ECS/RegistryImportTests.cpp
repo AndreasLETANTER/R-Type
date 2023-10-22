@@ -23,15 +23,19 @@ Test(Registry, basic_importFromMessages)
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
 
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
     reg.add_component<Component::Drawable>(entity1, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToPackets().first;
-    size_t size = reg.exportToPackets().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
-    importReg.importFromMessages(messages, size, nullptr);
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        importReg.updateFromPacket(packets[i], nullptr);
+    }
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -61,11 +65,15 @@ Test(Registry, 2_spawn_importFromMessages)
     reg.add_component<Component::Velocity>(entity2, Component::Velocity(0, 0));
     reg.add_component<Component::Drawable>(entity2, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToPackets().first;
-    size_t size = reg.exportToPackets().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr);
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        importReg.updateFromPacket(packets[i], nullptr);
+    }
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -95,11 +103,15 @@ Test(Registry, 50_spawn_importFromMessages)
         reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToPackets().first;
-    size_t size = reg.exportToPackets().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr);
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        importReg.updateFromPacket(packets[i], nullptr);
+    }
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -126,11 +138,15 @@ Test(Registry, 800_spawn_importFromMessages)
         reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToPackets().first;
-    size_t size = reg.exportToPackets().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr);
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        importReg.updateFromPacket(packets[i], nullptr);
+    }
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
@@ -150,11 +166,15 @@ Test(Registry, no_spawn_importFromMessages)
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
 
-    message_t *messages = reg.exportToPackets().first;
-    size_t size = reg.exportToPackets().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
     Registry importReg;
-    importReg.importFromMessages(messages, size, nullptr);
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        importReg.updateFromPacket(packets[i], nullptr);
+    }
 
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
