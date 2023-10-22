@@ -14,7 +14,7 @@ ScrollSystem ScrollSystem::operator()(Registry &registry, SparseArray<Component:
         auto &sb = scrolls[i];
         auto &pos = positions[i];
         if (sb.has_value() && pos.has_value()) {
-            if (pos.value().x == sb.value().pausePosX) {
+            if (pos.value().x == sb.value().pausePosX && sb.value().pausePosX != 0) {
                 pos.value().x = sb.value().pausePosX;
             } else if (pos.value().x <= sb.value().offsetLimit.x) {
                 pos.value().x = sb.value().startingPos.x + (pos.value().x - sb.value().offsetLimit.x);
