@@ -13,6 +13,7 @@ entities: {
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
             offsetLimit = { x = -5700; y = 0; };
+            pauseX = 0;
         },
         {
             id = 1;
@@ -21,6 +22,7 @@ entities: {
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
             offsetLimit = { x = 0; y = 0; };
+            pauseX = 0;
         }
     );
 
@@ -72,11 +74,12 @@ entities: {
             id = 6;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BulletSprite.png";
-            position = { x = 2600; y = 925; };
+            position = { x = 2000; y = 925; };
             scale = { x = 170; y = 155; };
             rect = { x = 0; y = 1; width = 34; height = 31; };
             rotation = 0;
             health = 20;
+            pauseX = 1500;
         }
     );
 
@@ -92,42 +95,46 @@ entities: {
             rotation = 0;
             health = 10;
             damage = 25;
+            shootingPattern = 0;
         },
         {
             id = 8;
             assetName = "YellowPopcornEnemy.gif";
             projectileAssetName = "BulletSpriteMonster.png";
-            position = { x = 1500; y = 700; };
-            autoMove = { x = 1500; y = 200; };
+            position = { x = 1200; y = 700; };
+            autoMove = { x = 1200; y = 200; };
             scale = { x = 87; y = 84; };
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
             health = 5;
             damage = 25;
+            shootingPattern = 1;
         },
         {
             id = 9;
             assetName = "OrangeCrabEnemy.gif";
             projectileAssetName = "BulletSpriteMonster.png";
-            position = { x = 1450; y = 800; };
-            autoMove = { x = 1450; y = 300; };
+            position = { x = 1000; y = 800; };
+            autoMove = { x = 1000; y = 300; };
             scale = { x = 99; y = 87; };
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
             health = 10;
             damage = 25;
+            shootingPattern = 4;
         },
         {
             id = 10;
             assetName = "YellowPopcornEnemy.gif";
             projectileAssetName = "BulletSpriteMonster.png";
-            position = { x = 1500; y = 900; };
-            autoMove = { x = 1500; y = 400; };
+            position = { x = 1700; y = 900; };
+            autoMove = { x = 1700; y = 400; };
             scale = { x = 87; y = 84; };
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
             health = 5;
             damage = 25;
+            shootingPattern = 3;
         }
     );
 };

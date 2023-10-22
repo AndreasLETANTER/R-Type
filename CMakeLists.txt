@@ -37,6 +37,7 @@ FetchContent_MakeAvailable(SFML)
 FetchContent_Declare(
     Boost
     GIT_REPOSITORY "https://github.com/boostorg/boost.git"
+    GIT_TAG "boost-1.81.0"
 )
 FetchContent_MakeAvailable(Boost)
 
@@ -63,6 +64,12 @@ set (ECS_SOURCES
     sources/ECS/Systems/PositionSystem/PositionSystem.cpp
     sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/ShootingPatternFactory.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/AShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/LinearShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/SpreadShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/CircularShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/WaveShootingPattern.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
