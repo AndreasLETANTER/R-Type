@@ -74,7 +74,6 @@ class tcpClientSocket {
         unsigned int m_id; /**< The ID of the client socket. */
         io_service m_ioService; /**< The io_service object. */
         ip::tcp::socket m_socket; /**< The TCP socket object. */
-        u_int16_t m_tcpPort; /**< The TCP port to connect to. */
         u_int16_t m_udpPort; /**< The UDP port of the client socket. */
         std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The read buffer. */
 };

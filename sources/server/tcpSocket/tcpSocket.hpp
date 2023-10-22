@@ -27,7 +27,6 @@ class tcpSocket {
         io_service m_ioService; /**< The boost asio io service object. */
         ip::tcp::acceptor m_tcpAcceptor; /**< The boost asio TCP acceptor object. */
         ip::tcp::socket m_socket; /**< The boost asio TCP socket object. */
-        u_int16_t m_tcpPort; /**< The TCP port number. */
         std::shared_ptr<std::map<int, ip::tcp::socket>> m_clients; /**< The map of connected clients. */
         std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The buffer used to read data from the socket. */
         std::thread m_ioServiceThread; /**< The thread used to run the io service object. */
