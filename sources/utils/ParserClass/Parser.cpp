@@ -79,11 +79,12 @@ void Parser::loadBackgrounds()
         base.rectHeight = backgrounds[i]["rect"]["height"];
         int offsetLimitX = backgrounds[i]["offsetLimit"]["x"];
         int offsetLimitY = backgrounds[i]["offsetLimit"]["y"];
+        int pauseX = backgrounds[i]["pauseX"];
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY)));
+        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY), pauseX));
     }
 }
 
@@ -111,7 +112,7 @@ void Parser::loadPlayers()
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
         m_registry.add_component<Component::Controllable>(m_registry.entity_from_index(base.id), Component::Controllable(true, i + 1));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, &m_clock, sf::Time(sf::milliseconds(500)), damage, projectileAssetName, false));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, LINEAR, &m_clock, sf::Time(sf::milliseconds(500)), damage, projectileAssetName, 1, 1920));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
@@ -138,13 +139,14 @@ void Parser::loadObstacles()
         base.rectHeight = obstacles[i]["rect"]["height"];
         int rotation = obstacles[i]["rotation"];
         int health = obstacles[i]["health"];
+        int pauseX = obstacles[i]["pauseX"];
         (void) rotation;
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
-        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0)));
+        m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0), pauseX));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
 }
@@ -171,12 +173,14 @@ void Parser::loadEnemies()
         int rotation = enemies[i]["rotation"];
         int health = enemies[i]["health"];
         int damage = enemies[i]["damage"];
+        int pattern = enemies[i]["shootingPattern"];
+        ShootingPattern sPattern = static_cast<ShootingPattern>(pattern);
         (void) rotation;
 
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, &m_clock, sf::Time(sf::milliseconds(3000)), damage, projectileAssetName, true));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, sPattern, &m_clock, sf::Time(sf::milliseconds(3000)), damage, projectileAssetName, -1, 0));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(automove_x, automove_y)));
