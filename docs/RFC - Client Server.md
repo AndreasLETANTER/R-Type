@@ -36,7 +36,7 @@ All messages must be composed of a header and a body.
 ### Header :
 
 ```bash
-typedef struct s_header
+typedef struct packet_s
 {
     unsigned int messageId;
     unsigned int timestamp;
@@ -102,7 +102,7 @@ The client must send an empty message to the server to request a connection.
 
 Header :
 ```bash
-typedef struct s_header
+typedef struct packet_s
 {
     unsigned int messageId;
     unsigned int timestamp;

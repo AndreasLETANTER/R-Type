@@ -5,6 +5,8 @@
 ** This file defines colors for debug messages
 */
 
+#include <iostream>
+
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"
 #define RED     "\033[31m"

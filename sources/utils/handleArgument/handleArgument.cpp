@@ -46,7 +46,8 @@ boost::asio::ip::address handleArgument::getIp(char const *t_av) const
             std::cout << t_av << std::endl;
             ip = boost::asio::ip::address::from_string(t_av);
         } catch (std::exception const &e) {
-            printError(e.what());
+            printError("IpAdress is not valid");
+            exit(84);
         }
     }
     return ip;

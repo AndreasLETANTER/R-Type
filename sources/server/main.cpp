@@ -24,9 +24,11 @@
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "../../build/assets/Level1Config.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
-#include "tcpSocket/tcpSocket.hpp"
 #include "udpSocket/udpSocket.hpp"
+#include "tcpSocket/tcpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
+
+#define TICKRATE 64
 
 int main(const int ac, const char **av)
 {
@@ -67,20 +69,30 @@ int main(const int ac, const char **av)
     tcpServer.run();
     udpServer.run();
     char *received;
-
+    sf::Time lastUpdate = clock.getElapsedTime();
     while (true) {
         if (tcpServer.getNbClients() == 0) {
             continue;
         }
+        if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
+            continue;
+        } else {
+            lastUpdate = clock.getElapsedTime();
+        }
         registry.run_systems();
         received = udpServer.receive();
         if (received != nullptr) {
-            t_input input = converter.convertBinaryToInput(received);
+            input_t input = converter.convertBinaryToInput(received);
             if (input.id != 0) {
                 registry.updateEntityKeyPressed(input);
             }
         }
-        std::pair<message_t *, size_t> messages = registry.exportToMessages();
-        udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
+        std::vector<packet_t> packets = registry.exportToPackets(tcpServer.isNewClient());
+        if (tcpServer.isNewClient()) {
+            tcpServer.setNewClient(false);
+        }
+        for (unsigned int i = 0; i < packets.size(); i++) {
+            udpServer.send(converter.convertStructToBinary(packets[i]));
+        }
     }
 }
