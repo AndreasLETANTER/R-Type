@@ -25,10 +25,12 @@ ControlSystem ControlSystem::operator()(Registry &registry, SparseArray<Componen
         if (con.has_value() && con.value().status && vel.has_value()) {
             vel.value().vx = 0;
             vel.value().vy = 0;
-            if (KeyMap.find(con.value().keyPressed) == KeyMap.end())
-                continue;
-            vel.value().vx += KeyMap[con.value().keyPressed].first;
-            vel.value().vy += KeyMap[con.value().keyPressed].second;
+            for (auto &key : con.value().m_keyMapState) {
+                if (key.second == true) {
+                    vel.value().vx += KeyMap[key.first].first;
+                    vel.value().vy += KeyMap[key.first].second;  
+                }
+            }
         }
     }
     return *this;

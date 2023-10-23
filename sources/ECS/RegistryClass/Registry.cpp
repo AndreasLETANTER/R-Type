@@ -215,18 +215,18 @@ void Registry::updateEntityKeyPressed(input_t input)
     for (auto &entity : m_entities) {
         if (entity.has_value()) {
             auto &controllable = get_components<Component::Controllable>();
-            auto &shoots = get_components<Component::Shoot>();
-            for (size_t i = 0; i < shoots.size(); i++) {
-                if (shoots[i].has_value()) {
-                    if (shoots[i].value().playerId == input.id) {
-                        shoots[i].value().keyPressed = input.key;
-                    }
-                }
-            }
+            // auto &shoots = get_components<Component::Shoot>();
+            // for (size_t i = 0; i < shoots.size(); i++) {
+            //     if (shoots[i].has_value()) {
+            //         if (shoots[i].value().playerId == input.id) {
+            //             shoots[i].value().keyPressed = input.key;
+            //         }
+            //     }
+            // }
             for (size_t i = 0; i < controllable.size(); i++) {
                 if (controllable[i].has_value()) {
                     if (controllable[i].value().playerId == input.id) {
-                        controllable[i].value().keyPressed = input.key;
+                        controllable[i].value().m_keyMapState[input.key] = input.pressed;
                     }
                 }
             }
