@@ -24,8 +24,14 @@ tcpClientSocket::~tcpClientSocket()
 
 void tcpClientSocket::run()
 {
-    m_socket.connect(m_endpoint);
-    m_ioService.run();
+    try {
+        m_socket.connect(m_endpoint);
+        m_ioService.run();
+    }
+    catch(const std::exception& e) {
+        std::cout << "Error while connecting to server" << std::endl;
+        exit(84);
+    }
 }
 
 void tcpClientSocket::send(const std::string &t_message)
