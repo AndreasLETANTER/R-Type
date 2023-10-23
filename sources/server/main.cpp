@@ -67,8 +67,6 @@ int main(const int ac, const char **av)
     parser.loadFromFile();
 
     tcpServer.run();
-    udpServer.run();
-    char *received;
     sf::Time lastUpdate = clock.getElapsedTime();
     while (true) {
         if (tcpServer.getNbClients() == 0) {
@@ -80,12 +78,15 @@ int main(const int ac, const char **av)
             lastUpdate = clock.getElapsedTime();
         }
         registry.run_systems();
-        received = udpServer.receive();
-        if (received != nullptr) {
-            input_t input = converter.convertBinaryToInput(received);
-            if (input.id != 0) {
-                registry.updateEntityKeyPressed(input);
+        std::vector<input_t> inputs = udpServer.get_packet_queue();
+        for (unsigned int i = 0; i < inputs.size(); i++) {
+            if (inputs[i].id == 0) {
+                continue;
             }
+            registry.updateEntityKeyPressed(inputs[i]);
+        }
+        if (inputs.size() > 0) {
+            udpServer.clear_packet_queue();
         }
         std::vector<packet_t> packets = registry.exportToPackets(tcpServer.isNewClient());
         if (tcpServer.isNewClient()) {

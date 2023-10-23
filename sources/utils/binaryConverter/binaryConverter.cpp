@@ -31,7 +31,7 @@ packet_t binaryConverter::convertBinaryToStruct(const char *buffer)
 
 input_t binaryConverter::convertBinaryToInput(const char *buffer)
 {
-    input_t key = {0, sf::Keyboard::Unknown};
+    input_t key = {0, sf::Keyboard::Unknown, false};
 
     memcpy(&key, buffer, sizeof(key));
     return (key);
@@ -44,10 +44,9 @@ std::vector<char> binaryConverter::convertStructToBinary(packet_t packet)
     return (buffer);
 }
 
-std::vector<char> binaryConverter::convertStructToInput(unsigned int t_id, sf::Keyboard::Key t_key)
+std::vector<char> binaryConverter::convertInputToBinary(input_t t_input)
 {
     std::vector<char> buffer;
-    input_t input = {t_id, t_key};
-    buffer.insert(buffer.end(), reinterpret_cast<char *>(&input), reinterpret_cast<char *>(&input) + sizeof(input));
+    buffer.insert(buffer.end(), reinterpret_cast<char *>(&t_input), reinterpret_cast<char *>(&t_input) + sizeof(t_input));
     return (buffer);
 }

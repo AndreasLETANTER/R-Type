@@ -47,6 +47,7 @@ typedef struct input_s
 {
     unsigned int id;
     sf::Keyboard::Key key;
+    bool pressed;
 } input_t;
 
 /**

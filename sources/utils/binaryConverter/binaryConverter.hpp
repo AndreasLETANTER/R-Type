@@ -41,7 +41,7 @@ class binaryConverter {
          * @return A pointer to the binary data.
          */
         std::vector<char> convertStructToBinary(packet_t packet);
-        std::vector<char> convertStructToInput(unsigned int t_id, sf::Keyboard::Key key);
+        std::vector<char> convertInputToBinary(input_t t_input);
 
     private:
         /**

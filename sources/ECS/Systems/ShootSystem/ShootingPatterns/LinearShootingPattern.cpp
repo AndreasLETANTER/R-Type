@@ -13,7 +13,7 @@
 void LinearShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw)
 {
     sf::Time elapsedTime = shoot.clock->getElapsedTime() - shoot.lastShot;
-    if (shoot.canShoot == true && (shoot.keyPressed == sf::Keyboard::Space || shoot.direction == -1) && elapsedTime >= shoot.shootDelay) {
+    if (shoot.canShoot == true && (shoot.m_keyMapState[sf::Keyboard::Space] == true || shoot.direction == -1) && elapsedTime >= shoot.shootDelay) {
         auto projectile = registry.spawn_entity();
         double x = pos.x;
         double y = pos.y;

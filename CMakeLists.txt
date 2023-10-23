@@ -95,6 +95,7 @@ set(CLIENT_SOURCES
     sources/client/MainMenu/MainMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
+    sources/client/InputHandler/InputHandler.cpp
 )
 
 set(SERVER_MAIN

@@ -89,7 +89,7 @@ void tcpSocket::startAccept()
             printTrace("Number of clients: " + std::to_string(m_clients->size()));
             nextClientId++;
             setNewClient(true);
-            sendMessage((nextClientId - 1), converter.convertStructToInput((nextClientId - 1), sf::Keyboard::Unknown));
+            sendMessage((nextClientId - 1), converter.convertInputToBinary(input_t{(unsigned int)(nextClientId - 1), sf::Keyboard::Unknown, false}));
             startRead(nextClientId - 1);
             startAccept();
         }
