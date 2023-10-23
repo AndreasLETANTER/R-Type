@@ -41,7 +41,7 @@ std::vector<packet_t> udpClientSocket::get_packet_queue()
 void udpClientSocket::send(std::vector<char> t_message)
 {
     m_socket.async_send_to(buffer(t_message), m_endpoint, [](const boost::system::error_code &error, std::size_t bytes_transferred) {
-        std::cout << RED << "Sent " << bytes_transferred << " bytes" << RESET << std::endl;
+        (void) bytes_transferred;
         if (error) {
             std::cerr << RED << "Error when sending data: " << error.message() << RESET << std::endl;
             return;
@@ -60,7 +60,6 @@ void udpClientSocket::receive()
         m_readBuffer.commit(bytes_transferred);
         packet_t packet;
         m_iStream.read(reinterpret_cast<char *>(&packet), bytes_transferred);
-        std::cout << GREEN << "Received " << bytes_transferred << " bytes" << RESET << std::endl;
         m_mutex.lock();
         m_packet_queue.push_back(packet);
         m_mutex.unlock();
