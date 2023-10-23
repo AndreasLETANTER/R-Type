@@ -55,9 +55,6 @@ int main(int ac, char **av)
     handleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
-    window.setFramerateLimit(144);
-    MainMenu mainMenu(window, assets);
     bool needGameInfos = true;
 
     registry.register_component<Component::Drawable>();
@@ -68,6 +65,11 @@ int main(int ac, char **av)
     tcpClient.run();
     tcpClient.receive();
     InputHandler inputHandler(tcpClient.getId());
+
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
+    window.setFramerateLimit(144);
+    MainMenu mainMenu(window, assets);
+  
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {
