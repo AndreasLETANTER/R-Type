@@ -1,7 +1,7 @@
 # RFC - Client / Server
 
-**Date:** *25 / 09 / 2023*
-**Author**: *To complete*
+**Date:** *23 / 10 / 2023*
+**Author**: *Andréas LE TANTER*
 **Status**: *Draft*
 **Version:** *0.2*
 
@@ -23,133 +23,61 @@ The network should use a standardized protocol for communication.
 
 The protocol is composed of two parts :
 
-- **TCP** (Transmission Control Protocol) for the connection between the client and the server for exchange external data (like the udp port, the id of the player, etc...).
+- **TCP** (Transmission Control Protocol) for the connection between the client and the server for letting the server know the id of the client so it can be assigned to a spaceship.
 
-- **UDP** (User Datagram Protocol) for the communication between the client and the server for the game data (like the position of the entities, the sprite name, etc...).
+- **UDP** (User Datagram Protocol) for the communication between the client and the server for the game data (like the death of an entity, spawn of an entity, etc...).
 
 ## 3.1 - Command structure
 
 Commands must all be composed the same according to the following model.
 
-All messages must be composed of a header and a body.
+All packets must be composed of a message type and a message.
 
-### Header :
+### Message Type :
 
-```bash
-typedef struct s_header
-{
-    unsigned int messageId;
-    unsigned int timestamp;
-    unsigned int nbEntities;
-} t_header;
-```
+The differents types of packets are:
 
-- **messageId**
+- ALL_GAME_INFO_CODE  (100) -> used when a new client connect for sending him all the informations about the game.
+- NO_MORE_GAME_INFO_CODE (101) -> used to tell the clients when the games info are all sent to him so he can now look on other codes.
+- ENTITY_DEATH_CODE (102) -> used to tell the clients that an entity died.
+- ENTITY_SPAWN_CODE (103) -> used to tell the clients that an entity spawned.
+- ENTITY_MOVE_CODE (104) -> used to tell the clients that an entity position changed.
 
-Message identifier generated with the random library like this :
+### Message :
 
-```bash
-std::rand() % 10000000
-```
-
-- **timestamp**
-
-Timestamp of the message in milliseconds generated with the chrono library like this :
-
-```bash
-static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() % 10000000);
-```
-
-- **nbEntities**
-
-Number of entities in the message transmitted with the export message function of the registry.
-
-### Body :
-
-The body message can be composed of several things :
-
-- **First message**
-
-```bash
-typedef struct s_first_message
-{
-    unsigned int id;
-    unsigned int udp_port;
-} t_first_message;
-```
-
-- **Entity message**
+A typical message is structured like so:
 
 ```bash
 typedef struct message_s {
-    char sprite_name[128] = {0};
+    char sprite_name[128];
     double x;
     double y;
+    unsigned int entity_id;
     sf::IntRect rect;
-    Component::Position position;
+    Component::Position scale;
 } message_t;
 ```
 
-## 3.2 - Client-Server tcp Initialization
+The sprite_name is the name of the sprite associated with the entity.
 
-When a client requests to connect to the server it must send the following messages.
+The x and y are the coordinates of the entity's position.
 
-### Client request ✔️:
+The entity_id is the id of the entity.
 
-The client must send an empty message to the server to request a connection.
+The rect is the rectangle of the sprite associated with the entity.
 
-### Server response ✔️:
+The scale is the scale of the texture.
 
-Header :
-```bash
-typedef struct s_header
-{
-    unsigned int messageId;
-    unsigned int timestamp;
-    unsigned int nbEntities;
-} t_header;
-```
+### Warning, the server does not fill all the information based on the message type, for example the death of an entity doesnt need more information than the id of the entity and the type of the message.
 
-Message :
-```bash
-typedef struct s_first_message
-{
-    unsigned int id;
-    unsigned int udp_port;
-} t_first_message;
-```
+## 3.2 - Client-Server tcp communication
 
-- **id**
+The client only need to connect to the server, it will then send back the id of the client. Letting the client know that he is connected to the server.
 
-*Unique identifier of the player* (start at 1)
+## 3.3 - Client-Server udp communication
 
-- **udp_port**
+At connection the server will generate information about ALL the game in multiple packets to the clients. Letting the client get all the current information and states of the game.
+    
+Then the server will send packets to the clients when an entity dies, spawn, or move.
 
-*Port of the udp socket*
-
-## 3.3 - Client-Server Disconnection
-
-With the tcp connection, the client can be down without sending message. When the server detect a disconnection, it remove the client from the list of clients.
-
-## 4 - Message datas
-
-Before sending a message, the server export the entities in the following format :
-
-```bash
-std::pair<size_t nbEntities, message_t> exportMessage();
-```
-
-The message is composed message_t * nbEntities.
-For example, if the server has 3 entities, the message will be composed of 3 message_t.
-
-Filled like this :
-
-```bash
-struct message_s {
-    sprite_name = "plane.jpeg";
-    x=-92.92;
-    y=686.16;
-    rect = sf::IntRect(263, 11, 80, 3);
-    position = {22, 98};
-};
-```
+It is the responsability of the client to update the game based on the information received.

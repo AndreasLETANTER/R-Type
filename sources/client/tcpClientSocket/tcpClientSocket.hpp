@@ -72,6 +72,7 @@ class tcpClientSocket {
         unsigned int getUdpPort() const {return m_udpPort;};
     private:
         unsigned int m_id; /**< The ID of the client socket. */
+        ip::tcp::endpoint m_endpoint; /**< The TCP endpoint. */
         io_service m_ioService; /**< The io_service object. */
         ip::tcp::socket m_socket; /**< The TCP socket object. */
         u_int16_t m_udpPort; /**< The UDP port of the client socket. */

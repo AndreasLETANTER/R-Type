@@ -7,46 +7,69 @@
 
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
-
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
-#include "client/Network/Network.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
-
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
+#include "InputHandler/InputHandler.hpp"
 #include "ECS/Assets/Assets.hpp"
-#include "client/Buttons/TextButton/TextButton.hpp"
 
-void signalHandler(int signum)
+/**
+ * @brief Updates the game state by processing packets received from the server.
+ *
+ * @param udpClient The UDP client socket used to receive packets.
+ * @param registry The entity registry used to update the game state.
+ * @param window The SFML window used to render the game.
+ */
+static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window)
 {
-    std::cout << "Interrupt signal (" << signum << ") received.\n";
-    exit(signum);
+    std::vector<packet_t> packets = udpClient.get_packet_queue();
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
+            needGameInfos = false;
+            continue;
+        }
+        if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
+            continue;
+        }
+        registry.updateFromPacket(packets[i], window);
+    }
+    if (packets.size() > 0) {
+        udpClient.clear_packet_queue();
+    }
 }
 
 int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
+    Assets assets;
+    sf::Clock clock;
+    Registry registry;
     binaryConverter converter;
     handleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
-    Assets assets;
+    bool needGameInfos = true;
 
+    registry.register_component<Component::Drawable>();
+    registry.register_component<Component::Position>();
+    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
+
+    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
     tcpClient.run();
-    udpClient.run();
     tcpClient.receive();
-    Registry registry;
+    InputHandler inputHandler(tcpClient.getId());
+
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
-    sf::Clock clock;
     MainMenu mainMenu(window, assets);
-    TextButton scoreButton = TextButton()
+        TextButton scoreButton = TextButton()
         .setButtonPosition(sf::Vector2f(0, 0))
         .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
         .setButtonColor(sf::Color::Transparent)
@@ -63,33 +86,21 @@ int main(int ac, char **av)
         .setCallback([]() {
         });
 
-    sf::Keyboard::Key lastKey = sf::Keyboard::Unknown;
-
     while (window.isOpen()) {
-        udpClient.send(std::vector<char>({'1'}));
         for (auto event = sf::Event{}; window.pollEvent(event);) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code != lastKey) {
-                    lastKey = event.key.code;
-                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), event.key.code));
-                }
-            }
-            if (event.type == sf::Event::KeyReleased) {
-                if (event.key.code == lastKey) {
-                    lastKey = sf::Keyboard::Unknown;
-                    udpClient.send(converter.convertStructToInput(tcpClient.getId(), sf::Keyboard::Unknown));
-                }
+                exit(0);
             }
         }
-        std::pair<message_t *, size_t> messages = converter.convertBinaryToStruct(udpClient.receive());
-        registry = Registry();
-        registry.importFromMessages(messages.first, messages.second, &window);
+        std::vector<input_t> inputs = inputHandler.handle_inputs();
+        for (unsigned int i = 0; i < inputs.size(); i++) {
+            udpClient.send(converter.convertInputToBinary(inputs[i]));
+        }
+        update_game_from_packets(udpClient, registry, needGameInfos, &window);
         window.clear();
         registry.run_systems();
         scoreButton.draw(window);
-        mainMenu.draw();
         window.display();
     }
     return 0;

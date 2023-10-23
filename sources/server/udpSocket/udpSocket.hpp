@@ -7,14 +7,21 @@
 
 #pragma once
 
+#include "utils/debugColors/debugColors.hpp"
+
+#include "utils/binaryConverter/binaryConverter.hpp"
+#include "ECS/RegistryClass/Registry.hpp"
+
 #include <boost/asio.hpp>
 
-#define UDP_PACKET_SIZE 65535
+#include "server/udpSocket/udpSocket.hpp"
+
+#define UDP_PACKET_SIZE 65507
 
 using namespace boost::asio;
 
 /**
- * @brief The udpSocket class represents a UDP socket that can send and receive messages.
+ * @brief The udpSocket class represents a UDP client socket that can send and receive messages.
  */
 class udpSocket {
     public:
@@ -32,28 +39,47 @@ class udpSocket {
         ~udpSocket();
 
         /**
-         * @brief Start the io_service thread.
+         * @brief Run the UDP client socket.
          */
         void run();
 
         /**
-         * @brief Send a message through the UDP socket.
+         * @brief Send a message through the UDP client socket.
          * 
          * @param t_message The message to send.
+         * @return true If the message was sent successfully.
          */
         void send(std::vector<char> t_message);
 
         /**
-         * @brief Receive a message from the UDP socket.
+         * @brief Returns the packet queue of the UDP client socket.
          * 
-         * @return char* The received message.
+         * @return std::vector<input_t> The packet queue of the UDP client socket.
          */
-        char *receive();
+        std::vector<input_t> get_packet_queue();
+
+        /**
+         * @brief Receive a message through the UDP client socket.
+         * 
+         * @return true If the message was received successfully.
+         */
+        void receive();
+
+        /**
+         * @brief Clears the packet queue.
+         * 
+         * This function removes all packets from the queue, freeing up memory and ensuring
+         * that the queue is empty.
+         */
+        void clear_packet_queue();
 
     private:
-        io_service m_ioService; /**< The io_service used by the socket. */
-        ip::udp::socket m_socket; /**< The UDP socket. */
-        ip::udp::endpoint m_endpoint; /**< The endpoint of the socket. */
-        std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The buffer used to read messages. */
-        std::thread m_ioServiceThread; /**< The thread used to run the io_service. */
+        io_service m_ioService; /**< The boost io_service object. */
+        ip::udp::socket m_socket; /**< The boost UDP socket object. */
+        ip::udp::endpoint m_endpoint; /**< The boost UDP endpoint object. */
+        std::vector<input_t> m_packet_queue;
+        streambuf m_readBuffer;
+        std::istream m_iStream;
+        std::thread udpThread;
+        std::mutex m_mutex;
 };

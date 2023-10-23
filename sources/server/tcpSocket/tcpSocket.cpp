@@ -37,7 +37,6 @@ tcpSocket::~tcpSocket()
 
 void tcpSocket::run()
 {
-    // Start the io_service object on the background thread
     m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
 }
 
@@ -53,11 +52,11 @@ void tcpSocket::startRead(int clientId)
     auto& clientSocket = m_clients->at(clientId);
     clientSocket.async_read_some(buffer(m_readBuffer),
         [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
-            if (ec == error::eof) { // Client disconnected
+            if (ec == error::eof) {
                 removeClient(clientId);
             } else if (!ec) {
-                handleRead(clientId, bytesTransferred); // Handle the received message
-                startRead(clientId); // Continue reading
+                handleRead(clientId, bytesTransferred);
+                startRead(clientId);
             } else {
                 printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());
                 removeClient(clientId);
@@ -88,20 +87,15 @@ void tcpSocket::startAccept()
             printInfo("New client connected");
             m_clients->insert_or_assign(nextClientId, std::move(m_socket));
             printTrace("Number of clients: " + std::to_string(m_clients->size()));
-            ++nextClientId;
-
-            // Start reading from the socket of the newly connected client
-            // auto clientId = nextClientId - 1;
-            std::cout << "nextClientId = " << nextClientId - 1 << std::endl;
-            sendMessage((nextClientId - 1), converter.convertStructToFirstMessage((nextClientId - 1)));
+            nextClientId++;
+            setNewClient(true);
+            sendMessage((nextClientId - 1), converter.convertInputToBinary(input_t{(unsigned int)(nextClientId - 1), sf::Keyboard::Unknown, false}));
             startRead(nextClientId - 1);
-
-            // Continue accepting more clients
             startAccept();
         }
         else {
-            // Handle the error condition, if necessary
             printError("Error accepting client: " + ec.message());
+            return;
         }
     });
 }

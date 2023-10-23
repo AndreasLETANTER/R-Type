@@ -13,8 +13,7 @@
 
 tcpClientSocket::tcpClientSocket(u_int16_t t_tcpPort, ip::address t_ip) : m_socket(m_ioService)
 {
-    ip::tcp::endpoint endpoint(t_ip, t_tcpPort);
-    m_socket.connect(endpoint);
+    m_endpoint = ip::tcp::endpoint(t_ip, t_tcpPort);
     m_id = 0;
 }
 
@@ -25,7 +24,14 @@ tcpClientSocket::~tcpClientSocket()
 
 void tcpClientSocket::run()
 {
-    m_ioService.run();
+    try {
+        m_socket.connect(m_endpoint);
+        m_ioService.run();
+    }
+    catch(const std::exception& e) {
+        std::cout << "Error while connecting to server" << std::endl;
+        exit(84);
+    }
 }
 
 void tcpClientSocket::send(const std::string &t_message)
@@ -34,26 +40,28 @@ void tcpClientSocket::send(const std::string &t_message)
     boost::asio::write(m_socket, boost::asio::buffer(t_message), error);
     if (error) {
         std::cerr << "Error while sending message: " << error.message() << std::endl;
+        return;
     }
 }
 
 char *tcpClientSocket::receive()
 {
-    std::thread([this]() {
-        boost::system::error_code error;
-        binaryConverter converter;
-        m_readBuffer.fill(0);
-        boost::asio::read(m_socket, boost::asio::buffer(m_readBuffer), boost::asio::transfer_at_least(1));
-        if (error) {
-            std::cerr << "Error while receiving message: " << error.message() << std::endl;
-        }
-    if (m_id == 0) {
-        t_first_message firstMessage = converter.convertBinaryToFirstMessage(m_readBuffer.data());
-        m_id = firstMessage.id;
-        m_udpPort = firstMessage.udp_port;
-        printTrace("Received id: " + std::to_string(m_id));
-        printTrace("Received udp port: " + std::to_string(m_udpPort));
+    boost::system::error_code error;
+    binaryConverter converter;
+    m_readBuffer.fill(0);
+    boost::asio::read(m_socket, boost::asio::buffer(m_readBuffer), boost::asio::transfer_at_least(1));
+    if (error) {
+        std::cerr << "Error while receiving message: " << error.message() << std::endl;
+        return nullptr;
     }
-    }).detach();
+    if (m_id == 0) {
+        input_t firstMessage = converter.convertBinaryToInput(m_readBuffer.data());
+        m_id = firstMessage.id;
+        if (m_id >= 5) {
+            std::cerr << "Error: Too many clients already connected" << std::endl;
+            exit(84);
+        }
+        printTrace("Received id: " + std::to_string(m_id));
+    }
     return m_readBuffer.data();
 }

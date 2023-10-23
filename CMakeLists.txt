@@ -81,25 +81,22 @@ set (ECS_SOURCES
 )
 
 set(SERVER_SOURCES
-    sources/server/tcpSocket/tcpSocket.cpp
     sources/server/udpSocket/udpSocket.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/handleArgument/handleArgument.cpp
 )
 
 set(CLIENT_SOURCES
-
-    sources/client/Network/Network.cpp
-    sources/client/tcpClientSocket/tcpClientSocket.cpp
-    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/handleArgument/handleArgument.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
-    sources/client/Network/Network.cpp
+    sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
+    sources/client/InputHandler/InputHandler.cpp
 )
 
 set(SERVER_MAIN
