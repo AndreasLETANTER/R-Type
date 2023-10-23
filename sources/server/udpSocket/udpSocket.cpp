@@ -49,7 +49,7 @@ void udpSocket::send(std::vector<char> t_message)
 
 void udpSocket::receive()
 {
-    auto buff = m_readBuffer.prepare(192);
+    auto buff = m_readBuffer.prepare(12);
     m_socket.async_receive_from(buff, m_endpoint, [this](const boost::system::error_code &error, std::size_t bytes_transferred) {
         if (error) {
             std::cerr << RED << "Error when receiving data: " << error.message() << RESET << std::endl;
