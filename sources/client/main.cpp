@@ -37,6 +37,9 @@ static void update_game_from_packets(udpClientSocket &udpClient, Registry &regis
         if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
             continue;
         }
+        if (packets[i].messageType == ALL_GAME_INFO_CODE && needGameInfos == false) {
+            continue;
+        }
         registry.updateFromPacket(packets[i], window);
     }
     if (packets.size() > 0) {

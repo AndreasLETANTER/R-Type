@@ -178,7 +178,11 @@ void Parser::loadEnemies()
         m_registry.spawn_entity();
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, sPattern, &m_clock, sf::Time(sf::milliseconds(3000)), damage, projectileAssetName, -1, 0));
+        (void) projectileAssetName;
+        (void) damage;
+        (void) m_clock;
+        (void) sPattern;
+        //m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, sPattern, &m_clock, sf::Time(sf::milliseconds(3000)), damage, projectileAssetName, -1, 0));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(automove_x, automove_y)));
