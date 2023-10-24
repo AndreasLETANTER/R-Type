@@ -23,6 +23,18 @@ using namespace boost::asio;
 /**
  * @brief The udpSocket class represents a UDP client socket that can send and receive messages.
  */
+/**
+ * @file udpSocket.hpp
+ * @brief Defines the udpSocket class.
+ */
+
+/**
+ * @class udpSocket
+ * @brief Represents a UDP socket.
+ * 
+ * This class provides methods to construct, send and receive messages through a UDP socket.
+ * It also provides a packet queue to store received packets.
+ */
 class udpSocket {
     public:
         /**
@@ -77,9 +89,10 @@ class udpSocket {
         io_service m_ioService; /**< The boost io_service object. */
         ip::udp::socket m_socket; /**< The boost UDP socket object. */
         ip::udp::endpoint m_endpoint; /**< The boost UDP endpoint object. */
-        std::vector<input_t> m_packet_queue;
-        streambuf m_readBuffer;
-        std::istream m_iStream;
-        std::thread udpThread;
-        std::mutex m_mutex;
+        std::vector<ip::udp::endpoint> m_clients_endpoints; /**< The map of connected clients. */
+        std::vector<input_t> m_packet_queue; /**< The packet queue of the UDP client socket. */
+        streambuf m_readBuffer; /**< The boost streambuf object. */
+        std::istream m_iStream; /**< The boost istream object. */
+        std::thread udpThread; /**< The thread object for the UDP client socket. */
+        std::mutex m_mutex; /**< The mutex object for the packet queue. */
 };

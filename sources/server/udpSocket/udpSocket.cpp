@@ -38,13 +38,15 @@ std::vector<input_t> udpSocket::get_packet_queue()
 
 void udpSocket::send(std::vector<char> t_message)
 {
-    m_socket.async_send_to(buffer(t_message), m_endpoint, [](const boost::system::error_code &error, std::size_t bytes_transferred) {
-        (void) bytes_transferred;
-        if (error) {
-            std::cerr << RED << "Error when sending data: " << error.message() << RESET << std::endl;
-            return;
-        } 
-    });
+    for (auto &client : m_clients_endpoints) {
+        m_socket.async_send_to(buffer(t_message), client, [](const boost::system::error_code &error, std::size_t bytes_transferred) {
+            (void) bytes_transferred;
+            if (error) {
+                std::cerr << RED << "Error when sending data: " << error.message() << RESET << std::endl;
+                return;
+            } 
+        });
+    }
 }
 
 void udpSocket::receive()
@@ -54,6 +56,9 @@ void udpSocket::receive()
         if (error) {
             std::cerr << RED << "Error when receiving data: " << error.message() << RESET << std::endl;
             return;
+        }
+        if (std::find(m_clients_endpoints.begin(), m_clients_endpoints.end(), m_endpoint) == m_clients_endpoints.end()) {
+            m_clients_endpoints.push_back(m_endpoint);
         }
         m_readBuffer.commit(bytes_transferred);
         input_t packet;

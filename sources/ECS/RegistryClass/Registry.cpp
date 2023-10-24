@@ -65,7 +65,7 @@ Entity Registry::entity_from_id(unsigned int id)
             return entity.value().first;
         }
     }
-    return Entity();
+    throw std::runtime_error{"Entity not found"};
 }
 
 void Registry::kill_entity(Entity const &e)
@@ -198,8 +198,16 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
         }
     }
     if (packet.messageType == ENTITY_MOVE_CODE) {
-        auto entity = entity_from_id(packet.message.entity_id);
+        Entity entity;
+
         auto &positions = get_components<Component::Position>();
+        try {
+            entity = entity_from_id(packet.message.entity_id);
+        }
+        catch(const std::exception& e)
+        {
+            return;
+        }
         positions[entity].value().x = packet.message.x;
         positions[entity].value().y = packet.message.y;
     }
