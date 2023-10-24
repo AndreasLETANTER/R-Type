@@ -16,10 +16,9 @@ ScoreSystem ScoreSystem::operator()(Registry &registry, SparseArray<Component::S
         if (score.has_value() && score->clock) {
             sf::Time elapsedTime = score->clock->getElapsedTime() - score->lastScoreIncrease;
             if (elapsedTime >= sf::seconds(1)) {
-                score->score += 1;
+                score->score += 50;
                 score->lastScoreIncrease = score->clock->getElapsedTime();
             }
-            // std::cout << "Score[" << i << "]: " << score->score << std::endl;
         }
     }
     return *this;
