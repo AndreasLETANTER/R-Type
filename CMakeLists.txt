@@ -11,16 +11,10 @@ set(SERVER_TESTS_NAME "r-type_server_tests")
 set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
 
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  set(CXX_FLAGS "${CXX_FLAGS} /W4")
-endif()
-
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-  set(CXX_FLAGS "${CXX_FLAGS} -Wall -Werror")
-endif()
-
-if (CMAKE_BUILD_TYPE MATCHES "Darwin")
-    set(CXX_FLAGS "${CXX_FLAGS} -Wall -Werror")
+    set(CXX_FLAGS -Wall -Wextra -Werror)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(CXX_FLAGS -Wall -Wextra)
 endif()
 
 ###############################INSTALL PACKAGES###################################
@@ -37,6 +31,12 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/hyperrealm/libconfig.git"
 )
 FetchContent_MakeAvailable(libconfig)
+
+if (CMAKE_HOST_WIN32)
+    set(libconfig_name "libconfig")
+else()
+    set(libconfig_name "config")
+endif()
 
 FetchContent_Declare(
     SFML
@@ -168,14 +168,14 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 
 ###############################COMPILATION TESTS##################################
 option(BUILD_TESTS "Build tests using Criterion" ON)
@@ -204,14 +204,14 @@ if (CRITERION)
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
+    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 
     add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
     target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
+    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 endif()
 
 ###############################CUSTOM TARGETS#####################################
