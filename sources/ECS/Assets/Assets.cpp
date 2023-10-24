@@ -10,7 +10,8 @@
 
 Assets::Assets()
 {
-    this->load_texture("BurpTemporaryBullet.png", "assets/BurpTemporaryBullet.png");
+    this->load_texture("BulletSprite.png", "assets/BulletSprite.png");
+    this->load_texture("BulletSpriteMonster.png", "assets/BulletSpriteMonster.png");
     this->load_texture("GreyRobotObstacle.gif", "assets/GreyRobotObstacle.gif");
     this->load_texture("OrangeCrabEnemy.gif", "assets/OrangeCrabEnemy.gif");
     this->load_texture("Space_Background.png", "assets/Space_Background.png");

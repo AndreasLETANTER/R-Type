@@ -1,10 +1,22 @@
-#include "udpSocket.hpp"
-#include "utils/debugColors/debugColors.hpp"
+/*
+** EPITECH PROJECT, 2023
+** MIRROR_R-Type
+** File description:
+** udpSocket
+*/
 
-udpSocket::udpSocket(int t_udpPort) : m_socket(m_ioService, ip::udp::endpoint(ip::udp::v4(), t_udpPort))
+#include "udpSocket.hpp"
+#include <iostream>
+
+udpSocket::udpSocket(int t_udpPort, ip::address t_ip) : m_socket(m_ioService, ip::udp::endpoint(t_ip, t_udpPort)), m_iStream(&m_readBuffer)
 {
     m_endpoint = ip::udp::endpoint(ip::udp::v4(), t_udpPort);
-    printTrace("UDP socket created on port " + std::to_string(t_udpPort));
+    udpThread = std::thread([this]() {
+        while (true) {
+            receive();
+            run();
+        }
+    });
 }
 
 udpSocket::~udpSocket()
@@ -13,24 +25,48 @@ udpSocket::~udpSocket()
 
 void udpSocket::run()
 {
-    m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
-}
-#include <iostream>
-void udpSocket::send(std::vector<char> t_message)
-{
-    try
-    {
-        m_socket.send_to(buffer(t_message), m_endpoint);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    m_ioService.reset();
+    m_ioService.run();
+    m_ioService.poll();
 }
 
-char *udpSocket::receive()
+std::vector<input_t> udpSocket::get_packet_queue()
 {
-    m_readBuffer.fill(0);
-    m_socket.receive_from(buffer(m_readBuffer), m_endpoint);
-    return m_readBuffer.data();
+    std::lock_guard<std::mutex> lock(m_mutex);
+    return m_packet_queue;
+}
+
+void udpSocket::send(std::vector<char> t_message)
+{
+    m_socket.async_send_to(buffer(t_message), m_endpoint, [](const boost::system::error_code &error, std::size_t bytes_transferred) {
+        (void) bytes_transferred;
+        if (error) {
+            std::cerr << RED << "Error when sending data: " << error.message() << RESET << std::endl;
+            return;
+        } 
+    });
+}
+
+void udpSocket::receive()
+{
+    auto buff = m_readBuffer.prepare(12);
+    m_socket.async_receive_from(buff, m_endpoint, [this](const boost::system::error_code &error, std::size_t bytes_transferred) {
+        if (error) {
+            std::cerr << RED << "Error when receiving data: " << error.message() << RESET << std::endl;
+            return;
+        }
+        m_readBuffer.commit(bytes_transferred);
+        input_t packet;
+        m_iStream.read(reinterpret_cast<char *>(&packet), bytes_transferred);
+        m_mutex.lock();
+        m_packet_queue.push_back(packet);
+        m_mutex.unlock();
+        receive();
+    });
+}
+
+void udpSocket::clear_packet_queue()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_packet_queue.clear();
 }

@@ -24,17 +24,19 @@
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "../../build/assets/Level1Config.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
-#include "tcpSocket/tcpSocket.hpp"
 #include "udpSocket/udpSocket.hpp"
+#include "tcpSocket/tcpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
+
+#define TICKRATE 64
 
 int main(const int ac, const char **av)
 {
     (void)ac;
     handleArgument handleArgument;
     binaryConverter converter;
-    tcpSocket tcpServer(handleArgument.getPort(av[1]));
-    udpSocket udpServer(handleArgument.getPort(av[2]));
+    tcpSocket tcpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[3]));
+    udpSocket udpServer(handleArgument.getPort(av[2]), handleArgument.getIp(av[3]));
 
     Registry registry;
     sf::Clock clock;
@@ -65,16 +67,33 @@ int main(const int ac, const char **av)
     parser.loadFromFile();
 
     tcpServer.run();
-    udpServer.run();
-
-    udpServer.receive();
+    sf::Time lastUpdate = clock.getElapsedTime();
     while (true) {
-        registry.run_systems();
         if (tcpServer.getNbClients() == 0) {
             continue;
         }
-        std::pair<message_t *, size_t> messages = registry.exportToMessages();
-        udpServer.send(converter.convertStructToBinary(messages.second, messages.first));
-        usleep(50000);
+        if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
+            continue;
+        } else {
+            lastUpdate = clock.getElapsedTime();
+        }
+        registry.run_systems();
+        std::vector<input_t> inputs = udpServer.get_packet_queue();
+        for (unsigned int i = 0; i < inputs.size(); i++) {
+            if (inputs[i].id == 0) {
+                continue;
+            }
+            registry.updateEntityKeyPressed(inputs[i]);
+        }
+        if (inputs.size() > 0) {
+            udpServer.clear_packet_queue();
+        }
+        std::vector<packet_t> packets = registry.exportToPackets(tcpServer.isNewClient());
+        if (tcpServer.isNewClient()) {
+            tcpServer.setNewClient(false);
+        }
+        for (unsigned int i = 0; i < packets.size(); i++) {
+            udpServer.send(converter.convertStructToBinary(packets[i]));
+        }
     }
 }

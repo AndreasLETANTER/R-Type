@@ -48,6 +48,7 @@ FetchContent_MakeAvailable(SFML)
 FetchContent_Declare(
     Boost
     GIT_REPOSITORY "https://github.com/boostorg/boost.git"
+    GIT_TAG "boost-1.81.0"
 )
 FetchContent_MakeAvailable(Boost)
 
@@ -56,7 +57,8 @@ FetchContent_MakeAvailable(Boost)
 set(ASSETS_FILES
     assets/Space_Background.png
     assets/SpaceShips.gif
-    assets/BurpTemporaryBullet.png
+    assets/BulletSprite.png
+    assets/BulletSpriteMonster.png
     assets/GreyRobotObstacle.gif
     assets/OrangeCrabEnemy.gif
     assets/YellowPopcornEnemy.gif
@@ -73,6 +75,12 @@ set (ECS_SOURCES
     sources/ECS/Systems/PositionSystem/PositionSystem.cpp
     sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/ShootingPatternFactory.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/AShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/LinearShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/SpreadShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/CircularShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/WaveShootingPattern.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
@@ -83,25 +91,22 @@ set (ECS_SOURCES
 )
 
 set(SERVER_SOURCES
-    sources/server/tcpSocket/tcpSocket.cpp
     sources/server/udpSocket/udpSocket.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/handleArgument/handleArgument.cpp
 )
 
 set(CLIENT_SOURCES
-
-    sources/client/Network/Network.cpp
-    sources/client/tcpClientSocket/tcpClientSocket.cpp
-    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/handleArgument/handleArgument.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
-    sources/client/Network/Network.cpp
+    sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
+    sources/client/InputHandler/InputHandler.cpp
 )
 
 set(SERVER_MAIN

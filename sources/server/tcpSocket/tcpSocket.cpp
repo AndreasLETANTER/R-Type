@@ -14,14 +14,13 @@
 
 std::atomic<int> nextClientId(1);
 
-tcpSocket::tcpSocket(u_int16_t t_tcpPort)
+tcpSocket::tcpSocket(u_int16_t t_tcpPort, boost::asio::ip::address t_ip)
     : m_ioService(),
-    m_tcpAcceptor(m_ioService, ip::tcp::endpoint(ip::tcp::v4(), t_tcpPort)),
+    m_tcpAcceptor(m_ioService, ip::tcp::endpoint(t_ip, t_tcpPort)),
     m_socket(m_ioService),
-    m_tcpPort(t_tcpPort),
     m_clients(std::make_shared<std::map<int, ip::tcp::socket>>())
 {
-    printTrace("Server started on port " + std::to_string(m_tcpPort));
+    printTrace("Server started on ip " + t_ip.to_string() + " and port " + std::to_string(t_tcpPort));
     startAccept();
 }
 
@@ -38,7 +37,6 @@ tcpSocket::~tcpSocket()
 
 void tcpSocket::run()
 {
-    // Start the io_service object on the background thread
     m_ioServiceThread = std::thread([this]() { m_ioService.run(); });
 }
 
@@ -54,13 +52,11 @@ void tcpSocket::startRead(int clientId)
     auto& clientSocket = m_clients->at(clientId);
     clientSocket.async_read_some(buffer(m_readBuffer),
         [this, clientId](boost::system::error_code ec, std::size_t bytesTransferred) {
-            binaryConverter converter;
-            if (ec == error::eof) { // Client disconnected
+            if (ec == error::eof) {
                 removeClient(clientId);
             } else if (!ec) {
-                handleRead(clientId, bytesTransferred); // Handle the received message
-                sendMessage(clientId, converter.convertStructToFirstMessage(clientId));
-                startRead(clientId); // Continue reading
+                handleRead(clientId, bytesTransferred);
+                startRead(clientId);
             } else {
                 printError("Error reading from client " + std::to_string(clientId) + ": " + ec.message());
                 removeClient(clientId);
@@ -86,22 +82,20 @@ void tcpSocket::sendMessage(int clientId, std::vector<char> message)
 void tcpSocket::startAccept()
 {
     m_tcpAcceptor.async_accept(m_socket, [this](boost::system::error_code ec) {
+        binaryConverter converter;
         if (!ec) {
             printInfo("New client connected");
             m_clients->insert_or_assign(nextClientId, std::move(m_socket));
             printTrace("Number of clients: " + std::to_string(m_clients->size()));
-            ++nextClientId;
-
-            // Start reading from the socket of the newly connected client
-            auto clientId = nextClientId - 1;
-            startRead(clientId);
-
-            // Continue accepting more clients
+            nextClientId++;
+            setNewClient(true);
+            sendMessage((nextClientId - 1), converter.convertInputToBinary(input_t{(unsigned int)(nextClientId - 1), sf::Keyboard::Unknown, false}));
+            startRead(nextClientId - 1);
             startAccept();
         }
         else {
-            // Handle the error condition, if necessary
             printError("Error accepting client: " + ec.message());
+            return;
         }
     });
 }
@@ -109,6 +103,7 @@ void tcpSocket::startAccept()
 void tcpSocket::removeClient(int clientId)
 {
     m_clients->erase(clientId);
+    nextClientId--;
     printTrace("Client " + std::to_string(clientId) + " disconnected");
     printTrace("Number of clients: " + std::to_string(m_clients->size()));
 }

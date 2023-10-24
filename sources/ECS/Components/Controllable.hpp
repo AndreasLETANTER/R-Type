@@ -17,11 +17,27 @@ namespace Component {
              * @brief The status of the controllable component.
              */
             bool status;
+            /**
+             * @brief The ID of the player controlling the entity.
+             */
+            unsigned int playerId;
+
+            /**
+             * @brief The key map of the controllable component.
+             */
+            std::map<sf::Keyboard::Key, bool> m_keyMapState = {
+                {sf::Keyboard::Z, false},
+                {sf::Keyboard::S, false},
+                {sf::Keyboard::Q, false},
+                {sf::Keyboard::D, false},
+                {sf::Keyboard::Space, false}
+            };
 
             /**
              * @brief Constructor for the Controllable component.
              * @param status The initial status of the component.
+             * @param playerId The ID of the player controlling the entity.
              */
-            inline Controllable(bool status) { this->status = status; }
+            inline Controllable(bool status, unsigned int playerId) { this->status = status; this->playerId = playerId; }
     };
 }

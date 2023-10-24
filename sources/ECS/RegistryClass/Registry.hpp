@@ -19,6 +19,12 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Assets/Assets.hpp"
 
+#define ALL_GAME_INFO_CODE 100
+#define NO_MORE_GAME_INFO_CODE 101
+#define ENTITY_DEATH_CODE 102
+#define ENTITY_SPAWN_CODE 103
+#define ENTITY_MOVE_CODE 104
+
 /**
  * @brief Struct representing a message containing the sprite name and position of an entity.
  */
@@ -26,9 +32,23 @@ typedef struct message_s {
     char sprite_name[128] = {0}; /**< The name of the sprite associated with the entity. */
     double x; /**< The x-coordinate of the entity's position. */
     double y; /**< The y-coordinate of the entity's position. */
+    unsigned int entity_id; /**< The id of the entity. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
-    Component::Position position; /**< The position of the rect. */
+    Component::Position scale; /**< The scale of the texture. */
 } message_t;
+
+typedef struct packet_s
+{
+    unsigned int messageType;
+    message_t message;
+} packet_t;
+
+typedef struct input_s
+{
+    unsigned int id;
+    sf::Keyboard::Key key;
+    bool pressed;
+} input_t;
 
 /**
  * @brief The Registry class is responsible for managing entities and their components.
@@ -110,12 +130,27 @@ class Registry {
         Entity spawn_entity();
 
         /**
+         * @brief Spawns a new entity in the registry.
+         * 
+         * @return Entity The newly spawned entity.
+         */
+        Entity spawn_entity(unsigned int id);
+
+        /**
          * @brief Returns the entity corresponding to a given index in the registry.
          * 
          * @param idx The index of the entity to get.
          * @return Entity The entity corresponding to the given index.
          */
         Entity entity_from_index(std ::size_t idx);
+
+        /**
+         * @brief Returns the entity associated with the given ID.
+         * 
+         * @param id The ID of the entity to retrieve.
+         * @return Entity The entity associated with the given ID.
+         */
+        Entity entity_from_id(unsigned int id);
 
         /**
          * @brief Kills an entity in the registry.
@@ -185,10 +220,11 @@ class Registry {
 
         /**
          * @brief Exports the registry's entities and components to an array of messages.
+         * @param needAllGameInfo If true, all the game info will be sent.
          * 
          * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
          */
-        std::pair<message_t *, size_t>exportToMessages();
+        std::vector<packet_t> exportToPackets(bool needAllGameInfo = false);
 
         /**
          * @brief Imports entities from an array of messages.
@@ -197,7 +233,7 @@ class Registry {
          * @param size Size of the array of messages.
          * @param window The window to draw the entities in.
          */
-        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window);
         /**
          * @brief Returns the assets of the registry.
          * 
@@ -205,6 +241,13 @@ class Registry {
          */
         Assets &get_assets();
 
+        /**
+         * @brief Update the key pressed of an entity.
+         * 
+         * @param input The input of the entity.
+         */
+        void updateEntityKeyPressed(input_t input);
+ 
         /**
          * @brief Returns true or false if all players are dead or not.
          * 
@@ -220,11 +263,14 @@ class Registry {
          * @return false if not all enemies are dead.
         */
         bool enemiesAreDead();
+
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
-        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
+        SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
+        SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
+        SparseArray<Component::Position> m_previous_positions;
         Assets m_assets; /**< The assets of the registry. */
 };
 

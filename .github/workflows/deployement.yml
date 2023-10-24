@@ -66,6 +66,11 @@ jobs:
     container:
       image: epitechcontent/epitest-docker
     steps:
+      - name: Cache pulled image
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-epitechcontent-epitest-docker
       - name: Fetch repository
         uses: actions/checkout@v3
         with:
@@ -80,8 +85,8 @@ jobs:
         run: |
           mkdir build
           cmake -B build
-          make server -C build
-          make client -C build
+          make server -C build -j$($(nproc))
+          make client -C build -j$($(nproc))
       - name: Check if binaries exist
         run: |
           echo "summary=| Check if executables exist " >> $GITHUB_OUTPUT
@@ -97,7 +102,7 @@ jobs:
         run: |
           export DISPLAY=:99
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-          make tests_run -C build
+          make tests_run -C build -j$($(nproc))
           if [ $? -eq 0 ]; then
             echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           else

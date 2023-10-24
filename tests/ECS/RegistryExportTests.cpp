@@ -14,7 +14,7 @@
 #include "../../sources/ECS/Components/Velocity.hpp"
 #include "../../sources/ECS/Components/Drawable.hpp"
 
-Test(Registry, basic_exportToMessages)
+Test(Registry, basic_exportToPackets)
 {
     Registry reg;
 
@@ -25,18 +25,17 @@ Test(Registry, basic_exportToMessages)
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity1, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
+    reg.add_component<Component::Drawable>(entity1, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
-    cr_assert_eq(strcmp(messages[0].sprite_name, "BurpTemporaryBullet.png"), 0);
-    cr_assert_eq(messages[0].x, 0);
-    cr_assert_eq(messages[0].y, 0);
-    cr_assert_eq(size, 1);
+    cr_assert_eq(strcmp(packets[0].message.sprite_name, "BulletSprite.png"), 0);
+    cr_assert_eq(packets[0].message.x, 0);
+    cr_assert_eq(packets[0].message.y, 0);
+    cr_assert_eq(packets.size(), 2);
 }
 
-Test(Registry, 2_spawn_exportToMessages)
+Test(Registry, 2_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -46,27 +45,25 @@ Test(Registry, 2_spawn_exportToMessages)
 
     auto entity1 = reg.spawn_entity();
     auto entity2 = reg.spawn_entity();
-    reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity1, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
+    reg.add_component<Component::Drawable>(entity1, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     reg.add_component<Component::Position>(entity2, Component::Position(3, 5));
     reg.add_component<Component::Velocity>(entity2, Component::Velocity(0, 0));
-    reg.add_component<Component::Drawable>(entity2, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
+    reg.add_component<Component::Drawable>(entity2, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
-    cr_assert_eq(strcmp(messages[0].sprite_name, "BurpTemporaryBullet.png"), 0);
-    cr_assert_eq(messages[0].x, 0);
-    cr_assert_eq(messages[0].y, 0);
-    cr_assert_eq(strcmp(messages[1].sprite_name, "BurpTemporaryBullet.png"), 0);
-    cr_assert_eq(messages[1].x, 3);
-    cr_assert_eq(messages[1].y, 5);
-    cr_assert_eq(size, 2);
+    cr_assert_eq(strcmp(packets[0].message.sprite_name, "BulletSprite.png"), 0);
+    cr_assert_eq(packets[0].message.x, 0);
+    cr_assert_eq(packets[0].message.y, 0);
+    cr_assert_eq(strcmp(packets[1].message.sprite_name, "BulletSprite.png"), 0);
+    cr_assert_eq(packets[1].message.x, 3);
+    cr_assert_eq(packets[1].message.y, 5);
+    cr_assert_eq(packets.size(), 4);
 }
 
-Test(Registry, 50_spawn_exportToMessages)
+Test(Registry, 50_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -78,21 +75,20 @@ Test(Registry, 50_spawn_exportToMessages)
         auto entity = reg.spawn_entity();
         reg.add_component<Component::Position>(entity, Component::Position(i, i));
         reg.add_component<Component::Velocity>(entity, Component::Velocity(0, 0));
-        reg.add_component<Component::Drawable>(entity, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
+        reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
     for (int i = 0; i < 50; i++) {
-        cr_assert_eq(strcmp(messages[i].sprite_name, "BurpTemporaryBullet.png"), 0);
-        cr_assert_eq(messages[i].x, i);
-        cr_assert_eq(messages[i].y, i);
+        cr_assert_eq(strcmp(packets[i].message.sprite_name, "BulletSprite.png"), 0);
+        cr_assert_eq(packets[i].message.x, i);
+        cr_assert_eq(packets[i].message.y, i);
     }
-    cr_assert_eq(size, 50);
+    cr_assert_eq(packets.size(), 100);
 }
 
-Test(Registry, 800_spawn_exportToMessages)
+Test(Registry, 800_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -104,21 +100,20 @@ Test(Registry, 800_spawn_exportToMessages)
         auto entity = reg.spawn_entity();
         reg.add_component<Component::Position>(entity, Component::Position(i, i));
         reg.add_component<Component::Velocity>(entity, Component::Velocity(0, 0));
-        reg.add_component<Component::Drawable>(entity, Component::Drawable("BurpTemporaryBullet.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BurpTemporaryBullet.png")));
+        reg.add_component<Component::Drawable>(entity, Component::Drawable("BulletSprite.png", nullptr, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), reg.get_assets().get_texture("BulletSprite.png")));
     }
 
-    message_t *messages = reg.exportToMessages().first;
-    size_t size = reg.exportToMessages().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
     for (int i = 0; i < 800; i++) {
-        cr_assert_eq(strcmp(messages[i].sprite_name, "BurpTemporaryBullet.png"), 0);
-        cr_assert_eq(messages[i].x, i);
-        cr_assert_eq(messages[i].y, i);
+        cr_assert_eq(strcmp(packets[i].message.sprite_name, "BulletSprite.png"), 0);
+        cr_assert_eq(packets[i].message.x, i);
+        cr_assert_eq(packets[i].message.y, i);
     }
-    cr_assert_eq(size, 800);
+    cr_assert_eq(packets.size(), 1600);
 }
 
-Test(Registry, no_spawn_exportToMessages)
+Test(Registry, no_spawn_exportToPackets)
 {
     Registry reg;
 
@@ -126,7 +121,7 @@ Test(Registry, no_spawn_exportToMessages)
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
 
-    size_t size = reg.exportToMessages().second;
+    std::vector<packet_t> packets = reg.exportToPackets();
 
-    cr_assert_eq(size, 0);
+    cr_assert_eq(packets.size(), 0);
 }
