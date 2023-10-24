@@ -54,7 +54,7 @@ jobs:
           cmake -B build
       - name: Compile project
         run: |
-          cmake --build build --target $SERVER_BINARY $CLIENT_BINARY --config Release
+          cmake --build build --target server client --config Release
       - name: Check if binaries exist
         run: |
           test -f $SERVER_BINARY.exe
