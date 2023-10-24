@@ -10,7 +10,12 @@ set(ECS_TESTS_NAME "r-type_ecs_tests")
 set(SERVER_TESTS_NAME "r-type_server_tests")
 set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
-set(CXX_FLAGS -Wall -Wextra -Werror)
+
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    set(CXX_FLAGS -Wall -Wextra -Werror)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(CXX_FLAGS -Wall -Wextra)
+endif()
 
 ###############################INSTALL PACKAGES###################################
 include(FetchContent)
@@ -26,6 +31,12 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/hyperrealm/libconfig.git"
 )
 FetchContent_MakeAvailable(libconfig)
+
+if (CMAKE_HOST_WIN32)
+    set(libconfig_name "libconfig")
+else()
+    set(libconfig_name "config")
+endif()
 
 FetchContent_Declare(
     SFML
@@ -162,45 +173,51 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 
 ###############################COMPILATION TESTS##################################
-find_library(CRITERION criterion)
-#create the tests executable with the criterion library
-add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
-target_include_directories(${ECS_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+option(BUILD_TESTS "Build tests using Criterion" ON)
+if(BUILD_TESTS)
+    find_library(CRITERION criterion)
+endif()
 
-add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
-target_include_directories(${SERVER_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+if (CRITERION)
+    #create the tests executable with the criterion library
+    add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
+    target_include_directories(${ECS_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
-add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
-target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
+    add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
+    target_include_directories(${SERVER_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
-add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
-target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
+    add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
+    target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+
+    add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
+    target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+endif()
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
@@ -239,49 +256,51 @@ add_custom_target(client
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
 )
 
-#compile the ecs tests only
-add_custom_target(ecs_tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
-)
+if (CRITERION)
+    #compile the ecs tests only
+    add_custom_target(ecs_tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
+    )
 
-#compile the ecs tests only and run them
-add_custom_target(ecs_tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
-    COMMAND ../${ECS_TESTS_NAME}
-)
+    #compile the ecs tests only and run them
+    add_custom_target(ecs_tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
+        COMMAND ../${ECS_TESTS_NAME}
+    )
 
-#compile the server tests only
-add_custom_target(server_tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
-)
+    #compile the server tests only
+    add_custom_target(server_tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+    )
 
-#compile the server tests only and run them
-add_custom_target(server_tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
-    COMMAND ../${SERVER_TESTS_NAME}
-)
+    #compile the server tests only and run them
+    add_custom_target(server_tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+        COMMAND ../${SERVER_TESTS_NAME}
+    )
 
-#compile the client tests only
-add_custom_target(client_tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
-)
+    #compile the client tests only
+    add_custom_target(client_tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+    )
 
-#compile the client tests only and run them
-add_custom_target(client_tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
-    COMMAND ../${CLIENT_TESTS_NAME}
-)
+    #compile the client tests only and run them
+    add_custom_target(client_tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+        COMMAND ../${CLIENT_TESTS_NAME}
+    )
 
-#compile all the tests
-add_custom_target(tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
-)
+    #compile all the tests
+    add_custom_target(tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
+    )
 
-#compile all the tests and run them
-add_custom_target(tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
-    COMMAND ../${RTYPE_TESTS_NAME}
-)
+    #compile all the tests and run them
+    add_custom_target(tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
+        COMMAND ../${RTYPE_TESTS_NAME}
+    )
+endif()
 
 #compile doxygen documentation
 add_custom_target(doxygen
