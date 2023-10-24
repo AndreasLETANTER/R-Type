@@ -116,7 +116,7 @@ void Parser::loadPlayers()
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
-        m_registry.add_component<Component::Score>(m_registry.entity_from_index(base.id), Component::Score(i + 2, &m_clock));
+        m_registry.add_component<Component::Score>(m_registry.entity_from_index(base.id), Component::Score(0, &m_clock));
     }
 }
 
