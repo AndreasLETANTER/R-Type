@@ -29,7 +29,7 @@ class tcpClientSocket {
          * @param t_tcpPort The TCP port to connect to.
          * @param t_ip The IP address to use.
          */
-        tcpClientSocket(u_int16_t t_tcpPort, ip::address t_ip);
+        tcpClientSocket(unsigned int t_tcpPort, ip::address t_ip);
 
         /**
          * @brief Destroy the tcpClientSocket object
@@ -75,6 +75,6 @@ class tcpClientSocket {
         ip::tcp::endpoint m_endpoint; /**< The TCP endpoint. */
         io_service m_ioService; /**< The io_service object. */
         ip::tcp::socket m_socket; /**< The TCP socket object. */
-        u_int16_t m_udpPort; /**< The UDP port of the client socket. */
+        unsigned int m_udpPort; /**< The UDP port of the client socket. */
         std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The read buffer. */
 };
