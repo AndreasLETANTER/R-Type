@@ -14,7 +14,7 @@
 
 std::atomic<int> nextClientId(1);
 
-tcpSocket::tcpSocket(u_int16_t t_tcpPort, boost::asio::ip::address t_ip)
+tcpSocket::tcpSocket(unsigned int t_tcpPort, boost::asio::ip::address t_ip)
     : m_ioService(),
     m_tcpAcceptor(m_ioService, ip::tcp::endpoint(t_ip, t_tcpPort)),
     m_socket(m_ioService),
