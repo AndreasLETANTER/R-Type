@@ -65,8 +65,8 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
     registry.add_system<Component::Health>(HealthSystem());
-    registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
     registry.add_system<Component::Score>(ScoreSystem());
+    registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score>(ProjectileCollisionSystem());
 
     parser.loadFromFile();
 

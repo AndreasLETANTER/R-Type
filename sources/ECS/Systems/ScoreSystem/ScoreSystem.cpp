@@ -19,7 +19,7 @@ ScoreSystem ScoreSystem::operator()(Registry &registry, SparseArray<Component::S
                 score->score += 1;
                 score->lastScoreIncrease = score->clock->getElapsedTime();
             }
-            // std::cout << "Score: " << score->score << std::endl;
+            // std::cout << "Score[" << i << "]: " << score->score << std::endl;
         }
     }
     return *this;
