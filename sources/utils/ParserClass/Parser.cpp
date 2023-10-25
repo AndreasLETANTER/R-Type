@@ -20,6 +20,15 @@
 #include "ECS/Components/Health.hpp"
 #include "ECS/Components/Score.hpp"
 
+std::map<std::string, EntityClasses> entityClassesMap = {
+    {"NUGO", EntityClasses::NUGO},
+    {"ANDREAS", EntityClasses::ANDREAS},
+    {"ELIOT", EntityClasses::ELIOT},
+    {"LOUIS", EntityClasses::LOUIS},
+    {"MOB_ORANGE_CRAB", EntityClasses::MOB_ORANGE_CRAB},
+    {"MOB_YELLOW_POPCORN", EntityClasses::MOB_YELLOW_POPCORN}
+};
+
 Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesContents) :
     m_registry(registry),
     m_window(window),
@@ -106,8 +115,8 @@ void Parser::loadPlayers()
         base.rectY = players[i]["rect"]["y"];
         base.rectWidth = players[i]["rect"]["width"];
         base.rectHeight = players[i]["rect"]["height"];
-        int classValue = players[i]["class"];
-        EntityClasses classEnum = static_cast<EntityClasses>(classValue);
+        std::string classValue = players[i]["class"];
+        EntityClasses classEnum = entityClassesMap[classValue];
 
         m_registry.spawn_entity();
         Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(classEnum);
@@ -174,10 +183,8 @@ void Parser::loadEnemies()
         base.rectY = enemies[i]["rect"]["y"];
         base.rectWidth = enemies[i]["rect"]["width"];
         base.rectHeight = enemies[i]["rect"]["height"];
-        int rotation = enemies[i]["rotation"];
-        int classValue = enemies[i]["class"];
-        EntityClasses classEnum = static_cast<EntityClasses>(classValue);
-        (void) rotation;
+        std::string classValue = enemies[i]["class"];
+        EntityClasses classEnum = entityClassesMap[classValue];
 
         m_registry.spawn_entity();
         Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(classEnum);

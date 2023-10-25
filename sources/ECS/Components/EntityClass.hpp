@@ -18,6 +18,8 @@ enum EntityClasses {
     MOB_YELLOW_POPCORN
 };
 
+extern std::map<std::string, EntityClasses> entityClassesMap;
+
 namespace Component {
     /**
      * @brief The EntityClass class represents the class of an entity.
