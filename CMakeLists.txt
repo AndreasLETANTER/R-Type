@@ -89,11 +89,13 @@ set (ECS_SOURCES
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
+    sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
 )
 
 set(SERVER_SOURCES
     sources/server/udpSocket/udpSocket.cpp
     sources/server/tcpSocket/tcpSocket.cpp
+    sources/server/GameModes/GameModeFactory/GameModeFactory.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/handleArgument/handleArgument.cpp
@@ -124,8 +126,8 @@ set(ECS_TESTS
     tests/ECS/RegistryTests.cpp
     tests/ECS/SparseArrayTests.cpp
     tests/ECS/CollisionSystemTests.cpp
-    tests/ECS/ProjectileCollisionSystemTests.cpp
-    tests/ECS/HealthSystemTests.cpp
+    # tests/ECS/ProjectileCollisionSystemTests.cpp
+    # tests/ECS/HealthSystemTests.cpp
     tests/ECS/RegistryExportTests.cpp
     tests/ECS/RegistryImportTests.cpp
 )

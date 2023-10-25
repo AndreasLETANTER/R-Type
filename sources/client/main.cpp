@@ -21,7 +21,7 @@
 
 /**
  * @brief Updates the game state by processing packets received from the server.
- * 
+ *
  * @param udpClient The UDP client socket used to receive packets.
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
@@ -72,7 +72,23 @@ int main(int ac, char **av)
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
     MainMenu mainMenu(window, assets);
-  
+        TextButton scoreButton = TextButton()
+        .setButtonPosition(sf::Vector2f(0, 0))
+        .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::Transparent)
+        .setButtonOutlineThickness(1)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Transparent)
+        .setTextString("Score: ")
+        .setTextSize(window.getSize(), 15)
+        .setTextFont(assets.get_font("font.ttf"))
+        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
+        .setTextColor(sf::Color::White)
+        .setTextHoverColor(sf::Color::Transparent)
+        .setCallback([]() {
+        });
+
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {
@@ -87,6 +103,7 @@ int main(int ac, char **av)
         update_game_from_packets(udpClient, registry, needGameInfos, &window);
         window.clear();
         registry.run_systems();
+        scoreButton.draw(window);
         window.display();
     }
     return 0;
