@@ -38,12 +38,17 @@ namespace Component {
              * @brief The damage of the projectile.
              */
             size_t damage;
+
+            /**
+             * @brief The id of the shooter.
+             */
+            int shooterId;
             /**
              * @brief Constructor for Projectile class that initializes the end position and speed of the projectile.
              * @param end The end position of the projectile.
              * @param speed The speed of the projectile in pixels per second.
              * @param damage The damage of the projectile.
              */
-            inline Projectile(Component::Position start, Component::Position end, size_t speed, size_t damage) { this->start = start; this->end = end; this->speed = speed; this->damage = damage; }
+            inline Projectile(Component::Position start, Component::Position end, size_t speed, size_t damage, int id) { this->start = start; this->end = end; this->speed = speed; this->damage = damage; this->shooterId = id; }
     };
 }

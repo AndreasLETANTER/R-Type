@@ -50,6 +50,7 @@ class AShootingPattern : public IShootingPattern {
          * @param initialPos The initial position of the projectile.
          * @param endPos The end position of the projectile.
          * @param damage The damage of the projectile.
+         * @param playerId The id of the player.
          */
-        void createProjectile(Registry &registry, Component::Drawable &draw, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage);
+        void createProjectile(Registry &registry, Component::Drawable &draw, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage, int playerId);
 };

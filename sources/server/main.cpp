@@ -22,6 +22,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
 #include "../../build/assets/Level1Config.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
 #include "udpSocket/udpSocket.hpp"
@@ -53,6 +54,7 @@ int main(const int ac, const char **av)
     registry.register_component<Component::Collision>();
     registry.register_component<Component::Scroll>();
     registry.register_component<Component::Health>();
+    registry.register_component<Component::Score>();
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -63,7 +65,9 @@ int main(const int ac, const char **av)
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
     registry.add_system<Component::Health>(HealthSystem());
-    registry.add_system<Component::Projectile, Component::Collision, Component::Health>(ProjectileCollisionSystem());
+    registry.add_system<Component::Score>(ScoreSystem());
+    registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score>(ProjectileCollisionSystem());
+
     parser.loadFromFile();
 
     tcpServer.run();
