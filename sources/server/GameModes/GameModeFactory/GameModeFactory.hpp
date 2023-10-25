@@ -12,6 +12,7 @@
 #include <string>
 #include <functional>
 
+#include "server/GameModes/EndlessMode.hpp"
 #include "server/GameModes/IGameMode.hpp"
 
 /// @brief Factory for GameMode class
@@ -27,5 +28,8 @@ class GameModeFactory {
         std::unordered_map<std::string,
             std::function<std::unique_ptr<IGameMode>(bool isMultiplayer)>>
             m_gameModeMap = {
-        };
+                {"Endless", [](bool isMultiplayer) {
+                    return std::make_unique<EndlessMode>(isMultiplayer);
+                }}
+            };
 };

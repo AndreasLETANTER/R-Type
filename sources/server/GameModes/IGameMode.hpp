@@ -18,6 +18,8 @@ class IGameMode {
         /// @brief Run the game mode
         virtual void run() = 0;
 
+        virtual void init() = 0;
+
         /// @brief Get the multiplayer status of the game mode
         virtual bool isMultiplayer() const = 0;
 };

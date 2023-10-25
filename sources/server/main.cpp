@@ -29,6 +29,7 @@
 #include "udpSocket/udpSocket.hpp"
 #include "tcpSocket/tcpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
+#include "GameModes/GameModeFactory/GameModeFactory.hpp"
 
 #define TICKRATE 64
 
@@ -44,6 +45,8 @@ int main(const int ac, const char **av)
     Registry registry(Assets(), &window);
     std::vector<std::string> filePath = {Level1Config};
     Parser parser(registry, window, clock, filePath);
+    std::unique_ptr<IGameMode> gameMode = GameModeFactory().createGameMode("Endless", true);
+
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();
