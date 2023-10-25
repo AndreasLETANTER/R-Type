@@ -90,7 +90,6 @@ entities: {
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
             class = 4;
-            shootingPattern = 0;
         },
         {
             id = 8;
@@ -102,7 +101,6 @@ entities: {
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
             class = 5;
-            shootingPattern = 1;
         },
         {
             id = 9;
@@ -114,7 +112,6 @@ entities: {
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
             class = 4;
-            shootingPattern = 4;
         },
         {
             id = 10;
@@ -126,7 +123,6 @@ entities: {
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
             class = 5;
-            shootingPattern = 3;
         }
     );
 };
