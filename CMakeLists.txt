@@ -93,7 +93,7 @@ set (ECS_SOURCES
 set(SERVER_SOURCES
     sources/server/udpSocket/udpSocket.cpp
     sources/server/tcpSocket/tcpSocket.cpp
-    sources/server/GameMode/GameModeFactory/GameModeFactory.cpp
+    sources/server/GameModes/GameModeFactory/GameModeFactory.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/handleArgument/handleArgument.cpp
