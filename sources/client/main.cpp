@@ -20,7 +20,6 @@
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 #include "ECS/Assets/Assets.hpp"
-#include "client/PlayMenu/PlayMenu.hpp"
 
 int main(int ac, char **av)
 {
@@ -59,6 +58,10 @@ int main(int ac, char **av)
                 sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
                 window.setView(sf::View(visibleArea));
                 mainMenu.resize();
+            }
+            if (event.type == sf::Event::KeyPressed) {
+                std::cout << "Key pressed" << std::endl;
+                std::cout << event.key.code << std::endl;
             }
         }
         window.clear();

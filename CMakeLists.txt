@@ -92,7 +92,6 @@ set(CLIENT_SOURCES
     sources/client/MainMenu/MainMenu.cpp
     sources/client/Network/Network.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
-    sources/client/PlayMenu/PlayMenu.cpp
 )
 
 set(SERVER_MAIN

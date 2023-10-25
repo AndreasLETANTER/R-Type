@@ -12,7 +12,6 @@
 #include "client/Buttons/TextButton/TextButton.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
-#include "client/PlayMenu/PlayMenu.hpp"
 
 /// @brief Class to create the main menu with Play and Quit buttons
 class MainMenu {
@@ -35,7 +34,6 @@ class MainMenu {
         sf::RenderWindow &m_window;
         Assets &m_assets;
         Registry &m_registry;
-        PlayMenu m_playMenu;
         std::vector<TextButton> m_buttons;
         sf::Font m_font;
         bool m_isPlayMenuOpen = false;
