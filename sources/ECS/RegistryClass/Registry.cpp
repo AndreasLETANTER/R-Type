@@ -17,8 +17,10 @@
 #include "ECS/Components/Shoot.hpp"
 
 
-Registry::Registry(Assets assets) : m_assets(assets)
+Registry::Registry(Assets assets, sf::RenderWindow *window)
+    : m_assets(assets), m_window(window)
 {
+
 }
 
 Entity Registry::spawn_entity()
@@ -270,4 +272,9 @@ bool Registry::enemiesAreDead()
         return true;
     }
     return false;
+}
+
+sf::RenderWindow *Registry::getWindow() const
+{
+    return m_window;
 }

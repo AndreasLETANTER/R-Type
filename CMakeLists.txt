@@ -85,6 +85,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
+    sources/ECS/Systems/WaveSystem/WaveSystem.cpp
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp

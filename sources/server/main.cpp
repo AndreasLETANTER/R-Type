@@ -22,6 +22,7 @@
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
+#include "ECS/Systems/WaveSystem/WaveSystem.hpp"
 #include "../../build/assets/Level1Config.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
 #include "udpSocket/udpSocket.hpp"
@@ -37,10 +38,9 @@ int main(const int ac, const char **av)
     binaryConverter converter;
     tcpSocket tcpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[3]));
     udpSocket udpServer(handleArgument.getPort(av[2]), handleArgument.getIp(av[3]));
-
-    Registry registry;
     sf::Clock clock;
     sf::RenderWindow window;
+    Registry registry(Assets(), &window);
     std::vector<std::string> filePath = {Level1Config};
     Parser parser(registry, window, clock, filePath);
     registry.register_component<Component::Position>();
