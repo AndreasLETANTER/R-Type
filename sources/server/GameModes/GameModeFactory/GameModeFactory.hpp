@@ -13,9 +13,6 @@
 #include <functional>
 
 #include "server/GameModes/IGameMode.hpp"
-#include "server/GameModes/WaveGameMode/WaveGameMode.hpp"
-#include "server/GameModes/EndlessGameMode/EndlessGameMode.hpp"
-#include "server/GameModes/PvpGameMode/PvpGameMode.hpp"
 
 /// @brief Factory for GameMode class
 class GameModeFactory {
