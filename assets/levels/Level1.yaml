@@ -37,6 +37,7 @@ entities: {
             health = 100;
             damage = 5;
             shootingDelay = 500;
+            speed = 5;
         },
         {
             id = 3;
@@ -48,6 +49,7 @@ entities: {
             health = 100;
             damage = 5;
             shootingDelay = 500;
+            speed = 5;
         },
         {
             id = 4;
@@ -59,6 +61,7 @@ entities: {
             health = 100;
             damage = 5;
             shootingDelay = 500;
+            speed = 5;
         },
         {
             id = 5;
@@ -70,6 +73,7 @@ entities: {
             health = 100;
             damage = 5;
             shootingDelay = 500;
+            speed = 5;
         }
     );
 
@@ -100,6 +104,7 @@ entities: {
             health = 10;
             damage = 25;
             shootingDelay = 3000;
+            speed = 5;
             shootingPattern = 0;
         },
         {
@@ -114,6 +119,7 @@ entities: {
             health = 5;
             damage = 25;
             shootingDelay = 3000;
+            speed = 5;
             shootingPattern = 1;
         },
         {
@@ -128,6 +134,7 @@ entities: {
             health = 10;
             damage = 25;
             shootingDelay = 3000;
+            speed = 5;
             shootingPattern = 4;
         },
         {
@@ -142,6 +149,7 @@ entities: {
             health = 5;
             damage = 25;
             shootingDelay = 3000;
+            speed = 5;
             shootingPattern = 3;
         }
     );

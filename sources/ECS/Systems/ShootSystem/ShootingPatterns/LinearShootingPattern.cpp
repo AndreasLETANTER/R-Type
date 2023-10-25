@@ -22,7 +22,7 @@ void LinearShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, C
         shoot.lastShot = shoot.clock->getElapsedTime();
         auto &projectileDraw = registry.add_component<Component::Drawable>(projectile, Component::Drawable(shoot.bulletSpriteName, window, sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), registry.get_assets().get_texture(shoot.bulletSpriteName)));
         registry.add_component<Component::Position>(projectile, Component::Position(x + projectileDraw.value().sprite.getTextureRect().width + 1, y));
-        registry.add_component<Component::Velocity>(projectile, Component::Velocity(0, 0));
+        registry.add_component<Component::Velocity>(projectile, Component::Velocity(0, 0, 5));
         registry.add_component<Component::Position>(projectile, Component::Position((x + (projectileDraw.value().sprite.getTextureRect().width + 1) * shoot.direction), y));
         registry.add_component<Component::Projectile>(projectile, Component::Projectile(Component::Position((x + (projectileDraw.value().sprite.getTextureRect().width + 1) * shoot.direction), y), Component::Position(shoot.offsetLimit * shoot.direction, y), 10, shoot.damage, shoot.playerId));
         registry.add_component<Component::Collision>(projectile, Component::Collision(projectileDraw.value().sprite.getTextureRect().height, projectileDraw.value().sprite.getTextureRect().width));
