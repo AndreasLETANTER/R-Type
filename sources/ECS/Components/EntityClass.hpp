@@ -12,7 +12,7 @@ enum EntityClasses {
     ANDREAS,
     ELIOT,
     LOUIS,
-    MOB_CRAB,
+    MOB_ORANGE_CRAB,
     MOB_YELLOW_POPCORN
 };
 
@@ -59,7 +59,7 @@ namespace Component {
                         return EntityClass(100, 5, 500, 5);
                     case EntityClasses::LOUIS:
                         return EntityClass(100, 5, 500, 5);
-                    case EntityClasses::MOB_CRAB:
+                    case EntityClasses::MOB_ORANGE_CRAB:
                         return EntityClass(10, 25, 3000, 5);
                     case EntityClasses::MOB_YELLOW_POPCORN:
                         return EntityClass(10, 25, 3000, 5);

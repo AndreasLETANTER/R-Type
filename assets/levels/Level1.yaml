@@ -34,10 +34,7 @@ entities: {
             position = { x = 150; y = 300; };
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 2; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-            shootingDelay = 500;
-            speed = 5;
+            class = 0
         },
         {
             id = 3;
@@ -46,10 +43,7 @@ entities: {
             position = { x = 200; y = 400; };
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 19; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-            shootingDelay = 500;
-            speed = 5;
+            class = 1;
         },
         {
             id = 4;
@@ -58,10 +52,7 @@ entities: {
             position = { x = 150; y = 500; };
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 36; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-            shootingDelay = 500;
-            speed = 5;
+            class = 2;
         },
         {
             id = 5;
@@ -70,10 +61,7 @@ entities: {
             position = { x = 200; y = 600; };
             scale = { x = 102; y = 57; };
             rect = { x = 0; y = 53; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-            shootingDelay = 500;
-            speed = 5;
+            class = 3;
         }
     );
 
@@ -101,10 +89,7 @@ entities: {
             scale = { x = 99; y = 87; };
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
-            health = 10;
-            damage = 25;
-            shootingDelay = 3000;
-            speed = 5;
+            class = 4;
             shootingPattern = 0;
         },
         {
@@ -116,10 +101,7 @@ entities: {
             scale = { x = 87; y = 84; };
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
-            health = 5;
-            damage = 25;
-            shootingDelay = 3000;
-            speed = 5;
+            class = 5;
             shootingPattern = 1;
         },
         {
@@ -131,10 +113,7 @@ entities: {
             scale = { x = 99; y = 87; };
             rect = { x = 0; y = 1; width = 33; height = 29; };
             rotation = 0;
-            health = 10;
-            damage = 25;
-            shootingDelay = 3000;
-            speed = 5;
+            class = 4;
             shootingPattern = 4;
         },
         {
@@ -146,10 +125,7 @@ entities: {
             scale = { x = 87; y = 84; };
             rect = { x = 4; y = 4; width = 29; height = 28; };
             rotation = 0;
-            health = 5;
-            damage = 25;
-            shootingDelay = 3000;
-            speed = 5;
+            class = 5;
             shootingPattern = 3;
         }
     );

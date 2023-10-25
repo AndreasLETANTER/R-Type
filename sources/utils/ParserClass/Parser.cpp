@@ -106,9 +106,11 @@ void Parser::loadPlayers()
         base.rectY = players[i]["rect"]["y"];
         base.rectWidth = players[i]["rect"]["width"];
         base.rectHeight = players[i]["rect"]["height"];
+        int classValue = players[i]["class"];
+        EntityClasses classEnum = static_cast<EntityClasses>(classValue);
 
         m_registry.spawn_entity();
-        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(EntityClasses::NUGO);
+        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(classEnum);
         m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), std::move(entityClass));
         m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClass::CreateEntityClass(EntityClasses::NUGO));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
@@ -173,12 +175,14 @@ void Parser::loadEnemies()
         base.rectWidth = enemies[i]["rect"]["width"];
         base.rectHeight = enemies[i]["rect"]["height"];
         int rotation = enemies[i]["rotation"];
+        int classValue = enemies[i]["class"];
+        EntityClasses classEnum = static_cast<EntityClasses>(classValue);
         int pattern = enemies[i]["shootingPattern"];
         ShootingPattern sPattern = static_cast<ShootingPattern>(pattern);
         (void) rotation;
 
         m_registry.spawn_entity();
-        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(EntityClasses::MOB_CRAB);
+        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(classEnum);
         m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), std::move(entityClass));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClass.speed));
