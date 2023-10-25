@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Parser.hpp"
+#include "ECS/Components/EntityClass.hpp"
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
 #include "ECS/Components/Scroll.hpp"
@@ -105,19 +106,18 @@ void Parser::loadPlayers()
         base.rectY = players[i]["rect"]["y"];
         base.rectWidth = players[i]["rect"]["width"];
         base.rectHeight = players[i]["rect"]["height"];
-        int health = players[i]["health"];
-        int damage = players[i]["damage"];
-        int shootingDelay = players[i]["shootingDelay"];
-        int speed = players[i]["speed"];
 
         m_registry.spawn_entity();
+        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(EntityClasses::NUGO);
+        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), std::move(entityClass));
+        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClass::CreateEntityClass(EntityClasses::NUGO));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, speed));
+        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClass.speed));
         m_registry.add_component<Component::Controllable>(m_registry.entity_from_index(base.id), Component::Controllable(true, i + 1));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, LINEAR, &m_clock, sf::Time(sf::milliseconds(shootingDelay)), damage, projectileAssetName, 1, 1920));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, LINEAR, &m_clock, sf::Time(sf::milliseconds(entityClass.shootingDelay)), entityClass.damage, projectileAssetName, 1, 1920));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
-        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClass.health));
         m_registry.add_component<Component::Score>(m_registry.entity_from_index(base.id), Component::Score(0, &m_clock));
     }
 }
@@ -173,21 +173,19 @@ void Parser::loadEnemies()
         base.rectWidth = enemies[i]["rect"]["width"];
         base.rectHeight = enemies[i]["rect"]["height"];
         int rotation = enemies[i]["rotation"];
-        int health = enemies[i]["health"];
-        int damage = enemies[i]["damage"];
-        int shootingDelay = enemies[i]["shootingDelay"];
-        int speed = enemies[i]["speed"];
         int pattern = enemies[i]["shootingPattern"];
         ShootingPattern sPattern = static_cast<ShootingPattern>(pattern);
         (void) rotation;
 
         m_registry.spawn_entity();
+        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(EntityClasses::MOB_CRAB);
+        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), std::move(entityClass));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, speed));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, sPattern, &m_clock, sf::Time(sf::milliseconds(shootingDelay)), damage, projectileAssetName, -1, 0));
+        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClass.speed));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, sPattern, &m_clock, sf::Time(sf::milliseconds(entityClass.shootingDelay)), entityClass.damage, projectileAssetName, -1, 0));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
         m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(automove_x, automove_y)));
-        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClass.health));
     }
 }
