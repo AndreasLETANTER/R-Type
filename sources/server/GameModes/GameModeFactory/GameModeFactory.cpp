@@ -13,9 +13,11 @@ GameModeFactory::GameModeFactory()
 {
 }
 
-std::unique_ptr<IGameMode> GameModeFactory::createGameMode(const std::string &gameModeName)
+std::unique_ptr<IGameMode>
+    GameModeFactory::createGameMode(const std::string &gameModeName,
+    bool isMultiplayer)
 {
     if (m_gameModeMap.find(gameModeName) == m_gameModeMap.end())
         throw std::runtime_error("GameModeFactory: GameMode not found");
-    return m_gameModeMap[gameModeName]();
+    return m_gameModeMap[gameModeName](isMultiplayer);
 }

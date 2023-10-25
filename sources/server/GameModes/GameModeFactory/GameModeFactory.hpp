@@ -23,8 +23,12 @@ class GameModeFactory {
         GameModeFactory();
         ~GameModeFactory() = default;
 
-        std::unique_ptr<IGameMode> createGameMode(const std::string &gameModeName);
+        std::unique_ptr<IGameMode>
+            createGameMode(const std::string &gameModeName,
+            bool isMultiplayer = false);
     private:
-        std::unordered_map<std::string, std::function<std::unique_ptr<IGameMode>()>> m_gameModeMap = {
+        std::unordered_map<std::string,
+            std::function<std::unique_ptr<IGameMode>(bool isMultiplayer)>>
+            m_gameModeMap = {
         };
 };
