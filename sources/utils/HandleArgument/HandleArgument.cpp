@@ -7,10 +7,10 @@
 
 #include <iostream>
 
-#include "utils/handleArgument/handleArgument.hpp"
+#include "utils/HandleArgument/HandleArgument.hpp"
 #include "utils/debugColors/debugColors.hpp"
 
-uint16_t handleArgument::getPort(char const *t_av) const
+uint16_t HandleArgument::getPort(char const *t_av) const
 {
     uint16_t port = DEFAULT_PORT;
 
@@ -25,7 +25,7 @@ uint16_t handleArgument::getPort(char const *t_av) const
     return port;
 }
 
-void handleArgument::check_if_number(std::string const &t_str) const
+void HandleArgument::check_if_number(std::string const &t_str) const
 {
     if (t_str.empty()) {
         throw std::invalid_argument("Invalid argument: empty string");
@@ -37,7 +37,7 @@ void handleArgument::check_if_number(std::string const &t_str) const
     }
 }
 
-boost::asio::ip::address handleArgument::getIp(char const *t_av) const
+boost::asio::ip::address HandleArgument::getIp(char const *t_av) const
 {
     boost::asio::ip::address ip = boost::asio::ip::address::from_string("0.0.0.0");
     
