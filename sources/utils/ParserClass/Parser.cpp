@@ -105,30 +105,25 @@ void Parser::loadPlayers()
 
     for (int i = 0; i < players.getLength(); i++) {
         base.id = players[i]["id"];
-        base.assetName = players[i]["assetName"].c_str();
-        std::string projectileAssetName = players[i]["projectileAssetName"];
+        std::string classValue = players[i]["class"];
+        EntityClasses classEnum = entityClassesMap[classValue];
         base.posX = players[i]["position"]["x"];
         base.posY = players[i]["position"]["y"];
-        base.scaleX = players[i]["scale"]["x"];
-        base.scaleY = players[i]["scale"]["y"];
         base.rectX = players[i]["rect"]["x"];
         base.rectY = players[i]["rect"]["y"];
         base.rectWidth = players[i]["rect"]["width"];
         base.rectHeight = players[i]["rect"]["height"];
-        std::string classValue = players[i]["class"];
-        EntityClasses classEnum = entityClassesMap[classValue];
 
         m_registry.spawn_entity();
-        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(classEnum);
-        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), std::move(entityClass));
-        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClass::CreateEntityClass(EntityClasses::NUGO));
+        Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
+        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClassFactory::CreateEntityClass(classEnum));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClass.speed));
+        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClassTmp.speed));
         m_registry.add_component<Component::Controllable>(m_registry.entity_from_index(base.id), Component::Controllable(true, i + 1));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, LINEAR, &m_clock, sf::Time(sf::milliseconds(entityClass.shootingDelay)), entityClass.damage, projectileAssetName, 1, 1920));
-        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, LINEAR, &m_clock, sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, 1, 1920));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(entityClassTmp.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), m_registry.get_assets().get_texture(entityClassTmp.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
-        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClass.health));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClassTmp.health));
         m_registry.add_component<Component::Score>(m_registry.entity_from_index(base.id), Component::Score(0, &m_clock));
     }
 }
@@ -171,30 +166,22 @@ void Parser::loadEnemies()
 
     for (int i = 0; i < enemies.getLength(); i++) {
         base.id = enemies[i]["id"];
-        base.assetName = enemies[i]["assetName"].c_str();
-        std::string projectileAssetName = enemies[i]["projectileAssetName"];
+        std::string classValue = enemies[i]["class"];
+        EntityClasses classEnum = entityClassesMap[classValue];
         base.posX = enemies[i]["position"]["x"];
         base.posY = enemies[i]["position"]["y"];
         int automove_x = enemies[i]["autoMove"]["x"];
         int automove_y = enemies[i]["autoMove"]["y"];
-        base.scaleX = enemies[i]["scale"]["x"];
-        base.scaleY = enemies[i]["scale"]["y"];
-        base.rectX = enemies[i]["rect"]["x"];
-        base.rectY = enemies[i]["rect"]["y"];
-        base.rectWidth = enemies[i]["rect"]["width"];
-        base.rectHeight = enemies[i]["rect"]["height"];
-        std::string classValue = enemies[i]["class"];
-        EntityClasses classEnum = entityClassesMap[classValue];
 
         m_registry.spawn_entity();
-        Component::EntityClass entityClass = Component::EntityClass::CreateEntityClass(classEnum);
-        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), std::move(entityClass));
+        Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
+        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClassFactory::CreateEntityClass(classEnum));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClass.speed));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, entityClass.shootingPattern, &m_clock, sf::Time(sf::milliseconds(entityClass.shootingDelay)), entityClass.damage, projectileAssetName, -1, 0));
-        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
+        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClassTmp.speed));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, entityClassTmp.shootingPattern, &m_clock, sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, -1, 0));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(entityClassTmp.assetName, &m_window, sf::IntRect(entityClassTmp.rect.top, entityClassTmp.rect.left, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), m_registry.get_assets().get_texture(entityClassTmp.assetName)));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
         m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(automove_x, automove_y)));
-        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClass.health));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClassTmp.health));
     }
 }
