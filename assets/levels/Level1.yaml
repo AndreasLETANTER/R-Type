@@ -8,7 +8,7 @@ entities: {
     backgrounds = (
         {
             id = 0;
-            assetName = "Space_Background.png";
+            assetName = "SpaceBackground.png";
             position = { x = 0; y = 0; };
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
@@ -17,7 +17,7 @@ entities: {
         },
         {
             id = 1;
-            assetName = "Space_Background.png";
+            assetName = "SpaceBackground.png";
             position = { x = 5700; y = 0; };
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
