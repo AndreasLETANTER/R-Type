@@ -11,8 +11,8 @@
 
 class DefaultMode : public AGameMode {
     public:
-        ~DefaultMode() = default;
         using AGameMode::AGameMode;
+        ~DefaultMode() = default;
         void init() override;
         void run() override;
 

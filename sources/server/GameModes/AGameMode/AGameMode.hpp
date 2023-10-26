@@ -8,6 +8,12 @@
 #pragma once
 
 #include "server/GameModes/IGameMode.hpp"
+#include "utils/handleArgument/handleArgument.hpp"
+#include "server/udpSocket/udpSocket.hpp"
+#include "server/tcpSocket/tcpSocket.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
+
+#include <SFML/Graphics.hpp>
 
 /// @brief AGameMode class
 class AGameMode : public IGameMode {
@@ -18,4 +24,12 @@ class AGameMode : public IGameMode {
         bool isMultiplayer() const override { return m_isMultiplayer;}
     protected:
         bool m_isMultiplayer = false;
+    private:
+        handleArgument handleArgument;
+        binaryConverter converter;
+        std::unique_ptr<tcpSocket> tcpServer;
+        std::unique_ptr<udpSocket> udpServer;
+        Registry registry;
+        sf::Clock clock;
+        sf::RenderWindow window;
 };

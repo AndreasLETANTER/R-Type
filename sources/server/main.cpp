@@ -43,9 +43,15 @@ int main(const int ac, const char **av)
     // sf::Clock clock;
     // sf::RenderWindow window;
     GameModeFactory factory;
-    std::unique_ptr<IGameMode> gameMode = factory.createGameMode("Default", av, ac, true);
+    std::unique_ptr<IGameMode> gameMode;
+    try {
+        gameMode = factory.createGameMode("Default", av, ac, true);
+        gameMode->init();
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+    }
 
-    gameMode->init();
     gameMode->run();
     // std::vector<std::string> filePath = {Level1Config};
     // Parser parser(registry, window, clock, filePath);
