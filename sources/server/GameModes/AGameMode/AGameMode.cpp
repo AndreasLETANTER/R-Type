@@ -7,7 +7,7 @@
 
 #include "AGameMode.hpp"
 
-AGameMode::AGameMode(const char **av, int ac, bool isMultiplayer)
+AGameMode::AGameMode(const char **av, int ac, bool isMultiplayer) : handleArgument()
 {
     if (ac != 4) {
         throw std::runtime_error("AGameMode: Invalid number of arguments");
