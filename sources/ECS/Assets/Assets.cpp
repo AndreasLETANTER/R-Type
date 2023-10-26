@@ -15,6 +15,8 @@ Assets::Assets()
     this->load_texture("EliotBullet.png", "assets/EliotBullet.png");
     this->load_texture("LouisBullet.png", "assets/LouisBullet.png");
     this->load_texture("HugoBullet.png", "assets/HugoBullet.png");
+    this->load_texture("OrangeCrabBullet.png", "assets/OrangeCrabBullet.png");
+    this->load_texture("YellowPopcornBullet.png", "assets/YellowPopcornBullet.png");
     this->load_texture("BulletSpriteMonster.png", "assets/BulletSpriteMonster.png");
     this->load_texture("GreyRobotObstacle.gif", "assets/GreyRobotObstacle.gif");
     this->load_texture("OrangeCrabEnemy.gif", "assets/OrangeCrabEnemy.gif");

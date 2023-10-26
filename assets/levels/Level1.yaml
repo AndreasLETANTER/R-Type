@@ -31,25 +31,21 @@ entities: {
             id = 2;
             class = "NUGO"
             position = { x = 150; y = 300; };
-            rect = { x = 0; y = 2; width = 34; height = 16; };
         },
         {
             id = 3;
             class = "ANDREAS";
             position = { x = 200; y = 400; };
-            rect = { x = 0; y = 19; width = 34; height = 16; };
         },
         {
             id = 4;
             class = "ELIOT";
             position = { x = 150; y = 500; };
-            rect = { x = 0; y = 36; width = 34; height = 16; };
         },
         {
             id = 5;
             class = "LOUIS";
             position = { x = 200; y = 600; };
-            rect = { x = 0; y = 53; width = 34; height = 16; };
         }
     );
 

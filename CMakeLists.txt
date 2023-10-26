@@ -65,7 +65,9 @@ set(ASSETS_FILES
     assets/BulletSpriteMonster.png
     assets/GreyRobotObstacle.gif
     assets/OrangeCrabEnemy.gif
+    assets/OrangeCrabBullet.png
     assets/YellowPopcornEnemy.gif
+    assets/YellowPopcornBullet.png
     assets/font.ttf
 )
 
