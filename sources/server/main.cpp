@@ -23,7 +23,6 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
-#include "../../build/assets/Level1Config.hpp"
 #include "utils/handleArgument/handleArgument.hpp"
 #include "udpSocket/udpSocket.hpp"
 #include "tcpSocket/tcpSocket.hpp"

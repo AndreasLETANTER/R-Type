@@ -24,7 +24,6 @@ class AGameMode : public IGameMode {
         bool isMultiplayer() const override { return m_isMultiplayer;}
     protected:
         bool m_isMultiplayer = false;
-    private:
         handleArgument handleArgument;
         binaryConverter converter;
         std::unique_ptr<tcpSocket> tcpServer;
