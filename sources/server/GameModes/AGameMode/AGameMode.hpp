@@ -12,10 +12,10 @@
 /// @brief AGameMode class
 class AGameMode : public IGameMode {
     public:
-        AGameMode(bool isMultiplayer = false) : m_isMultiplayer(isMultiplayer) {}
+        AGameMode(const char **av, int ac, bool isMultiplayer = false);
         ~AGameMode() = default;
 
         bool isMultiplayer() const override { return m_isMultiplayer;}
-    private:
+    protected:
         bool m_isMultiplayer = false;
 };
