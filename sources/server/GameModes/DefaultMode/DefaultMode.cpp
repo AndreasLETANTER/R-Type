@@ -61,5 +61,34 @@ void DefaultMode::init()
 
 void DefaultMode::run()
 {
-    std::cout << "DefaultMode run" << std::endl;
+    tcpServer->run();
+    sf::Time lastUpdate = clock.getElapsedTime();
+    while (true) {
+        if (tcpServer->getNbClients() == 0) {
+            continue;
+        }
+        if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
+            continue;
+        } else {
+            lastUpdate = clock.getElapsedTime();
+        }
+        registry.run_systems();
+        std::vector<input_t> inputs = udpServer->get_packet_queue();
+        for (unsigned int i = 0; i < inputs.size(); i++) {
+            if (inputs[i].id == 0) {
+                continue;
+            }
+            registry.updateEntityKeyPressed(inputs[i]);
+        }
+        if (inputs.size() > 0) {
+            udpServer->clear_packet_queue();
+        }
+        std::vector<packet_t> packets = registry.exportToPackets(tcpServer->isNewClient());
+        if (tcpServer->isNewClient()) {
+            tcpServer->setNewClient(false);
+        }
+        for (unsigned int i = 0; i < packets.size(); i++) {
+            udpServer->send(converter.convertStructToBinary(packets[i]));
+        }
+    }
 }

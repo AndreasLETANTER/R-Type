@@ -29,18 +29,8 @@
 #include "utils/binaryConverter/binaryConverter.hpp"
 #include "GameModes/GameModeFactory/GameModeFactory.hpp"
 
-#define TICKRATE 64
-
 int main(const int ac, const char **av)
 {
-    // handleArgument handleArgument;
-    // binaryConverter converter;
-    // tcpSocket tcpServer(handleArgument.getPort(av[1]), handleArgument.getIp(av[3]));
-    // udpSocket udpServer(handleArgument.getPort(av[2]), handleArgument.getIp(av[3]));
-
-    // Registry registry;
-    // sf::Clock clock;
-    // sf::RenderWindow window;
     GameModeFactory factory;
     std::unique_ptr<IGameMode> gameMode;
     try {
@@ -52,62 +42,5 @@ int main(const int ac, const char **av)
     }
 
     gameMode->run();
-    // std::vector<std::string> filePath = {Level1Config};
-    // Parser parser(registry, window, clock, filePath);
-    // registry.register_component<Component::Position>();
-    // registry.register_component<Component::Velocity>();
-    // registry.register_component<Component::Controllable>();
-    // registry.register_component<Component::Drawable>();
-    // registry.register_component<Component::AutoMove>();
-    // registry.register_component<Component::Shoot>();
-    // registry.register_component<Component::Projectile>();
-    // registry.register_component<Component::Collision>();
-    // registry.register_component<Component::Scroll>();
-    // registry.register_component<Component::Health>();
-    // registry.register_component<Component::Score>();
 
-    // registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
-    // registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
-    // registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
-    // registry.add_system<Component::Position, Component::AutoMove>(AutoMoveSystem());
-    // registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
-    // registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
-    // registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
-    // registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
-    // registry.add_system<Component::Health>(HealthSystem());
-    // registry.add_system<Component::Score>(ScoreSystem());
-    // registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score>(ProjectileCollisionSystem());
-
-    // parser.loadFromFile();
-
-    // tcpServer.run();
-    // sf::Time lastUpdate = clock.getElapsedTime();
-    // while (true) {
-    //     if (tcpServer.getNbClients() == 0) {
-    //         continue;
-    //     }
-    //     if (clock.getElapsedTime().asMilliseconds() - lastUpdate.asMilliseconds() < 1000 / TICKRATE) {
-    //         continue;
-    //     } else {
-    //         lastUpdate = clock.getElapsedTime();
-    //     }
-    //     registry.run_systems();
-    //     std::vector<input_t> inputs = udpServer.get_packet_queue();
-    //     for (unsigned int i = 0; i < inputs.size(); i++) {
-    //         if (inputs[i].id == 0) {
-    //             continue;
-    //         }
-    //         registry.updateEntityKeyPressed(inputs[i]);
-    //     }
-    //     if (inputs.size() > 0) {
-    //         udpServer.clear_packet_queue();
-    //     }
-    //     std::vector<packet_t> packets = registry.exportToPackets(tcpServer.isNewClient());
-    //     if (tcpServer.isNewClient()) {
-    //         tcpServer.setNewClient(false);
-    //     }
-    //     for (unsigned int i = 0; i < packets.size(); i++) {
-    //         udpServer.send(converter.convertStructToBinary(packets[i]));
-    //     }
-    // }
 }
