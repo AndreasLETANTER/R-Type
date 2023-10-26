@@ -99,13 +99,13 @@ set(SERVER_SOURCES
     sources/server/GameModes/GameModeFactory/GameModeFactory.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
-    sources/utils/handleArgument/handleArgument.cpp
+    sources/utils/HandleArgument/HandleArgument.cpp
 )
 
 set(CLIENT_SOURCES
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
-    sources/utils/handleArgument/handleArgument.cpp
+    sources/utils/HandleArgument/HandleArgument.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp

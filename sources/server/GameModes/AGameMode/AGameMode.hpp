@@ -8,7 +8,7 @@
 #pragma once
 
 #include "server/GameModes/IGameMode.hpp"
-#include "utils/handleArgument/handleArgument.hpp"
+#include "utils/HandleArgument/HandleArgument.hpp"
 #include "server/udpSocket/udpSocket.hpp"
 #include "server/tcpSocket/tcpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
@@ -41,7 +41,7 @@ class AGameMode : public IGameMode {
         bool isMultiplayer() const override { return m_isMultiplayer;}
     protected:
         bool m_isMultiplayer = false; /**< A boolean representing whether the game mode is multiplayer or not. */
-        handleArgument handleArgument; /**< An instance of handleArgument class for handling command-line arguments. */
+        HandleArgument handleArgument; /**< An instance of HandleArgument class for handling command-line arguments. */
         binaryConverter converter; /**< An instance of binaryConverter class for converting binary data. */
         std::unique_ptr<tcpSocket> tcpServer; /**< A unique pointer to tcpSocket class for managing TCP sockets. */
         std::unique_ptr<udpSocket> udpServer; /**< A unique pointer to udpSocket class for managing UDP sockets. */

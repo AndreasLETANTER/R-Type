@@ -19,7 +19,7 @@
 #define VAL(x) #x
 #define TOSTRING(str) VAL(str)
 
-class handleArgument
+class HandleArgument
 /**
  * @brief Class for handling command line argument.
  */
@@ -28,11 +28,11 @@ class handleArgument
         /**
          * @brief Default constructor.
          */
-        handleArgument(void) = default;
+        HandleArgument(void) = default;
         /**
          * @brief Default destructor.
          */
-        ~handleArgument(void) = default;
+        ~HandleArgument(void) = default;
         /**
          * @brief Get the port number from the command line arguments.
          * @param t_av The command line arguments.
