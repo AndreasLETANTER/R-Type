@@ -9,12 +9,14 @@
 
 #include <functional>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 /// @brief Class to create fully customizable text buttons
 class TextButton {
     public:
         /// @brief Constructor of TextButton
         TextButton() = default;
+        TextButton(const TextButton &textButton) = delete;
 
         /// @brief Enum to set the horizontal alignment of the text
         enum HorizontalAlign {
@@ -129,6 +131,19 @@ class TextButton {
         void resize(const sf::Vector2u &windowSize,
             const sf::Vector2f &buttonRatio,
             const sf::Vector2f &buttonPosition, const int &textRatio);
+
+        /// @brief Get the state of the button
+        /// @return The state of the button
+        bool getState() const {
+            std::cout << m_isClicked << std::endl;
+            return m_isClicked; };
+
+        /// @brief Set the state of the button
+        /// @param state The state wanted for the buttontcpPortButton
+        void setState(bool state) {
+            std::cout << "changed to " <<m_isClicked << std::endl;
+        m_isClicked = state; };
+
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);
@@ -140,6 +155,7 @@ class TextButton {
 
         sf::Text m_text = sf::Text();
         int m_textSize = 0;
+        bool m_isClicked = false;
         sf::Color m_textColor = sf::Color::White;
         sf::Color m_textHoverColor = sf::Color::White;
         TextButton::HorizontalAlign m_horizontalAlign = TextButton::CENTER;

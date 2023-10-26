@@ -17,15 +17,12 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     double buttonWidthRatio = 8;
     double buttonHeightRatio = 12;
     double textRatio = 24;
-    //double buttonWidth = windowSize.x / buttonWidthRatio;
-    //double buttonHeight = windowSize.y / buttonHeightRatio;
-    //double spacing = windowSize.y / 20;
     sf::Vector2f pos = sf::Vector2f((windowSize.x / 2) - ((windowSize.x / buttonWidthRatio) / 2),
         (windowSize.y / 8));
     m_font = m_assets.get_font("font.ttf");
 
-    TextButton title = TextButton()
-        .setButtonPosition(pos)
+    std::shared_ptr title = std::make_shared<TextButton>();
+    title->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setTextString("R-Type")
@@ -37,8 +34,9 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
 
     pos.y += 150;
     pos.x -= 200;
-    TextButton tcpPortButton = TextButton()
-        .setButtonPosition(pos)
+    std::shared_ptr tcpPortButton = std::make_shared<TextButton>();
+    m_buttons.emplace_back<TextButton>();
+    tcpPortButton->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::White)
@@ -51,14 +49,15 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
         .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Green)
-        .setCallback([this]() {
-            std::cout << "TCP clicked" << std::endl;
+        .setCallback([this, &tcpPortButton]() {
+            std::cout << "tcp Clicked" << std::endl;
+            tcpPortButton->setState(true);
         });
     m_buttons.push_back(tcpPortButton);
 
     pos.x += 400;
-    TextButton udpPortButton = TextButton()
-        .setButtonPosition(pos)
+    std::shared_ptr udpPortButton = std::make_shared<TextButton>();
+    udpPortButton->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::White)
@@ -78,8 +77,8 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
 
     pos.y += 150;
     pos.x -= 200;
-    TextButton ipButton = TextButton()
-        .setButtonPosition(pos)
+    std::shared_ptr ipButton = std::make_shared<TextButton>();
+    ipButton->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::White)
@@ -100,14 +99,19 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
 
 void MainMenu::draw()
 {
-    for (auto &button : m_buttons)
-        button.draw(m_window);
+    int i = 0;
+    for (auto &button : m_buttons) {
+        i++;
+        std::cout << "button n°" << i << " state : " << button->getState() << std::endl;
+        button->draw(m_window);
+    }
 }
 
 void MainMenu::update()
 {
-    for (auto &button : m_buttons)
-        button.update(m_window);
+    for (auto &button : m_buttons) {
+        button->update(m_window);
+    }
 }
 
 void MainMenu::resize()

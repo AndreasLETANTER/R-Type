@@ -34,7 +34,7 @@ class MainMenu {
         sf::RenderWindow &m_window;
         Assets &m_assets;
         Registry &m_registry;
-        std::vector<TextButton> m_buttons;
+        std::vector<std::shared_ptr<TextButton>> m_buttons;
         sf::Font m_font;
         bool m_isPlayMenuOpen = false;
 };
