@@ -13,6 +13,9 @@
 #include "ECS/Components/Velocity.hpp"
 #include "ECS/Components/Projectile.hpp"
 #include "ECS/Components/Health.hpp"
+#include "ECS/Components/EntityClass.hpp"
+#include "ECS/Components/Collision.hpp"
+#include "ECS/Components/AutoMove.hpp"
 
 /**
  * @brief The ProjectileSystem class handles the logic for updating the position of projectiles in the game.
@@ -22,4 +25,5 @@ class WaveSystem {
         WaveSystem() = default;
         ~WaveSystem() = default;
         WaveSystem operator()(Registry &registry);
+    private:
 };

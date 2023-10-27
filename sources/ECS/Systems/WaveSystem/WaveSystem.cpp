@@ -9,15 +9,26 @@
 
 WaveSystem WaveSystem::operator()(Registry &registry)
 {
+    std::vector<Component::EntityClass> m_enemy_vector;
+    std::vector<Component::EntityClass> m_boss_vector;
+    m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_ORANGE_CRAB));
+    m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_YELLOW_POPCORN));
     unsigned int nb_enemies_for_wave = rand() % 4 + 3;
 
     if (registry.enemiesAreDead()) {
         for (unsigned int i = 0; i < nb_enemies_for_wave; i++) {
+            unsigned int enemy_type = rand() % m_enemy_vector.size();
+            unsigned int x_start = 1500;
+            unsigned int y_start = rand() % 800;
             auto enemy = registry.spawn_entity();
-
-            registry.add_component<Component::Position>(enemy, Component::Position(1920, rand() % 1080));
-            registry.add_component<Component::Drawable>(enemy, Component::Drawable("OrangeCrabEnemy.gif", registry.getWindow(), sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), registry.get_assets().get_texture("OrangeCrabEnemy.gif")));
-            registry.add_component<Component::Health>(enemy, Component::Health(100));
+            Component::EntityClass entityClassTmp = m_enemy_vector[enemy_type];
+            registry.add_component<Component::Position>(enemy, Component::Position(x_start, y_start));
+            registry.add_component<Component::Velocity>(enemy, Component::Velocity(0, 0, entityClassTmp.speed));
+            registry.add_component<Component::Shoot>(enemy, Component::Shoot(0, true, entityClassTmp.shootingPattern, registry.getClock(), sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, -1, 0));
+            registry.add_component<Component::Drawable>(enemy, Component::Drawable(entityClassTmp.assetName, registry.getWindow(), sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
+            registry.add_component<Component::Collision>(enemy, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+            registry.add_component<Component::AutoMove>(enemy, Component::AutoMove(Component::Position(x_start, y_start), Component::Position(x_start - 300, y_start)));
+            registry.add_component<Component::Health>(enemy, Component::Health(entityClassTmp.health));
         }
     }
     return *this;

@@ -69,8 +69,9 @@ class Registry {
          * 
          * @param assets The assets to use for the registry.
          * @param window The window to draw the entities in.
+         * @param clock The clock of the program.
          */
-        Registry(Assets assets, sf::RenderWindow *window);
+        Registry(Assets assets, sf::RenderWindow *window, sf::Clock *clock);
         /**
          * @brief The type of function used to erase a component from the registry.
          * 
@@ -272,6 +273,17 @@ class Registry {
          */
         sf::RenderWindow *getWindow() const;
 
+        /**
+         * @brief Returns a pointer to the clock used by the registry.
+         * 
+         * @return sf::Clock* A pointer to the clock used by the registry.
+         */
+        sf::Clock *getClock() const;
+
+        void setWindow(sf::RenderWindow *window);
+
+        void setClock(sf::Clock *clock);
+
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
@@ -280,6 +292,7 @@ class Registry {
         SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
         SparseArray<Component::Position> m_previous_positions;
         sf::RenderWindow *m_window; /**< The window to draw the entities in. */
+        sf::Clock *m_clock; /** The clock for the program. */
         Assets m_assets; /**< The assets of the registry. */
 };
 

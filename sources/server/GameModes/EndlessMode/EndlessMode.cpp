@@ -20,6 +20,7 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
+#include "ECS/Systems/WaveSystem/WaveSystem.hpp"
 
 #include "../../../../build/assets/Level1Config.hpp"
 
@@ -29,6 +30,9 @@
 
 void EndlessMode::init()
 {
+    registry.setClock(&clock);
+    registry.setWindow(&window);
+
     registry.register_component<Component::EntityClass>();
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
@@ -53,6 +57,7 @@ void EndlessMode::init()
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score>(ProjectileCollisionSystem());
+    registry.add_system<>(WaveSystem());
 
     if (m_isMultiplayer) {
         create_player(150, 300, 1, EntityClasses::ANDREAS);

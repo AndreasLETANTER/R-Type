@@ -17,8 +17,8 @@
 #include "ECS/Components/Shoot.hpp"
 
 
-Registry::Registry(Assets assets, sf::RenderWindow *window)
-    : m_assets(assets), m_window(window)
+Registry::Registry(Assets assets, sf::RenderWindow *window, sf::Clock *clock)
+    : m_window(window), m_clock(clock), m_assets(assets)
 {
 
 }
@@ -277,4 +277,19 @@ bool Registry::enemiesAreDead()
 sf::RenderWindow *Registry::getWindow() const
 {
     return m_window;
+}
+
+sf::Clock *Registry::getClock() const
+{
+    return m_clock;
+}
+
+void Registry::setWindow(sf::RenderWindow *window)
+{
+    m_window = window;
+}
+
+void Registry::setClock(sf::Clock *clock)
+{
+    m_clock = clock;
 }
