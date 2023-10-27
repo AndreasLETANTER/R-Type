@@ -48,7 +48,6 @@ int main(int ac, char **av)
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
     registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("Space_Background.png")));
     registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0)));
-
     MainMenu mainMenu(window, assets, registry);
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
@@ -60,14 +59,14 @@ int main(int ac, char **av)
                 mainMenu.resize();
             }
             if (event.type == sf::Event::KeyPressed) {
-                std::cout << "Key pressed" << std::endl;
-                std::cout << event.key.code << std::endl;
+                mainMenu.setKey(event.key.code);
+
             }
         }
         window.clear();
         registry.run_systems();
-        mainMenu.update();
         mainMenu.draw();
+        mainMenu.update();
         window.display();
     }
     return 0;

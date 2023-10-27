@@ -16,7 +16,7 @@ class TextButton {
     public:
         /// @brief Constructor of TextButton
         TextButton() = default;
-        TextButton(const TextButton &textButton) = delete;
+        TextButton(const TextButton &textButton) = default;
 
         /// @brief Enum to set the horizontal alignment of the text
         enum HorizontalAlign {

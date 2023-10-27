@@ -30,11 +30,18 @@ class MainMenu {
         /// @brief Resize the buttons to fit the new window size
         void resize();
 
+        void setKey(sf::Keyboard::Key key) { m_keys.push_back(key); };
+        std::vector<sf::Keyboard::Key> getKeys() { return m_keys; };
+
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;
         Registry &m_registry;
-        std::vector<std::shared_ptr<TextButton>> m_buttons;
+        std::vector<TextButton> m_buttons;
+
+        std::vector<sf::Text> m_texts;
+        std::vector<sf::Keyboard::Key> m_keys;
+        std::vector<bool> m_bools;
         sf::Font m_font;
         bool m_isPlayMenuOpen = false;
 };

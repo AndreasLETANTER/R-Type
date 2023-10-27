@@ -134,7 +134,6 @@ TextButton &TextButton::setCallback(std::function<void()> callback)
 void TextButton::draw(sf::RenderWindow &window)
 {
     window.draw(m_shape);
-    window.draw(m_text);
 }
 
 void TextButton::update(sf::RenderWindow &window)
