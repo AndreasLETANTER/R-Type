@@ -17,6 +17,7 @@
 #include "server/udpSocket/udpSocket.hpp"
 
 #define UDP_PACKET_SIZE 65507
+#define TICKRATE 64
 
 using namespace boost::asio;
 

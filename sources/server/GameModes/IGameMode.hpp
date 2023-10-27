@@ -15,6 +15,8 @@ class IGameMode {
         /// @brief Default destructor for IGameMode
         virtual ~IGameMode() = default;
 
+        virtual void init() = 0;
+
         /// @brief Run the game mode
         virtual void run() = 0;
 

@@ -12,7 +12,7 @@
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
-#include "utils/handleArgument/handleArgument.hpp"
+#include "utils/HandleArgument/HandleArgument.hpp"
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
@@ -55,7 +55,7 @@ int main(int ac, char **av)
     sf::Clock clock;
     Registry registry;
     binaryConverter converter;
-    handleArgument handleArguments;
+    HandleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     bool needGameInfos = true;
