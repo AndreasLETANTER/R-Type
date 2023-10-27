@@ -13,12 +13,13 @@ WaveSystem WaveSystem::operator()(Registry &registry)
     std::vector<Component::EntityClass> m_boss_vector;
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_ORANGE_CRAB));
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_YELLOW_POPCORN));
-    unsigned int nb_enemies_for_wave = rand() % 6 + 3;
+    static unsigned int current_wave_index = 1;
+    unsigned int nb_enemies_for_wave = rand() % 6 + current_wave_index  + 3 + current_wave_index;
 
     if (registry.enemiesAreDead()) {
         for (unsigned int i = 0; i < nb_enemies_for_wave; i++) {
             unsigned int enemy_type = rand() % m_enemy_vector.size();
-            unsigned int x_offset = rand() % (2000 - 1920) + 1 + 1920;
+            unsigned int x_offset = rand() % (2000 - 1920) + 1 + 1920 + (i * 100);
             unsigned int x_start = rand() % (1000 - 400) + 1 + 400;
             unsigned int y_start = rand() % 1000;
             auto enemy = registry.spawn_entity();
@@ -32,6 +33,7 @@ WaveSystem WaveSystem::operator()(Registry &registry)
             registry.add_component<Component::AutoMove>(enemy, Component::AutoMove(Component::Position(x_start, y_start), Component::Position(x_start - 300, y_start)));
             registry.add_component<Component::Health>(enemy, Component::Health(entityClassTmp.health));
         }
+        current_wave_index += 1;
     }
     return *this;
 }
