@@ -10,13 +10,12 @@
 
 ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &registry, SparseArray<Component::Projectile> &projectiles, SparseArray<Component::Collision> &collisions, SparseArray<Component::Health> &healths, SparseArray<Component::Score> &scores, SparseArray<Component::Group> &groups)
 {
-    (void)scores;
     for (size_t i = 0; i < projectiles.size() && i < collisions.size(); i++) {
         auto &projectile = projectiles[i];
         auto &collision = collisions[i];
 
         if (projectile.has_value() && collision.has_value()) {
-            if (i < groups.size() && groups[i].has_value() && groups[collision.value().entities_in_collision[0]].has_value()) {
+            if (i < groups.size() && groups[i].has_value() && collision.value().entities_in_collision.size() > 0 && (groups.size() >= collision.value().entities_in_collision[0]) && groups[collision.value().entities_in_collision[0]].has_value()) {
                 if (groups[i].value().groupId == groups[collision.value().entities_in_collision[0]].value().groupId) {
                     continue;
                 }
