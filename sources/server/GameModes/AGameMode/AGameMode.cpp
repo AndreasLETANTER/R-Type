@@ -31,16 +31,18 @@ AGameMode::AGameMode(const char **av, int ac, bool isMultiplayer) : handleArgume
     m_isMultiplayer = isMultiplayer;
 }
 
-void AGameMode::create_player(int x, int y, int id)
+void AGameMode::create_player(int x, int y, int id, EntityClasses classEnum)
 {
     auto player = registry.spawn_entity();
+    Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
 
+    registry.add_component<Component::EntityClass>(player, Component::EntityClassFactory::CreateEntityClass(classEnum));
     registry.add_component<Component::Position>(player, Component::Position(x, y));
-    registry.add_component<Component::Velocity>(player, Component::Velocity(0, 0));
+    registry.add_component<Component::Velocity>(player, Component::Velocity(0, 0, entityClassTmp.speed));
     registry.add_component<Component::Controllable>(player, Component::Controllable(true, id));
-    registry.add_component<Component::Shoot>(player, Component::Shoot(id, true, LINEAR, &clock, sf::Time(sf::milliseconds(500)), damage, projectileAssetName, 1, 1920));
-    registry.add_component<Component::Drawable>(player, Component::Drawable(assetName, &window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-    registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
-    registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
-    registry.add_component<Component::Score>(m_registry.entity_from_index(base.id), Component::Score(0, &clock));
+    registry.add_component<Component::Shoot>(player, Component::Shoot(id, true, LINEAR, &clock, sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, 1, 1920));
+    registry.add_component<Component::Drawable>(player, Component::Drawable(entityClassTmp.assetName, &window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
+    registry.add_component<Component::Collision>(player, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+    registry.add_component<Component::Health>(player, Component::Health(entityClassTmp.health));
+    registry.add_component<Component::Score>(player, Component::Score(0, &clock));
 }
