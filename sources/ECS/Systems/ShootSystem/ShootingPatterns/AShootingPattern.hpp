@@ -39,7 +39,7 @@ class AShootingPattern : public IShootingPattern {
          * @param pos The position component of the entity.
          * @param draw The drawable component of the entity.
          */
-        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) = 0;
+        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw, unsigned int groupId) = 0;
 
         /**
          * @brief Creates a projectile.

@@ -10,7 +10,7 @@
 #include "ECS/Components/Projectile.hpp"
 #include "ECS/Components/Collision.hpp"
 
-void LinearShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw)
+void LinearShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw, unsigned int groupId)
 {
     sf::Time elapsedTime = shoot.clock->getElapsedTime() - shoot.lastShot;
     if (shoot.canShoot == true && (shoot.m_keyMapState[sf::Keyboard::Space] == true || shoot.direction == -1) && elapsedTime >= shoot.shootDelay) {

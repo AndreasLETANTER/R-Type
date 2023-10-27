@@ -17,7 +17,7 @@ ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::S
 
         if (shoot.has_value() && pos.has_value() && draw.has_value()) {
             auto shootingPattern = ShootingPatternFactory::createShootingPattern(shoot.value().pattern);
-            shootingPattern->shoot(registry, shoot.value(), pos.value(), draw.value());
+            shootingPattern->shoot(registry, shoot.value(), pos.value(), draw.value(), 2);
         }
     }
     return *this;

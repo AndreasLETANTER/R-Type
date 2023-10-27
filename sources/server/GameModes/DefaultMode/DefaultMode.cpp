@@ -43,6 +43,7 @@ void DefaultMode::init()
     registry.register_component<Component::Scroll>();
     registry.register_component<Component::Health>();
     registry.register_component<Component::Score>();
+    registry.register_component<Component::Group>();
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -54,7 +55,7 @@ void DefaultMode::init()
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
-    registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score>(ProjectileCollisionSystem());
+    registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
 
     parser.loadFromFile();
 }
