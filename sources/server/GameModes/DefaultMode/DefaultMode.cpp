@@ -49,7 +49,7 @@ void DefaultMode::init()
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
     registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
     registry.add_system<Component::Position, Component::AutoMove>(AutoMoveSystem());
-    registry.add_system<Component::Shoot, Component::Position, Component::Drawable>(ShootSystem());
+    registry.add_system<Component::Shoot, Component::Position, Component::Drawable, Component::Group>(ShootSystem());
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
