@@ -11,9 +11,10 @@
 
 class EndlessMode : public AGameMode {
     public:
+        using AGameMode::AGameMode;
         ~EndlessMode() = default;
-        void init();
-        void run();
+        void init() override;
+        void run() override;
     protected:
     private:
 };

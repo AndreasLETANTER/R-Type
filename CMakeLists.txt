@@ -96,6 +96,7 @@ set(SERVER_SOURCES
     sources/server/udpSocket/udpSocket.cpp
     sources/server/tcpSocket/tcpSocket.cpp
     sources/server/GameModes/DefaultMode/DefaultMode.cpp
+    sources/server/GameModes/EndlessMode/EndlessMode.cpp
     sources/server/GameModes/AGameMode/AGameMode.cpp
     sources/server/GameModes/GameModeFactory/GameModeFactory.cpp
     sources/utils/debugColors/debugColors.cpp
