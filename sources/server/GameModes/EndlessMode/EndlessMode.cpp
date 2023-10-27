@@ -59,6 +59,8 @@ void EndlessMode::init()
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score>(ProjectileCollisionSystem());
     registry.add_system<>(WaveSystem());
 
+    create_background();
+
     if (m_isMultiplayer) {
         create_player(150, 300, 1, EntityClasses::ANDREAS);
         create_player(200, 400, 2, EntityClasses::NUGO);

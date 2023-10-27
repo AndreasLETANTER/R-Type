@@ -52,3 +52,16 @@ void AGameMode::create_player(int x, int y, int id, EntityClasses classEnum)
     registry.add_component<Component::Health>(player, Component::Health(entityClassTmp.health));
     registry.add_component<Component::Score>(player, Component::Score(0, &clock));
 }
+
+void AGameMode::create_background()
+{
+    auto background = registry.spawn_entity();
+    registry.add_component<Component::Position>(background, Component::Position(0, 0));
+    registry.add_component<Component::Drawable>(background, Component::Drawable("SpaceBackground.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
+    registry.add_component<Component::Scroll>(background, Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0), 0));
+
+    background = registry.spawn_entity();
+    registry.add_component<Component::Position>(background, Component::Position(5700, 0));
+    registry.add_component<Component::Drawable>(background, Component::Drawable("SpaceBackground.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
+    registry.add_component<Component::Scroll>(background, Component::Scroll(Component::Position(0, 0), Component::Position(0, 0), 0));
+}

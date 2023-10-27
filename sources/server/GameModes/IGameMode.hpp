@@ -26,5 +26,5 @@ class IGameMode {
         virtual bool isMultiplayer() const = 0;
     protected:
         virtual void create_player(int x, int y, int id, EntityClasses classEnum) = 0;
-        //virtual void create_background() = 0;
+        virtual void create_background() = 0;
 };
