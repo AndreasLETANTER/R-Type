@@ -140,9 +140,7 @@ class TextButton {
 
         /// @brief Set the state of the button
         /// @param state The state wanted for the buttontcpPortButton
-        void setState(bool state) {
-            std::cout << "changed to " <<m_isClicked << std::endl;
-        m_isClicked = state; };
+        void setState(bool state) { m_isClicked = state; };
 
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();

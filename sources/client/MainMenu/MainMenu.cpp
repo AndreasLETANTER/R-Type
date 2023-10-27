@@ -26,16 +26,14 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     auto playButton = m_buttons.emplace_back();
     auto text2 = m_texts.emplace_back();
     auto &m_bools = this->m_bools;
+    auto &m_buttonTypes = this->m_buttonTypes;
     m_bools.push_back(false);
+    m_buttonTypes.push_back(PORT);
     m_texts[0].setFont(m_font);
     m_texts[0].setString("TCP Port : 8080");
     m_texts[0].setCharacterSize(28);
     m_texts[0].setFillColor(sf::Color::White);
-    pos.y += 15;
-    pos.x += 15;
-    m_texts[0].setPosition(pos);
-    pos.y -= 15;
-    pos.x -= 15;
+    m_texts[0].setPosition(pos.x + 15, pos.y + 15);
     playButton.setButtonPosition(pos);
     playButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
     playButton.setButtonColor(sf::Color::Transparent);
@@ -53,15 +51,12 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     auto udpPortButton = m_buttons.emplace_back();
     auto text3 = m_texts.emplace_back();
     m_bools.push_back(false);
+    m_buttonTypes.push_back(PORT);
     m_texts[1].setFont(m_font);
-    m_texts[1].setString("Udp Port : 4242");
+    m_texts[1].setString("UDP Port : 4242");
     m_texts[1].setCharacterSize(28);
     m_texts[1].setFillColor(sf::Color::White);
-    pos.y += 15;
-    pos.x += 15;
-    m_texts[1].setPosition(pos);
-    pos.y -= 15;
-    pos.x -= 15;
+    m_texts[1].setPosition(pos.x + 15, pos.y + 15);
     udpPortButton.setButtonPosition(pos);
     udpPortButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
     udpPortButton.setButtonColor(sf::Color::Transparent);
@@ -70,30 +65,34 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     udpPortButton.setButtonHoverColor(sf::Color::Transparent);
     udpPortButton.setButtonHoverOutlineColor(sf::Color::Green);
     udpPortButton.setCallback([this, &m_bools]() {
-            resetAndSetSelectedButton(1);
-        });
+        resetAndSetSelectedButton(1);
+    });
     m_texts.push_back(std::move(text3));
     m_buttons.push_back(std::move(udpPortButton));
 
-    /*pos.y += 150;
-    pos.x -= 200;
-    auto ipAddressButton = m_buttons.emplace_back();
-    ipAddressButton.setButtonPosition(pos);
-    ipAddressButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
-    ipAddressButton.setButtonColor(sf::Color::Transparent);
-    ipAddressButton.setButtonOutlineColor(sf::Color::White);
-    ipAddressButton.setButtonOutlineThickness(5);
-    ipAddressButton.setButtonHoverColor(sf::Color::Transparent);
-    ipAddressButton.setButtonHoverOutlineColor(sf::Color::Green);
-    ipAddressButton.setTextString("IP Address");
-    ipAddressButton.setTextSize(windowSize, textRatio);
-    ipAddressButton.setTextFont(m_font);
-    ipAddressButton.setTextPosition(TextButton::CENTER, TextButton::MIDDLE);
-    ipAddressButton.setTextColor(sf::Color::White);
-    ipAddressButton.setTextHoverColor(sf::Color::Green);
-    ipAddressButton.setCallback([this]() {
-        std::cout << "ip clicked" << std::endl;
-    });*/
+    pos.x -= 250;
+    pos.y -= 150;
+    auto ipPortButton = m_buttons.emplace_back();
+    auto text4 = m_texts.emplace_back();
+    m_bools.push_back(false);
+    m_buttonTypes.push_back(ADDRESS);
+    m_texts[2].setFont(m_font);
+    m_texts[2].setString("IP Address : 127.0.0.1");
+    m_texts[2].setCharacterSize(28);
+    m_texts[2].setFillColor(sf::Color::White);
+    m_texts[2].setPosition(pos.x + 15, pos.y + 15);
+    ipPortButton.setButtonPosition(pos);
+    ipPortButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio / 1.5, buttonHeightRatio));
+    ipPortButton.setButtonColor(sf::Color::Transparent);
+    ipPortButton.setButtonOutlineColor(sf::Color::White);
+    ipPortButton.setButtonOutlineThickness(5);
+    ipPortButton.setButtonHoverColor(sf::Color::Transparent);
+    ipPortButton.setButtonHoverOutlineColor(sf::Color::Green);
+    ipPortButton.setCallback([this, &m_bools]() {
+            resetAndSetSelectedButton(2);
+        });
+    m_texts.push_back(std::move(text4));
+    m_buttons.push_back(std::move(ipPortButton));
 }
 
 
@@ -101,7 +100,7 @@ char real_chars[sf::Keyboard::KeyCount] = {
     // Printable characters
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     '0', '1', '2', '3', '4', '5', '5', '7', '8', '9',
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, '.', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     '4', 0, 0, 0, 0, '6', 0, 0, 0, 0, 0, 0, 0,
 
     // Non-printable characters
@@ -119,15 +118,16 @@ void MainMenu::draw()
                 if (m_bools[y] == true) {
                     std::string str = m_texts[y].getString();
                     if (key == sf::Keyboard::BackSpace) {
-                        if (str.size() > 11)
+                        if ((str.size() > 11 && m_buttonTypes[y] == PORT) || (str.size() > 13 && m_buttonTypes[y] == ADDRESS))
                             str.pop_back();
                         m_texts[y].setString(str);
-                    } else if (str.size() < 16 && real_chars[key] != 0) {
+                    } else if (real_chars[key] != 0 && ((str.size() < 16 && m_buttonTypes[y] == PORT) || (str.size() < 28 && m_buttonTypes[y] == ADDRESS))) {
+                        if (m_buttonTypes[y] == PORT && real_chars[key] == '.')
+                            continue;
                         str += real_chars[key];
                         m_texts[y].setString(str);
                     } else if (key == sf::Keyboard::Delete) {
-
-                        while (str.size() > 11)
+                        while ((str.size() > 11 && m_buttonTypes[y] == PORT) || (str.size() > 13 && m_buttonTypes[y] == ADDRESS))
                             str.pop_back();
                         m_texts[y].setString(str);
                     } else if (key == sf::Keyboard::Enter) {

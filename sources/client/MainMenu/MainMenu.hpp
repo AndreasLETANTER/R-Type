@@ -44,6 +44,11 @@ class MainMenu {
         std::vector<sf::Text> m_texts;
         std::vector<sf::Keyboard::Key> m_keys;
         std::vector<bool> m_bools;
+        enum ButtonType {
+            PORT,
+            ADDRESS
+        };
+        std::vector<ButtonType> m_buttonTypes;
         sf::Font m_font;
         bool m_isPlayMenuOpen = false;
 };
