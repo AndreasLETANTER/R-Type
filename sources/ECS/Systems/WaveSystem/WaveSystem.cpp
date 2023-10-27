@@ -16,7 +16,6 @@ WaveSystem WaveSystem::operator()(Registry &registry)
             auto enemy = registry.spawn_entity();
 
             registry.add_component<Component::Position>(enemy, Component::Position(1920, rand() % 1080));
-            registry.add_component<Component::Velocity>(enemy, Component::Velocity(0, 0));
             registry.add_component<Component::Drawable>(enemy, Component::Drawable("OrangeCrabEnemy.gif", registry.getWindow(), sf::IntRect(0, 0, 0, 0), Component::Position(0, 0), registry.get_assets().get_texture("OrangeCrabEnemy.gif")));
             registry.add_component<Component::Health>(enemy, Component::Health(100));
         }

@@ -29,9 +29,6 @@
 
 void EndlessMode::init()
 {
-    std::vector<std::string> filePath = {Level1Config};
-    Parser parser(registry, window, clock, filePath);
-
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();
@@ -56,7 +53,14 @@ void EndlessMode::init()
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score>(ProjectileCollisionSystem());
 
-    parser.loadFromFile();
+    if (m_isMultiplayer) {
+        create_player(150, 300, 1, EntityClasses::ANDREAS);
+        create_player(200, 400, 2, EntityClasses::NUGO);
+        create_player(150, 500, 3, EntityClasses::LOUIS);
+        create_player(200, 600, 4, EntityClasses::ELIOT);
+    } else {
+        create_player(150, 450, 1, EntityClasses::ANDREAS);
+    }
 }
 
 void EndlessMode::run()

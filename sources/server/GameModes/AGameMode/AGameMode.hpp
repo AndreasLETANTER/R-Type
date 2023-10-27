@@ -12,7 +12,6 @@
 #include "server/udpSocket/udpSocket.hpp"
 #include "server/tcpSocket/tcpSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
-#include "ECS/Components/EntityClass.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -41,8 +40,8 @@ class AGameMode : public IGameMode {
          */
         bool isMultiplayer() const override { return m_isMultiplayer;}
     protected:
-        void create_player(int x, int y, int id, EntityClasses classEnum);
-        void create_background() override;
+        void create_player(int x, int y, int id, EntityClasses classEnum) override;
+        //void create_background() override;
         bool m_isMultiplayer = false; /**< A boolean representing whether the game mode is multiplayer or not. */
         HandleArgument handleArgument; /**< An instance of HandleArgument class for handling command-line arguments. */
         binaryConverter converter; /**< An instance of binaryConverter class for converting binary data. */

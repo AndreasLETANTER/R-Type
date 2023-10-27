@@ -54,7 +54,7 @@ SparseArray<Component> &Registry::get_components()
     auto typeIdx = std::type_index(typeid(Component));
 
     if (m_components.find(typeIdx) == m_components.end()) {
-        throw std::runtime_error{"Component not registered" };
+        throw std::runtime_error{"Component not registered"};
     }
     return std::any_cast<SparseArray<Component> &>(m_components[typeIdx]);
 }
