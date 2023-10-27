@@ -7,6 +7,7 @@
 
 #include "DefaultMode.hpp"
 
+#include "ECS/Components/EntityClass.hpp"
 #include "ECS/Systems/LoggingSystem/LoggingSystem.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/ControlSystem/ControlSystem.hpp"
@@ -32,6 +33,7 @@ void DefaultMode::init()
     std::vector<std::string> filePath = {Level1Config};
     Parser parser(registry, window, clock, filePath);
 
+    registry.register_component<Component::EntityClass>();
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();

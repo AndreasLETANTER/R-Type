@@ -17,7 +17,7 @@ Test(PositionSystem, basic_PositionSystem)
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
-    registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(1, 1));
+    registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(1, 1, 0));
 
     PositionSystem()(registry, registry.get_components<Component::Position>(), registry.get_components<Component::Velocity>());
     cr_assert_eq(registry.get_components<Component::Position>()[registry.entity_from_index(0)].value().x, 1);
@@ -43,7 +43,7 @@ Test(PositionSystem, no_position_PositionSystem)
     registry.spawn_entity();
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
-    registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(1, 1));
+    registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(1, 1, 0));
 
     PositionSystem()(registry, registry.get_components<Component::Position>(), registry.get_components<Component::Velocity>());
     cr_assert_eq(registry.get_components<Component::Velocity>()[registry.entity_from_index(0)].value().vx, 1);
