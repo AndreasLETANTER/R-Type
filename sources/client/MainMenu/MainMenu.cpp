@@ -21,28 +21,21 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
         (windowSize.y / 8));
     m_font = m_assets.get_font("font.ttf");
 
-    /*auto title = m_buttons.emplace_back();
-    title.setButtonPosition(pos)
-        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
-        .setButtonColor(sf::Color::Transparent)
-        .setTextString("R-Type")
-        .setTextFont(m_font)
-        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
-        .setTextColor(sf::Color::White)
-        .setButtonHoverColor(sf::Color::Transparent);
-    */
-
-    pos.y += 150;
+    pos.y += 400;
     pos.x -= 200;
     auto playButton = m_buttons.emplace_back();
-    auto text = m_texts.emplace_back();
+    auto text2 = m_texts.emplace_back();
     auto &m_bools = this->m_bools;
     m_bools.push_back(false);
     m_texts[0].setFont(m_font);
-    m_texts[0].setString("TCP Port : ");
-    m_texts[0].setCharacterSize(24);
+    m_texts[0].setString("TCP Port : 8080");
+    m_texts[0].setCharacterSize(28);
     m_texts[0].setFillColor(sf::Color::White);
+    pos.y += 15;
+    pos.x += 15;
     m_texts[0].setPosition(pos);
+    pos.y -= 15;
+    pos.x -= 15;
     playButton.setButtonPosition(pos);
     playButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
     playButton.setButtonColor(sf::Color::Transparent);
@@ -50,7 +43,6 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     playButton.setButtonOutlineThickness(5);
     playButton.setButtonHoverColor(sf::Color::Transparent);
     playButton.setButtonHoverOutlineColor(sf::Color::Green);
-    playButton.setTextString("TCP Port");
     playButton.setTextSize(windowSize, textRatio);
     playButton.setTextFont(m_font);
     playButton.setTextPosition(TextButton::CENTER, TextButton::MIDDLE);
@@ -58,31 +50,49 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     playButton.setTextHoverColor(sf::Color::Green);
     playButton.setCallback([this, &m_bools, &playButton]() {
         std::cout << "tcp Clicked" << std::endl;
+        for (size_t i = 0; i < m_bools.size(); i++)
+            m_bools[i] = false;
         m_bools[0] = !m_bools[0];
     });
-    m_texts.push_back(std::move(text));
+    m_texts.push_back(std::move(text2));
     m_buttons.push_back(std::move(playButton));
 
-    /*pos.x += 400;
+    pos.x += 400;
     auto udpPortButton = m_buttons.emplace_back();
-    udpPortButton.setButtonPosition(pos)
-        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
-        .setButtonColor(sf::Color::Transparent)
-        .setButtonOutlineColor(sf::Color::White)
-        .setButtonOutlineThickness(5)
-        .setButtonHoverColor(sf::Color::Transparent)
-        .setButtonHoverOutlineColor(sf::Color::Green)
-        .setTextString("UDP Port")
-        .setTextSize(windowSize, textRatio)
-        .setTextFont(m_font)
-        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
-        .setTextColor(sf::Color::White)
-        .setTextHoverColor(sf::Color::Green)
-        .setCallback([this]() {
+    auto text3 = m_texts.emplace_back();
+    m_bools.push_back(false);
+    m_texts[1].setFont(m_font);
+    m_texts[1].setString("Udp Port : 4242");
+    m_texts[1].setCharacterSize(28);
+    m_texts[1].setFillColor(sf::Color::White);
+    pos.y += 15;
+    pos.x += 15;
+    m_texts[1].setPosition(pos);
+    pos.y -= 15;
+    pos.x -= 15;
+    udpPortButton.setButtonPosition(pos);
+    udpPortButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
+    udpPortButton.setButtonColor(sf::Color::Transparent);
+    udpPortButton.setButtonOutlineColor(sf::Color::White);
+    udpPortButton.setButtonOutlineThickness(5);
+    udpPortButton.setButtonHoverColor(sf::Color::Transparent);
+    udpPortButton.setButtonHoverOutlineColor(sf::Color::Green);
+    udpPortButton.setTextString("TCP Port : 8080");
+    udpPortButton.setTextSize(windowSize, textRatio);
+    udpPortButton.setTextFont(m_font);
+    udpPortButton.setTextPosition(TextButton::CENTER, TextButton::MIDDLE);
+    udpPortButton.setTextColor(sf::Color::White);
+    udpPortButton.setTextHoverColor(sf::Color::Green);
+    udpPortButton.setCallback([this, &m_bools]() {
             std::cout << "udp Clicked" << std::endl;
+            for (size_t i = 0; i < m_bools.size(); i++)
+                m_bools[i] = false;
+            m_bools[1] = !m_bools[1];
         });
+    m_texts.push_back(std::move(text3));
+    m_buttons.push_back(std::move(udpPortButton));
 
-    pos.y += 150;
+    /*pos.y += 150;
     pos.x -= 200;
     auto ipAddressButton = m_buttons.emplace_back();
     ipAddressButton.setButtonPosition(pos);
@@ -118,34 +128,33 @@ char real_chars[sf::Keyboard::KeyCount] = {
 void MainMenu::draw()
 {
     int i = 0;
-    for (auto &button : m_buttons) {
-        i++;
 
-        std::cout << "button n°" << i << " state : " << m_bools[i - 1] << std::endl;
+    for (auto &button : m_buttons) {
         button.draw(m_window);
         for (auto &key : m_keys) {
-            std::cout << "key: " << real_chars[key] << std::endl;
-            if (m_bools[i - 1] == true) {
-                std::string str = m_texts[0].getString();
-                if (key == sf::Keyboard::BackSpace) {
-                    if (str.size() > 11)
-                        str.pop_back();
-                    m_texts[0].setString(str);
-                } else if (str.size() < 16 && real_chars[key] != 0) {
-                    str += real_chars[key];
-                    m_texts[0].setString(str);
+            for (size_t y = 0; y < m_bools.size(); y++) {
+                if (m_bools[y] == true) {
+                    std::string str = m_texts[y].getString();
+                    if (key == sf::Keyboard::BackSpace) {
+                        if (str.size() > 11)
+                            str.pop_back();
+                        m_texts[y].setString(str);
+                    } else if (str.size() < 16 && real_chars[key] != 0) {
+                        str += real_chars[key];
+                        m_texts[y].setString(str);
+                    }
                 }
             }
         }
         m_keys.clear();
-        if  (m_bools[i - 1] == true) {
-            m_texts[i - 1].setFillColor(sf::Color::Green);
+        if  (m_bools[i] == true) {
+            m_texts[i].setFillColor(sf::Color::Green);
         } else {
-            m_texts[i - 1].setFillColor(sf::Color::White);
+            m_texts[i].setFillColor(sf::Color::White);
         }
-        m_window.draw(m_texts[i - 1]);
+        m_window.draw(m_texts[i]);
+        i++;
     }
-    std::cout << "\n" << std::endl;
 }
 
 void MainMenu::update()
