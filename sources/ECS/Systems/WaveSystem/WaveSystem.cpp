@@ -20,9 +20,8 @@ WaveSystem WaveSystem::operator()(Registry &registry)
             unsigned int enemy_type = rand() % m_enemy_vector.size();
             unsigned int x_offset = rand() % (2000 - 1920) + 1 + 1920;
             unsigned int x_start = rand() % (1000 - 400) + 1 + 400;
-            unsigned int y_start = rand() % 900;
+            unsigned int y_start = rand() % 1000;
             auto enemy = registry.spawn_entity();
-
 
             Component::EntityClass entityClassTmp = m_enemy_vector[enemy_type];
             registry.add_component<Component::Position>(enemy, Component::Position(x_offset, y_start));
