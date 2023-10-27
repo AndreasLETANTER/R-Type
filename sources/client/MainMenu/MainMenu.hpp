@@ -33,6 +33,8 @@ class MainMenu {
         void setKey(sf::Keyboard::Key key) { m_keys.push_back(key); };
         std::vector<sf::Keyboard::Key> getKeys() { return m_keys; };
 
+        void resetAndSetSelectedButton(unsigned int index);
+
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;

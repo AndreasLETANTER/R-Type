@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "client/MainMenu/MainMenu.hpp"
+#include "MainMenu.hpp"
 
 MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     Registry &registry):
@@ -16,7 +17,6 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 8;
     double buttonHeightRatio = 12;
-    double textRatio = 24;
     sf::Vector2f pos = sf::Vector2f((windowSize.x / 2) - ((windowSize.x / buttonWidthRatio) / 2),
         (windowSize.y / 8));
     m_font = m_assets.get_font("font.ttf");
@@ -43,16 +43,8 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     playButton.setButtonOutlineThickness(5);
     playButton.setButtonHoverColor(sf::Color::Transparent);
     playButton.setButtonHoverOutlineColor(sf::Color::Green);
-    playButton.setTextSize(windowSize, textRatio);
-    playButton.setTextFont(m_font);
-    playButton.setTextPosition(TextButton::CENTER, TextButton::MIDDLE);
-    playButton.setTextColor(sf::Color::White);
-    playButton.setTextHoverColor(sf::Color::Green);
     playButton.setCallback([this, &m_bools, &playButton]() {
-        std::cout << "tcp Clicked" << std::endl;
-        for (size_t i = 0; i < m_bools.size(); i++)
-            m_bools[i] = false;
-        m_bools[0] = !m_bools[0];
+        resetAndSetSelectedButton(0);
     });
     m_texts.push_back(std::move(text2));
     m_buttons.push_back(std::move(playButton));
@@ -77,17 +69,8 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     udpPortButton.setButtonOutlineThickness(5);
     udpPortButton.setButtonHoverColor(sf::Color::Transparent);
     udpPortButton.setButtonHoverOutlineColor(sf::Color::Green);
-    udpPortButton.setTextString("TCP Port : 8080");
-    udpPortButton.setTextSize(windowSize, textRatio);
-    udpPortButton.setTextFont(m_font);
-    udpPortButton.setTextPosition(TextButton::CENTER, TextButton::MIDDLE);
-    udpPortButton.setTextColor(sf::Color::White);
-    udpPortButton.setTextHoverColor(sf::Color::Green);
     udpPortButton.setCallback([this, &m_bools]() {
-            std::cout << "udp Clicked" << std::endl;
-            for (size_t i = 0; i < m_bools.size(); i++)
-                m_bools[i] = false;
-            m_bools[1] = !m_bools[1];
+            resetAndSetSelectedButton(1);
         });
     m_texts.push_back(std::move(text3));
     m_buttons.push_back(std::move(udpPortButton));
@@ -142,6 +125,15 @@ void MainMenu::draw()
                     } else if (str.size() < 16 && real_chars[key] != 0) {
                         str += real_chars[key];
                         m_texts[y].setString(str);
+                    } else if (key == sf::Keyboard::Delete) {
+
+                        while (str.size() > 11)
+                            str.pop_back();
+                        m_texts[y].setString(str);
+                    } else if (key == sf::Keyboard::Enter) {
+                        m_bools[y] = false;
+                    } else if (key == sf::Keyboard::Escape) {
+                        m_bools[y] = false;
                     }
                 }
             }
@@ -181,4 +173,10 @@ void MainMenu::resize()
     yPos += buttonHeight + spacing;
     m_buttons[1].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);*/
+}
+void MainMenu::resetAndSetSelectedButton(unsigned int index)
+{
+    for (size_t i = 0; i < m_bools.size(); i++)
+        m_bools[i] = false;
+    m_bools[index] = !m_bools[index];
 }
