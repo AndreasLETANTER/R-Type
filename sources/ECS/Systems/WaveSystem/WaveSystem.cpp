@@ -13,16 +13,19 @@ WaveSystem WaveSystem::operator()(Registry &registry)
     std::vector<Component::EntityClass> m_boss_vector;
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_ORANGE_CRAB));
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_YELLOW_POPCORN));
-    unsigned int nb_enemies_for_wave = rand() % 4 + 3;
+    unsigned int nb_enemies_for_wave = rand() % 6 + 3;
 
     if (registry.enemiesAreDead()) {
         for (unsigned int i = 0; i < nb_enemies_for_wave; i++) {
             unsigned int enemy_type = rand() % m_enemy_vector.size();
-            unsigned int x_start = 1500;
-            unsigned int y_start = rand() % 800;
+            unsigned int x_offset = rand() % (2000 - 1920) + 1 + 1920;
+            unsigned int x_start = rand() % (1000 - 400) + 1 + 400;
+            unsigned int y_start = rand() % 900;
             auto enemy = registry.spawn_entity();
+
+
             Component::EntityClass entityClassTmp = m_enemy_vector[enemy_type];
-            registry.add_component<Component::Position>(enemy, Component::Position(x_start, y_start));
+            registry.add_component<Component::Position>(enemy, Component::Position(x_offset, y_start));
             registry.add_component<Component::Velocity>(enemy, Component::Velocity(0, 0, entityClassTmp.speed));
             registry.add_component<Component::Shoot>(enemy, Component::Shoot(0, true, entityClassTmp.shootingPattern, registry.getClock(), sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, -1, 0));
             registry.add_component<Component::Drawable>(enemy, Component::Drawable(entityClassTmp.assetName, registry.getWindow(), sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));

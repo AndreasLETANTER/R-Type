@@ -24,7 +24,7 @@ namespace Component {
             case EntityClasses::NUGO:
                 return EntityClass("SpaceShips.gif", "NugoBullet.png", Component::Position(102, 57), sf::IntRect(0, 2, 34, 16), 150, 15, 750, 1, ShootingPattern::LINEAR);
             case EntityClasses::ANDREAS:
-                return EntityClass("SpaceShips.gif", "AndreasBullet.png", Component::Position(102, 57), sf::IntRect(0, 19, 34, 16), 50, 1, 300, 7, ShootingPattern::LINEAR);
+                return EntityClass("SpaceShips.gif", "AndreasBullet.png", Component::Position(102, 57), sf::IntRect(0, 19, 34, 16), 50, 1000, 300, 7, ShootingPattern::LINEAR);
             case EntityClasses::ELIOT:
                 return EntityClass("SpaceShips.gif", "EliotBullet.png", Component::Position(102, 57), sf::IntRect(0, 36, 34, 16), 100, 5, 500, 5, ShootingPattern::LINEAR);
             case EntityClasses::LOUIS:
