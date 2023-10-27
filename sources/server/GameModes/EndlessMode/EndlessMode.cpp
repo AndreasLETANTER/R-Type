@@ -29,6 +29,7 @@
 
 void EndlessMode::init()
 {
+    registry.register_component<Component::EntityClass>();
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.register_component<Component::Controllable>();

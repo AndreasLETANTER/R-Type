@@ -36,6 +36,7 @@ void AGameMode::create_player(int x, int y, int id, EntityClasses classEnum)
     auto player = registry.spawn_entity();
     Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
 
+    m_registry.add_component<Component::EntityClass>(player, Component::EntityClassFactory::CreateEntityClass(classEnum));
     registry.add_component<Component::Position>(player, Component::Position(x, y));
     registry.add_component<Component::Velocity>(player, Component::Velocity(0, 0, entityClassTmp.speed));
     registry.add_component<Component::Controllable>(player, Component::Controllable(true, id));
