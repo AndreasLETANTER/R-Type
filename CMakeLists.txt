@@ -55,13 +55,19 @@ FetchContent_MakeAvailable(Boost)
 ###############################DIRECTORIES SRC####################################
 
 set(ASSETS_FILES
-    assets/Space_Background.png
+    assets/SpaceBackground.png
     assets/SpaceShips.gif
-    assets/BulletSprite.png
+    assets/NugoBullet.png
+    assets/AndreasBullet.png
+    assets/EliotBullet.png
+    assets/LouisBullet.png
+    assets/HugoBullet.png
     assets/BulletSpriteMonster.png
     assets/GreyRobotObstacle.gif
     assets/OrangeCrabEnemy.gif
+    assets/OrangeCrabBullet.png
     assets/YellowPopcornEnemy.gif
+    assets/YellowPopcornBullet.png
     assets/font.ttf
 )
 
@@ -85,6 +91,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
+    sources/ECS/Components/EntityClass.cpp
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp

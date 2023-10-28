@@ -19,11 +19,13 @@ namespace Component {
             Velocity() = default;
             double vx; /**< The velocity on the x-axis. */
             double vy; /**< The velocity on the y-axis. */
+            int speed; /**< The actual velocity of the entity. */
             /**
              * @brief Constructor for Velocity class.
              * @param vx The velocity on the x-axis.
              * @param vy The velocity on the y-axis.
+             * @param speed The speed of the entity.
              */
-            inline Velocity(double vx, double vy) { this->vx = vx; this->vy = vy; }
+            inline Velocity(double vx, double vy, int speed) { this->vx = vx; this->vy = vy; this->speed = speed; }
     };
 }
