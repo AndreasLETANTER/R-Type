@@ -2,25 +2,12 @@
 ** EPITECH PROJECT, 2023
 ** Binary converter class
 ** File description:
-** This class create header and convert binary to struct and struct to binary
+** This class create packet and convert binary to struct and struct to binary
 */
 
 #pragma once
 
 #include "ECS/RegistryClass/Registry.hpp"
-
-typedef struct s_header
-{
-    unsigned int messageId;
-    unsigned int timestamp;
-    unsigned int nbEntities;
-} t_header;
-
-typedef struct s_first_message
-{
-    unsigned int id;
-    unsigned int udp_port;
-} t_first_message;
 
 class binaryConverter {
 /**
@@ -43,9 +30,8 @@ class binaryConverter {
          * @param buffer A pointer to the buffer containing the binary data.
          * @return A pointer to the structured data.
          */
-        std::pair<message_t *, size_t> convertBinaryToStruct(char *buffer);
-        t_first_message convertBinaryToFirstMessage(char *buffer);
-        t_input convertBinaryToInput(char *buffer);
+        packet_t convertBinaryToStruct(const char *buffer);
+        input_t convertBinaryToInput(const char *buffer);
 
         /**
          * @brief Converts structured data to binary data.
@@ -54,16 +40,15 @@ class binaryConverter {
          * @param messages A pointer to the structured data.
          * @return A pointer to the binary data.
          */
-        std::vector<char> convertStructToBinary(size_t nbEntites, message_t *messages);
-        std::vector<char> convertStructToFirstMessage(unsigned int messageId);
-        std::vector<char> convertStructToInput(unsigned int t_id, sf::Keyboard::Key key);
+        std::vector<char> convertStructToBinary(packet_t packet);
+        std::vector<char> convertInputToBinary(input_t t_input);
 
     private:
         /**
-         * @brief Creates a header for the binary data.
+         * @brief Creates a packet for the binary data.
          * 
-         * @param nbEntities The number of entities in the structured data.
-         * @return The header for the binary data.
+         * @param messageType The type of message.
+         * @return The packet for the binary data.
          */
-        t_header createHeader(size_t nbEntities);
+        packet_t createpacket(unsigned int messageType);
 };

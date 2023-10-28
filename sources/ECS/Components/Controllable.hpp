@@ -23,9 +23,15 @@ namespace Component {
             unsigned int playerId;
 
             /**
-             * @brief The key pressed by the player controlling the entity.
+             * @brief The key map of the controllable component.
              */
-            sf::Keyboard::Key keyPressed = sf::Keyboard::Unknown;
+            std::map<sf::Keyboard::Key, bool> m_keyMapState = {
+                {sf::Keyboard::Z, false},
+                {sf::Keyboard::S, false},
+                {sf::Keyboard::Q, false},
+                {sf::Keyboard::D, false},
+                {sf::Keyboard::Space, false}
+            };
 
             /**
              * @brief Constructor for the Controllable component.

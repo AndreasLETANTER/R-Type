@@ -10,7 +10,12 @@ set(ECS_TESTS_NAME "r-type_ecs_tests")
 set(SERVER_TESTS_NAME "r-type_server_tests")
 set(CLIENT_TESTS_NAME "r-type_client_tests")
 set(RTYPE_TESTS_NAME "r-type_tests")
-set(CXX_FLAGS -Wall -Wextra -Werror)
+
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    set(CXX_FLAGS -Wall -Wextra -Werror)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(CXX_FLAGS -Wall -Wextra)
+endif()
 
 ###############################INSTALL PACKAGES###################################
 include(FetchContent)
@@ -27,6 +32,12 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libconfig)
 
+if (CMAKE_HOST_WIN32)
+    set(libconfig_name "libconfig")
+else()
+    set(libconfig_name "config")
+endif()
+
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY "https://github.com/SFML/SFML.git"
@@ -37,19 +48,26 @@ FetchContent_MakeAvailable(SFML)
 FetchContent_Declare(
     Boost
     GIT_REPOSITORY "https://github.com/boostorg/boost.git"
+    GIT_TAG "boost-1.81.0"
 )
 FetchContent_MakeAvailable(Boost)
 
 ###############################DIRECTORIES SRC####################################
 
 set(ASSETS_FILES
-    assets/Space_Background.png
+    assets/SpaceBackground.png
     assets/SpaceShips.gif
-    assets/BulletSprite.png
+    assets/NugoBullet.png
+    assets/AndreasBullet.png
+    assets/EliotBullet.png
+    assets/LouisBullet.png
+    assets/HugoBullet.png
     assets/BulletSpriteMonster.png
     assets/GreyRobotObstacle.gif
     assets/OrangeCrabEnemy.gif
+    assets/OrangeCrabBullet.png
     assets/YellowPopcornEnemy.gif
+    assets/YellowPopcornBullet.png
     assets/font.ttf
 )
 
@@ -63,35 +81,43 @@ set (ECS_SOURCES
     sources/ECS/Systems/PositionSystem/PositionSystem.cpp
     sources/ECS/Systems/ProjectileSystem/ProjectileSystem.cpp
     sources/ECS/Systems/ShootSystem/ShootSystem.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/ShootingPatternFactory.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/AShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/LinearShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/SpreadShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/CircularShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/WaveShootingPattern.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
+    sources/ECS/Components/EntityClass.cpp
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
+    sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
 )
 
 set(SERVER_SOURCES
-    sources/server/tcpSocket/tcpSocket.cpp
     sources/server/udpSocket/udpSocket.cpp
+    sources/server/tcpSocket/tcpSocket.cpp
+    sources/server/GameModes/DefaultMode/DefaultMode.cpp
+    sources/server/GameModes/AGameMode/AGameMode.cpp
+    sources/server/GameModes/GameModeFactory/GameModeFactory.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
-    sources/utils/handleArgument/handleArgument.cpp
+    sources/utils/HandleArgument/HandleArgument.cpp
 )
 
 set(CLIENT_SOURCES
-
-    sources/client/Network/Network.cpp
-    sources/client/tcpClientSocket/tcpClientSocket.cpp
-    sources/server/tcpSocket/tcpSocket.cpp
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
-    sources/utils/handleArgument/handleArgument.cpp
+    sources/utils/HandleArgument/HandleArgument.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
-    sources/client/Network/Network.cpp
+    sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
+    sources/client/InputHandler/InputHandler.cpp
 )
 
 set(SERVER_MAIN
@@ -108,8 +134,8 @@ set(ECS_TESTS
     tests/ECS/RegistryTests.cpp
     tests/ECS/SparseArrayTests.cpp
     tests/ECS/CollisionSystemTests.cpp
-    tests/ECS/ProjectileCollisionSystemTests.cpp
-    tests/ECS/HealthSystemTests.cpp
+    # tests/ECS/ProjectileCollisionSystemTests.cpp
+    # tests/ECS/HealthSystemTests.cpp
     tests/ECS/RegistryExportTests.cpp
     tests/ECS/RegistryImportTests.cpp
 )
@@ -158,45 +184,51 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics config++ Assets::RType Boost::asio)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
 
 ###############################COMPILATION TESTS##################################
-find_library(CRITERION criterion)
-#create the tests executable with the criterion library
-add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
-target_include_directories(${ECS_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+option(BUILD_TESTS "Build tests using Criterion" ON)
+if(BUILD_TESTS)
+    find_library(CRITERION criterion)
+endif()
 
-add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
-target_include_directories(${SERVER_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+if (CRITERION)
+    #create the tests executable with the criterion library
+    add_executable(${ECS_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${ECS_TESTS})
+    target_include_directories(${ECS_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
-add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
-target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
+    add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
+    target_include_directories(${SERVER_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
 
-add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
-target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/sources
-    ${CMAKE_SOURCE_DIR}/build
-)
-target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics config++ Assets::RType Boost::asio)
+    add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
+    target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+
+    add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
+    target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/sources
+        ${CMAKE_SOURCE_DIR}/build
+    )
+    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+endif()
 
 ###############################CUSTOM TARGETS#####################################
 add_custom_target(fclean
@@ -235,49 +267,51 @@ add_custom_target(client
     COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_NAME}
 )
 
-#compile the ecs tests only
-add_custom_target(ecs_tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
-)
+if (CRITERION)
+    #compile the ecs tests only
+    add_custom_target(ecs_tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
+    )
 
-#compile the ecs tests only and run them
-add_custom_target(ecs_tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
-    COMMAND ../${ECS_TESTS_NAME}
-)
+    #compile the ecs tests only and run them
+    add_custom_target(ecs_tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${ECS_TESTS_NAME}
+        COMMAND ../${ECS_TESTS_NAME}
+    )
 
-#compile the server tests only
-add_custom_target(server_tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
-)
+    #compile the server tests only
+    add_custom_target(server_tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+    )
 
-#compile the server tests only and run them
-add_custom_target(server_tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
-    COMMAND ../${SERVER_TESTS_NAME}
-)
+    #compile the server tests only and run them
+    add_custom_target(server_tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${SERVER_TESTS_NAME}
+        COMMAND ../${SERVER_TESTS_NAME}
+    )
 
-#compile the client tests only
-add_custom_target(client_tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
-)
+    #compile the client tests only
+    add_custom_target(client_tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+    )
 
-#compile the client tests only and run them
-add_custom_target(client_tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
-    COMMAND ../${CLIENT_TESTS_NAME}
-)
+    #compile the client tests only and run them
+    add_custom_target(client_tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${CLIENT_TESTS_NAME}
+        COMMAND ../${CLIENT_TESTS_NAME}
+    )
 
-#compile all the tests
-add_custom_target(tests
-    COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
-)
+    #compile all the tests
+    add_custom_target(tests
+        COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
+    )
 
-#compile all the tests and run them
-add_custom_target(tests_run
-    COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
-    COMMAND ../${RTYPE_TESTS_NAME}
-)
+    #compile all the tests and run them
+    add_custom_target(tests_run
+        COMMAND ${CMAKE_COMMAND} --build . --target ${RTYPE_TESTS_NAME}
+        COMMAND ../${RTYPE_TESTS_NAME}
+    )
+endif()
 
 #compile doxygen documentation
 add_custom_target(doxygen

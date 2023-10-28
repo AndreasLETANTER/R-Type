@@ -19,9 +19,6 @@ jobs:
   check_repository_cleanliness:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    outputs:
-      summary: ${{ steps.check_unwanted_files.outputs.summary }}
-      result: ${{ steps.check_unwanted_files.outputs.result }}
     steps:
       - name: Fetch repository
         uses: actions/checkout@v3
@@ -44,22 +41,41 @@ jobs:
           fi
           echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
 
-  check_program_compilation_and_run_tests:
-    runs-on: ubuntu-latest
+  check_windows_compilation:
+    runs-on: windows-latest
     needs: [check_repository_cleanliness]
-    outputs:
-      summary: ${{ steps.check_if_executable_exists.outputs.summary }}
-      result: ${{ steps.check_if_executable_exists.outputs.result }}
-    container:
-      image: epitechcontent/epitest-docker
     steps:
       - name: Fetch repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install dependencies
+      - name: Configure project
         run: |
-          pip install pyinstaller
+          cmake -B build
+      - name: Compile project
+        run: |
+          cmake --build build --target server client --config Release
+      - name: Check if binaries exist
+        run: |
+          test -f $SERVER_BINARY.exe
+          test -f $CLIENT_BINARY.exe
+
+
+  check_program_compilation_and_run_tests:
+    runs-on: ubuntu-latest
+    needs: [check_repository_cleanliness]
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - name: Cache pulled image
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-epitechcontent-epitest-docker
+      - name: Fetch repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Install packages
         run: |
           dnf -y install libXcursor-devel
@@ -70,10 +86,9 @@ jobs:
         run: |
           mkdir build
           cmake -B build
-          make server -C build
-          make client -C build
-      - id: check_binaries
-        name: Check if binaries exist
+          make server -C build -j$($(nproc))
+          make client -C build -j$($(nproc))
+      - name: Check if binaries exist
         run: |
           echo "summary=| Check if executables exist " >> $GITHUB_OUTPUT
           if [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ] && [ -f $SERVER_BINARY ] && [ -x $SERVER_BINARY ] && [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ]; then
@@ -88,7 +103,7 @@ jobs:
         run: |
           export DISPLAY=:99
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-          make tests_run -C build
+          make tests_run -C build -j$($(nproc))
           if [ $? -eq 0 ]; then
             echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           else
@@ -142,57 +157,6 @@ jobs:
             fi
             echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           fi
-
-  create_doxygen:
-    runs-on: ubuntu-latest
-    needs: [check_program_compilation_and_run_tests]
-    outputs:
-      summary: ${{ steps.create_doxygen.outputs.summary }}
-      result: ${{ steps.create_doxygen.outputs.result }}
-    steps:
-      - name : Fetch repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install doxygen
-        run: |
-          sudo apt-get install -y doxygen
-      - name: Create doxygen
-        run: |
-          doxygen Doxyfile
-      - id: create_doxygen
-        name: Add doxygen to release
-        run: |
-          echo "summary=| Create doxygen " >> $GITHUB_OUTPUT
-          echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
-
-  print_summary:
-    runs-on: ubuntu-latest
-    needs: [check_repository_cleanliness, check_program_compilation_and_run_tests, create_doxygen]
-    env:
-      check_repository_cleanliness: ${{ needs.check_repository_cleanliness.outputs.summary }}
-      check_repository_cleanliness_result: ${{ needs.check_repository_cleanliness.outputs.result }}
-      check_program_compilation: ${{ needs.check_program_compilation.outputs.summary }}
-      check_program_compilation_result: ${{ needs.check_program_compilation.outputs.result }}
-      run_units_tests: ${{ needs.run_units_tests.outputs.summary }}
-      run_units_tests_result: ${{ needs.run_units_tests.outputs.result }}
-      run_functionals_tests: ${{ needs.run_functionals_tests.outputs.summary }}
-      run_functionals_tests_result: ${{ needs.run_functionals_tests.outputs.result }}
-      create_doxygen: ${{ needs.create_doxygen.outputs.summary }}
-      create_doxygen_result: ${{ needs.create_doxygen.outputs.result }}
-    steps:
-      - name: Print summary
-        run: |
-          echo "## Summary of the workflow :rocket:"
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
-          echo "$check_repository_cleanliness $check_repository_cleanliness_result" >> $GITHUB_STEP_SUMMARY
-          echo "$check_program_compilation $check_program_compilation_result" >> $GITHUB_STEP_SUMMARY
-          echo "$run_units_tests $run_units_tests_result" >> $GITHUB_STEP_SUMMARY
-          echo "$run_functionals_tests $run_functionals_tests_result" >> $GITHUB_STEP_SUMMARY
-          echo "$create_doxygen $create_doxygen_result" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
 
   push_to_mirror:
     if: github.event_name == 'push'

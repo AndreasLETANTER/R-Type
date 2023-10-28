@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "client/MainMenu/MainMenu.hpp"
-#include "utils/handleArgument/handleArgument.hpp"
+#include "utils/HandleArgument/HandleArgument.hpp"
 #include "MainMenu.hpp"
 
 MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
@@ -135,7 +135,7 @@ void MainMenu::draw()
 {
     int i = 0;
     int error = 0;
-    handleArgument arg;
+    HandleArgument arg;
 
     for (auto &button : m_buttons) {
         if (m_buttonTypes[i] == ADDRESS) {

@@ -7,66 +7,115 @@
 
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
-
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
 #include "client/MainMenu/MainMenu.hpp"
-#include "client/Network/Network.hpp"
-#include "utils/handleArgument/handleArgument.hpp"
-
+#include "utils/HandleArgument/HandleArgument.hpp"
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
 #include "client/udpClientSocket/udpClientSocket.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
+#include "InputHandler/InputHandler.hpp"
 #include "ECS/Assets/Assets.hpp"
+
+/**
+ * @brief Updates the game state by processing packets received from the server.
+ *
+ * @param udpClient The UDP client socket used to receive packets.
+ * @param registry The entity registry used to update the game state.
+ * @param window The SFML window used to render the game.
+ */
+static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window)
+{
+    std::vector<packet_t> packets = udpClient.get_packet_queue();
+    for (unsigned int i = 0; i < packets.size(); i++) {
+        if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
+            needGameInfos = false;
+            continue;
+        }
+        if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
+            continue;
+        }
+        if (packets[i].messageType == ALL_GAME_INFO_CODE && needGameInfos == false) {
+            continue;
+        }
+        registry.updateFromPacket(packets[i], window);
+    }
+    if (packets.size() > 0) {
+        udpClient.clear_packet_queue();
+    }
+}
 
 int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
     Assets assets;
-    Registry registry(assets);
+    sf::Clock clock;
+    Registry registry;
+    binaryConverter converter;
+    HandleArgument handleArguments;
+    tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
+    udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
+    bool needGameInfos = true;
+
+    registry.register_component<Component::Drawable>();
+    registry.register_component<Component::Position>();
+    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
+    registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
+    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
+    tcpClient.run();
+    tcpClient.receive();
+    InputHandler inputHandler(tcpClient.getId());
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
+    /*MainMenu mainMenu(window, assets);
+        TextButton scoreButton = TextButton()
+        .setButtonPosition(sf::Vector2f(0, 0))
+        .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::Transparent)
+        .setButtonOutlineThickness(1)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Transparent)
+        .setTextString("Score: ")
+        .setTextSize(window.getSize(), 15)
+        .setTextFont(assets.get_font("font.ttf"))
+        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
+        .setTextColor(sf::Color::White)
+        .setTextHoverColor(sf::Color::Transparent)
+        .setCallback([]() {
+        });*/
 
-    registry.register_component<Component::Position>();
-    registry.register_component<Component::Drawable>();
-    registry.register_component<Component::Scroll>();
-
-    registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
-    registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
 
     registry.spawn_entity();
     registry.spawn_entity();
 
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
     registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("Space_Background.png")));
-    registry.add_component<Component::Scroll>(registry.entity_from_index(0), Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0)));
+    registry.add_component<Component::Scroll>(registry.entity_from_index(0), Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0), 0.5));
 
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
     registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("Space_Background.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("Space_Background.png")));
-    registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0)));
-    MainMenu mainMenu(window, assets, registry);
+    registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0), 0.5));
+    //MainMenu mainMenu(window, assets, registry);
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
-            if (event.type == sf::Event::Resized) {
-                sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-                window.setView(sf::View(visibleArea));
-                mainMenu.resize();
-            }
-            if (event.type == sf::Event::KeyPressed) {
-                mainMenu.setKey(event.key.code);
-
+                exit(0);
             }
         }
+        std::vector<input_t> inputs = inputHandler.handle_inputs();
+        for (unsigned int i = 0; i < inputs.size(); i++) {
+            udpClient.send(converter.convertInputToBinary(inputs[i]));
+        }
+        update_game_from_packets(udpClient, registry, needGameInfos, &window);
         window.clear();
         registry.run_systems();
-        mainMenu.update();
-        mainMenu.draw();
+        //scoreButton.draw(window);
         window.display();
     }
     return 0;
