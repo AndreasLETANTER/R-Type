@@ -68,8 +68,10 @@ class Registry {
          * @brief Construct a new Registry object with a given Assets object.
          * 
          * @param assets The assets to use for the registry.
+         * @param window The window to draw the entities in.
+         * @param clock The clock of the program.
          */
-        Registry(Assets assets);
+        Registry(Assets assets, sf::RenderWindow *window, sf::Clock *clock);
         /**
          * @brief The type of function used to erase a component from the registry.
          * 
@@ -253,7 +255,7 @@ class Registry {
          * 
          * @return true if all players are dead.
          * @return false if not all players are dead.
-        */
+         */
         bool playersAreDead();
 
         /**
@@ -261,8 +263,26 @@ class Registry {
          * 
          * @return true if all enemies are dead.
          * @return false if not all enemies are dead.
-        */
+         */
         bool enemiesAreDead();
+
+        /**
+         * @brief Returns the window of the registry.
+         * 
+         * @return sf::RenderWindow* A pointer to the window of the registry.
+         */
+        sf::RenderWindow *getWindow() const;
+
+        /**
+         * @brief Returns a pointer to the clock used by the registry.
+         * 
+         * @return sf::Clock* A pointer to the clock used by the registry.
+         */
+        sf::Clock *getClock() const;
+
+        void setWindow(sf::RenderWindow *window);
+
+        void setClock(sf::Clock *clock);
 
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
@@ -271,6 +291,8 @@ class Registry {
         SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
         SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
         SparseArray<Component::Position> m_previous_positions;
+        sf::RenderWindow *m_window; /**< The window to draw the entities in. */
+        sf::Clock *m_clock; /** The clock for the program. */
         Assets m_assets; /**< The assets of the registry. */
 };
 

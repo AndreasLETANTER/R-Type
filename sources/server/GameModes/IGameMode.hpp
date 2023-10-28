@@ -9,6 +9,8 @@
 
 #include <string>
 
+#include "ECS/Components/EntityClass.hpp"
+
 /// @brief Interface for GameMode class
 class IGameMode {
     public:
@@ -22,4 +24,7 @@ class IGameMode {
 
         /// @brief Get the multiplayer status of the game mode
         virtual bool isMultiplayer() const = 0;
+    protected:
+        virtual void create_player(int x, int y, int id, EntityClasses classEnum) = 0;
+        virtual void create_background() = 0;
 };

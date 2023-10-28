@@ -17,8 +17,10 @@
 #include "ECS/Components/Shoot.hpp"
 
 
-Registry::Registry(Assets assets) : m_assets(assets)
+Registry::Registry(Assets assets, sf::RenderWindow *window, sf::Clock *clock)
+    : m_window(window), m_clock(clock), m_assets(assets)
 {
+
 }
 
 Entity Registry::spawn_entity()
@@ -270,4 +272,24 @@ bool Registry::enemiesAreDead()
         return true;
     }
     return false;
+}
+
+sf::RenderWindow *Registry::getWindow() const
+{
+    return m_window;
+}
+
+sf::Clock *Registry::getClock() const
+{
+    return m_clock;
+}
+
+void Registry::setWindow(sf::RenderWindow *window)
+{
+    m_window = window;
+}
+
+void Registry::setClock(sf::Clock *clock)
+{
+    m_clock = clock;
 }
