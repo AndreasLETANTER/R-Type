@@ -17,6 +17,7 @@
 #include "ECS/Components/Collision.hpp"
 #include "ECS/Components/AutoMove.hpp"
 #include "ECS/Components/Scroll.hpp"
+#include "ECS/Components/Group.hpp"
 
 /**
  * @brief The ProjectileSystem class handles the logic for updating the position of projectiles in the game.

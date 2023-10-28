@@ -42,6 +42,7 @@ void AGameMode::create_player(int x, int y, int id, EntityClasses classEnum)
     auto player = registry.spawn_entity();
     Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
 
+    registry.add_component<Component::Group>(player, Component::Group(1));
     registry.add_component<Component::EntityClass>(player, Component::EntityClassFactory::CreateEntityClass(classEnum));
     registry.add_component<Component::Position>(player, Component::Position(x, y));
     registry.add_component<Component::Velocity>(player, Component::Velocity(0, 0, entityClassTmp.speed));
@@ -56,11 +57,13 @@ void AGameMode::create_player(int x, int y, int id, EntityClasses classEnum)
 void AGameMode::create_background()
 {
     auto background = registry.spawn_entity();
+    registry.add_component<Component::Group>(background, Component::Group(0));
     registry.add_component<Component::Position>(background, Component::Position(0, 0));
     registry.add_component<Component::Drawable>(background, Component::Drawable("SpaceBackground.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
     registry.add_component<Component::Scroll>(background, Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0), 0));
 
     background = registry.spawn_entity();
+    registry.add_component<Component::Group>(background, Component::Group(0));
     registry.add_component<Component::Position>(background, Component::Position(5700, 0));
     registry.add_component<Component::Drawable>(background, Component::Drawable("SpaceBackground.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
     registry.add_component<Component::Scroll>(background, Component::Scroll(Component::Position(0, 0), Component::Position(0, 0), 0));

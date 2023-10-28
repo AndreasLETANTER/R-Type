@@ -25,6 +25,7 @@ WaveSystem WaveSystem::operator()(Registry &registry)
             auto enemy = registry.spawn_entity();
 
             Component::EntityClass entityClassTmp = m_enemy_vector[enemy_type];
+            registry.add_component<Component::Group>(enemy, Component::Group(2));
             registry.add_component<Component::Position>(enemy, Component::Position(x_offset, y_start));
             registry.add_component<Component::Velocity>(enemy, Component::Velocity(0, 0, entityClassTmp.speed));
             registry.add_component<Component::Shoot>(enemy, Component::Shoot(0, true, entityClassTmp.shootingPattern, registry.getClock(), sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, -1, 0));
