@@ -22,5 +22,5 @@ class CircularShootingPattern : public AShootingPattern {
          * @param pos The position component of the entity.
          * @param draw The drawable component of the entity.
          */
-        void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) override;
+        void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw, unsigned int groupId) override;
 };

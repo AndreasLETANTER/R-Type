@@ -11,6 +11,7 @@
 #include "ECS/Components/Velocity.hpp"
 #include "ECS/Components/Projectile.hpp"
 #include "ECS/Components/Collision.hpp"
+#include "ECS/Components/Group.hpp"
 
 namespace Component {
     class Shoot;
@@ -39,7 +40,7 @@ class AShootingPattern : public IShootingPattern {
          * @param pos The position component of the entity.
          * @param draw The drawable component of the entity.
          */
-        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) = 0;
+        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw, unsigned int groupId) = 0;
 
         /**
          * @brief Creates a projectile.
@@ -52,5 +53,5 @@ class AShootingPattern : public IShootingPattern {
          * @param damage The damage of the projectile.
          * @param playerId The id of the player.
          */
-        void createProjectile(Registry &registry, Component::Drawable &draw, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage, int playerId);
+        void createProjectile(Registry &registry, Component::Drawable &draw, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage, int playerId, unsigned int groupId);
 };
