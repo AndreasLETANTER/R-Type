@@ -110,7 +110,6 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     connectButton.setButtonColor(sf::Color::Transparent);
     connectButton.setButtonOutlineColor(sf::Color::White);
     connectButton.setButtonOutlineThickness(5);
-    connectButton.setButtonHoverColor(sf::Color::Transparent);
     connectButton.setButtonHoverOutlineColor(sf::Color::Green);
     connectButton.setCallback([this, &m_bools]() {
         resetAndSetSelectedButton(3);
@@ -147,8 +146,6 @@ void MainMenu::draw()
         if (m_buttonTypes[i] == PORT) {
             std::string str = m_texts[i].getString();
             str.erase(0, 11);
-            std::cout << "i =" << i << std::endl;
-            std::cout << "str = " << str << std::endl;
             if (str.size() == 0 && (i == 0 || i == 1)) {
                 error++;
             }
@@ -226,4 +223,13 @@ void MainMenu::resetAndSetSelectedButton(unsigned int index)
     for (size_t i = 0; i < m_bools.size(); i++)
         m_bools[i] = false;
     m_bools[index] = !m_bools[index];
+}
+
+unsigned int MainMenu::getButtonPressed()
+{
+    for (size_t i = 0; i < m_bools.size(); i++) {
+        if (m_bools[i] == true)
+            return i;
+    }
+    return 0;
 }

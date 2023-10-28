@@ -35,12 +35,13 @@ class MainMenu {
 
         void resetAndSetSelectedButton(unsigned int index);
 
+        unsigned int getButtonPressed();
+
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;
         Registry &m_registry;
         std::vector<TextButton> m_buttons;
-
         std::vector<sf::Text> m_texts;
         std::vector<sf::Keyboard::Key> m_keys;
         std::vector<bool> m_bools;
