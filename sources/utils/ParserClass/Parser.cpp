@@ -19,6 +19,7 @@
 #include "ECS/Components/AutoMove.hpp"
 #include "ECS/Components/Health.hpp"
 #include "ECS/Components/Score.hpp"
+#include "ECS/Components/Group.hpp"
 
 std::map<std::string, EntityClasses> entityClassesMap = {
     {"NUGO", EntityClasses::NUGO},
@@ -92,6 +93,7 @@ void Parser::loadBackgrounds()
         int pauseX = backgrounds[i]["pauseX"];
 
         m_registry.spawn_entity();
+        m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(0));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY), pauseX));
@@ -111,6 +113,7 @@ void Parser::loadPlayers()
         base.posY = players[i]["position"]["y"];
 
         m_registry.spawn_entity();
+        m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(1));
         Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
         m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClassFactory::CreateEntityClass(classEnum));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
@@ -147,6 +150,7 @@ void Parser::loadObstacles()
         (void) rotation;
 
         m_registry.spawn_entity();
+        m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(2));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
         m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
@@ -170,6 +174,7 @@ void Parser::loadEnemies()
         int automove_y = enemies[i]["autoMove"]["y"];
 
         m_registry.spawn_entity();
+        m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(2));
         Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
         m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClassFactory::CreateEntityClass(classEnum));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
