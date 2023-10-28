@@ -19,6 +19,7 @@ uint16_t handleArgument::getPort(char const *t_av) const
             check_if_number(t_av);
             port = std::stoi(t_av);
         } catch (std::invalid_argument const &e) {
+            port = u_int16_t(999999);
             printError(e.what());
         }
     }
@@ -40,13 +41,13 @@ void handleArgument::check_if_number(std::string const &t_str) const
 boost::asio::ip::address handleArgument::getIp(char const *t_av) const
 {
     boost::asio::ip::address ip = boost::asio::ip::address::from_string("0.0.0.0");
-    
+
     if (t_av != nullptr) {
         try {
-            std::cout << t_av << std::endl;
             ip = boost::asio::ip::address::from_string(t_av);
         } catch (std::exception const &e) {
             printError(e.what());
+            ip = boost::asio::ip::address::from_string("255.255.255.255");
         }
     }
     return ip;

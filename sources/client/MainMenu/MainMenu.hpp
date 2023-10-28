@@ -46,7 +46,8 @@ class MainMenu {
         std::vector<bool> m_bools;
         enum ButtonType {
             PORT,
-            ADDRESS
+            ADDRESS,
+            CONNECT
         };
         std::vector<ButtonType> m_buttonTypes;
         sf::Font m_font;

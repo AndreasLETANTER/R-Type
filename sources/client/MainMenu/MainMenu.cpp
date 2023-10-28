@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "client/MainMenu/MainMenu.hpp"
+#include "utils/handleArgument/handleArgument.hpp"
 #include "MainMenu.hpp"
 
 MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
@@ -93,8 +94,30 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
         });
     m_texts.push_back(std::move(text4));
     m_buttons.push_back(std::move(ipPortButton));
-}
 
+    pos.y += 300;
+    auto connectButton = m_buttons.emplace_back();
+    auto text5 = m_texts.emplace_back();
+    m_bools.push_back(false);
+    m_buttonTypes.push_back(CONNECT);
+    m_texts[3].setFont(m_font);
+    m_texts[3].setString("CONNECT");
+    m_texts[3].setCharacterSize(34);
+    m_texts[3].setFillColor(sf::Color::Green);
+    m_texts[3].setPosition(pos.x + 35, pos.y + 15);
+    connectButton.setButtonPosition(pos);
+    connectButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
+    connectButton.setButtonColor(sf::Color::Transparent);
+    connectButton.setButtonOutlineColor(sf::Color::White);
+    connectButton.setButtonOutlineThickness(5);
+    connectButton.setButtonHoverColor(sf::Color::Transparent);
+    connectButton.setButtonHoverOutlineColor(sf::Color::Green);
+    connectButton.setCallback([this, &m_bools]() {
+        resetAndSetSelectedButton(3);
+    });
+    m_texts.push_back(std::move(text5));
+    m_buttons.push_back(std::move(connectButton));
+}
 
 char real_chars[sf::Keyboard::KeyCount] = {
     // Printable characters
@@ -107,12 +130,45 @@ char real_chars[sf::Keyboard::KeyCount] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0
   };
+
 void MainMenu::draw()
+{
+    int i = 0;
+    int error = 0;
+    handleArgument arg;
+
+    for (auto &button : m_buttons) {
+        if (m_buttonTypes[i] == ADDRESS) {
+            std::string str = m_texts[i].getString();
+            str.erase(0, 13);
+            if (arg.getIp(str.c_str()) == boost::asio::ip::address::from_string("255.255.255.255"))
+                error++;
+        }
+        if (m_buttonTypes[i] == PORT) {
+            std::string str = m_texts[i].getString();
+            str.erase(0, 11);
+            std::cout << "i =" << i << std::endl;
+            std::cout << "str = " << str << std::endl;
+            if (str.size() == 0 && (i == 0 || i == 1)) {
+                error++;
+            }
+        }
+        if (error != 0 && i  == 7) {} else {
+            button.draw(m_window);
+        }
+        if (error != 0 && i == 3) {} else {
+            m_window.draw(m_texts[i]);
+        }
+        i++;
+    }
+
+}
+
+void MainMenu::update()
 {
     int i = 0;
 
     for (auto &button : m_buttons) {
-        button.draw(m_window);
         for (auto &key : m_keys) {
             for (size_t y = 0; y < m_bools.size(); y++) {
                 if (m_bools[y] == true) {
@@ -139,20 +195,11 @@ void MainMenu::draw()
             }
         }
         m_keys.clear();
-        if  (m_bools[i] == true) {
-            m_texts[i].setFillColor(sf::Color::Green);
-        } else {
-            m_texts[i].setFillColor(sf::Color::White);
-        }
-        m_window.draw(m_texts[i]);
-        i++;
-    }
-}
-
-void MainMenu::update()
-{
-    for (auto &button : m_buttons) {
+        m_texts[i].setFillColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
+        m_texts[i].setOutlineColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
+        m_texts[i].setOutlineThickness((m_bools[i] == true) ? 0.5 : 0);
         button.update(m_window);
+        i++;
     }
 }
 

@@ -65,8 +65,8 @@ int main(int ac, char **av)
         }
         window.clear();
         registry.run_systems();
-        mainMenu.draw();
         mainMenu.update();
+        mainMenu.draw();
         window.display();
     }
     return 0;
