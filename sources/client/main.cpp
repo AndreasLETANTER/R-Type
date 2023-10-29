@@ -62,6 +62,7 @@ int main(int ac, char **av)
 
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::Position>();
+    registry.register_component<Component::Score>();
     registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
 
     udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
