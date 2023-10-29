@@ -19,6 +19,7 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Score.hpp"
 #include "ECS/Assets/Assets.hpp"
+#include "client/Buttons/TextButton/TextButton.hpp"
 
 #define ALL_GAME_INFO_CODE 100
 #define NO_MORE_GAME_INFO_CODE 101
@@ -237,8 +238,9 @@ class Registry {
          * @param messages Pointer to the array of messages.
          * @param size Size of the array of messages.
          * @param window The window to draw the entities in.
+         * @param scoreButton The score button to update.
          */
-        void updateFromPacket(packet_t packet, sf::RenderWindow *window);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton);
         /**
          * @brief Returns the assets of the registry.
          * 

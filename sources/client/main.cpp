@@ -26,7 +26,7 @@
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
  */
-static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window)
+static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window, TextButton &scoreButton)
 {
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
@@ -40,7 +40,7 @@ static void update_game_from_packets(udpClientSocket &udpClient, Registry &regis
         if (packets[i].messageType == ALL_GAME_INFO_CODE && needGameInfos == false) {
             continue;
         }
-        registry.updateFromPacket(packets[i], window);
+        registry.updateFromPacket(packets[i], window, scoreButton);
     }
     if (packets.size() > 0) {
         udpClient.clear_packet_queue();
@@ -51,29 +51,29 @@ int main(int ac, char **av)
 {
     (void)ac;
     (void)av;
-    Assets assets;
-    sf::Clock clock;
-    Registry registry;
     binaryConverter converter;
     HandleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     bool needGameInfos = true;
 
+    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
+    tcpClient.run();
+    tcpClient.receive();
+    InputHandler inputHandler(tcpClient.getId());
+    Assets assets;
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
+    sf::Clock clock;
+    Registry registry(assets, &window, &clock);
+
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::Position>();
     registry.register_component<Component::Score>();
     registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
 
-    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
-    tcpClient.run();
-    tcpClient.receive();
-    InputHandler inputHandler(tcpClient.getId());
-
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
     MainMenu mainMenu(window, assets);
-        TextButton scoreButton = TextButton()
+    TextButton scoreButton = TextButton()
         .setButtonPosition(sf::Vector2f(50, 10))
         .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
         .setButtonColor(sf::Color::Transparent)
@@ -81,7 +81,7 @@ int main(int ac, char **av)
         .setButtonOutlineThickness(1)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Transparent)
-        .setTextString("Score: ")
+        .setTextString("Score: 0")
         .setTextSize(window.getSize(), 15)
         .setTextFont(assets.get_font("font.ttf"))
         .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
@@ -101,7 +101,7 @@ int main(int ac, char **av)
         for (unsigned int i = 0; i < inputs.size(); i++) {
             udpClient.send(converter.convertInputToBinary(inputs[i]));
         }
-        update_game_from_packets(udpClient, registry, needGameInfos, &window);
+        update_game_from_packets(udpClient, registry, needGameInfos, &window, scoreButton);
         window.clear();
         registry.run_systems();
         scoreButton.update(window);
