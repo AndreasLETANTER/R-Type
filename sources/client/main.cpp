@@ -74,7 +74,7 @@ int main(int ac, char **av)
     window.setFramerateLimit(144);
     MainMenu mainMenu(window, assets);
         TextButton scoreButton = TextButton()
-        .setButtonPosition(sf::Vector2f(0, 0))
+        .setButtonPosition(sf::Vector2f(50, 10))
         .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::Transparent)
@@ -104,6 +104,7 @@ int main(int ac, char **av)
         update_game_from_packets(udpClient, registry, needGameInfos, &window);
         window.clear();
         registry.run_systems();
+        scoreButton.update(window);
         scoreButton.draw(window);
         window.display();
     }
