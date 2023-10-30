@@ -91,6 +91,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpSystem.cpp
     sources/ECS/Systems/WaveSystem/WaveSystem.cpp
     sources/ECS/Components/EntityClass.cpp
     sources/ECS/Components/Drawable.cpp

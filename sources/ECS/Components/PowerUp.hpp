@@ -29,12 +29,14 @@ namespace Component {
 
             sf::Time delayBeforeDispawn;
 
+            sf::Time startTime;
+
             PowerUpType type;
 
             int stat;
             
             sf::Clock *clock; /**< A pointer to the clock used to measure time. */
 
-            inline PowerUp(sf::Time delayBeforeDispawn, PowerUpType type, sf::Clock *clock, int stat) { this->delayBeforeDispawn = delayBeforeDispawn; this->type = type; this->clock = clock; this->stat = stat;}
+            inline PowerUp(sf::Time delayBeforeDispawn, PowerUpType type, sf::Clock *clock, int stat) { this->delayBeforeDispawn = delayBeforeDispawn; this->type = type; this->clock = clock; this->stat = stat; startTime = clock->getElapsedTime();}
     };
 }

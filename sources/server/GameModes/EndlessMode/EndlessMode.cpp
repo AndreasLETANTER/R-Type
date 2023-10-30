@@ -21,6 +21,7 @@
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
 #include "ECS/Systems/WaveSystem/WaveSystem.hpp"
+#include "ECS/Systems/PowerUpSystem/PowerUpSystem.hpp"
 
 #include "../../../../build/assets/Level1Config.hpp"
 
@@ -46,6 +47,7 @@ void EndlessMode::init()
     registry.register_component<Component::Health>();
     registry.register_component<Component::Score>();
     registry.register_component<Component::Group>();
+    registry.register_component<Component::PowerUp>();
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -58,6 +60,7 @@ void EndlessMode::init()
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
+    registry.add_system<Component::Controllable, Component::Collision, Component::PowerUp>(PowerUpSystem());
     registry.add_system<>(WaveSystem());
 
     create_background();
@@ -70,6 +73,13 @@ void EndlessMode::init()
     } else {
         create_player(150, 450, 1, EntityClasses::ANDREAS);
     }
+    auto tempPowerUp = registry.spawn_entity();
+    Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(EntityClasses::ANDREAS);
+    registry.add_component<Component::Group>(tempPowerUp, Component::Group(3));
+    registry.add_component<Component::Position>(tempPowerUp, Component::Position(500, 500));
+    registry.add_component<Component::Drawable>(tempPowerUp, Component::Drawable(entityClassTmp.assetName, &window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
+    registry.add_component<Component::Collision>(tempPowerUp, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+    registry.add_component<Component::PowerUp>(tempPowerUp, Component::PowerUp(sf::Time(sf::seconds(10)), PowerUpType::AttackSpeed, &clock, 100));
 }
 
 void EndlessMode::run()
