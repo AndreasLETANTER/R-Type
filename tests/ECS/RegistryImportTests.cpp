@@ -18,14 +18,17 @@ Test(Registry, basic_importFromMessages)
 {
     Registry reg;
     Registry importReg;
+    TextButton button;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
     importReg.register_component<Component::Position>();
     importReg.register_component<Component::Velocity>();
     importReg.register_component<Component::Drawable>();
+    importReg.register_component<Component::Score>();
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0, 0));
@@ -34,7 +37,7 @@ Test(Registry, basic_importFromMessages)
     std::vector<packet_t> packets = reg.exportToPackets();
 
     for (unsigned int i = 0; i < packets.size(); i++) {
-        importReg.updateFromPacket(packets[i], nullptr);
+        importReg.updateFromPacket(packets[i], nullptr, button);
     }
 
     auto &positions = importReg.get_components<Component::Position>();
@@ -50,11 +53,18 @@ Test(Registry, basic_importFromMessages)
 Test(Registry, 2_spawn_importFromMessages)
 {
     Registry reg;
+    Registry importReg;
+    TextButton button;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
+    importReg.register_component<Component::Score>();
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
     reg.add_component<Component::Velocity>(entity1, Component::Velocity(0, 0, 0));
@@ -67,14 +77,9 @@ Test(Registry, 2_spawn_importFromMessages)
 
     std::vector<packet_t> packets = reg.exportToPackets();
 
-    Registry importReg;
-    importReg.register_component<Component::Position>();
-    importReg.register_component<Component::Velocity>();
-    importReg.register_component<Component::Drawable>();
     for (unsigned int i = 0; i < packets.size(); i++) {
-        importReg.updateFromPacket(packets[i], nullptr);
+        importReg.updateFromPacket(packets[i], nullptr, button);
     }
-
     auto &positions = importReg.get_components<Component::Position>();
     auto &drawables = importReg.get_components<Component::Drawable>();
 
@@ -91,10 +96,18 @@ Test(Registry, 2_spawn_importFromMessages)
 Test(Registry, 50_spawn_importFromMessages)
 {
     Registry reg;
+    Registry importReg;
+    TextButton button;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
+
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
+    importReg.register_component<Component::Score>();
 
     for (int i = 0; i < 50; i++) {
         auto entity = reg.spawn_entity();
@@ -105,12 +118,8 @@ Test(Registry, 50_spawn_importFromMessages)
 
     std::vector<packet_t> packets = reg.exportToPackets();
 
-    Registry importReg;
-    importReg.register_component<Component::Position>();
-    importReg.register_component<Component::Velocity>();
-    importReg.register_component<Component::Drawable>();
     for (unsigned int i = 0; i < packets.size(); i++) {
-        importReg.updateFromPacket(packets[i], nullptr);
+        importReg.updateFromPacket(packets[i], nullptr, button);
     }
 
     auto &positions = importReg.get_components<Component::Position>();
@@ -126,10 +135,18 @@ Test(Registry, 50_spawn_importFromMessages)
 Test(Registry, 800_spawn_importFromMessages)
 {
     Registry reg;
+    Registry importReg;
+    TextButton button;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
+
+    importReg.register_component<Component::Position>();
+    importReg.register_component<Component::Velocity>();
+    importReg.register_component<Component::Drawable>();
+    importReg.register_component<Component::Score>();
 
     for (int i = 0; i < 800; i++) {
         auto entity = reg.spawn_entity();
@@ -140,12 +157,8 @@ Test(Registry, 800_spawn_importFromMessages)
 
     std::vector<packet_t> packets = reg.exportToPackets();
 
-    Registry importReg;
-    importReg.register_component<Component::Position>();
-    importReg.register_component<Component::Velocity>();
-    importReg.register_component<Component::Drawable>();
     for (unsigned int i = 0; i < packets.size(); i++) {
-        importReg.updateFromPacket(packets[i], nullptr);
+        importReg.updateFromPacket(packets[i], nullptr, button);
     }
 
     auto &positions = importReg.get_components<Component::Position>();
@@ -161,10 +174,12 @@ Test(Registry, 800_spawn_importFromMessages)
 Test(Registry, no_spawn_importFromMessages)
 {
     Registry reg;
+    TextButton button;
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
     std::vector<packet_t> packets = reg.exportToPackets();
 
@@ -172,8 +187,9 @@ Test(Registry, no_spawn_importFromMessages)
     importReg.register_component<Component::Position>();
     importReg.register_component<Component::Velocity>();
     importReg.register_component<Component::Drawable>();
+    importReg.register_component<Component::Score>();
     for (unsigned int i = 0; i < packets.size(); i++) {
-        importReg.updateFromPacket(packets[i], nullptr);
+        importReg.updateFromPacket(packets[i], nullptr, button);
     }
 
     auto &positions = importReg.get_components<Component::Position>();

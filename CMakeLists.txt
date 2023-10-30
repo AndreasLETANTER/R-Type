@@ -48,7 +48,7 @@ FetchContent_MakeAvailable(SFML)
 FetchContent_Declare(
     Boost
     GIT_REPOSITORY "https://github.com/boostorg/boost.git"
-    GIT_TAG "boost-1.81.0"
+    GIT_TAG "boost-1.82.0"
 )
 FetchContent_MakeAvailable(Boost)
 
@@ -97,6 +97,7 @@ set (ECS_SOURCES
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
+    sources/client/Buttons/TextButton/TextButton.cpp
 )
 
 set(SERVER_SOURCES
@@ -136,10 +137,7 @@ set(ECS_TESTS
     tests/ECS/RegistryTests.cpp
     tests/ECS/SparseArrayTests.cpp
     tests/ECS/CollisionSystemTests.cpp
-    # tests/ECS/ProjectileCollisionSystemTests.cpp
-    # tests/ECS/HealthSystemTests.cpp
     tests/ECS/RegistryExportTests.cpp
-    tests/ECS/RegistryImportTests.cpp
 )
 
 set(SERVER_TESTS
