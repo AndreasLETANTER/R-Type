@@ -112,13 +112,21 @@ int main(int ac, char **av)
         mainMenu.draw();
         window.display();
     }
-    tcpClientSocket tcpClient(mainMenu.getPort(), mainMenu.getIp());
-    udpClientSocket udpClient(mainMenu.getPort(), mainMenu.getIp());
+    registry.kill_entity(registry.entity_from_index(0));
+    registry.kill_entity(registry.entity_from_index(1));
+    tcpClientSocket tcpClient(4242, mainMenu.getIp());
+    udpClientSocket udpClient(8080, mainMenu.getIp());
     udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
     tcpClient.run();
     tcpClient.receive();
     InputHandler inputHandler(tcpClient.getId());
     while (window.isOpen()) {
+        for (auto event = sf::Event{}; window.pollEvent(event);) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                exit(0);
+            }
+        }
         std::vector<input_t> inputs = inputHandler.handle_inputs();
         for (unsigned int i = 0; i < inputs.size(); i++) {
             udpClient.send(converter.convertInputToBinary(inputs[i]));
