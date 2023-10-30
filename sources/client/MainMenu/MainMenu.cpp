@@ -218,7 +218,14 @@ unsigned int MainMenu::getButtonPressed()
     return 0;
 }
 
-unsigned int MainMenu::getPort() const
+unsigned int MainMenu::getUDPPort() const
+{
+    std::string str = m_texts[1].getString();
+    str.erase(0, 11);
+    return std::stoi(str);
+}
+
+unsigned int MainMenu::getTCPPort() const
 {
     std::string str = m_texts[0].getString();
     str.erase(0, 11);

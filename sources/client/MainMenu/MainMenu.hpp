@@ -36,12 +36,19 @@ class MainMenu {
         /// @brief Get the vector of keys
         std::vector<sf::Keyboard::Key> getKeys() { return m_keys; };
 
+        /// @brief Get the vector of bools selected button
         void resetAndSetSelectedButton(unsigned int index);
 
+        /// @brief Get the button pressed
         unsigned int getButtonPressed();
 
-        unsigned int getPort() const;
+        /// @brief Get the UDP port
+        unsigned int getUDPPort() const;
 
+        /// @brief Get the TCP port
+        unsigned int getTCPPort() const;
+
+        /// @brief Get the IP address
         ip::address getIp() const;
 
     private:

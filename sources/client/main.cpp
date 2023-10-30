@@ -114,8 +114,8 @@ int main(int ac, char **av)
     }
     registry.kill_entity(registry.entity_from_index(0));
     registry.kill_entity(registry.entity_from_index(1));
-    tcpClientSocket tcpClient(4242, mainMenu.getIp());
-    udpClientSocket udpClient(8080, mainMenu.getIp());
+    tcpClientSocket tcpClient(mainMenu.getTCPPort(), mainMenu.getIp());
+    udpClientSocket udpClient(mainMenu.getUDPPort(), mainMenu.getIp());
     udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
     tcpClient.run();
     tcpClient.receive();
