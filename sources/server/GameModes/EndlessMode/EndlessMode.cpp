@@ -2,12 +2,11 @@
 ** EPITECH PROJECT, 2023
 ** MIRROR_R-Type
 ** File description:
-** DefaultMode
+** EndlessMode
 */
 
-#include "DefaultMode.hpp"
+#include "EndlessMode.hpp"
 
-#include "ECS/Components/EntityClass.hpp"
 #include "ECS/Systems/LoggingSystem/LoggingSystem.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/ControlSystem/ControlSystem.hpp"
@@ -21,6 +20,7 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
+#include "ECS/Systems/WaveSystem/WaveSystem.hpp"
 
 #include "../../../../build/assets/Level1Config.hpp"
 
@@ -28,10 +28,10 @@
 
 #include <iostream>
 
-void DefaultMode::init()
+void EndlessMode::init()
 {
-    std::vector<std::string> filePath = {Level1Config};
-    Parser parser(registry, window, clock, filePath);
+    registry.setClock(&clock);
+    registry.setWindow(&window);
 
     registry.register_component<Component::EntityClass>();
     registry.register_component<Component::Position>();
@@ -58,11 +58,21 @@ void DefaultMode::init()
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
+    registry.add_system<>(WaveSystem());
 
-    parser.loadFromFile();
+    create_background();
+
+    if (m_isMultiplayer) {
+        create_player(150, 300, 1, EntityClasses::ANDREAS);
+        create_player(200, 400, 2, EntityClasses::NUGO);
+        create_player(150, 500, 3, EntityClasses::LOUIS);
+        create_player(200, 600, 4, EntityClasses::ELIOT);
+    } else {
+        create_player(150, 450, 1, EntityClasses::ANDREAS);
+    }
 }
 
-void DefaultMode::run()
+void EndlessMode::run()
 {
     tcpServer->run();
     sf::Time lastUpdate = clock.getElapsedTime();
