@@ -96,6 +96,7 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     m_buttons.push_back(std::move(ipPortButton));
 
     pos.y += 300;
+    pos.x += 50;
     auto connectButton = m_buttons.emplace_back();
     auto text5 = m_texts.emplace_back();
     m_bools.push_back(false);
@@ -111,6 +112,7 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     connectButton.setButtonOutlineColor(sf::Color::White);
     connectButton.setButtonOutlineThickness(5);
     connectButton.setButtonHoverOutlineColor(sf::Color::Green);
+    connectButton.setButtonHoverColor(sf::Color::Transparent);
     connectButton.setCallback([this, &m_bools]() {
         resetAndSetSelectedButton(3);
     });
@@ -200,24 +202,6 @@ void MainMenu::update()
     }
 }
 
-void MainMenu::resize()
-{
-    //sf::Vector2u windowSize = m_window.getSize();
-    //double buttonWidthRatio = 5;
-    //double buttonHeightRatio = 10;
-    //double textRatio = 15;
-    //double buttonWidth = windowSize.x / buttonWidthRatio;
-    //double buttonHeight = windowSize.y / buttonHeightRatio;
-    //double spacing = windowSize.y / 20;
-    //double xPos = (windowSize.x - buttonWidth) / 2;
-    //double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
-
-    /*m_buttons[0].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
-        sf::Vector2f(xPos, yPos), textRatio);
-    yPos += buttonHeight + spacing;
-    m_buttons[1].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
-        sf::Vector2f(xPos, yPos), textRatio);*/
-}
 void MainMenu::resetAndSetSelectedButton(unsigned int index)
 {
     for (size_t i = 0; i < m_bools.size(); i++)
