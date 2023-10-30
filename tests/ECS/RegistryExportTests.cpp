@@ -21,6 +21,7 @@ Test(Registry, basic_exportToPackets)
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
     auto entity1 = reg.spawn_entity();
     reg.add_component<Component::Position>(entity1, Component::Position(0, 0));
@@ -42,6 +43,7 @@ Test(Registry, 2_spawn_exportToPackets)
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
     auto entity1 = reg.spawn_entity();
     auto entity2 = reg.spawn_entity();
@@ -70,6 +72,7 @@ Test(Registry, 50_spawn_exportToPackets)
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
     for (int i = 0; i < 50; i++) {
         auto entity = reg.spawn_entity();
@@ -95,6 +98,7 @@ Test(Registry, 800_spawn_exportToPackets)
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
     for (int i = 0; i < 800; i++) {
         auto entity = reg.spawn_entity();
@@ -120,6 +124,7 @@ Test(Registry, no_spawn_exportToPackets)
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Score>();
 
     std::vector<packet_t> packets = reg.exportToPackets();
 
