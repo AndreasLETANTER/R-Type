@@ -69,6 +69,8 @@ set(ASSETS_FILES
     assets/YellowPopcornEnemy.gif
     assets/YellowPopcornBullet.png
     assets/font.ttf
+    assets/PlugDeathSoundEffect.wav
+    assets/RizzPowerUpSoundEffect.wav
 )
 
 set (ECS_SOURCES
@@ -184,14 +186,14 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 
 ###############################COMPILATION TESTS##################################
 option(BUILD_TESTS "Build tests using Criterion" ON)
@@ -206,28 +208,28 @@ if (CRITERION)
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+    target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio Assets::RType Boost::asio)
 
     add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
     target_include_directories(${SERVER_TESTS_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+    target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio Assets::RType Boost::asio)
 
     add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
     target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 
     add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
     target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 endif()
 
 ###############################CUSTOM TARGETS#####################################
