@@ -8,7 +8,7 @@
 #include "udpClientSocket.hpp"
 #include <iostream>
 
-udpClientSocket::udpClientSocket(size_t t_udpPort, ip::address t_ip) : m_socket(m_ioService), m_iStream(&m_readBuffer)
+udpClientSocket::udpClientSocket(unsigned int t_udpPort, ip::address t_ip) : m_socket(m_ioService), m_iStream(&m_readBuffer)
 {
     m_endpoint = ip::udp::endpoint(t_ip, t_udpPort);
     m_socket.open(ip::udp::v4());

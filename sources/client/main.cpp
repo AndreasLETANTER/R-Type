@@ -55,9 +55,6 @@ int main(int ac, char **av)
     sf::Clock clock;
     Registry registry;
     binaryConverter converter;
-    HandleArgument handleArguments;
-    tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
-    udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     bool needGameInfos = true;
 
     registry.register_component<Component::Drawable>();
@@ -80,11 +77,6 @@ int main(int ac, char **av)
     registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
     registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("SpaceBackground.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
     registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0), 0.5));
-
-    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
-    tcpClient.run();
-    tcpClient.receive();
-    InputHandler inputHandler(tcpClient.getId());
 
     TextButton scoreButton = TextButton()
     .setButtonPosition(sf::Vector2f(0, 0))
@@ -120,6 +112,12 @@ int main(int ac, char **av)
         mainMenu.draw();
         window.display();
     }
+    tcpClientSocket tcpClient(mainMenu.getPort(), mainMenu.getIp());
+    udpClientSocket udpClient(mainMenu.getPort(), mainMenu.getIp());
+    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
+    tcpClient.run();
+    tcpClient.receive();
+    InputHandler inputHandler(tcpClient.getId());
     while (window.isOpen()) {
         std::vector<input_t> inputs = inputHandler.handle_inputs();
         for (unsigned int i = 0; i < inputs.size(); i++) {

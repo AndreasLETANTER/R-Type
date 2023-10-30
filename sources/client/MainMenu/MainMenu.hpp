@@ -8,10 +8,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <boost/asio.hpp>
 
 #include "client/Buttons/TextButton/TextButton.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
+
+using namespace boost::asio;
 
 /// @brief Class to create the main menu with Play and Quit buttons
 class MainMenu {
@@ -36,6 +39,10 @@ class MainMenu {
         void resetAndSetSelectedButton(unsigned int index);
 
         unsigned int getButtonPressed();
+
+        unsigned int getPort() const;
+
+        ip::address getIp() const;
 
     private:
         sf::RenderWindow &m_window;

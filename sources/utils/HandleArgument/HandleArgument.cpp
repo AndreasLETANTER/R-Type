@@ -10,16 +10,16 @@
 #include "utils/HandleArgument/HandleArgument.hpp"
 #include "utils/debugColors/debugColors.hpp"
 
-uint16_t HandleArgument::getPort(char const *t_av) const
+unsigned int HandleArgument::getPort(char const *t_av) const
 {
-    uint16_t port = DEFAULT_PORT;
+    unsigned int port = DEFAULT_PORT;
 
     if (t_av != nullptr) {
         try {
             check_if_number(t_av);
             port = std::stoi(t_av);
         } catch (std::invalid_argument const &e) {
-            port = u_int16_t(999999);
+            port = 999999;
             printError(e.what());
         }
     }

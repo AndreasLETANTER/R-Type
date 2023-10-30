@@ -217,3 +217,17 @@ unsigned int MainMenu::getButtonPressed()
     }
     return 0;
 }
+
+unsigned int MainMenu::getPort() const
+{
+    std::string str = m_texts[0].getString();
+    str.erase(0, 11);
+    return std::stoi(str);
+}
+
+ip::address MainMenu::getIp() const
+{
+    std::string str = m_texts[2].getString();
+    str.erase(0, 13);
+    return boost::asio::ip::address::from_string(str);
+}

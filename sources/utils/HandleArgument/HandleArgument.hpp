@@ -38,7 +38,7 @@ class HandleArgument
          * @param t_av The command line arguments.
          * @return The port number.
          */
-        uint16_t getPort(char const *t_av) const;
+        unsigned int getPort(char const *t_av) const;
         /**
          * @brief Get the IP address from the command line arguments.
          * @param t_av The command line arguments.
