@@ -38,13 +38,13 @@ namespace Component {
             case EntityClasses::LOUIS:
                 return EntityClass("SpaceShips.gif", "LouisBullet.png", Component::Position(102, 57), sf::IntRect(0, 53, 34, 16), 75, 5, 500, 3, ShootingPattern::LINEAR);
             case EntityClasses::MOB_ORANGE_CRAB:
-                return EntityClass("OrangeCrabEnemy.gif", "OrangeCrabBullet.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 30, 5, 2000, 5, ShootingPattern::SPREAD);
+                return EntityClass("OrangeCrabEnemy.gif", "OrangeCrabBullet.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 30, 15, 2000, 5, ShootingPattern::SPREAD);
             case EntityClasses::MOB_YELLOW_POPCORN:
-                return EntityClass("YellowPopcornEnemy.gif", "YellowPopcornBullet.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 10, 3, 1000, 7, ShootingPattern::CIRCULAR);
+                return EntityClass("YellowPopcornEnemy.gif", "YellowPopcornBullet.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 10, 10, 1000, 7, ShootingPattern::CIRCULAR);
             case EntityClasses::SPEED_POWERUP:
                 return EntityClass("SpeedPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Speed, sf::Time(sf::seconds(10)), 1);
             case EntityClasses::HEALTH_POWERUP:
-                return EntityClass("HealthPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Health, sf::Time(sf::seconds(10)), 5);
+                return EntityClass("HealthPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Health, sf::Time(sf::seconds(10)), 20);
             case EntityClasses::DAMAGE_POWERUP:
                 return EntityClass("DamagePowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Damage, sf::Time(sf::seconds(10)), 2);
             case EntityClasses::SHOOTING_SPEED_POWERUP:
