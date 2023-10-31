@@ -51,6 +51,8 @@ class MainMenu {
         /// @brief Get the IP address
         ip::address getIp() const;
 
+        void loadBackground(sf::RenderWindow *window, Registry &registry);
+
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;

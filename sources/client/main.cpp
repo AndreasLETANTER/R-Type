@@ -61,22 +61,13 @@ int main(int ac, char **av)
 
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::Position>();
-    registry.register_component<Component::Scroll>();
     registry.register_component<Component::Score>();
+    registry.register_component<Component::Scroll>();
     registry.add_system<Component::Position, Component::Drawable>(DrawSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
 
-    registry.spawn_entity();
-    registry.spawn_entity();
-
-    registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
-    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("SpaceBackground.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
-    registry.add_component<Component::Scroll>(registry.entity_from_index(0), Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0), 0.5));
-    registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
-    registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("SpaceBackground.png", &window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
-    registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0), 0.5));
-
     MainMenu mainMenu(window, assets, registry);
+    mainMenu.loadBackground(&window, registry);
     while (window.isOpen() && mainMenu.getButtonPressed() != 3) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {

@@ -10,6 +10,12 @@
 #include "client/MainMenu/MainMenu.hpp"
 #include "utils/HandleArgument/HandleArgument.hpp"
 #include "MainMenu.hpp"
+#include "ECS/Systems/DrawSystem/DrawSystem.hpp"
+#include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
+#include "ECS/Systems/PositionSystem/PositionSystem.hpp"
+#include "ECS/Components/Drawable.hpp"
+#include "ECS/Components/Position.hpp"
+#include "ECS/Components/Scroll.hpp"
 
 MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
     Registry &registry):
@@ -237,4 +243,17 @@ ip::address MainMenu::getIp() const
     std::string str = m_texts[2].getString();
     str.erase(0, 13);
     return boost::asio::ip::address::from_string(str);
+}
+
+void MainMenu::loadBackground(sf::RenderWindow *window, Registry &registry)
+{
+    registry.spawn_entity();
+    registry.spawn_entity();
+
+    registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(0), Component::Drawable("SpaceBackground.png", window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
+    registry.add_component<Component::Scroll>(registry.entity_from_index(0), Component::Scroll(Component::Position(0, 0), Component::Position(-5700, 0), 0.5));
+    registry.add_component<Component::Position>(registry.entity_from_index(1), Component::Position(5700, 0));
+    registry.add_component<Component::Drawable>(registry.entity_from_index(1), Component::Drawable("SpaceBackground.png", window, sf::IntRect(0, 0, 300, 207), Component::Position(1920, 1080), registry.get_assets().get_texture("SpaceBackground.png")));
+    registry.add_component<Component::Scroll>(registry.entity_from_index(1), Component::Scroll(Component::Position(0, 0), Component::Position(0, 0), 0.5));
 }
