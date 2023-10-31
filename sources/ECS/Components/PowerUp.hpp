@@ -1,19 +1,20 @@
-/*
-** EPITECH PROJECT, 2023
-** B-CPP-500-NAN-5-1-bsrtype-andreas.le-tanter
-** File description:
-** PowerUp
-*/
+/**
+ * @file PowerUp.hpp
+ * @brief This file contains the declaration of the PowerUp component class.
+ */
 
 #pragma once
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @brief The PowerUpType enum represents the different types of power-ups.
+ */
 enum PowerUpType {
-    Speed,
-    Health,
-    AttackSpeed,
-    Damage
+    Speed, /**< Increases the entity's speed. */
+    Health, /**< Increases the entity's health. */
+    AttackSpeed, /**< Increases the entity's attack speed. */
+    Damage /**< Increases the entity's damage. */
 };
 
 namespace Component {
@@ -27,16 +28,24 @@ namespace Component {
              */
             PowerUp() = default;
 
-            sf::Time delayBeforeDispawn;
+            sf::Time delayBeforeDispawn; /**< The time before the power-up disappears. */
 
-            sf::Time startTime;
+            sf::Time startTime; /**< The time when the power-up was spawned. */
 
-            PowerUpType type;
+            PowerUpType type; /**< The type of the power-up. */
 
-            int stat;
+            int stat; /**< The amount by which the power-up increases the entity's stat. */
             
             sf::Clock *clock; /**< A pointer to the clock used to measure time. */
 
+            /**
+             * @brief Construct a new PowerUp object with the given parameters.
+             * 
+             * @param delayBeforeDispawn The time before the power-up disappears.
+             * @param type The type of the power-up.
+             * @param clock A pointer to the clock used to measure time.
+             * @param stat The amount by which the power-up increases the entity's stat.
+             */
             inline PowerUp(sf::Time delayBeforeDispawn, PowerUpType type, sf::Clock *clock, int stat) { this->delayBeforeDispawn = delayBeforeDispawn; this->type = type; this->clock = clock; this->stat = stat; startTime = clock->getElapsedTime();}
     };
 }

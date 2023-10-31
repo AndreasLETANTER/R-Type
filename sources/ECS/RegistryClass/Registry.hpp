@@ -42,17 +42,24 @@ typedef struct message_s {
     int score; /**< The score of the entity. */
 } message_t;
 
+/**
+ * @brief Struct representing a packet with a message type and a message.
+ */
 typedef struct packet_s
 {
-    unsigned int messageType;
-    message_t message;
+    unsigned int messageType; /**< The type of the message. */
+    message_t message; /**< The message. */
 } packet_t;
 
+/**
+ * @brief Struct representing an input event.
+ * 
+ */
 typedef struct input_s
 {
-    unsigned int id;
-    sf::Keyboard::Key key;
-    bool pressed;
+    unsigned int id; /**< The ID of the input event. */
+    sf::Keyboard::Key key; /**< The keyboard key associated with the input event. */
+    bool pressed; /**< Whether the input event is a key press or release. */
 } input_t;
 
 /**
