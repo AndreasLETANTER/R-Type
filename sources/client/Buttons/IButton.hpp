@@ -34,7 +34,7 @@ class IButton {
 
         /// @brief Update the button
         /// @param window The window where the button will be updated
-        virtual void update(const sf::Vector2i &mousePos, const sf::Event &event) = 0;
+        virtual void update(sf::RenderWindow &window) = 0;
 
         /// @brief Resize the button
         /// @param windowSize The size of the window
@@ -117,4 +117,56 @@ class IButton {
         /// @param callback The callback wanted for the button
         /// @return The object with the new callback
         virtual IButton &setCallback(const std::function<void()> &callback) = 0;
+
+        /// @brief Get the shape of the button
+        /// @return The shape of the button
+        virtual const sf::RectangleShape &getShape() const = 0;
+
+        /// @brief Get the position of the button
+        /// @return The position of the button
+        virtual const sf::Vector2f &getButtonPosition() const = 0;
+
+        /// @brief Get the size of the button
+        /// @return The size of the button
+        virtual const sf::Vector2f &getButtonSize() const = 0;
+
+        /// @brief Get the color of the button
+        /// @return The color of the button
+        virtual const sf::Color &getButtonColor() const = 0;
+
+        /// @brief Get the outline color of the button
+        /// @return The outline color of the button
+        virtual const sf::Color &getButtonOutlineColor() const = 0;
+
+        /// @brief Get the hover color of the button
+        /// @return The hover color of the button
+        virtual const sf::Color &getButtonHoverColor() const = 0;
+
+        /// @brief Get the hover outline color of the button
+        /// @return The hover outline color of the button
+        virtual const sf::Color &getButtonHoverOutlineColor() const = 0;
+
+        /// @brief Get the text of the button
+        /// @return The text of the button
+        virtual const sf::Text &getText() const = 0;
+
+        /// @brief Get the color of the text
+        /// @return The color of the text
+        virtual const sf::Color &getTextColor() const = 0;
+
+        /// @brief Get the hover color of the text
+        /// @return The hover color of the text
+        virtual const sf::Color &getTextHoverColor() const = 0;
+
+        /// @brief Get the horizontal alignment of the text
+        /// @return The horizontal alignment of the text
+        virtual const HorizontalAlign &getHorizontalAlign() const = 0;
+
+        /// @brief Get the vertical alignment of the text
+        /// @return The vertical alignment of the text
+        virtual const VerticalAlign &getVerticalAlign() const = 0;
+
+        /// @brief Get the callback of the button
+        /// @return The callback of the button
+        virtual const std::function<void()> &getCallback() const = 0;
 };

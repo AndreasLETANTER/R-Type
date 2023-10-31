@@ -32,6 +32,20 @@ class AButton : public IButton {
         IButton &setTextColor(const sf::Color &color) override;
         IButton &setTextHoverColor(const sf::Color &hoverColor) override;
         IButton &setCallback(const std::function<void()> &callback) override;
+
+        const sf::RectangleShape &getShape() const override;
+        const sf::Vector2f &getButtonPosition() const override;
+        const sf::Vector2f &getButtonSize() const override;
+        const sf::Color &getButtonColor() const override;
+        const sf::Color &getButtonOutlineColor() const override;
+        const sf::Color &getButtonHoverColor() const override;
+        const sf::Color &getButtonHoverOutlineColor() const override;
+        const sf::Text &getText() const override;
+        const sf::Color &getTextColor() const override;
+        const sf::Color &getTextHoverColor() const override;
+        const HorizontalAlign &getHorizontalAlign() const override;
+        const VerticalAlign &getVerticalAlign() const override;
+        const std::function<void()> &getCallback() const override;
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);

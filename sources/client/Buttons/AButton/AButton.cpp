@@ -130,3 +130,68 @@ IButton &AButton::setCallback(const std::function<void()> &callback)
     m_callback = callback;
     return (*this);
 }
+
+const sf::RectangleShape &AButton::getShape() const
+{
+    return (m_shape);
+}
+
+const sf::Vector2f &AButton::getButtonPosition() const
+{
+    return (m_buttonPosition);
+}
+
+const sf::Vector2f &AButton::getButtonSize() const
+{
+    return (m_buttonSize);
+}
+
+const sf::Color &AButton::getButtonColor() const
+{
+    return (m_buttonColor);
+}
+
+const sf::Color &AButton::getButtonOutlineColor() const
+{
+    return (m_buttonOutlineColor);
+}
+
+const sf::Color &AButton::getButtonHoverColor() const
+{
+    return (m_buttonHoverColor);
+}
+
+const sf::Color &AButton::getButtonHoverOutlineColor() const
+{
+    return (m_buttonHoverOutlineColor);
+}
+
+const sf::Text &AButton::getText() const
+{
+    return (m_text);
+}
+
+const sf::Color &AButton::getTextColor() const
+{
+    return (m_textColor);
+}
+
+const sf::Color &AButton::getTextHoverColor() const
+{
+    return (m_textHoverColor);
+}
+
+const AButton::HorizontalAlign &AButton::getHorizontalAlign() const
+{
+    return (m_horizontalAlign);
+}
+
+const AButton::VerticalAlign &AButton::getVerticalAlign() const
+{
+    return (m_verticalAlign);
+}
+
+const std::function<void()> &AButton::getCallback() const
+{
+    return (m_callback);
+}
