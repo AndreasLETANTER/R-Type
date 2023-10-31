@@ -11,8 +11,8 @@ void HealthType::update(Registry &registry, Component::EntityClass &entityclasse
 {
     (void) registry;
     if (stat < 0) {
-        entityclasses.damage = 0;
+        entityclasses.health = 0;
         return;
     }
-    entityclasses.damage += stat;
+    entityclasses.health += stat;
 }
