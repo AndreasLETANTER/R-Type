@@ -30,8 +30,9 @@ class IShootingPattern {
          * @param shoot The shoot component.
          * @param pos The position component.
          * @param draw The drawable component.
+         * @param groupId The group id of the shooter.
          */
-        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) = 0;
+        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw, unsigned int groupId) = 0;
 
         /**
          * @brief Destroy the IShootingPattern object.

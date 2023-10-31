@@ -7,25 +7,26 @@
 
 #include <iostream>
 
-#include "utils/handleArgument/handleArgument.hpp"
+#include "utils/HandleArgument/HandleArgument.hpp"
 #include "utils/debugColors/debugColors.hpp"
 
-uint16_t handleArgument::getPort(char const *t_av) const
+unsigned int HandleArgument::getPort(char const *t_av) const
 {
-    uint16_t port = DEFAULT_PORT;
+    unsigned int port = DEFAULT_PORT;
 
     if (t_av != nullptr) {
         try {
             check_if_number(t_av);
             port = std::stoi(t_av);
         } catch (std::invalid_argument const &e) {
+            port = 999999;
             printError(e.what());
         }
     }
     return port;
 }
 
-void handleArgument::check_if_number(std::string const &t_str) const
+void HandleArgument::check_if_number(std::string const &t_str) const
 {
     if (t_str.empty()) {
         throw std::invalid_argument("Invalid argument: empty string");
@@ -37,16 +38,17 @@ void handleArgument::check_if_number(std::string const &t_str) const
     }
 }
 
-boost::asio::ip::address handleArgument::getIp(char const *t_av) const
+boost::asio::ip::address HandleArgument::getIp(char const *t_av) const
 {
     boost::asio::ip::address ip = boost::asio::ip::address::from_string("0.0.0.0");
-    
+
     if (t_av != nullptr) {
         try {
-            std::cout << t_av << std::endl;
             ip = boost::asio::ip::address::from_string(t_av);
         } catch (std::exception const &e) {
+            printError("IpAdress is not valid");
             printError(e.what());
+            ip = boost::asio::ip::address::from_string("255.255.255.255");
         }
     }
     return ip;

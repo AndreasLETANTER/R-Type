@@ -8,11 +8,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <boost/asio.hpp>
 
 #include "client/Buttons/TextButton/TextButton.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
-#include "client/PlayMenu/PlayMenu.hpp"
+
+using namespace boost::asio;
 
 /// @brief Class to create the main menu with Play and Quit buttons
 class MainMenu {
@@ -28,15 +30,41 @@ class MainMenu {
         /// @brief Update the buttons to check if they are hovered or clicked
         void update();
 
-        /// @brief Resize the buttons to fit the new window size
-        void resize();
+        /// @brief Add key to the vector of keys
+        void setKey(sf::Keyboard::Key key) { m_keys.push_back(key); };
+
+        /// @brief Get the vector of keys
+        std::vector<sf::Keyboard::Key> getKeys() { return m_keys; };
+
+        /// @brief Get the vector of bools selected button
+        void resetAndSetSelectedButton(unsigned int index);
+
+        /// @brief Get the button pressed
+        unsigned int getButtonPressed();
+
+        /// @brief Get the UDP port
+        unsigned int getUDPPort() const;
+
+        /// @brief Get the TCP port
+        unsigned int getTCPPort() const;
+
+        /// @brief Get the IP address
+        ip::address getIp() const;
 
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;
         Registry &m_registry;
-        PlayMenu m_playMenu;
         std::vector<TextButton> m_buttons;
+        std::vector<sf::Text> m_texts;
+        std::vector<sf::Keyboard::Key> m_keys;
+        std::vector<bool> m_bools;
+        enum ButtonType {
+            PORT,
+            ADDRESS,
+            CONNECT
+        };
+        std::vector<ButtonType> m_buttonTypes;
         sf::Font m_font;
         bool m_isPlayMenuOpen = false;
 };

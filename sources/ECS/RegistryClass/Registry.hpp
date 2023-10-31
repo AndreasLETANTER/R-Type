@@ -17,24 +17,42 @@
 #include "ECS/SparseArrayClass/SparseArray.hpp"
 #include "ECS/EntityClass/Entity.hpp"
 #include "ECS/Components/Position.hpp"
+#include "ECS/Components/Score.hpp"
 #include "ECS/Assets/Assets.hpp"
+#include "client/Buttons/TextButton/TextButton.hpp"
 
-typedef struct s_input
-{
-    unsigned int id;
-    sf::Keyboard::Key key;
-} t_input;
+#define ALL_GAME_INFO_CODE 100
+#define NO_MORE_GAME_INFO_CODE 101
+#define ENTITY_DEATH_CODE 102
+#define ENTITY_SPAWN_CODE 103
+#define ENTITY_MOVE_CODE 104
+#define ENTITY_SCORE_CODE 105
 
 /**
- * @brief Struct representing a message containing the sprite name and position of an entity.
+ * @brief Struct representing a message containing the sprite name position and score of an entity.
  */
 typedef struct message_s {
     char sprite_name[128] = {0}; /**< The name of the sprite associated with the entity. */
     double x; /**< The x-coordinate of the entity's position. */
     double y; /**< The y-coordinate of the entity's position. */
+    unsigned int entity_id; /**< The id of the entity. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
-    Component::Position position; /**< The position of the rect. */
+    Component::Position scale; /**< The scale of the texture. */
+    int score; /**< The score of the entity. */
 } message_t;
+
+typedef struct packet_s
+{
+    unsigned int messageType;
+    message_t message;
+} packet_t;
+
+typedef struct input_s
+{
+    unsigned int id;
+    sf::Keyboard::Key key;
+    bool pressed;
+} input_t;
 
 /**
  * @brief The Registry class is responsible for managing entities and their components.
@@ -54,8 +72,10 @@ class Registry {
          * @brief Construct a new Registry object with a given Assets object.
          * 
          * @param assets The assets to use for the registry.
+         * @param window The window to draw the entities in.
+         * @param clock The clock of the program.
          */
-        Registry(Assets assets);
+        Registry(Assets assets, sf::RenderWindow *window, sf::Clock *clock);
         /**
          * @brief The type of function used to erase a component from the registry.
          * 
@@ -116,12 +136,27 @@ class Registry {
         Entity spawn_entity();
 
         /**
+         * @brief Spawns a new entity in the registry.
+         * 
+         * @return Entity The newly spawned entity.
+         */
+        Entity spawn_entity(unsigned int id);
+
+        /**
          * @brief Returns the entity corresponding to a given index in the registry.
          * 
          * @param idx The index of the entity to get.
          * @return Entity The entity corresponding to the given index.
          */
         Entity entity_from_index(std ::size_t idx);
+
+        /**
+         * @brief Returns the entity associated with the given ID.
+         * 
+         * @param id The ID of the entity to retrieve.
+         * @return Entity The entity associated with the given ID.
+         */
+        Entity entity_from_id(unsigned int id);
 
         /**
          * @brief Kills an entity in the registry.
@@ -191,10 +226,11 @@ class Registry {
 
         /**
          * @brief Exports the registry's entities and components to an array of messages.
+         * @param needAllGameInfo If true, all the game info will be sent.
          * 
          * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
          */
-        std::pair<message_t *, size_t>exportToMessages();
+        std::vector<packet_t> exportToPackets(bool needAllGameInfo = false);
 
         /**
          * @brief Imports entities from an array of messages.
@@ -202,8 +238,9 @@ class Registry {
          * @param messages Pointer to the array of messages.
          * @param size Size of the array of messages.
          * @param window The window to draw the entities in.
+         * @param scoreButton The score button to update.
          */
-        void importFromMessages(message_t *messages, size_t size, sf::RenderWindow *window);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton);
         /**
          * @brief Returns the assets of the registry.
          * 
@@ -216,14 +253,14 @@ class Registry {
          * 
          * @param input The input of the entity.
          */
-        void updateEntityKeyPressed(t_input input);
+        void updateEntityKeyPressed(input_t input);
  
         /**
          * @brief Returns true or false if all players are dead or not.
          * 
          * @return true if all players are dead.
          * @return false if not all players are dead.
-        */
+         */
         bool playersAreDead();
 
         /**
@@ -231,14 +268,37 @@ class Registry {
          * 
          * @return true if all enemies are dead.
          * @return false if not all enemies are dead.
-        */
+         */
         bool enemiesAreDead();
+
+        /**
+         * @brief Returns the window of the registry.
+         * 
+         * @return sf::RenderWindow* A pointer to the window of the registry.
+         */
+        sf::RenderWindow *getWindow() const;
+
+        /**
+         * @brief Returns a pointer to the clock used by the registry.
+         * 
+         * @return sf::Clock* A pointer to the clock used by the registry.
+         */
+        sf::Clock *getClock() const;
+
+        void setWindow(sf::RenderWindow *window);
+
+        void setClock(sf::Clock *clock);
 
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
-        SparseArray<Entity> m_entities; /**< The SparseArray of entities in the registry. */
+        SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
+        SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
+        SparseArray<Component::Position> m_previous_positions;
+        SparseArray<Component::Score> m_previous_scores;
+        sf::RenderWindow *m_window; /**< The window to draw the entities in. */
+        sf::Clock *m_clock; /** The clock for the program. */
         Assets m_assets; /**< The assets of the registry. */
 };
 
