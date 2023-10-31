@@ -16,7 +16,7 @@ HealthSystem HealthSystem::operator()(Registry &registry, SparseArray<Component:
         auto &pos = positions[i];
 
         if (health.has_value() && health.value().health <= 0) {
-            if (pos.has_value() && rand() % 100 <= 15) { 
+            if (pos.has_value()) { //&& rand() % 100 <= 15) { 
                 auto entity = registry.spawn_entity();
                 Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(EntityClasses(rand() % 3 + 6));
 

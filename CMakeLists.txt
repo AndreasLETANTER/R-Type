@@ -68,6 +68,10 @@ set(ASSETS_FILES
     assets/OrangeCrabBullet.png
     assets/YellowPopcornEnemy.gif
     assets/YellowPopcornBullet.png
+    assets/AttackSpeedPowerUp.png
+    assets/DamagePowerUp.png
+    assets/HealthPowerUp.png
+    assets/SpeedPowerUp.png
     assets/font.ttf
 )
 

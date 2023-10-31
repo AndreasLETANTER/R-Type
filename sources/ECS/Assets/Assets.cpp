@@ -23,6 +23,10 @@ Assets::Assets()
     this->load_texture("SpaceBackground.png", "assets/SpaceBackground.png");
     this->load_texture("SpaceShips.gif", "assets/SpaceShips.gif");
     this->load_texture("YellowPopcornEnemy.gif", "assets/YellowPopcornEnemy.gif");
+    this->load_texture("HealthPowerUp.png", "assets/HealthPowerUp.png");
+    this->load_texture("DamagePowerUp.png", "assets/DamagePowerUp.png");
+    this->load_texture("AttackSpeedPowerUp.png", "assets/AttackSpeedPowerUp.png");
+    this->load_texture("SpeedPowerUp.png", "assets/SpeedPowerUp.png");
 
     this->load_font("font.ttf", "assets/font.ttf");
 }
