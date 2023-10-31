@@ -10,13 +10,13 @@
 
 Assets::Assets()
 {
-    this->load_texture("NugoBullet.png", "assets/NugoBullet.png");
-    this->load_texture("AndreasBullet.png", "assets/AndreasBullet.png");
-    this->load_texture("EliotBullet.png", "assets/EliotBullet.png");
-    this->load_texture("LouisBullet.png", "assets/LouisBullet.png");
-    this->load_texture("HugoBullet.png", "assets/HugoBullet.png");
-    this->load_texture("OrangeCrabBullet.png", "assets/OrangeCrabBullet.png");
-    this->load_texture("YellowPopcornBullet.png", "assets/YellowPopcornBullet.png");
+    this->load_texture("PBulletNugo.png", "assets/PBulletNugo.png");
+    this->load_texture("PBulletAndreas.png", "assets/PBulletAndreas.png");
+    this->load_texture("PBulletEliot.png", "assets/PBulletEliot.png");
+    this->load_texture("PBulletLouis.png", "assets/PBulletLouis.png");
+    this->load_texture("PBulletHugo.png", "assets/PBulletHugo.png");
+    this->load_texture("EBulletOrangeCrab.png", "assets/EBulletOrangeCrab.png");
+    this->load_texture("EBulletYellowPopcorn.png", "assets/EBulletYellowPopcorn.png");
     this->load_texture("BulletSpriteMonster.png", "assets/BulletSpriteMonster.png");
     this->load_texture("GreyRobotObstacle.gif", "assets/GreyRobotObstacle.gif");
     this->load_texture("OrangeCrabEnemy.gif", "assets/OrangeCrabEnemy.gif");

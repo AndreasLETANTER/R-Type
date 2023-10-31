@@ -57,17 +57,17 @@ FetchContent_MakeAvailable(Boost)
 set(ASSETS_FILES
     assets/SpaceBackground.png
     assets/SpaceShips.gif
-    assets/NugoBullet.png
-    assets/AndreasBullet.png
-    assets/EliotBullet.png
-    assets/LouisBullet.png
-    assets/HugoBullet.png
+    assets/PBulletNugo.png
+    assets/PBulletAndreas.png
+    assets/PBulletEliot.png
+    assets/PBulletLouis.png
+    assets/PBulletHugo.png
     assets/BulletSpriteMonster.png
     assets/GreyRobotObstacle.gif
     assets/OrangeCrabEnemy.gif
-    assets/OrangeCrabBullet.png
+    assets/EBulletOrangeCrab.png
     assets/YellowPopcornEnemy.gif
-    assets/YellowPopcornBullet.png
+    assets/EBulletYellowPopcorn.png
     assets/font.ttf
     assets/PlugDeathSoundEffect.wav
     assets/LaserSoundEffect.wav
