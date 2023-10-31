@@ -70,6 +70,7 @@ set(ASSETS_FILES
     assets/YellowPopcornBullet.png
     assets/font.ttf
     assets/PlugDeathSoundEffect.wav
+    assets/LaserSoundEffect.wav
     assets/RizzPowerUpSoundEffect.wav
 )
 

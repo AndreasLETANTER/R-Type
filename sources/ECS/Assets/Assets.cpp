@@ -28,6 +28,8 @@ Assets::Assets()
 
     this->load_sound_buffer("PlugDeathSoundEffect", "assets/PlugDeathSoundEffect.wav");
     this->load_sound("PlugDeathSoundEffect", "assets/PlugDeathSoundEffect.wav");
+    this->load_sound_buffer("LaserSoundEffect", "assets/LaserSoundEffect.wav");
+    this->load_sound("LaserSoundEffect", "assets/LaserSoundEffect.wav");
     this->load_sound_buffer("RizzPowerUpSoundEffect", "assets/RizzPowerUpSoundEffect.wav");
     this->load_sound("RizzPowerUpSoundEffect", "assets/RizzPowerUpSoundEffect.wav");
 }
