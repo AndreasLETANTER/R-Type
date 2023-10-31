@@ -10,6 +10,9 @@
 
 #include "APowerUpType.hpp"
 #include "AttackSpeedType.hpp"
+#include "DamageType.hpp"
+#include "HealthType.hpp"
+#include "SpeedType.hpp"
 #include "ECS/Components/PowerUp.hpp"
 
 class PowerUpTypeFactory {

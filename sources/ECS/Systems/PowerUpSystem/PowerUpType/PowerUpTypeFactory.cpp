@@ -12,5 +12,11 @@ std::unique_ptr<APowerUpType> PowerUpTypeFactory::createPowerUpType(PowerUpType 
     switch (type) {
         case PowerUpType::AttackSpeed:
             return std::make_unique<AttackSpeedType>();
+        case PowerUpType::Damage:
+            return std::make_unique<DamageType>();
+        case PowerUpType::Health:
+            return std::make_unique<HealthType>();
+        case PowerUpType::Speed:
+            return std::make_unique<SpeedType>();
     }
 }

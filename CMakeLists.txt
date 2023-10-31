@@ -94,6 +94,9 @@ set (ECS_SOURCES
     sources/ECS/Systems/PowerUpSystem/PowerUpSystem.cpp
     sources/ECS/Systems/PowerUpSystem/PowerUpType/PowerUpTypeFactory.cpp
     sources/ECS/Systems/PowerUpSystem/PowerUpType/AttackSpeedType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/DamageType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/HealthType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/SpeedType.cpp
     sources/ECS/Systems/WaveSystem/WaveSystem.cpp
     sources/ECS/Components/EntityClass.cpp
     sources/ECS/Components/Drawable.cpp
