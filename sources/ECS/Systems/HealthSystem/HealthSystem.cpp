@@ -32,7 +32,7 @@ HealthSystem HealthSystem::operator()(Registry &registry, SparseArray<Component:
                 registry.add_component<Component::Group>(entity, Component::Group(3));
                 registry.add_component<Component::Position>(entity, Component::Position(pos.value().x + xPosDiff, pos.value().y + yPosDiff));
                 registry.add_component<Component::Drawable>(entity, Component::Drawable(entityClassTmp.assetName, registry.getWindow(), sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
-                registry.add_component<Component::Collision>(entity, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+                registry.add_component<Component::Collision>(entity, Component::Collision(entityClassTmp.scale.y, entityClassTmp.scale.x));
                 registry.add_component<Component::PowerUp>(entity, Component::PowerUp(entityClassTmp.delayForDispawn, entityClassTmp.powerUpType, registry.getClock(), entityClassTmp.stat));
             }
             registry.kill_entity(registry.entity_from_index(i));
