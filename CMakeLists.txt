@@ -48,7 +48,7 @@ FetchContent_MakeAvailable(SFML)
 FetchContent_Declare(
     Boost
     GIT_REPOSITORY "https://github.com/boostorg/boost.git"
-    GIT_TAG "boost-1.81.0"
+    GIT_TAG "boost-1.82.0"
 )
 FetchContent_MakeAvailable(Boost)
 
@@ -115,6 +115,7 @@ set(CLIENT_SOURCES
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/HandleArgument/HandleArgument.cpp
+    sources/client/Buttons/AButton/AButton.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp

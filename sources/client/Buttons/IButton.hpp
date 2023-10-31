@@ -88,7 +88,7 @@ class IButton {
         /// @brief Set the font of the text
         /// @param font The font wanted for the text
         /// @return The object with the text with the new font
-        virtual IButton &setTextFont(const std::string &fontPath) = 0;
+        virtual IButton &setTextFont(const sf::Font &font) = 0;
 
         /// @brief Set the size of the text
         /// @param windowSize The size of the window
@@ -103,8 +103,18 @@ class IButton {
         virtual IButton &setTextPosition(const HorizontalAlign &horizontalAlign,
             const VerticalAlign &verticalAlign) = 0;
 
+        /// @brief Set the color of the text
+        /// @param color The color wanted for the text
+        /// @return The object with the text with the new color
+        virtual IButton &setTextColor(const sf::Color &color) = 0;
+
+        /// @brief Set the hover color of the text
+        /// @param hoverColor The hover color wanted for the text
+        /// @return The object with the text with the new hover color
+        virtual IButton &setTextHoverColor(const sf::Color &hoverColor) = 0;
+
         /// @brief Set the callback of the button
         /// @param callback The callback wanted for the button
         /// @return The object with the new callback
-        virtual IButton &setButtonCallback(const std::function<void()> &callback) = 0;
+        virtual IButton &setCallback(const std::function<void()> &callback) = 0;
 };
