@@ -26,6 +26,7 @@ Assets::Assets()
 
     this->load_font("font.ttf", "assets/font.ttf");
 
+    this->load_music("MenuMusic", "assets/MenuMusic.wav");
     this->load_music("BackgroundMusic", "assets/BackgroundMusic.wav");
 
     this->load_sound_buffer("PlugDeathSoundEffect", "assets/PlugDeathSoundEffect.wav");
@@ -124,4 +125,5 @@ void Assets::load_sound(const std::string &name, const std::string &path)
     }
     m_sounds[name] = std::make_shared<sf::Sound>();
     m_sounds[name]->setBuffer(*m_sound_buffers[name]);
+    m_sounds[name]->setVolume(20);
 }
