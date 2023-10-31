@@ -19,12 +19,13 @@ PowerUpSystem PowerUpSystem::operator()(Registry &registry, SparseArray<Componen
         }
         if (powerup.has_value() && collision.has_value()) {
             if (collision.value().entities_in_collision.size() > 0) {
-                if (controllables.size() < collision.value().entities_in_collision[0]) {
+                if (controllables.size() <= collision.value().entities_in_collision[0]) {
                     continue;
                 }
                 auto &controllable = controllables[collision.value().entities_in_collision[0]];
                 if (controllable.has_value()) {
                     std::cout << "pdpdpdpdpd" << std::endl;
+                    registry.kill_entity(registry.entity_from_index(i));
                 }
             }
         }
