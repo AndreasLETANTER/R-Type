@@ -40,6 +40,14 @@ class Assets {
         sf::Font &get_font(const std::string &name);
 
         /**
+         * @brief Retrieves a music by name.
+         *
+         * @param name The name of the music to retrieve.
+         * @return A reference to the music.
+         */
+        std::shared_ptr<sf::Music> &get_music(const std::string &name);
+
+        /**
          * @brief Retrieves a sound buffer by name.
          *
          * @param name The name of the sound buffer to retrieve.
@@ -72,6 +80,14 @@ class Assets {
         void load_font(const std::string &name, const std::string &path);
 
         /**
+         * @brief Loads a music by name.
+         *
+         * @param name The name of the music to retrieve.
+         * @return A reference to the music.
+         */
+        void load_music(const std::string &name, const std::string &path);
+
+        /**
          * @brief Loads a sound buffer by name.
          *
          * @param name The name of the sound buffer to retrieve.
@@ -89,6 +105,7 @@ class Assets {
     private:
         std::map<std::string, std::shared_ptr<sf::Texture>> m_textures;
         std::map<std::string, sf::Font> m_fonts;
+        std::map<std::string, std::shared_ptr<sf::Music>> m_musics;
         std::map<std::string, std::shared_ptr<sf::SoundBuffer>> m_sound_buffers;
         std::map<std::string, std::shared_ptr<sf::Sound>> m_sounds;
         cmrc::embedded_filesystem m_fs = cmrc::Assets::get_filesystem();

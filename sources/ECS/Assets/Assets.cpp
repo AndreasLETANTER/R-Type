@@ -26,6 +26,8 @@ Assets::Assets()
 
     this->load_font("font.ttf", "assets/font.ttf");
 
+    this->load_music("BackgroundMusic", "assets/BackgroundMusic.wav");
+
     this->load_sound_buffer("PlugDeathSoundEffect", "assets/PlugDeathSoundEffect.wav");
     this->load_sound("PlugDeathSoundEffect", "assets/PlugDeathSoundEffect.wav");
     this->load_sound_buffer("LaserSoundEffect", "assets/LaserSoundEffect.wav");
@@ -48,6 +50,14 @@ sf::Font &Assets::get_font(const std::string &name)
         throw std::runtime_error{"Font: " + name + " not found"};
     }
     return m_fonts[name];
+}
+
+std::shared_ptr<sf::Music> &Assets::get_music(const std::string &name)
+{
+    if (m_musics.find(name) == m_musics.end()) {
+        throw std::runtime_error{"Music: " + name + " not found"};
+    }
+    return m_musics[name];
 }
 
 std::shared_ptr<sf::SoundBuffer> &Assets::get_sound_buffer(const std::string &name)
@@ -84,6 +94,16 @@ void Assets::load_font(const std::string &name, const std::string &path)
     }
     m_fonts[name] = sf::Font();
     m_fonts[name].loadFromMemory(font.begin(), font.size());
+}
+
+void Assets::load_music(const std::string &name, const std::string &path)
+{
+    auto music = m_fs.open(path);
+    if (music.size() == 0) {
+        throw std::runtime_error{"Music file " + path + " not found"};
+    }
+    m_musics[name] = std::make_shared<sf::Music>();
+    m_musics[name]->openFromMemory(music.begin(), music.size());
 }
 
 void Assets::load_sound_buffer(const std::string &name, const std::string &path)

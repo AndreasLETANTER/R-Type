@@ -69,6 +69,7 @@ set(ASSETS_FILES
     assets/YellowPopcornEnemy.gif
     assets/EBulletYellowPopcorn.png
     assets/font.ttf
+    assets/BackgroundMusic.wav
     assets/PlugDeathSoundEffect.wav
     assets/LaserSoundEffect.wav
     assets/RizzPowerUpSoundEffect.wav
