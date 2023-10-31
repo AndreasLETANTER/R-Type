@@ -61,7 +61,7 @@ void EndlessMode::init()
     registry.add_system<Component::Health>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
-    registry.add_system<Component::Controllable, Component::Collision, Component::PowerUp>(PowerUpSystem());
+    registry.add_system<Component::EntityClass,Component::Controllable, Component::Collision, Component::PowerUp>(PowerUpSystem());
     registry.add_system<Component::EntityClass, Component::Shoot, Component::Health, Component::Velocity>(EntityClassSystem());
     registry.add_system<>(WaveSystem());
 
@@ -81,7 +81,7 @@ void EndlessMode::init()
     registry.add_component<Component::Position>(tempPowerUp, Component::Position(500, 500));
     registry.add_component<Component::Drawable>(tempPowerUp, Component::Drawable(entityClassTmp.assetName, &window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
     registry.add_component<Component::Collision>(tempPowerUp, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
-    registry.add_component<Component::PowerUp>(tempPowerUp, Component::PowerUp(sf::Time(sf::seconds(10)), PowerUpType::AttackSpeed, &clock, 100));
+    registry.add_component<Component::PowerUp>(tempPowerUp, Component::PowerUp(sf::Time(sf::seconds(10)), PowerUpType::AttackSpeed, &clock, -1000));
 }
 
 void EndlessMode::run()

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "ECS/RegistryClass/Registry.hpp"
+#include "ECS/Components/EntityClass.hpp"
 #include "ECS/Components/Controllable.hpp"
 #include "ECS/Components/Collision.hpp"
 #include "ECS/Components/PowerUp.hpp"
@@ -19,5 +20,5 @@ class PowerUpSystem {
     public:
         PowerUpSystem() = default;
         ~PowerUpSystem() = default;
-        PowerUpSystem operator()(Registry &registry, SparseArray<Component::Controllable> &controllables, SparseArray<Component::Collision> &collisions, SparseArray<Component::PowerUp> &powerups);
+        PowerUpSystem operator()(Registry &registry, SparseArray<Component::EntityClass> &entityclasses, SparseArray<Component::Controllable> &controllables, SparseArray<Component::Collision> &collisions, SparseArray<Component::PowerUp> &powerups);
 };

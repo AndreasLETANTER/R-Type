@@ -6,8 +6,9 @@
 */
 
 #include "ECS/Systems/PowerUpSystem/PowerUpSystem.hpp"
+#include "ECS/Systems/PowerUpSystem/PowerUpType/PowerUpTypeFactory.hpp"
 
-PowerUpSystem PowerUpSystem::operator()(Registry &registry, SparseArray<Component::Controllable> &controllables, SparseArray<Component::Collision> &collisions, SparseArray<Component::PowerUp> &powerups)
+PowerUpSystem PowerUpSystem::operator()(Registry &registry, SparseArray<Component::EntityClass> &entityclasses, SparseArray<Component::Controllable> &controllables, SparseArray<Component::Collision> &collisions, SparseArray<Component::PowerUp> &powerups)
 {
     for (size_t i = 0; i < powerups.size(); i++) {
         auto &powerup = powerups[i];
@@ -24,7 +25,9 @@ PowerUpSystem PowerUpSystem::operator()(Registry &registry, SparseArray<Componen
                 }
                 auto &controllable = controllables[collision.value().entities_in_collision[0]];
                 if (controllable.has_value()) {
-                    std::cout << "pdpdpdpdpd" << std::endl;
+                    auto powerUpType = PowerUpTypeFactory::createPowerUpType(powerup.value().type);
+                    auto &entityclass = entityclasses[collision.value().entities_in_collision[0]];
+                    powerUpType->update(registry, entityclass.value(), powerup.value().stat);
                     registry.kill_entity(registry.entity_from_index(i));
                 }
             }
