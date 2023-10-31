@@ -10,7 +10,7 @@
 void AttackSpeedType::update(Registry &registry, Component::EntityClass &entityclasses, int stat)
 {
     (void) registry;
-    if (stat > entityclasses.shootingDelay) {
+    if (stat < 0) {
         entityclasses.shootingDelay = 0;
         return;
     }
