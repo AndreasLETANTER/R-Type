@@ -18,5 +18,7 @@ std::unique_ptr<APowerUpType> PowerUpTypeFactory::createPowerUpType(PowerUpType 
             return std::make_unique<HealthType>();
         case PowerUpType::Speed:
             return std::make_unique<SpeedType>();
+        default:
+            throw std::runtime_error("Invalid power up type");
     }
 }
