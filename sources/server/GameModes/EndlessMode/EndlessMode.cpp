@@ -58,7 +58,7 @@ void EndlessMode::init()
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
-    registry.add_system<Component::Health>(HealthSystem());
+    registry.add_system<Component::Health, Component::Position>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
     registry.add_system<Component::EntityClass,Component::Controllable, Component::Collision, Component::PowerUp>(PowerUpSystem());
@@ -75,13 +75,6 @@ void EndlessMode::init()
     } else {
         create_player(150, 450, 1, EntityClasses::ANDREAS);
     }
-    auto tempPowerUp = registry.spawn_entity();
-    Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(EntityClasses::ANDREAS);
-    registry.add_component<Component::Group>(tempPowerUp, Component::Group(3));
-    registry.add_component<Component::Position>(tempPowerUp, Component::Position(500, 500));
-    registry.add_component<Component::Drawable>(tempPowerUp, Component::Drawable(entityClassTmp.assetName, &window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
-    registry.add_component<Component::Collision>(tempPowerUp, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
-    registry.add_component<Component::PowerUp>(tempPowerUp, Component::PowerUp(sf::Time(sf::seconds(10)), PowerUpType::AttackSpeed, &clock, -1000));
 }
 
 void EndlessMode::run()

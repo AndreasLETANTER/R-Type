@@ -20,5 +20,5 @@ class HealthSystem {
     public:
         HealthSystem() = default;
         ~HealthSystem() = default;
-        HealthSystem operator()(Registry &registry, SparseArray<Component::Health> &healths);
+        HealthSystem operator()(Registry &registry, SparseArray<Component::Health> &healths, SparseArray<Component::Position> &positions);
 };

@@ -55,7 +55,7 @@ void DefaultMode::init()
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
-    registry.add_system<Component::Health>(HealthSystem());
+    registry.add_system<Component::Health, Component::Position>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
 
