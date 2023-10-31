@@ -84,10 +84,36 @@ int main(int ac, char **av)
         mainMenu.draw();
         window.display();
     }
-    registry.kill_entity(registry.entity_from_index(0));
-    registry.kill_entity(registry.entity_from_index(1));
-    tcpClientSocket tcpClient(mainMenu.getTCPPort(), mainMenu.getIp());
-    udpClientSocket udpClient(mainMenu.getUDPPort(), mainMenu.getIp());
+    unsigned int tcp = mainMenu.getTCPPort();
+    unsigned int udp = mainMenu.getUDPPort();
+    boost::asio::ip::address ip = mainMenu.getIp();
+    mainMenu.deleteButtons(registry);
+    mainMenu.loadClass(&window, registry);
+    while (window.isOpen()) { 
+        for (auto event = sf::Event{}; window.pollEvent(event);) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                exit(0);
+            }
+        }
+        window.clear();
+        registry.run_systems();
+        mainMenu.update();
+        mainMenu.drawClass();
+        window.display();
+        if (mainMenu.isClassSelected() == true) {
+            break;
+        }
+    }
+    std::cout << "test1" << std::endl;
+    mainMenu.deleteBackground(registry);
+    std::cout << "test2" << std::endl;
+    mainMenu.deleteClass(registry);
+    std::cout << "test3" << std::endl;
+    tcpClientSocket tcpClient(tcp, ip);
+    std::cout << "test4" << std::endl;
+    udpClientSocket udpClient(udp, ip);
+    std::cout << "test5" << std::endl;
     udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
     tcpClient.run();
     tcpClient.receive();

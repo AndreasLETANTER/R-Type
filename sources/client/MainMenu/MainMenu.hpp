@@ -51,7 +51,25 @@ class MainMenu {
         /// @brief Get the IP address
         ip::address getIp() const;
 
+        /// @brief Load the background
         void loadBackground(sf::RenderWindow *window, Registry &registry);
+
+        /// @brief Delete the background
+        void deleteBackground(Registry &registry);
+
+        /// @brief Load the buttons
+        void deleteButtons(Registry &registry);
+
+        /// @brief Load the class
+        void loadClass(sf::RenderWindow *window, Registry &registry);
+
+        /// @brief Delete the class
+        void deleteClass(Registry &registry);
+
+        /// @brief Draw Class
+        void drawClass();
+
+        bool isClassSelected() { return m_classSelected; }
 
     private:
         sf::RenderWindow &m_window;
@@ -69,4 +87,5 @@ class MainMenu {
         std::vector<ButtonType> m_buttonTypes;
         sf::Font m_font;
         bool m_isPlayMenuOpen = false;
+        bool m_classSelected = false;
 };

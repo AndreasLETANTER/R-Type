@@ -161,3 +161,26 @@ void TextButton::resize(const sf::Vector2u &windowSize, const sf::Vector2f &butt
     .setTextSize(windowSize, textRatio)
     .setTextPosition(m_horizontalAlign, m_verticalAlign);
 }
+
+void TextButton::deleteButton(TextButton & button)
+{
+    button.m_shape.setSize(sf::Vector2f(0, 0));
+    button.m_shape.setPosition(sf::Vector2f(0, 0));
+    button.m_shape.setFillColor(sf::Color::Transparent);
+    button.m_shape.setOutlineColor(sf::Color::Transparent);
+    button.m_shape.setOutlineThickness(0);
+    button.m_text.setString("");
+    button.m_text.setCharacterSize(0);
+    button.m_text.setPosition(sf::Vector2f(0, 0));
+    button.m_text.setFillColor(sf::Color::Transparent);
+    button.m_text.setOutlineColor(sf::Color::Transparent);
+    button.m_text.setOutlineThickness(0);
+    button.m_textColor = sf::Color::Transparent;
+    button.m_textHoverColor = sf::Color::Transparent;
+    button.m_buttonColor = sf::Color::Transparent;
+    button.m_buttonHoverColor = sf::Color::Transparent;
+    button.m_buttonOutlineColor = sf::Color::Transparent;
+    button.m_buttonHoverOutlineColor = sf::Color::Transparent;
+    button.m_callback = nullptr;
+    button.m_isClicked = false;
+}

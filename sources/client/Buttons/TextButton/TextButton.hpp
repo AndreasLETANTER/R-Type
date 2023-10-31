@@ -142,6 +142,10 @@ class TextButton {
         /// @param state The state wanted for the buttontcpPortButton
         void setState(bool state) { m_isClicked = state; };
 
+        /// @brief Delete the button
+        /// @param button The button to delete
+        void deleteButton(TextButton &button);
+
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);
