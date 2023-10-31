@@ -27,7 +27,9 @@ Assets::Assets()
     this->load_font("font.ttf", "assets/font.ttf");
 
     this->load_sound_buffer("PlugDeathSoundEffect", "assets/PlugDeathSoundEffect.wav");
+    this->load_sound("PlugDeathSoundEffect", "assets/PlugDeathSoundEffect.wav");
     this->load_sound_buffer("RizzPowerUpSoundEffect", "assets/RizzPowerUpSoundEffect.wav");
+    this->load_sound("RizzPowerUpSoundEffect", "assets/RizzPowerUpSoundEffect.wav");
 }
 
 std::shared_ptr<sf::Texture> &Assets::get_texture(const std::string &name)
@@ -52,6 +54,14 @@ std::shared_ptr<sf::SoundBuffer> &Assets::get_sound_buffer(const std::string &na
         throw std::runtime_error{"Sound buffer: " + name + " not found"};
     }
     return m_sound_buffers[name];
+}
+
+std::shared_ptr<sf::Sound> &Assets::get_sound(const std::string &name)
+{
+    if (m_sounds.find(name) == m_sounds.end()) {
+        throw std::runtime_error{"Sound: " + name + " not found"};
+    }
+    return m_sounds[name];
 }
 
 void Assets::load_texture(const std::string &name, const std::string &path)
@@ -82,4 +92,14 @@ void Assets::load_sound_buffer(const std::string &name, const std::string &path)
     }
     m_sound_buffers[name] = std::make_shared<sf::SoundBuffer>();
     m_sound_buffers[name]->loadFromMemory(sound_buffer.begin(), sound_buffer.size());
+}
+
+void Assets::load_sound(const std::string &name, const std::string &path)
+{
+    auto sound = m_fs.open(path);
+    if (sound.size() == 0) {
+        throw std::runtime_error{"Sound file " + path + " not found"};
+    }
+    m_sounds[name] = std::make_shared<sf::Sound>();
+    m_sounds[name]->setBuffer(*m_sound_buffers[name]);
 }

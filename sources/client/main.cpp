@@ -89,7 +89,7 @@ int main(int ac, char **av)
         .setTextHoverColor(sf::Color::Transparent)
         .setCallback([]() {
         });
-    sf::Sound deathSound(*assets.get_sound_buffer("PlugDeathSoundEffect"));
+    sf::Sound deathSound(*assets.get_sound("PlugDeathSoundEffect"));
     deathSound.setLoop(true);
     deathSound.play();
 

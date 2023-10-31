@@ -48,6 +48,14 @@ class Assets {
         std::shared_ptr<sf::SoundBuffer> &get_sound_buffer(const std::string &name);
 
         /**
+         * @brief Retrieves a sound by name.
+         *
+         * @param name The name of the sound to retrieve.
+         * @return A reference to the sound.
+         */
+        std::shared_ptr<sf::Sound> &get_sound(const std::string &name);
+
+        /**
          * @brief Loads a texture from a file.
          *
          * @param name The name of the texture.
@@ -70,9 +78,18 @@ class Assets {
          * @return A reference to the sound buffer.
          */
         void load_sound_buffer(const std::string &name, const std::string &path);
+
+        /**
+         * @brief Loads a sound by name.
+         *
+         * @param name The name of the sound to retrieve.
+         * @return A reference to the sound.
+         */
+        void load_sound(const std::string &name, const std::string &path);
     private:
         std::map<std::string, std::shared_ptr<sf::Texture>> m_textures;
         std::map<std::string, sf::Font> m_fonts;
         std::map<std::string, std::shared_ptr<sf::SoundBuffer>> m_sound_buffers;
+        std::map<std::string, std::shared_ptr<sf::Sound>> m_sounds;
         cmrc::embedded_filesystem m_fs = cmrc::Assets::get_filesystem();
 };
