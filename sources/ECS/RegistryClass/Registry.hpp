@@ -36,6 +36,7 @@ typedef struct message_s {
     double x; /**< The x-coordinate of the entity's position. */
     double y; /**< The y-coordinate of the entity's position. */
     unsigned int entity_id; /**< The id of the entity. */
+    unsigned int client_id; /**< The id of the client. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
     Component::Position scale; /**< The scale of the texture. */
     int score; /**< The score of the entity. */
@@ -240,7 +241,7 @@ class Registry {
          * @param window The window to draw the entities in.
          * @param scoreButton The score button to update.
          */
-        void updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton, unsigned int clientId);
         /**
          * @brief Returns the assets of the registry.
          * 
