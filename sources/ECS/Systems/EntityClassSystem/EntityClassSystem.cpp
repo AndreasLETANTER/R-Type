@@ -9,6 +9,7 @@
 
 EntityClassSystem EntityClassSystem::operator()(Registry &registry, SparseArray<Component::EntityClass> &entityclasses, SparseArray<Component::Shoot> &shoots, SparseArray<Component::Health> &healths, SparseArray<Component::Velocity> &velocities)
 {
+    (void) registry;
     for (size_t i = 0; i < entityclasses.size(); i++) {
         auto &shoot = shoots[i];
         auto &health = healths[i];
