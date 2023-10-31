@@ -22,6 +22,7 @@
 #include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
 #include "ECS/Systems/WaveSystem/WaveSystem.hpp"
 #include "ECS/Systems/PowerUpSystem/PowerUpSystem.hpp"
+#include "ECS/Systems/EntityClassSystem/EntityClassSystem.hpp"
 
 #include "../../../../build/assets/Level1Config.hpp"
 
@@ -61,6 +62,7 @@ void EndlessMode::init()
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
     registry.add_system<Component::Controllable, Component::Collision, Component::PowerUp>(PowerUpSystem());
+    registry.add_system<Component::EntityClass, Component::Shoot, Component::Health, Component::Velocity>(EntityClassSystem());
     registry.add_system<>(WaveSystem());
 
     create_background();

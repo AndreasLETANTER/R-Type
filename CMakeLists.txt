@@ -98,6 +98,7 @@ set (ECS_SOURCES
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
+    sources/ECS/Systems/EntityClassSystem/EntityClassSystem.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
 )
 
