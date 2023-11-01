@@ -93,6 +93,8 @@ int main(int ac, char **av)
         .setCallback([]() {
         });
 
+    assets.get_music("BackgroundMusic")->setLoop(true);
+    assets.get_music("BackgroundMusic")->play();
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {
