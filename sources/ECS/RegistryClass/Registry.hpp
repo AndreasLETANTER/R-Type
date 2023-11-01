@@ -240,7 +240,7 @@ class Registry {
          * @param window The window to draw the entities in.
          * @param scoreButton The score button to update.
          */
-        void updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton);
         /**
          * @brief Returns the assets of the registry.
          * 

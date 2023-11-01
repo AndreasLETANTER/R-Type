@@ -200,7 +200,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
     return Packets;
 }
 
-void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton)
+void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
 {
     if (packet.messageType == ALL_GAME_INFO_CODE) {
         auto entity = spawn_entity(packet.message.entity_id);
@@ -250,7 +250,7 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, TextB
             return;
         }
         scores[entity].value().score = packet.message.score;
-        scoreButton.setTextString("Score: " + std::to_string(scores[entity].value().score));
+        scoreButton->setTextString("Score: " + std::to_string(scores[entity].value().score));
     }
 }
 

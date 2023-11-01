@@ -11,6 +11,7 @@
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
+#include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
 #include "client/MainMenu/MainMenu.hpp"
 #include "utils/HandleArgument/HandleArgument.hpp"
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
@@ -26,7 +27,7 @@
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
  */
-static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window, TextButton &scoreButton)
+static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
 {
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
@@ -56,6 +57,7 @@ int main(int ac, char **av)
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     bool needGameInfos = true;
+    ButtonFactory buttonFactory;
 
     udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
     tcpClient.run();
@@ -73,8 +75,9 @@ int main(int ac, char **av)
 
     window.setFramerateLimit(144);
     MainMenu mainMenu(window, assets);
-    TextButton scoreButton = TextButton()
-        .setButtonPosition(sf::Vector2f(50, 10))
+    std::unique_ptr<IButton> scoreButton = buttonFactory.createButton("Text");
+    scoreButton
+        ->setButtonPosition(sf::Vector2f(50, 10))
         .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::Transparent)
@@ -84,7 +87,7 @@ int main(int ac, char **av)
         .setTextString("Score: 0")
         .setTextSize(window.getSize(), 20)
         .setTextFont(assets.get_font("font.ttf"))
-        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
+        .setTextPosition(IButton::CENTER, IButton::MIDDLE)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Transparent)
         .setCallback([]() {
@@ -106,8 +109,8 @@ int main(int ac, char **av)
         update_game_from_packets(udpClient, registry, needGameInfos, &window, scoreButton);
         window.clear();
         registry.run_systems();
-        scoreButton.update(window);
-        scoreButton.draw(window);
+        scoreButton->update(window);
+        scoreButton->draw(window);
         window.display();
     }
     return 0;
