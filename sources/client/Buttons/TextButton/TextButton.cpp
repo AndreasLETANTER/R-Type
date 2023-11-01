@@ -6,7 +6,6 @@
 */
 
 #include "client/Buttons/TextButton/TextButton.hpp"
-#include "TextButton.hpp"
 
 #include <iostream>
 

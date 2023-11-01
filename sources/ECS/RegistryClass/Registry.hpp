@@ -17,16 +17,19 @@
 #include "ECS/SparseArrayClass/SparseArray.hpp"
 #include "ECS/EntityClass/Entity.hpp"
 #include "ECS/Components/Position.hpp"
+#include "ECS/Components/Score.hpp"
 #include "ECS/Assets/Assets.hpp"
+#include "client/Buttons/TextButton/TextButton.hpp"
 
 #define ALL_GAME_INFO_CODE 100
 #define NO_MORE_GAME_INFO_CODE 101
 #define ENTITY_DEATH_CODE 102
 #define ENTITY_SPAWN_CODE 103
 #define ENTITY_MOVE_CODE 104
+#define ENTITY_SCORE_CODE 105
 
 /**
- * @brief Struct representing a message containing the sprite name and position of an entity.
+ * @brief Struct representing a message containing the sprite name position and score of an entity.
  */
 typedef struct message_s {
     char sprite_name[128] = {0}; /**< The name of the sprite associated with the entity. */
@@ -35,6 +38,7 @@ typedef struct message_s {
     unsigned int entity_id; /**< The id of the entity. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
     Component::Position scale; /**< The scale of the texture. */
+    int score; /**< The score of the entity. */
 } message_t;
 
 typedef struct packet_s
@@ -234,8 +238,9 @@ class Registry {
          * @param messages Pointer to the array of messages.
          * @param size Size of the array of messages.
          * @param window The window to draw the entities in.
+         * @param scoreButton The score button to update.
          */
-        void updateFromPacket(packet_t packet, sf::RenderWindow *window);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton);
         /**
          * @brief Returns the assets of the registry.
          * 
@@ -291,6 +296,7 @@ class Registry {
         SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
         SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
         SparseArray<Component::Position> m_previous_positions;
+        SparseArray<Component::Score> m_previous_scores;
         sf::RenderWindow *m_window; /**< The window to draw the entities in. */
         sf::Clock *m_clock; /** The clock for the program. */
         Assets m_assets; /**< The assets of the registry. */
