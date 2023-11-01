@@ -120,7 +120,7 @@ class IButton {
 
         /// @brief Get the shape of the button
         /// @return The shape of the button
-        virtual const sf::RectangleShape &getShape() const = 0;
+        virtual sf::RectangleShape &getShape() = 0;
 
         /// @brief Get the position of the button
         /// @return The position of the button

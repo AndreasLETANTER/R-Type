@@ -11,6 +11,7 @@
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
 #include "ECS/Systems/ScrollSystem/ScrollSystem.hpp"
+#include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
 #include "client/MainMenu/MainMenu.hpp"
 #include "utils/HandleArgument/HandleArgument.hpp"
 #include "client/tcpClientSocket/tcpClientSocket.hpp"
@@ -59,6 +60,7 @@ int main(int ac, char **av)
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     bool needGameInfos = true;
+    ButtonFactory buttonFactory;
 
     registry.register_component<Component::Drawable>();
     registry.register_component<Component::Position>();
@@ -72,8 +74,9 @@ int main(int ac, char **av)
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
     MainMenu mainMenu(window, assets);
-        TextButton scoreButton = TextButton()
-        .setButtonPosition(sf::Vector2f(0, 0))
+    std::unique_ptr<IButton> scoreButton = buttonFactory.createButton("Text");
+    scoreButton
+        ->setButtonPosition(sf::Vector2f(0, 0))
         .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::Transparent)
@@ -83,7 +86,7 @@ int main(int ac, char **av)
         .setTextString("Score: ")
         .setTextSize(window.getSize(), 15)
         .setTextFont(assets.get_font("font.ttf"))
-        .setTextPosition(TextButton::CENTER, TextButton::MIDDLE)
+        .setTextPosition(IButton::CENTER, IButton::MIDDLE)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Transparent)
         .setCallback([]() {
@@ -103,7 +106,7 @@ int main(int ac, char **av)
         update_game_from_packets(udpClient, registry, needGameInfos, &window);
         window.clear();
         registry.run_systems();
-        scoreButton.draw(window);
+        scoreButton->draw(window);
         window.display();
     }
     return 0;

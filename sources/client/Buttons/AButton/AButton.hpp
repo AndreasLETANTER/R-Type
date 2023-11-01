@@ -11,7 +11,7 @@
 
 class AButton : public IButton {
     public:
-        AButton() = default;
+        AButton(): IButton() {};
 
         void draw(sf::RenderWindow &window) override;
         void resize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio,
@@ -33,7 +33,7 @@ class AButton : public IButton {
         IButton &setTextHoverColor(const sf::Color &hoverColor) override;
         IButton &setCallback(const std::function<void()> &callback) override;
 
-        const sf::RectangleShape &getShape() const override;
+        sf::RectangleShape &getShape() override;
         const sf::Vector2f &getButtonPosition() const override;
         const sf::Vector2f &getButtonSize() const override;
         const sf::Color &getButtonColor() const override;

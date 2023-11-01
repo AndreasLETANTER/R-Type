@@ -131,7 +131,7 @@ IButton &AButton::setCallback(const std::function<void()> &callback)
     return (*this);
 }
 
-const sf::RectangleShape &AButton::getShape() const
+sf::RectangleShape &AButton::getShape()
 {
     return (m_shape);
 }
