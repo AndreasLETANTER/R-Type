@@ -27,7 +27,7 @@
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
  */
-static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window, TextButton &scoreButton)
+static void update_game_from_packets(udpClientSocket &udpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
 {
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {

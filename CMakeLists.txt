@@ -97,6 +97,7 @@ set (ECS_SOURCES
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
+    sources/client/Buttons/AButton/AButton.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
 )
 
@@ -117,8 +118,6 @@ set(CLIENT_SOURCES
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/HandleArgument/HandleArgument.cpp
     sources/client/Buttons/ButtonFactory/ButtonFactory.cpp
-    sources/client/Buttons/AButton/AButton.cpp
-    sources/client/Buttons/TextButton/TextButton.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
