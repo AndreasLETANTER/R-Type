@@ -16,4 +16,6 @@
 class TextButton : public AButton {
     public:
         void update(sf::RenderWindow &window) override;
+    private:
+        bool m_buttonWasClicked = false;
 };

@@ -48,10 +48,11 @@ void CooldownButton::update(sf::RenderWindow &window)
         shape.setOutlineColor(buttonHoverOutlineColor);
         text.setFillColor(textHoverColor);
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)
-            && callback != nullptr) {
+            && callback != nullptr && !m_buttonWasClicked) {
             callback();
             m_clock.restart();
             m_isCooldownPassed = false;
+            m_buttonWasClicked = true;
         }
     } else {
         shape.setFillColor(buttonColor);

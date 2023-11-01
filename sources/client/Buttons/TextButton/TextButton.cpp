@@ -29,8 +29,10 @@ void TextButton::update(sf::RenderWindow &window)
         shape.setFillColor(buttonHoverColor);
         shape.setOutlineColor(buttonHoverOutlineColor);
         text.setFillColor(textHoverColor);
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && callback != nullptr)
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && callback != nullptr && !m_buttonWasClicked) {
             callback();
+            m_buttonWasClicked = true;
+        }
     } else {
         shape.setFillColor(buttonColor);
         shape.setOutlineColor(buttonOutlineColor);
