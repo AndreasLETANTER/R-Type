@@ -28,7 +28,7 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
                     if (health.has_value()) {
                         health.value().health -= projectile.value().damage;
                         if (projectile.value().shooterId >= 1 && projectile.value().shooterId <= 4) {
-                            if (scores.size() < projectile.value().shooterId + 1 || scores[projectile.value().shooterId + 1].has_value() == false) {
+                            if ((int) scores.size() < projectile.value().shooterId + 1 || scores[projectile.value().shooterId + 1].has_value() == false) {
                                 continue;
                             }
                             auto &score = scores[projectile.value().shooterId + 1];
