@@ -92,6 +92,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
     packet_t tempPacket;
     auto &drawables = get_components<Component::Drawable>();
     auto &positions = get_components<Component::Position>();
+    auto &scores = get_components<Component::Score>();
 
     //get all dead entities
     for (unsigned int i = 0; i < m_previous_entities.size(); i++) {
@@ -154,6 +155,25 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
             Packets.push_back(tempPacket);
         }
     }
+
+    //get all scores increases
+    for (unsigned i = 0; i < scores.size(); i++) {
+        if (m_previous_scores.size() > i && scores[i].has_value() && m_previous_scores[i].has_value()) {
+            if (scores[i].value().score != m_previous_scores[i].value().score) {
+                tempPacket.messageType = ENTITY_SCORE_CODE;
+                tempPacket.message.entity_id = m_entities[i].value().second;
+                tempPacket.message.score = scores[m_entities[i].value().first].value().score;
+                Packets.push_back(tempPacket);
+            }
+        }
+        if ((m_previous_scores.size() <= i || m_previous_scores[i].has_value() == false) && scores[i].has_value()) {
+            tempPacket.messageType = ENTITY_SCORE_CODE;
+            tempPacket.message.entity_id = m_entities[i].value().second;
+            tempPacket.message.score = scores[m_entities[i].value().first].value().score;
+            Packets.push_back(tempPacket);
+        }
+    }
+
     if (newClient == true) {
         for (unsigned int i = 0; i < m_entities.size(); i++) {
             if (m_entities[i].has_value()) {
@@ -176,20 +196,23 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
     }
     m_previous_entities = m_entities;
     m_previous_positions = positions;
+    m_previous_scores = scores;
     return Packets;
 }
 
-void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
+void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton)
 {
     if (packet.messageType == ALL_GAME_INFO_CODE) {
         auto entity = spawn_entity(packet.message.entity_id);
         add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
+        add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
     }
     if (packet.messageType == ENTITY_SPAWN_CODE) {
         auto entity = spawn_entity(packet.message.entity_id);
         add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
+        add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
     }
     if (packet.messageType == ENTITY_DEATH_CODE) {
         for (unsigned int i = 0; i < m_entities.size(); i++) {
@@ -212,6 +235,20 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window)
         }
         positions[entity].value().x = packet.message.x;
         positions[entity].value().y = packet.message.y;
+    }
+    if (packet.messageType == ENTITY_SCORE_CODE) {
+        Entity entity;
+
+        auto &scores = get_components<Component::Score>();
+        try {
+            entity = entity_from_id(packet.message.entity_id);
+        }
+        catch(const std::exception& e)
+        {
+            return;
+        }
+        scores[entity].value().score = packet.message.score;
+        scoreButton.setTextString("Score: " + std::to_string(scores[entity].value().score));
     }
 }
 

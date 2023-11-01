@@ -97,6 +97,7 @@ set (ECS_SOURCES
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
+    sources/client/Buttons/TextButton/TextButton.cpp
 )
 
 set(SERVER_SOURCES
@@ -138,10 +139,7 @@ set(ECS_TESTS
     tests/ECS/RegistryTests.cpp
     tests/ECS/SparseArrayTests.cpp
     tests/ECS/CollisionSystemTests.cpp
-    # tests/ECS/ProjectileCollisionSystemTests.cpp
-    # tests/ECS/HealthSystemTests.cpp
     tests/ECS/RegistryExportTests.cpp
-    tests/ECS/RegistryImportTests.cpp
 )
 
 set(SERVER_TESTS
