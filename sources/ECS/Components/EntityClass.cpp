@@ -42,13 +42,13 @@ namespace Component {
             case EntityClasses::MOB_YELLOW_POPCORN:
                 return EntityClass("YellowPopcornEnemy.gif", "YellowPopcornBullet.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 10, 10, 1000, 7, ShootingPattern::CIRCULAR);
             case EntityClasses::SPEED_POWERUP:
-                return EntityClass("SpeedPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Speed, sf::Time(sf::seconds(10)), 1);
+                return EntityClass("SpeedPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Speed, sf::Time(sf::seconds(5)), 1);
             case EntityClasses::HEALTH_POWERUP:
-                return EntityClass("HealthPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Health, sf::Time(sf::seconds(10)), 20);
+                return EntityClass("HealthPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Health, sf::Time(sf::seconds(5)), 20);
             case EntityClasses::DAMAGE_POWERUP:
-                return EntityClass("DamagePowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Damage, sf::Time(sf::seconds(10)), 2);
+                return EntityClass("DamagePowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Damage, sf::Time(sf::seconds(5)), 2);
             case EntityClasses::SHOOTING_SPEED_POWERUP:
-                return EntityClass("AttackSpeedPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::AttackSpeed, sf::Time(sf::seconds(10)), 3);
+                return EntityClass("AttackSpeedPowerUp.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::AttackSpeed, sf::Time(sf::seconds(5)), 3);
             default:
                 return EntityClass("SpaceShips.gif", "BulletSprite.png", Component::Position(102, 57), sf::IntRect(0, 2, 34, 16), 100, 5, 500, 5, ShootingPattern::LINEAR);
         }
