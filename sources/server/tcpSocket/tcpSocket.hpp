@@ -98,7 +98,7 @@ class tcpSocket {
          */
         bool isNewClient() const {return m_isNewClient;};
     private:
-        bool m_isNewClient; /**< Whether a new client has connected. */
+        bool m_isNewClient = false; /**< Whether a new client has connected. */
         io_service m_ioService; /**< The boost asio io service object. */
         ip::tcp::acceptor m_tcpAcceptor; /**< The boost asio TCP acceptor object. */
         ip::tcp::socket m_socket; /**< The boost asio TCP socket object. */

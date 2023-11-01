@@ -313,7 +313,7 @@ bool Registry::enemiesAreDead()
     SparseArray<Component::Shoot> &shoots = get_components<Component::Shoot>();
 
     for (size_t entity = 0; entity < shoots.size(); entity++) {
-        if (controllables[entity].has_value() == false && shoots[entity].has_value() == true) {
+        if ((entity >= controllables.size() || controllables[entity].has_value() == false) && shoots[entity].has_value() == true) {
             nbEntitiesLeft++;
         }
     }
