@@ -41,6 +41,8 @@ namespace Component {
                 return EntityClass("OrangeCrabEnemy.gif", "EBulletOrangeCrab.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 30, 5, 2000, 5, ShootingPattern::SPREAD);
             case EntityClasses::MOB_YELLOW_POPCORN:
                 return EntityClass("YellowPopcornEnemy.gif", "EBulletYellowPopcorn.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 10, 3, 1000, 7, ShootingPattern::CIRCULAR);
+            case EntityClasses::FIRST_BOSS:
+                return EntityClass("FirstBoss.gif", "EBulletYellowPopcorn.png", Component::Position(145, 262), sf::IntRect(0, 0, 145, 262), 5000, 30, 1000, 3, ShootingPattern::WAVE);
             case EntityClasses::SPEED_POWERUP:
                 return EntityClass("PowerUpSpeed.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Speed, sf::Time(sf::seconds(5)), 1);
             case EntityClasses::HEALTH_POWERUP:

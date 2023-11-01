@@ -67,6 +67,7 @@ set(ASSETS_FILES
     assets/OrangeCrabEnemy.gif
     assets/EBulletOrangeCrab.png
     assets/YellowPopcornEnemy.gif
+    assets/FirstBoss.gif
     assets/PowerUpAttackSpeed.png
     assets/PowerUpDamage.png
     assets/PowerUpHealth.png
