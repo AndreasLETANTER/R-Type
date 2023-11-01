@@ -300,6 +300,12 @@ class Registry {
 
         void setClock(sf::Clock *clock);
 
+        void setNeedToRestart(bool needToRestart);
+
+        bool getNeedToRestart() const;
+
+        SparseArray<std::pair<Entity, unsigned int>> &getEntities();
+
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
@@ -311,6 +317,7 @@ class Registry {
         sf::RenderWindow *m_window; /**< The window to draw the entities in. */
         sf::Clock *m_clock; /** The clock for the program. */
         Assets m_assets; /**< The assets of the registry. */
+        bool m_needToRestart = false;
 };
 
 #include "ECS/RegistryClass/Registry.tpp"

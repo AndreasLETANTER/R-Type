@@ -271,6 +271,10 @@ Assets &Registry::get_assets()
 
 void Registry::updateEntityKeyPressed(input_t input)
 {
+    if (input.key == sf::Keyboard::R) {
+        m_needToRestart = true;
+        return;
+    }
     for (auto &entity : m_entities) {
         if (entity.has_value()) {
             auto &controllable = get_components<Component::Controllable>();
@@ -341,4 +345,19 @@ void Registry::setWindow(sf::RenderWindow *window)
 void Registry::setClock(sf::Clock *clock)
 {
     m_clock = clock;
+}
+
+void Registry::setNeedToRestart(bool needToRestart)
+{
+    m_needToRestart = needToRestart;
+}
+
+bool Registry::getNeedToRestart() const
+{
+    return m_needToRestart;
+}
+
+SparseArray<std::pair<Entity, unsigned int>> &Registry::getEntities()
+{
+    return m_entities;
 }
