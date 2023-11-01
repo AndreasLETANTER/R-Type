@@ -35,7 +35,7 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
     for (unsigned int i = 0; i < packets.size(); i++) {
         if (packets[i].messageType == LOSE_CODE) {
             RestartMenu restartMenu(*window, tcpClient, udpClient);
-            while (window->isOpen()) {
+            while (window->isOpen() && !restartMenu.isCallbackCalled()) {
                 for (auto event = sf::Event{}; window->pollEvent(event);) {
                     if (event.type == sf::Event::Closed) {
                         window->close();
@@ -47,6 +47,10 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
                 restartMenu.update();
                 restartMenu.draw();
                 window->display();
+            }
+            for (auto entity : registry.getEntities()) {
+                if (entity.has_value())
+                    registry.kill_entity(entity.value().first);
             }
         }
         if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
