@@ -14,7 +14,7 @@ void TextButton::update(sf::RenderWindow &window)
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
     const sf::Vector2f buttonPosition = this->getButtonPosition();
     const sf::Vector2f buttonSize = this->getButtonSize();
-    sf::RectangleShape shape = this->getShape();
+    sf::RectangleShape &shape = this->getShape();
     const sf::Color buttonColor = this->getButtonColor();
     const sf::Color buttonOutlineColor = this->getButtonOutlineColor();
     const sf::Color buttonHoverColor = this->getButtonHoverColor();

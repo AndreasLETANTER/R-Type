@@ -11,8 +11,6 @@
 
 class AButton : public IButton {
     public:
-        AButton(): IButton() {};
-
         void draw(sf::RenderWindow &window) override;
         void resize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio,
             const sf::Vector2f &buttonPosition, const int &textRatio) override;

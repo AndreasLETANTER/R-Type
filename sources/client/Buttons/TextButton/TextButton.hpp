@@ -15,6 +15,5 @@
 /// @brief Class to create fully customizable text buttons
 class TextButton : public AButton {
     public:
-        TextButton(): AButton() {};
         void update(sf::RenderWindow &window) override;
 };
