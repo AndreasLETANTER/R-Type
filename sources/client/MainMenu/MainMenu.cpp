@@ -262,6 +262,7 @@ void MainMenu::deleteBackground(Registry &registry)
 {
     registry.kill_entity(registry.entity_from_index(0));
     registry.kill_entity(registry.entity_from_index(1));
+    (void)registry;
 }
 
 void MainMenu::deleteButtons(Registry &registry)
@@ -278,21 +279,21 @@ void MainMenu::deleteButtons(Registry &registry)
         (windowSize.y / 8));
     m_font = m_assets.get_font("font.ttf");
 
-    pos.y += 400;
+    pos.y += 150;
     pos.x -= 600;
     auto andreasClass = m_buttons.emplace_back();
-    auto text3 = m_texts.emplace_back();
+    auto text1 = m_texts.emplace_back();
     auto &m_bools = this->m_bools;
     auto &m_buttonTypes = this->m_buttonTypes;
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
     m_texts[0].setFont(m_font);
     m_texts[0].setString("ANDREAS");
-    m_texts[0].setCharacterSize(28);
+    m_texts[0].setCharacterSize(34);
     m_texts[0].setFillColor(sf::Color::White);
-    m_texts[0].setPosition(pos.x + 15, pos.y + 15);
+    m_texts[0].setPosition(pos.x + 35, pos.y + 15);
     andreasClass.setButtonPosition(pos);
-    andreasClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
+    andreasClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 4));
     andreasClass.setButtonColor(sf::Color::Transparent);
     andreasClass.setButtonOutlineColor(sf::Color::White);
     andreasClass.setButtonOutlineThickness(5);
@@ -301,21 +302,21 @@ void MainMenu::deleteButtons(Registry &registry)
     andreasClass.setCallback([this, &m_bools, &andreasClass]() {
         resetAndSetSelectedButton(0);
     });
-    m_texts.push_back(std::move(text3));
+    m_texts.push_back(std::move(text1));
     m_buttons.push_back(std::move(andreasClass));
 
     pos.x += 400;
     auto nugoClass = m_buttons.emplace_back();
-    auto text1 = m_texts.emplace_back();
+    auto text2 = m_texts.emplace_back();
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
     m_texts[1].setFont(m_font);
     m_texts[1].setString("NUGO");
-    m_texts[1].setCharacterSize(28);
+    m_texts[1].setCharacterSize(34);
     m_texts[1].setFillColor(sf::Color::White);
-    m_texts[1].setPosition(pos.x + 15, pos.y + 15);
+    m_texts[1].setPosition(pos.x + 65, pos.y + 15);
     nugoClass.setButtonPosition(pos);
-    nugoClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
+    nugoClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 4));
     nugoClass.setButtonColor(sf::Color::Transparent);
     nugoClass.setButtonOutlineColor(sf::Color::White);
     nugoClass.setButtonOutlineThickness(5);
@@ -324,21 +325,21 @@ void MainMenu::deleteButtons(Registry &registry)
     nugoClass.setCallback([this, &m_bools, &nugoClass]() {
         resetAndSetSelectedButton(1);
     });
-    m_texts.push_back(std::move(text1));
+    m_texts.push_back(std::move(text2));
     m_buttons.push_back(std::move(nugoClass));
 
     pos.x += 400;
     auto eliotClass = m_buttons.emplace_back();
-    auto text2 = m_texts.emplace_back();
+    auto text3 = m_texts.emplace_back();
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
     m_texts[2].setFont(m_font);
     m_texts[2].setString("ELIOT");
-    m_texts[2].setCharacterSize(28);
+    m_texts[2].setCharacterSize(34);
     m_texts[2].setFillColor(sf::Color::White);
-    m_texts[2].setPosition(pos.x + 15, pos.y + 15);
+    m_texts[2].setPosition(pos.x + 70, pos.y + 15);
     eliotClass.setButtonPosition(pos);
-    eliotClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
+    eliotClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 4));
     eliotClass.setButtonColor(sf::Color::Transparent);
     eliotClass.setButtonOutlineColor(sf::Color::White);
     eliotClass.setButtonOutlineThickness(5);
@@ -347,7 +348,7 @@ void MainMenu::deleteButtons(Registry &registry)
     eliotClass.setCallback([this, &m_bools, &eliotClass]() {
         resetAndSetSelectedButton(2);
     });
-    m_texts.push_back(std::move(text2));
+    m_texts.push_back(std::move(text3));
     m_buttons.push_back(std::move(eliotClass));
 
     pos.x += 400;
@@ -357,11 +358,11 @@ void MainMenu::deleteButtons(Registry &registry)
     m_buttonTypes.push_back(PORT);
     m_texts[3].setFont(m_font);
     m_texts[3].setString("LOUIS");
-    m_texts[3].setCharacterSize(28);
+    m_texts[3].setCharacterSize(34);
     m_texts[3].setFillColor(sf::Color::White);
-    m_texts[3].setPosition(pos.x + 15, pos.y + 15);
+    m_texts[3].setPosition(pos.x + 65, pos.y + 15);
     louisClass.setButtonPosition(pos);
-    louisClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
+    louisClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 4));
     louisClass.setButtonColor(sf::Color::Transparent);
     louisClass.setButtonOutlineColor(sf::Color::White);
     louisClass.setButtonOutlineThickness(5);
@@ -374,16 +375,16 @@ void MainMenu::deleteButtons(Registry &registry)
     m_buttons.push_back(std::move(louisClass));
 
     pos.x -= 600;
-    pos.y += 200;
+    pos.y += 150;
     auto connectButton = m_buttons.emplace_back();
     auto text5 = m_texts.emplace_back();
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
-    m_texts[3].setFont(m_font);
-    m_texts[3].setString("START");
-    m_texts[3].setCharacterSize(28);
-    m_texts[3].setFillColor(sf::Color::White);
-    m_texts[3].setPosition(pos.x + 15, pos.y + 15);
+    m_texts[4].setFont(m_font);
+    m_texts[4].setString("LAUNCH");
+    m_texts[4].setCharacterSize(28);
+    m_texts[4].setFillColor(sf::Color::White);
+    m_texts[4].setPosition(pos.x + 15, pos.y + 15);
     connectButton.setButtonPosition(pos);
     connectButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
     connectButton.setButtonColor(sf::Color::Transparent);
@@ -392,7 +393,7 @@ void MainMenu::deleteButtons(Registry &registry)
     connectButton.setButtonHoverColor(sf::Color::Transparent);
     connectButton.setButtonHoverOutlineColor(sf::Color::Green);
     connectButton.setCallback([this, &m_bools, &connectButton]() {
-        m_classSelected = true;
+        resetAndSetSelectedButton(4);
     });
     m_texts.push_back(std::move(text5));
     m_buttons.push_back(std::move(connectButton));
