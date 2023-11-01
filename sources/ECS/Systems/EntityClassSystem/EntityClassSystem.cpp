@@ -19,8 +19,9 @@ EntityClassSystem EntityClassSystem::operator()(Registry &registry, SparseArray<
             shoot.value().pattern = entityclasses[i].value().shootingPattern;
             shoot.value().damage = entityclasses[i].value().damage;
             shoot.value().shootDelay = sf::Time(sf::milliseconds(entityclasses[i].value().shootingDelay));
-            health.value().health = entityclasses[i].value().health;
+            health.value().health += entityclasses[i].value().healthBoost;
             velocity.value().speed = entityclasses[i].value().speed;
+            entityclasses[i].value().healthBoost = 0;
         }
     }
     return *this;

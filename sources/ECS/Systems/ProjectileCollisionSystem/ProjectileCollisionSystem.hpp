@@ -11,6 +11,7 @@
 #include "ECS/Components/Collision.hpp"
 #include "ECS/Components/Projectile.hpp"
 #include "ECS/Components/Health.hpp"
+#include "ECS/Components/EntityClass.hpp"
 #include "ECS/Components/Score.hpp"
 #include "ECS/Components/Group.hpp"
 

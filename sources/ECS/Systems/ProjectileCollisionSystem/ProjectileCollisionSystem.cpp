@@ -13,7 +13,6 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
     for (size_t i = 0; i < projectiles.size() && i < collisions.size(); i++) {
         auto &projectile = projectiles[i];
         auto &collision = collisions[i];
-
         if (projectile.has_value() && collision.has_value()) {
             if (i < groups.size() && groups[i].has_value() && collision.value().entities_in_collision.size() > 0 && (groups.size() >= collision.value().entities_in_collision[0]) && groups[collision.value().entities_in_collision[0]].has_value()) {
                 if (groups[i].value().groupId == groups[collision.value().entities_in_collision[0]].value().groupId) {
@@ -21,16 +20,20 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
                 }
             }
             if (collision.value().entities_in_collision.size() > 0) {
-                if ((healths.size() < collision.value().entities_in_collision[0] || healths.size() < registry.entity_from_index(i))) {
-                    registry.kill_entity(registry.entity_from_index(i));
-                    continue;
-                }
-                auto &health = healths[collision.value().entities_in_collision[0]];
-                if (health.has_value()) {
-                    health.value().health -= projectile.value().damage;
-                    if (projectile.value().shooterId >= 1 && projectile.value().shooterId <= 4) {
-                        auto &score = scores[projectile.value().shooterId + 1];
-                        score.value().score += 100;
+                for (unsigned int j = 0; j < collision.value().entities_in_collision.size(); j++) {
+                    if ((healths.size() < collision.value().entities_in_collision[j])) {
+                        continue;
+                    }
+                    auto &health = healths[collision.value().entities_in_collision[j]];
+                    if (health.has_value()) {
+                        health.value().health -= projectile.value().damage;
+                        if (projectile.value().shooterId >= 1 && projectile.value().shooterId <= 4) {
+                            if (scores.size() < projectile.value().shooterId + 1 || scores[projectile.value().shooterId + 1].has_value() == false) {
+                                continue;
+                            }
+                            auto &score = scores[projectile.value().shooterId + 1];
+                            score.value().score += 100;
+                        }
                     }
                 }
                 registry.kill_entity(registry.entity_from_index(i));

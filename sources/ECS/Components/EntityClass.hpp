@@ -39,6 +39,7 @@ namespace Component {
         Component::Position scale; /**< The scale of the entity. */
         sf::IntRect rect; /**< The rectangle that defines the entity's position and size. */
         int health; /**< The health points of the entity. */
+        int healthBoost = 0; /**< The health boost of the entity. */
         int damage; /**< The damage points of the entity. */
         int shootingDelay; /**< The delay between two shots of the entity. */
         int speed; /**< The speed of the entity. */
