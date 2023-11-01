@@ -39,7 +39,7 @@ class AButton : public IButton {
         const sf::Color &getButtonOutlineColor() const override;
         const sf::Color &getButtonHoverColor() const override;
         const sf::Color &getButtonHoverOutlineColor() const override;
-        const sf::Text &getText() const override;
+        sf::Text &getText() override;
         const sf::Color &getTextColor() const override;
         const sf::Color &getTextHoverColor() const override;
         const HorizontalAlign &getHorizontalAlign() const override;

@@ -133,7 +133,7 @@ IButton &AButton::setCallback(const std::function<void()> &callback)
 
 IButton &AButton::setCooldown(const float &cooldown)
 {
-    m_cooldown = cooldown;
+    m_cooldown = cooldown + 2;
     return (*this);
 }
 
@@ -172,7 +172,7 @@ const sf::Color &AButton::getButtonHoverOutlineColor() const
     return (m_buttonHoverOutlineColor);
 }
 
-const sf::Text &AButton::getText() const
+sf::Text &AButton::getText()
 {
     return (m_text);
 }

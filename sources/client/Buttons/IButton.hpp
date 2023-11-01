@@ -153,7 +153,7 @@ class IButton {
 
         /// @brief Get the text of the button
         /// @return The text of the button
-        virtual const sf::Text &getText() const = 0;
+        virtual sf::Text &getText() = 0;
 
         /// @brief Get the color of the text
         /// @return The color of the text

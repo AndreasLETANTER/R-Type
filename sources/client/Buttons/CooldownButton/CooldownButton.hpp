@@ -15,5 +15,6 @@ class CooldownButton: public AButton {
     private:
         sf::Clock m_clock;
         bool m_isCooldownPassed = false;
+        float m_timeLeft = 0;
 };
 
