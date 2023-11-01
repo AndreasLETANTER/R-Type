@@ -131,6 +131,12 @@ IButton &AButton::setCallback(const std::function<void()> &callback)
     return (*this);
 }
 
+IButton &AButton::setCooldown(const float &cooldown)
+{
+    m_cooldown = cooldown;
+    return (*this);
+}
+
 sf::RectangleShape &AButton::getShape()
 {
     return (m_shape);
@@ -194,4 +200,9 @@ const AButton::VerticalAlign &AButton::getVerticalAlign() const
 const std::function<void()> &AButton::getCallback() const
 {
     return (m_callback);
+}
+
+const float &AButton::getCooldown() const
+{
+    return (m_cooldown);
 }

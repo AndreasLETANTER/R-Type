@@ -118,6 +118,11 @@ class IButton {
         /// @return The object with the new callback
         virtual IButton &setCallback(const std::function<void()> &callback) = 0;
 
+        /// @brief Set the cooldown of the button
+        /// @param cooldown The cooldown wanted for the button
+        /// @return The object with the new cooldown
+        virtual IButton &setCooldown(const float &cooldown) = 0;
+
         /// @brief Get the shape of the button
         /// @return The shape of the button
         virtual sf::RectangleShape &getShape() = 0;
@@ -169,4 +174,8 @@ class IButton {
         /// @brief Get the callback of the button
         /// @return The callback of the button
         virtual const std::function<void()> &getCallback() const = 0;
+
+        /// @brief Get the cooldown of the button
+        /// @return The cooldown of the button
+        virtual const float &getCooldown() const = 0;
 };

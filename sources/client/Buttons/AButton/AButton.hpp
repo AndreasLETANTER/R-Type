@@ -30,6 +30,7 @@ class AButton : public IButton {
         IButton &setTextColor(const sf::Color &color) override;
         IButton &setTextHoverColor(const sf::Color &hoverColor) override;
         IButton &setCallback(const std::function<void()> &callback) override;
+        IButton &setCooldown(const float &cooldown) override;
 
         sf::RectangleShape &getShape() override;
         const sf::Vector2f &getButtonPosition() const override;
@@ -44,6 +45,7 @@ class AButton : public IButton {
         const HorizontalAlign &getHorizontalAlign() const override;
         const VerticalAlign &getVerticalAlign() const override;
         const std::function<void()> &getCallback() const override;
+        const float &getCooldown() const override;
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);
@@ -60,4 +62,5 @@ class AButton : public IButton {
         VerticalAlign m_verticalAlign = MIDDLE;
 
         std::function<void()> m_callback = [](){};
+        float m_cooldown = 0;
 };

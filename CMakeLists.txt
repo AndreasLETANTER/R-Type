@@ -99,6 +99,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
     sources/client/Buttons/AButton/AButton.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/Buttons/CooldownButton/CooldownButton.cpp
 )
 
 set(SERVER_SOURCES
