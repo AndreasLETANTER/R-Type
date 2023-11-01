@@ -44,6 +44,8 @@ jobs:
   check_windows_compilation:
     runs-on: windows-latest
     needs: [check_repository_cleanliness]
+    container:
+      image: epitechcontent/epitest-docker
     steps:
       - name: Fetch repository
         uses: actions/checkout@v3
