@@ -213,6 +213,8 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, TextB
         add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
         add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
+        if (strncmp(packet.message.sprite_name, "PBullet", 7) == 0)
+            m_assets.get_sound("LaserSoundEffect")->play();
     }
     if (packet.messageType == ENTITY_DEATH_CODE) {
         for (unsigned int i = 0; i < m_entities.size(); i++) {
