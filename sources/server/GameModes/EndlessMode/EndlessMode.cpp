@@ -91,6 +91,11 @@ void EndlessMode::run()
             lastUpdate = clock.getElapsedTime();
         }
         registry.run_systems();
+        if (registry.getNeedToRestart()) {
+            registry = Registry();
+            init();
+            continue;
+        }
         if (registry.playersAreDead()) {
             packet_t packet;
 
