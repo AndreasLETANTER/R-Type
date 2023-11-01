@@ -49,7 +49,7 @@ void AGameMode::create_player(int x, int y, int id, EntityClasses classEnum)
     registry.add_component<Component::Controllable>(player, Component::Controllable(true, id));
     registry.add_component<Component::Shoot>(player, Component::Shoot(id, true, LINEAR, &clock, sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, 1, 1920));
     registry.add_component<Component::Drawable>(player, Component::Drawable(entityClassTmp.assetName, &window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
-    registry.add_component<Component::Collision>(player, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+    registry.add_component<Component::Collision>(player, Component::Collision(entityClassTmp.scale.y, entityClassTmp.scale.x));
     registry.add_component<Component::Health>(player, Component::Health(entityClassTmp.health));
     registry.add_component<Component::Score>(player, Component::Score(0, &clock));
 }
