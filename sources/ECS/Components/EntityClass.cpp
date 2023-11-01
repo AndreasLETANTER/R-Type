@@ -33,6 +33,10 @@ namespace Component {
                 return EntityClass("OrangeCrabEnemy.gif", "EBulletOrangeCrab.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 30, 5, 2000, 5, ShootingPattern::SPREAD);
             case EntityClasses::MOB_YELLOW_POPCORN:
                 return EntityClass("YellowPopcornEnemy.gif", "EBulletYellowPopcorn.png", Component::Position(99, 87), sf::IntRect(0, 1, 33, 29), 10, 3, 1000, 7, ShootingPattern::CIRCULAR);
+            case EntityClasses::MOB_GREEN_PLANT:
+                return EntityClass("GreenPlantEnemy.gif", "EBulletGreenPlant.png", Component::Position(99, 111), sf::IntRect(0, 0, 33, 37), 50, 15, 3000, 3, ShootingPattern::WAVE);
+            case EntityClasses::MOB_BLUE_D:
+                return EntityClass("BlueDEnemy.gif", "EBulletBlueD.png", Component::Position(99, 108), sf::IntRect(0, 0, 33, 36), 20, 5, 1000, 5, ShootingPattern::LINEAR);
             default:
                 return EntityClass("SpaceShips.gif", "PBulletNugo.png", Component::Position(102, 57), sf::IntRect(0, 2, 34, 16), 100, 5, 500, 5, ShootingPattern::LINEAR);
         }

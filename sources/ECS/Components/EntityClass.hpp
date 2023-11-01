@@ -18,7 +18,9 @@ enum EntityClasses {
     ELIOT,
     LOUIS,
     MOB_ORANGE_CRAB,
-    MOB_YELLOW_POPCORN
+    MOB_YELLOW_POPCORN,
+    MOB_GREEN_PLANT,
+    MOB_BLUE_D
 };
 
 extern std::map<std::string, EntityClasses> entityClassesMap;

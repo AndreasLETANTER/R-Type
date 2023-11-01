@@ -13,6 +13,8 @@ WaveSystem WaveSystem::operator()(Registry &registry)
     std::vector<Component::EntityClass> m_boss_vector;
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_ORANGE_CRAB));
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_YELLOW_POPCORN));
+    m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_GREEN_PLANT));
+    m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_BLUE_D));
     static unsigned int current_wave_index = 1;
     unsigned int nb_enemies_for_wave = rand() % 6 + current_wave_index  + 3 + current_wave_index;
 
