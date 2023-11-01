@@ -27,6 +27,8 @@
 #define ENTITY_SPAWN_CODE 103
 #define ENTITY_MOVE_CODE 104
 #define ENTITY_SCORE_CODE 105
+#define LOSE_CODE 106
+#define WIN_CODE 107
 
 /**
  * @brief Struct representing a message containing the sprite name position and score of an entity.

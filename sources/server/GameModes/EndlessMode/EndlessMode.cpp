@@ -91,6 +91,12 @@ void EndlessMode::run()
             lastUpdate = clock.getElapsedTime();
         }
         registry.run_systems();
+        if (registry.playersAreDead()) {
+            packet_t packet;
+
+            packet.messageType = LOSE_CODE;
+            udpServer->send(converter.convertStructToBinary(packet));
+        }
         std::vector<input_t> inputs = udpServer->get_packet_queue();
         for (unsigned int i = 0; i < inputs.size(); i++) {
             if (inputs[i].id == 0) {

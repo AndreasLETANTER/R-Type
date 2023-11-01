@@ -32,6 +32,9 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
 {
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
+        if (packets[i].messageType == LOSE_CODE) {
+            window->clear();
+        }
         if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
             needGameInfos = false;
             continue;
