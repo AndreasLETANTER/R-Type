@@ -36,7 +36,6 @@ void CooldownButton::update(sf::RenderWindow &window)
         }
 
         if (static_cast<int>(elapsedTime) != static_cast<int>(elapsedTime - 1)) {
-            std::cout << "Cooldown: " << m_timeLeft << std::endl;
             std::string textString = text.getString();
             textString = textString.substr(0, textString.find("("));
             textString += "(" + std::to_string(static_cast<int>(m_timeLeft)) + ")";
