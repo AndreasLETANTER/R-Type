@@ -29,10 +29,12 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::White)
+        .setCooldown(5)
         .setCallback([this]() {
             input_t input = {m_tcpClient.getId(), sf::Keyboard::R, false};
 
             m_udpClient.send(binaryConverter().convertInputToBinary(input));
+            m_isCallbackCalled = true;
         });
     m_buttons.push_back(std::move(restartButton));
     

@@ -19,6 +19,7 @@ class RestartMenu {
         void draw();
         void update();
         void resize();
+        bool isCallbackCalled() const {return m_isCallbackCalled;};
     private:
         sf::RenderWindow &m_window;
         tcpClientSocket &m_tcpClient;
@@ -26,4 +27,5 @@ class RestartMenu {
         std::vector<std::unique_ptr<IButton>> m_buttons;
         Assets m_assets;
         sf::Font m_font;
+        bool m_isCallbackCalled = false;
 };
