@@ -32,6 +32,6 @@ class MainMenu {
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;
-        std::vector<TextButton> m_buttons;
+        std::vector<std::unique_ptr<IButton>> m_buttons;
         sf::Font m_font;
 };

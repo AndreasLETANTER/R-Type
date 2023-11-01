@@ -113,7 +113,9 @@ set (ECS_SOURCES
     sources/ECS/Assets/Assets.cpp
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
     sources/ECS/Systems/EntityClassSystem/EntityClassSystem.cpp
+    sources/client/Buttons/AButton/AButton.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/Buttons/CooldownButton/CooldownButton.cpp
 )
 
 set(SERVER_SOURCES
@@ -132,7 +134,7 @@ set(CLIENT_SOURCES
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/HandleArgument/HandleArgument.cpp
-    sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/Buttons/ButtonFactory/ButtonFactory.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp

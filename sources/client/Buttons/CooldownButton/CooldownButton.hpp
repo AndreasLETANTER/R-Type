@@ -2,20 +2,20 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** TextButton
+** CooldownButton
 */
 
 #pragma once
 
-#include <functional>
-#include <SFML/Graphics.hpp>
-
 #include "client/Buttons/AButton/AButton.hpp"
 
-/// @brief Class to create fully customizable text buttons
-class TextButton : public AButton {
+class CooldownButton: public AButton {
     public:
         void update(sf::RenderWindow &window) override;
     private:
+        sf::Clock m_clock;
+        bool m_isCooldownPassed = false;
+        float m_timeLeft = 0;
         bool m_buttonWasClicked = false;
 };
+
