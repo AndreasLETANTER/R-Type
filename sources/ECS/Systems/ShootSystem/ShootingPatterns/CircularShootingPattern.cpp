@@ -14,7 +14,7 @@ void CircularShootingPattern::shoot(Registry &registry, Component::Shoot &shoot,
         double x = pos.x;
         auto texture = registry.get_assets().get_texture(shoot.bulletSpriteName);
         auto sprite = sf::Sprite(*texture);
-        double y = pos.y + ((draw.scale.y / 2) - (texture->getSize().y / 2));
+        double y = pos.y;
 
         createProjectile(registry, window, shoot.bulletSpriteName, Component::Position(x - sprite.getTextureRect().width - 1, y - sprite.getTextureRect().height - 1), Component::Position(0, 0), shoot.damage, shoot.playerId, groupId);
         createProjectile(registry, window, shoot.bulletSpriteName, Component::Position(x, y - sprite.getTextureRect().height - 1), Component::Position(x, 0), shoot.damage, shoot.playerId, groupId);

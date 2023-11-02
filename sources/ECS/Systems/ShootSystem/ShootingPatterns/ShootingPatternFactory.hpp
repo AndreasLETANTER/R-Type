@@ -12,6 +12,7 @@
 #include "SpreadShootingPattern.hpp"
 #include "CircularShootingPattern.hpp"
 #include "WaveShootingPattern.hpp"
+#include "RandomShootingPattern.hpp"
 
 /**
  * @brief Class representing a shooting pattern factory.
