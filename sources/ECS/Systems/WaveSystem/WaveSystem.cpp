@@ -18,7 +18,7 @@ WaveSystem WaveSystem::operator()(Registry &registry)
     unsigned int nb_enemies_for_wave = rand() % 6 + current_wave_index  + 3 + current_wave_index;
 
     if (registry.enemiesAreDead()) {
-        if (current_wave_index == 1) {
+        if (current_wave_index % 3 == 0) {
             unsigned int enemy_type = rand() % m_boss_vector.size();
             Component::EntityClass entityClassTmp = m_boss_vector[enemy_type];
             unsigned int x_offset = rand() % (2000 - 1920) + 1 + 1920;
