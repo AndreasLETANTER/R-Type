@@ -5,9 +5,9 @@
 ** RandomShootingPattern
 */
 
-#include "RandomShootingPattern.hpp"
+#include "WhirlwindShootingPattern.hpp"
 
-void RandomShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, sf::RenderWindow *window, unsigned int groupId)
+void WhirlwindShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, sf::RenderWindow *window, unsigned int groupId)
 {
     sf::Time elapsedTime = shoot.clock->getElapsedTime() - shoot.lastShot;
     if (shoot.canShoot == true && (shoot.m_keyMapState[sf::Keyboard::Space] == true || shoot.direction == -1) && elapsedTime >= shoot.shootDelay) {

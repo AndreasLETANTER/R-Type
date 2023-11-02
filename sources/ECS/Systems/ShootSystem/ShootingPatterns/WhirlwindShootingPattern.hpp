@@ -10,9 +10,9 @@
 #include "ECS/Systems/ShootSystem/ShootingPatterns/AShootingPattern.hpp"
 
 /**
- * @brief Class representing a spread random pattern.
+ * @brief Class representing a Whirlwind pattern.
  */
-class RandomShootingPattern : public AShootingPattern {
+class WhirlwindShootingPattern : public AShootingPattern {
     public:
         /**
          * @brief Shoots bullets in a spread pattern.
