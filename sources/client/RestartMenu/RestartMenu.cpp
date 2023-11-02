@@ -13,22 +13,30 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
 {
     ButtonFactory buttonFactory;
     std::unique_ptr<IButton> restartButton = buttonFactory.createButton("Cooldown");
+    sf::Vector2u windowSize = m_window.getSize();
+    double buttonWidthRatio = 5;
+    double buttonHeightRatio = 10;
+    double textRatio = 15;
+    double buttonWidth = windowSize.x / buttonWidthRatio;
+    double buttonHeight = windowSize.y / buttonHeightRatio;
+    double xPos = (windowSize.x - buttonWidth) / 2;
+    double yPos = (windowSize.y - (2 * buttonHeight)) / 2;
     
     m_font = m_assets.get_font("font.ttf");
     restartButton
-        ->setButtonPosition(sf::Vector2f(400, 400))
-        .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
+        ->setButtonPosition(sf::Vector2f(xPos, yPos))
+        .setButtonSize(window.getSize(), sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
-        .setButtonOutlineColor(sf::Color::Transparent)
-        .setButtonOutlineThickness(1)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
         .setButtonHoverColor(sf::Color::Transparent)
-        .setButtonHoverOutlineColor(sf::Color::Transparent)
-        .setTextString("Restart")
-        .setTextSize(window.getSize(), 20)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setTextString("Restart (5)")
+        .setTextSize(window.getSize(), textRatio)
         .setTextFont(m_font)
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
         .setTextColor(sf::Color::White)
-        .setTextHoverColor(sf::Color::White)
+        .setTextHoverColor(sf::Color::Green)
         .setCooldown(5)
         .setCallback([this]() {
             input_t input = {m_tcpClient.getId(), sf::Keyboard::R, false};
@@ -37,6 +45,7 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
             m_isCallbackCalled = true;
         });
     m_buttons.push_back(std::move(restartButton));
+    this->resize();
     
 }
 
@@ -60,9 +69,8 @@ void RestartMenu::resize()
     double textRatio = 15;
     double buttonWidth = windowSize.x / buttonWidthRatio;
     double buttonHeight = windowSize.y / buttonHeightRatio;
-    double spacing = windowSize.y / 20;
     double xPos = (windowSize.x - buttonWidth) / 2;
-    double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
+    double yPos = (windowSize.y - (2 * buttonHeight)) / 2;
 
     m_buttons[0]->resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);
