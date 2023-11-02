@@ -60,7 +60,7 @@ int main(int ac, char **av)
     bool needGameInfos = true;
     ButtonFactory buttonFactory;
 
-    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
+    udpClient.send(converter.convertInputToBinary(client_packet_t{0, 0, input_t{0, sf::Keyboard::Unknown, false}}));
     tcpClient.run();
     tcpClient.receive();
     InputHandler inputHandler(tcpClient.getId());
@@ -103,9 +103,9 @@ int main(int ac, char **av)
                 exit(0);
             }
         }
-        std::vector<input_t> inputs = inputHandler.handle_inputs();
-        for (unsigned int i = 0; i < inputs.size(); i++) {
-            udpClient.send(converter.convertInputToBinary(inputs[i]));
+        std::vector<client_packet_t> packets = inputHandler.handle_inputs();
+        for (unsigned int i = 0; i < packets.size(); i++) {
+            udpClient.send(converter.convertInputToBinary(packets[i]));
         }
         update_game_from_packets(udpClient, tcpClient, registry, needGameInfos, &window, scoreButton);
         window.clear();

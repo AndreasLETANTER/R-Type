@@ -28,6 +28,8 @@
 #define ENTITY_MOVE_CODE 104
 #define ENTITY_SCORE_CODE 105
 
+#define CLIENT_INPUT_CODE 200
+
 /**
  * @brief Struct representing a message containing the sprite name position and score of an entity.
  */
@@ -61,6 +63,13 @@ typedef struct input_s
     sf::Keyboard::Key key; /**< The keyboard key associated with the input event. */
     bool pressed; /**< Whether the input event is a key press or release. */
 } input_t;
+
+typedef struct client_packet_s
+{
+    unsigned int messageType; /**< The type of the message. */
+    unsigned int received_packet_id; /**< The id of the received packet the server sent. */
+    input_t input; /**< The input of the client. */
+} client_packet_t;
 
 /**
  * @brief The Registry class is responsible for managing entities and their components.

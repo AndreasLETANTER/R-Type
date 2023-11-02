@@ -30,7 +30,7 @@ void udpSocket::run()
     m_ioService.poll();
 }
 
-std::vector<input_t> udpSocket::get_packet_queue()
+std::vector<client_packet_t> udpSocket::get_packet_queue()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_packet_queue;
@@ -51,7 +51,7 @@ void udpSocket::send(std::vector<char> t_message)
 
 void udpSocket::receive()
 {
-    auto buff = m_readBuffer.prepare(12);
+    auto buff = m_readBuffer.prepare(20);
     m_socket.async_receive_from(buff, m_endpoint, [this](const boost::system::error_code &error, std::size_t bytes_transferred) {
         if (error) {
             std::cerr << RED << "Error when receiving data: " << error.message() << RESET << std::endl;
@@ -61,7 +61,7 @@ void udpSocket::receive()
             m_clients_endpoints.push_back(m_endpoint);
         }
         m_readBuffer.commit(bytes_transferred);
-        input_t packet;
+        client_packet_t packet;
         m_iStream.read(reinterpret_cast<char *>(&packet), bytes_transferred);
         m_mutex.lock();
         m_packet_queue.push_back(packet);

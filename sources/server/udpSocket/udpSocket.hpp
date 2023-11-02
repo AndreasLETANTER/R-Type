@@ -69,7 +69,7 @@ class udpSocket {
          * 
          * @return std::vector<input_t> The packet queue of the UDP client socket.
          */
-        std::vector<input_t> get_packet_queue();
+        std::vector<client_packet_t> get_packet_queue();
 
         /**
          * @brief Receive a message through the UDP client socket.
@@ -91,7 +91,7 @@ class udpSocket {
         ip::udp::socket m_socket; /**< The boost UDP socket object. */
         ip::udp::endpoint m_endpoint; /**< The boost UDP endpoint object. */
         std::vector<ip::udp::endpoint> m_clients_endpoints; /**< The map of connected clients. */
-        std::vector<input_t> m_packet_queue; /**< The packet queue of the UDP client socket. */
+        std::vector<client_packet_t> m_packet_queue; /**< The packet queue of the UDP client socket. */
         streambuf m_readBuffer; /**< The boost streambuf object. */
         std::istream m_iStream; /**< The boost istream object. */
         std::thread udpThread; /**< The thread object for the UDP client socket. */
