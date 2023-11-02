@@ -37,7 +37,7 @@ void RandomShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, C
                 double offsetX = cos(radians) * (ringRadius + ringRadiusOffset);
                 double offsetY = sin(radians) * (ringRadius + ringRadiusOffset);
 
-                createProjectile(registry, window, shoot.bulletSpriteName, Component::Position(x + offsetX, y + offsetY), Component::Position(0, y_direction + offsetY), shoot.damage, shoot.playerId, groupId);
+                createProjectile(registry, window, shoot.bulletSpriteName, Component::Position(x + offsetX, y + offsetY), Component::Position(0 + offsetX, y_direction + offsetY), shoot.damage, shoot.playerId, groupId);
             }
         }
         std::cout << y_direction << std::endl;
