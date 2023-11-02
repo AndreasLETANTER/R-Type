@@ -36,10 +36,7 @@ void CooldownButton::update(sf::RenderWindow &window)
         }
 
         if (static_cast<int>(elapsedTime) != static_cast<int>(elapsedTime - 1)) {
-            std::string textString = text.getString();
-            textString = textString.substr(0, textString.find("("));
-            textString += "(" + std::to_string(static_cast<int>(m_timeLeft)) + ")";
-            text.setString(textString);
+            this->setTextString(text.getString());
         }
     }
     if (mousePosition.x >= buttonPosition.x && mousePosition.x <= buttonPosition.x + buttonSize.x &&
@@ -64,4 +61,19 @@ void CooldownButton::update(sf::RenderWindow &window)
         m_clock.restart();
         m_isCooldownPassed = false;
     }
+}
+
+IButton &CooldownButton::setTextString(const std::string &text)
+{
+    sf::Text &textObject = this->getText();
+    std::string textString = text;
+
+    if (static_cast<int>(m_timeLeft) == 0) {
+        textObject.setString(textString);
+        return *this;
+    }
+    textString = textString.substr(0, textString.find(" ("));
+    textString += " (" + std::to_string(static_cast<int>(m_timeLeft)) + ")";
+    textObject.setString(textString);
+    return *this;
 }
