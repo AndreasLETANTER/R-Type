@@ -199,10 +199,12 @@ void MainMenu::update()
             }
         }
         m_keys.clear();
+        button->update(m_window);
+        std::cout << "bools :" + std::to_string(i) + " " << std::endl;
+        std::cout << m_bools[i] << std::endl;
         m_texts[i].setFillColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
         m_texts[i].setOutlineColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
         m_texts[i].setOutlineThickness((m_bools[i] == true) ? 0.5 : 0);
-        button->update(m_window);
         i++;
     }
 }
@@ -317,7 +319,7 @@ void MainMenu::deleteButtons(Registry &registry)
     text5.setFillColor(sf::Color::White);
     text5.setPosition(pos.x + 35, pos.y + 255);
     text6.setFont(m_font);
-    text6.setString("Robber");
+    text6.setString("Assassin");
     text6.setCharacterSize(28);
     text6.setFillColor(sf::Color::White);
     text6.setPosition(pos.x + 75, pos.y + 85);
@@ -396,6 +398,122 @@ void MainMenu::deleteButtons(Registry &registry)
     m_texts.push_back(std::move(text11));
     m_texts.push_back(std::move(text12));
     m_buttons.push_back(std::move(nugoClass));
+
+    pos.x += 400;
+    std::unique_ptr<IButton> eliotClass = m_buttonFactory.createButton("Text");
+    sf::Text text13 = sf::Text();
+    sf::Text text14 = sf::Text();
+    sf::Text text15 = sf::Text();
+    sf::Text text16 = sf::Text();
+    sf::Text text17 = sf::Text();
+    sf::Text text18 = sf::Text();
+    m_bools.push_back(false);
+    m_buttonTypes.push_back(PORT);
+    text13.setFont(m_font);
+    text13.setString("ELIOT");
+    text13.setCharacterSize(34);
+    text13.setFillColor(sf::Color::White);
+    text13.setPosition(pos.x + 75, pos.y + 25);
+    text14.setFont(m_font);
+    text14.setString("SPEED : [##        ]");
+    text14.setCharacterSize(22);
+    text14.setFillColor(sf::Color::White);
+    text14.setPosition(pos.x + 35, pos.y + 135);
+    text15.setFont(m_font);
+    text15.setString("HEALTH : [###    ]");
+    text15.setCharacterSize(22);
+    text15.setFillColor(sf::Color::White);
+    text15.setPosition(pos.x + 20, pos.y + 175);
+    text16.setFont(m_font);
+    text16.setString("DAMAGE : [##        ]");
+    text16.setCharacterSize(22);
+    text16.setFillColor(sf::Color::White);
+    text16.setPosition(pos.x + 10, pos.y + 215);
+    text17.setFont(m_font);
+    text17.setString("DELAY : [###    ]");
+    text17.setCharacterSize(22);
+    text17.setFillColor(sf::Color::White);
+    text17.setPosition(pos.x + 35, pos.y + 255);
+    text18.setFont(m_font);
+    text18.setString("Robber");
+    text18.setCharacterSize(28);
+    text18.setFillColor(sf::Color::White);
+    text18.setPosition(pos.x + 80, pos.y + 85);
+    eliotClass->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 3.5))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCallback([this, &m_bools, &eliotClass]() {
+            resetAndSetSelectedButton(2);
+        });
+    m_texts.push_back(std::move(text13));
+    m_texts.push_back(std::move(text14));
+    m_texts.push_back(std::move(text15));
+    m_texts.push_back(std::move(text16));
+    m_texts.push_back(std::move(text17));
+    m_texts.push_back(std::move(text18));
+    m_buttons.push_back(std::move(eliotClass));
+
+    pos.x += 400;
+    std::unique_ptr<IButton> louisClass = m_buttonFactory.createButton("Text");
+    sf::Text text19 = sf::Text();
+    sf::Text text20 = sf::Text();
+    sf::Text text21 = sf::Text();
+    sf::Text text22 = sf::Text();
+    sf::Text text23 = sf::Text();
+    sf::Text text24 = sf::Text();
+    m_bools.push_back(false);
+    m_buttonTypes.push_back(PORT);
+    text19.setFont(m_font);
+    text19.setString("LOUIS");
+    text19.setCharacterSize(34);
+    text19.setFillColor(sf::Color::White);
+    text19.setPosition(pos.x + 75, pos.y + 25);
+    text20.setFont(m_font);
+    text20.setString("SPEED : [###    ]");
+    text20.setCharacterSize(22);
+    text20.setFillColor(sf::Color::White);
+    text20.setPosition(pos.x + 35, pos.y + 135);
+    text21.setFont(m_font);
+    text21.setString("HEALTH : [##        ]");
+    text21.setCharacterSize(22);
+    text21.setFillColor(sf::Color::White);
+    text21.setPosition(pos.x + 20, pos.y + 175);
+    text22.setFont(m_font);
+    text22.setString("DAMAGE : [##        ]");
+    text22.setCharacterSize(22);
+    text22.setFillColor(sf::Color::White);
+    text22.setPosition(pos.x + 10, pos.y + 215);
+    text23.setFont(m_font);
+    text23.setString("DELAY : [##        ]");
+    text23.setCharacterSize(22);
+    text23.setFillColor(sf::Color::White);
+    text23.setPosition(pos.x + 35, pos.y + 255);
+    text24.setFont(m_font);
+    text24.setString("Monge");
+    text24.setCharacterSize(28);
+    text24.setFillColor(sf::Color::White);
+    text24.setPosition(pos.x + 80, pos.y + 85);
+    louisClass->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 3.5))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCallback([this, &m_bools, &louisClass]() {
+            resetAndSetSelectedButton(3);
+        });
+    m_texts.push_back(std::move(text19));
+    m_texts.push_back(std::move(text20));
+    m_texts.push_back(std::move(text21));
+    m_texts.push_back(std::move(text22));
+    m_texts.push_back(std::move(text23));
+    m_texts.push_back(std::move(text24));
+    m_buttons.push_back(std::move(louisClass));
 
     // pos.x -= 600;
     // pos.y += 150;
