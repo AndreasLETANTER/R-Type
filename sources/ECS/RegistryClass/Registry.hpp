@@ -50,6 +50,7 @@ typedef struct message_s {
 typedef struct packet_s
 {
     unsigned int messageType; /**< The type of the message. */
+    unsigned int packet_id; /**< The id of the packet. */
     message_t message; /**< The message. */
 } packet_t;
 

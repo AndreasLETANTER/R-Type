@@ -99,12 +99,14 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
         if (m_previous_entities[i].has_value() && m_entities[i].has_value()) {
             if (m_previous_entities[i].value().second != m_entities[i].value().second) {
                 tempPacket.messageType = ENTITY_DEATH_CODE;
+                tempPacket.packet_id = rand() % 10000000;
                 tempPacket.message.entity_id = m_previous_entities[i].value().second;
                 Packets.push_back(tempPacket);
             }
         }
         if (m_previous_entities[i].has_value() && m_entities[i].has_value() == false) {
             tempPacket.messageType = ENTITY_DEATH_CODE;
+            tempPacket.packet_id = rand() % 10000000;
             tempPacket.message.entity_id = m_previous_entities[i].value().second;
             Packets.push_back(tempPacket);
         }
@@ -115,6 +117,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
         if (m_previous_entities.size() > i && m_previous_entities[i].has_value() && m_entities[i].has_value()) {
             if (m_previous_entities[i].value().second != m_entities[i].value().second) {
                 tempPacket.messageType = ENTITY_SPAWN_CODE;
+                tempPacket.packet_id = rand() % 10000000;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                 tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
@@ -126,6 +129,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
         }
         if ((m_previous_entities.size() <= i || m_previous_entities[i].has_value() == false) && m_entities[i].has_value()) {
                 tempPacket.messageType = ENTITY_SPAWN_CODE;
+                tempPacket.packet_id = rand() % 10000000;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                 tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
@@ -141,6 +145,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
         if (m_previous_positions.size() > i && positions[i].has_value() && m_previous_positions[i].has_value()) {
             if (positions[i].value().x != m_previous_positions[i].value().x || positions[i].value().y != m_previous_positions[i].value().y) {
                 tempPacket.messageType = ENTITY_MOVE_CODE;
+                tempPacket.packet_id = rand() % 10000000;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 tempPacket.message.x = positions[m_entities[i].value().first].value().x;
                 tempPacket.message.y = positions[m_entities[i].value().first].value().y;
@@ -149,6 +154,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
         }
         if ((m_previous_positions.size() <= i || m_previous_positions[i].has_value() == false) && positions[i].has_value()) {
             tempPacket.messageType = ENTITY_MOVE_CODE;
+            tempPacket.packet_id = rand() % 10000000;
             tempPacket.message.entity_id = m_entities[i].value().second;
             tempPacket.message.x = positions[m_entities[i].value().first].value().x;
             tempPacket.message.y = positions[m_entities[i].value().first].value().y;
@@ -162,6 +168,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
         if (m_previous_scores.size() > i && scores[i].has_value() && m_previous_scores[i].has_value()) {
             if (scores[i].value().score != m_previous_scores[i].value().score) {
                 tempPacket.messageType = ENTITY_SCORE_CODE;
+                tempPacket.packet_id = rand() % 10000000;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 tempPacket.message.score = scores[m_entities[i].value().first].value().score;
                 tempPacket.message.client_id = player_count;
@@ -171,6 +178,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
         }
         if ((m_previous_scores.size() <= i || m_previous_scores[i].has_value() == false) && scores[i].has_value()) {
             tempPacket.messageType = ENTITY_SCORE_CODE;
+            tempPacket.packet_id = rand() % 10000000;
             tempPacket.message.entity_id = m_entities[i].value().second;
             tempPacket.message.score = scores[m_entities[i].value().first].value().score;
             tempPacket.message.client_id = player_count;
@@ -184,6 +192,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
             if (m_entities[i].has_value()) {
                 if (drawables[i].has_value() && positions[i].has_value()) {
                     tempPacket.messageType = ALL_GAME_INFO_CODE;
+                    tempPacket.packet_id = rand() % 10000000;
                     tempPacket.message.entity_id = m_entities[i].value().second;
                     strcpy(tempPacket.message.sprite_name, drawables[m_entities[i].value().first].value().spriteName.c_str());
                     tempPacket.message.rect = drawables[m_entities[i].value().first].value().rect;
@@ -197,6 +206,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
     }
     if (newClient == true) {
         tempPacket.messageType = NO_MORE_GAME_INFO_CODE;
+        tempPacket.packet_id = rand() % 10000000;
         Packets.push_back(tempPacket);
     }
     m_previous_entities = m_entities;
