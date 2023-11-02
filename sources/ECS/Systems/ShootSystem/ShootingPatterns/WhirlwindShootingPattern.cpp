@@ -6,6 +6,7 @@
 */
 
 #include "WhirlwindShootingPattern.hpp"
+#include <math.h>
 
 void WhirlwindShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, sf::RenderWindow *window, unsigned int groupId)
 {
