@@ -13,6 +13,7 @@
 #include "client/Buttons/TextButton/TextButton.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
+#include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
 
 using namespace boost::asio;
 
@@ -75,7 +76,7 @@ class MainMenu {
         sf::RenderWindow &m_window;
         Assets &m_assets;
         Registry &m_registry;
-        std::vector<TextButton> m_buttons;
+        std::vector<std::unique_ptr<IButton>> m_buttons;
         std::vector<sf::Text> m_texts;
         std::vector<sf::Keyboard::Key> m_keys;
         std::vector<bool> m_bools;
@@ -88,4 +89,5 @@ class MainMenu {
         sf::Font m_font;
         bool m_isPlayMenuOpen = false;
         bool m_classSelected = false;
+        ButtonFactory m_buttonFactory;
 };

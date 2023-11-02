@@ -21,6 +21,8 @@
 #include "ECS/Systems/HealthSystem/HealthSystem.hpp"
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
+#include "ECS/Systems/PowerUpSystem/PowerUpSystem.hpp"
+#include "ECS/Systems/EntityClassSystem/EntityClassSystem.hpp"
 
 #include "../../../../build/assets/Level1Config.hpp"
 
@@ -46,6 +48,7 @@ void DefaultMode::init()
     registry.register_component<Component::Health>();
     registry.register_component<Component::Score>();
     registry.register_component<Component::Group>();
+    registry.register_component<Component::PowerUp>();
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -55,9 +58,11 @@ void DefaultMode::init()
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
-    registry.add_system<Component::Health>(HealthSystem());
+    registry.add_system<Component::Health, Component::Position>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
+    registry.add_system<Component::EntityClass,Component::Controllable, Component::Collision, Component::PowerUp>(PowerUpSystem());
+    registry.add_system<Component::EntityClass, Component::Shoot, Component::Health, Component::Velocity>(EntityClassSystem());
 
     parser.loadFromFile();
 }

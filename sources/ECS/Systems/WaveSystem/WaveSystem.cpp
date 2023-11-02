@@ -30,7 +30,7 @@ WaveSystem WaveSystem::operator()(Registry &registry)
             registry.add_component<Component::Velocity>(enemy, Component::Velocity(0, 0, entityClassTmp.speed));
             registry.add_component<Component::Shoot>(enemy, Component::Shoot(0, true, entityClassTmp.shootingPattern, registry.getClock(), sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, -1, 0));
             registry.add_component<Component::Drawable>(enemy, Component::Drawable(entityClassTmp.assetName, registry.getWindow(), sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), registry.get_assets().get_texture(entityClassTmp.assetName)));
-            registry.add_component<Component::Collision>(enemy, Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+            registry.add_component<Component::Collision>(enemy, Component::Collision(entityClassTmp.scale.y, entityClassTmp.scale.x));
             registry.add_component<Component::AutoMove>(enemy, Component::AutoMove(Component::Position(x_start, y_start), Component::Position(x_start - 300, y_start)));
             registry.add_component<Component::Health>(enemy, Component::Health(entityClassTmp.health));
         }

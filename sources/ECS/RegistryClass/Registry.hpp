@@ -36,22 +36,30 @@ typedef struct message_s {
     double x; /**< The x-coordinate of the entity's position. */
     double y; /**< The y-coordinate of the entity's position. */
     unsigned int entity_id; /**< The id of the entity. */
+    unsigned int client_id; /**< The id of the client. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
     Component::Position scale; /**< The scale of the texture. */
     int score; /**< The score of the entity. */
 } message_t;
 
+/**
+ * @brief Struct representing a packet with a message type and a message.
+ */
 typedef struct packet_s
 {
-    unsigned int messageType;
-    message_t message;
+    unsigned int messageType; /**< The type of the message. */
+    message_t message; /**< The message. */
 } packet_t;
 
+/**
+ * @brief Struct representing an input event.
+ * 
+ */
 typedef struct input_s
 {
-    unsigned int id;
-    sf::Keyboard::Key key;
-    bool pressed;
+    unsigned int id; /**< The ID of the input event. */
+    sf::Keyboard::Key key; /**< The keyboard key associated with the input event. */
+    bool pressed; /**< Whether the input event is a key press or release. */
 } input_t;
 
 /**
@@ -240,7 +248,8 @@ class Registry {
          * @param window The window to draw the entities in.
          * @param scoreButton The score button to update.
          */
-        void updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton);
+        void updateFromPacket(packet_t packet, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton, unsigned int clientId);
+
         /**
          * @brief Returns the assets of the registry.
          * 

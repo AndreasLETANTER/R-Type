@@ -17,8 +17,7 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Scroll.hpp"
 
-MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
-    Registry &registry):
+MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry):
     m_window(window), m_assets(assets), m_registry(registry)
 {
     sf::Vector2u windowSize = m_window.getSize();
@@ -30,98 +29,98 @@ MainMenu::MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets,
 
     pos.y += 400;
     pos.x -= 200;
-    auto playButton = m_buttons.emplace_back();
-    auto text2 = m_texts.emplace_back();
+    std::unique_ptr<IButton> playButton = m_buttonFactory.createButton("Text");
+    sf::Text text2 = sf::Text();
     auto &m_bools = this->m_bools;
     auto &m_buttonTypes = this->m_buttonTypes;
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
-    m_texts[0].setFont(m_font);
-    m_texts[0].setString("TCP Port : 8080");
-    m_texts[0].setCharacterSize(28);
-    m_texts[0].setFillColor(sf::Color::White);
-    m_texts[0].setPosition(pos.x + 15, pos.y + 15);
-    playButton.setButtonPosition(pos);
-    playButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
-    playButton.setButtonColor(sf::Color::Transparent);
-    playButton.setButtonOutlineColor(sf::Color::White);
-    playButton.setButtonOutlineThickness(5);
-    playButton.setButtonHoverColor(sf::Color::Transparent);
-    playButton.setButtonHoverOutlineColor(sf::Color::Green);
-    playButton.setCallback([this, &m_bools, &playButton]() {
+    text2.setFont(m_font);
+    text2.setString("TCP Port : 8080");
+    text2.setCharacterSize(28);
+    text2.setFillColor(sf::Color::White);
+    text2.setPosition(pos.x + 15, pos.y + 15);
+    playButton->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCallback([this, &m_bools, &playButton]() {
         resetAndSetSelectedButton(0);
-    });
+        });
     m_texts.push_back(std::move(text2));
     m_buttons.push_back(std::move(playButton));
 
     pos.x += 400;
-    auto udpPortButton = m_buttons.emplace_back();
-    auto text3 = m_texts.emplace_back();
+    std::unique_ptr<IButton> udpPortButton = m_buttonFactory.createButton("Text");
+    sf::Text text3 = sf::Text();
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
-    m_texts[1].setFont(m_font);
-    m_texts[1].setString("UDP Port : 4242");
-    m_texts[1].setCharacterSize(28);
-    m_texts[1].setFillColor(sf::Color::White);
-    m_texts[1].setPosition(pos.x + 15, pos.y + 15);
-    udpPortButton.setButtonPosition(pos);
-    udpPortButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
-    udpPortButton.setButtonColor(sf::Color::Transparent);
-    udpPortButton.setButtonOutlineColor(sf::Color::White);
-    udpPortButton.setButtonOutlineThickness(5);
-    udpPortButton.setButtonHoverColor(sf::Color::Transparent);
-    udpPortButton.setButtonHoverOutlineColor(sf::Color::Green);
-    udpPortButton.setCallback([this, &m_bools]() {
+    text3.setFont(m_font);
+    text3.setString("UDP Port : 4242");
+    text3.setCharacterSize(28);
+    text3.setFillColor(sf::Color::White);
+    text3.setPosition(pos.x + 15, pos.y + 15);
+    udpPortButton->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCallback([this, &m_bools]() {
         resetAndSetSelectedButton(1);
-    });
+        });
     m_texts.push_back(std::move(text3));
     m_buttons.push_back(std::move(udpPortButton));
 
     pos.x -= 250;
     pos.y -= 150;
-    auto ipPortButton = m_buttons.emplace_back();
-    auto text4 = m_texts.emplace_back();
+    std::unique_ptr<IButton> ipPortButton = m_buttonFactory.createButton("Text");
+    sf::Text text4 = sf::Text();
     m_bools.push_back(false);
     m_buttonTypes.push_back(ADDRESS);
-    m_texts[2].setFont(m_font);
-    m_texts[2].setString("IP Address : 127.0.0.1");
-    m_texts[2].setCharacterSize(28);
-    m_texts[2].setFillColor(sf::Color::White);
-    m_texts[2].setPosition(pos.x + 15, pos.y + 15);
-    ipPortButton.setButtonPosition(pos);
-    ipPortButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio / 1.5, buttonHeightRatio));
-    ipPortButton.setButtonColor(sf::Color::Transparent);
-    ipPortButton.setButtonOutlineColor(sf::Color::White);
-    ipPortButton.setButtonOutlineThickness(5);
-    ipPortButton.setButtonHoverColor(sf::Color::Transparent);
-    ipPortButton.setButtonHoverOutlineColor(sf::Color::Green);
-    ipPortButton.setCallback([this, &m_bools]() {
-            resetAndSetSelectedButton(2);
-        });
+    text4.setFont(m_font);
+    text4.setString("IP Address : 127.0.0.1");
+    text4.setCharacterSize(28);
+    text4.setFillColor(sf::Color::White);
+    text4.setPosition(pos.x + 15, pos.y + 15);
+    ipPortButton->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio / 1.5, buttonHeightRatio))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCallback([this, &m_bools]() {
+                resetAndSetSelectedButton(2);
+            });
     m_texts.push_back(std::move(text4));
     m_buttons.push_back(std::move(ipPortButton));
 
     pos.y += 300;
     pos.x += 50;
-    auto connectButton = m_buttons.emplace_back();
-    auto text5 = m_texts.emplace_back();
+    std::unique_ptr<IButton> connectButton = m_buttonFactory.createButton("Text");
+    sf::Text text5 = sf::Text();
     m_bools.push_back(false);
     m_buttonTypes.push_back(CONNECT);
-    m_texts[3].setFont(m_font);
-    m_texts[3].setString("CONNECT");
-    m_texts[3].setCharacterSize(34);
-    m_texts[3].setFillColor(sf::Color::Green);
-    m_texts[3].setPosition(pos.x + 35, pos.y + 15);
-    connectButton.setButtonPosition(pos);
-    connectButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
-    connectButton.setButtonColor(sf::Color::Transparent);
-    connectButton.setButtonOutlineColor(sf::Color::White);
-    connectButton.setButtonOutlineThickness(5);
-    connectButton.setButtonHoverOutlineColor(sf::Color::Green);
-    connectButton.setButtonHoverColor(sf::Color::Transparent);
-    connectButton.setCallback([this, &m_bools]() {
-        resetAndSetSelectedButton(3);
-    });
+    text5.setFont(m_font);
+    text5.setString("CONNECT");
+    text5.setCharacterSize(34);
+    text5.setFillColor(sf::Color::Green);
+    text5.setPosition(pos.x + 35, pos.y + 15);
+    connectButton->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setCallback([this, &m_bools]() {
+            resetAndSetSelectedButton(3);
+        });
     m_texts.push_back(std::move(text5));
     m_buttons.push_back(std::move(connectButton));
 }
@@ -159,7 +158,7 @@ void MainMenu::draw()
             }
         }
         if (error != 0 && i  == 7) {} else {
-            button.draw(m_window);
+            button->draw(m_window);
         }
         if (error != 0 && i == 3) {} else {
             m_window.draw(m_texts[i]);
@@ -203,7 +202,7 @@ void MainMenu::update()
         m_texts[i].setFillColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
         m_texts[i].setOutlineColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
         m_texts[i].setOutlineThickness((m_bools[i] == true) ? 0.5 : 0);
-        button.update(m_window);
+        button->update(m_window);
         i++;
     }
 }
@@ -281,57 +280,57 @@ void MainMenu::deleteButtons(Registry &registry)
 
     pos.y += 150;
     pos.x -= 600;
-    auto andreasClass = m_buttons.emplace_back();
-    auto text1 = m_texts.emplace_back();
-    auto text2 = m_texts.emplace_back();
-    auto text3 = m_texts.emplace_back();
-    auto text4 = m_texts.emplace_back();
-    auto text5 = m_texts.emplace_back();
-    auto text6 = m_texts.emplace_back();
+    std::unique_ptr<IButton> andreasClass = m_buttonFactory.createButton("Text");
+    sf::Text text1 = sf::Text();
+    sf::Text text2 = sf::Text();
+    sf::Text text3 = sf::Text();
+    sf::Text text4 = sf::Text();
+    sf::Text text5 = sf::Text();
+    sf::Text text6 = sf::Text();
     auto &m_bools = this->m_bools;
     auto &m_buttonTypes = this->m_buttonTypes;
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
-    m_texts[0].setFont(m_font);
-    m_texts[0].setString("ANDREAS");
-    m_texts[0].setCharacterSize(34);
-    m_texts[0].setFillColor(sf::Color::White);
-    m_texts[0].setPosition(pos.x + 40, pos.y + 25);
-    m_texts[1].setFont(m_font);
-    m_texts[1].setString("SPEED : [####]");
-    m_texts[1].setCharacterSize(22);
-    m_texts[1].setFillColor(sf::Color::White);
-    m_texts[1].setPosition(pos.x + 35, pos.y + 135);
-    m_texts[2].setFont(m_font);
-    m_texts[2].setString("HEALTH : [#            ]");
-    m_texts[2].setCharacterSize(22);
-    m_texts[2].setFillColor(sf::Color::White);
-    m_texts[2].setPosition(pos.x + 20, pos.y + 175);
-    m_texts[3].setFont(m_font);
-    m_texts[3].setString("DAMAGE : [##        ]");
-    m_texts[3].setCharacterSize(22);
-    m_texts[3].setFillColor(sf::Color::White);
-    m_texts[3].setPosition(pos.x + 10, pos.y + 215);
-    m_texts[4].setFont(m_font);
-    m_texts[4].setString("DELAY : [#            ]");
-    m_texts[4].setCharacterSize(22);
-    m_texts[4].setFillColor(sf::Color::White);
-    m_texts[4].setPosition(pos.x + 35, pos.y + 255);
-    m_texts[5].setFont(m_font);
-    m_texts[5].setString("Robber");
-    m_texts[5].setCharacterSize(28);
-    m_texts[5].setFillColor(sf::Color::White);
-    m_texts[5].setPosition(pos.x + 75, pos.y + 85);
-    andreasClass.setButtonPosition(pos);
-    andreasClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 3.5));
-    andreasClass.setButtonColor(sf::Color::Transparent);
-    andreasClass.setButtonOutlineColor(sf::Color::White);
-    andreasClass.setButtonOutlineThickness(5);
-    andreasClass.setButtonHoverColor(sf::Color::Transparent);
-    andreasClass.setButtonHoverOutlineColor(sf::Color::Green);
-    andreasClass.setCallback([this, &m_bools, &andreasClass]() {
-        resetAndSetSelectedButton(0);
-    });
+    text1.setFont(m_font);
+    text1.setString("ANDREAS");
+    text1.setCharacterSize(34);
+    text1.setFillColor(sf::Color::White);
+    text1.setPosition(pos.x + 40, pos.y + 25);
+    text2.setFont(m_font);
+    text2.setString("SPEED : [####]");
+    text2.setCharacterSize(22);
+    text2.setFillColor(sf::Color::White);
+    text2.setPosition(pos.x + 35, pos.y + 135);
+    text3.setFont(m_font);
+    text3.setString("HEALTH : [#            ]");
+    text3.setCharacterSize(22);
+    text3.setFillColor(sf::Color::White);
+    text3.setPosition(pos.x + 20, pos.y + 175);
+    text4.setFont(m_font);
+    text4.setString("DAMAGE : [##        ]");
+    text4.setCharacterSize(22);
+    text4.setFillColor(sf::Color::White);
+    text4.setPosition(pos.x + 10, pos.y + 215);
+    text5.setFont(m_font);
+    text5.setString("DELAY : [#            ]");
+    text5.setCharacterSize(22);
+    text5.setFillColor(sf::Color::White);
+    text5.setPosition(pos.x + 35, pos.y + 255);
+    text6.setFont(m_font);
+    text6.setString("Robber");
+    text6.setCharacterSize(28);
+    text6.setFillColor(sf::Color::White);
+    text6.setPosition(pos.x + 75, pos.y + 85);
+    andreasClass->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 3.5))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCallback([this, &m_bools, &andreasClass]() {
+            resetAndSetSelectedButton(0);
+        });
     m_texts.push_back(std::move(text1));
     m_texts.push_back(std::move(text2));
     m_texts.push_back(std::move(text3));
@@ -341,55 +340,55 @@ void MainMenu::deleteButtons(Registry &registry)
     m_buttons.push_back(std::move(andreasClass));
 
     pos.x += 400;
-    auto nugoClass = m_buttons.emplace_back();
-    auto text7 = m_texts.emplace_back();
-    auto text8 = m_texts.emplace_back();
-    auto text9 = m_texts.emplace_back();
-    auto text10 = m_texts.emplace_back();
-    auto text11 = m_texts.emplace_back();
-    auto text12 = m_texts.emplace_back();
+    std::unique_ptr<IButton> nugoClass = m_buttonFactory.createButton("Text");
+    sf::Text text7 = sf::Text();
+    sf::Text text8 = sf::Text();
+    sf::Text text9 = sf::Text();
+    sf::Text text10 = sf::Text();
+    sf::Text text11 = sf::Text();
+    sf::Text text12 = sf::Text();
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
-    m_texts[6].setFont(m_font);
-    m_texts[6].setString("NUGO");
-    m_texts[6].setCharacterSize(34);
-    m_texts[6].setFillColor(sf::Color::White);
-    m_texts[6].setPosition(pos.x + 75, pos.y + 25);
-    m_texts[7].setFont(m_font);
-    m_texts[7].setString("SPEED : [#            ]");
-    m_texts[7].setCharacterSize(22);
-    m_texts[7].setFillColor(sf::Color::White);
-    m_texts[7].setPosition(pos.x + 35, pos.y + 135);
-    m_texts[8].setFont(m_font);
-    m_texts[8].setString("HEALTH : [###    ]");
-    m_texts[8].setCharacterSize(22);
-    m_texts[8].setFillColor(sf::Color::White);
-    m_texts[8].setPosition(pos.x + 20, pos.y + 175);
-    m_texts[9].setFont(m_font);
-    m_texts[9].setString("DAMAGE : [###    ]");
-    m_texts[9].setCharacterSize(22);
-    m_texts[9].setFillColor(sf::Color::White);
-    m_texts[9].setPosition(pos.x + 10, pos.y + 215);
-    m_texts[10].setFont(m_font);
-    m_texts[10].setString("DELAY : [####]");
-    m_texts[10].setCharacterSize(22);
-    m_texts[10].setFillColor(sf::Color::White);
-    m_texts[10].setPosition(pos.x + 35, pos.y + 255);
-    m_texts[11].setFont(m_font);
-    m_texts[11].setString("Tank");
-    m_texts[11].setCharacterSize(28);
-    m_texts[11].setFillColor(sf::Color::White);
-    m_texts[11].setPosition(pos.x + 90, pos.y + 85);
-    nugoClass.setButtonPosition(pos);
-    nugoClass.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 3.5));
-    nugoClass.setButtonColor(sf::Color::Transparent);
-    nugoClass.setButtonOutlineColor(sf::Color::White);
-    nugoClass.setButtonOutlineThickness(5);
-    nugoClass.setButtonHoverColor(sf::Color::Transparent);
-    nugoClass.setButtonHoverOutlineColor(sf::Color::Green);
-    nugoClass.setCallback([this, &m_bools, &nugoClass]() {
-        resetAndSetSelectedButton(1);
-    });
+    text7.setFont(m_font);
+    text7.setString("NUGO");
+    text7.setCharacterSize(34);
+    text7.setFillColor(sf::Color::White);
+    text7.setPosition(pos.x + 75, pos.y + 25);
+    text8.setFont(m_font);
+    text8.setString("SPEED : [#            ]");
+    text8.setCharacterSize(22);
+    text8.setFillColor(sf::Color::White);
+    text8.setPosition(pos.x + 35, pos.y + 135);
+    text9.setFont(m_font);
+    text9.setString("HEALTH : [###    ]");
+    text9.setCharacterSize(22);
+    text9.setFillColor(sf::Color::White);
+    text9.setPosition(pos.x + 20, pos.y + 175);
+    text10.setFont(m_font);
+    text10.setString("DAMAGE : [###    ]");
+    text10.setCharacterSize(22);
+    text10.setFillColor(sf::Color::White);
+    text10.setPosition(pos.x + 10, pos.y + 215);
+    text11.setFont(m_font);
+    text11.setString("DELAY : [####]");
+    text11.setCharacterSize(22);
+    text11.setFillColor(sf::Color::White);
+    text11.setPosition(pos.x + 35, pos.y + 255);
+    text12.setFont(m_font);
+    text12.setString("Tank");
+    text12.setCharacterSize(28);
+    text12.setFillColor(sf::Color::White);
+    text12.setPosition(pos.x + 90, pos.y + 85);
+    nugoClass->setButtonPosition(pos)
+        .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio / 3.5))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCallback([this, &m_bools, &nugoClass]() {
+            resetAndSetSelectedButton(1);
+        });
     m_texts.push_back(std::move(text7));
     m_texts.push_back(std::move(text8));
     m_texts.push_back(std::move(text9));
@@ -438,7 +437,7 @@ void MainMenu::deleteClass(Registry &registry)
 void MainMenu::drawClass()
 {
     for (auto &button : m_buttons) {
-        button.draw(m_window);
+        button->draw(m_window);
     }
     for (auto &text : m_texts) {
         m_window.draw(text);

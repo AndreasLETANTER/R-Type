@@ -157,20 +157,25 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
     }
 
     //get all scores increases
+    unsigned int player_count = 1;
     for (unsigned i = 0; i < scores.size(); i++) {
         if (m_previous_scores.size() > i && scores[i].has_value() && m_previous_scores[i].has_value()) {
             if (scores[i].value().score != m_previous_scores[i].value().score) {
                 tempPacket.messageType = ENTITY_SCORE_CODE;
                 tempPacket.message.entity_id = m_entities[i].value().second;
                 tempPacket.message.score = scores[m_entities[i].value().first].value().score;
+                tempPacket.message.client_id = player_count;
                 Packets.push_back(tempPacket);
             }
+            player_count++;
         }
         if ((m_previous_scores.size() <= i || m_previous_scores[i].has_value() == false) && scores[i].has_value()) {
             tempPacket.messageType = ENTITY_SCORE_CODE;
             tempPacket.message.entity_id = m_entities[i].value().second;
             tempPacket.message.score = scores[m_entities[i].value().first].value().score;
+            tempPacket.message.client_id = player_count;
             Packets.push_back(tempPacket);
+            player_count++;
         }
     }
 
@@ -200,7 +205,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
     return Packets;
 }
 
-void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, TextButton &scoreButton)
+void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton, unsigned int clientId)
 {
     if (packet.messageType == ALL_GAME_INFO_CODE) {
         auto entity = spawn_entity(packet.message.entity_id);
@@ -213,6 +218,11 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, TextB
         add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
         add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
         add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
+        if (strncmp(packet.message.sprite_name, "PBullet", 7) == 0)
+            m_assets.get_sound("LaserSoundEffect")->play();
+        if (strncmp(packet.message.sprite_name, "PowerUp", 7) == 0) {
+            m_assets.get_sound("RizzPowerUpSoundEffect")->play();
+        }
     }
     if (packet.messageType == ENTITY_DEATH_CODE) {
         for (unsigned int i = 0; i < m_entities.size(); i++) {
@@ -248,7 +258,9 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, TextB
             return;
         }
         scores[entity].value().score = packet.message.score;
-        scoreButton.setTextString("Score: " + std::to_string(scores[entity].value().score));
+        if (clientId == packet.message.client_id) {
+            scoreButton->setTextString("Score: " + std::to_string(scores[entity].value().score));
+        }
     }
 }
 
@@ -301,7 +313,7 @@ bool Registry::enemiesAreDead()
     SparseArray<Component::Shoot> &shoots = get_components<Component::Shoot>();
 
     for (size_t entity = 0; entity < shoots.size(); entity++) {
-        if (controllables[entity].has_value() == false && shoots[entity].has_value() == true) {
+        if ((entity >= controllables.size() || controllables[entity].has_value() == false) && shoots[entity].has_value() == true) {
             nbEntitiesLeft++;
         }
     }

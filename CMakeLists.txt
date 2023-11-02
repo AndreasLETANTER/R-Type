@@ -57,18 +57,27 @@ FetchContent_MakeAvailable(Boost)
 set(ASSETS_FILES
     assets/SpaceBackground.png
     assets/SpaceShips.gif
-    assets/NugoBullet.png
-    assets/AndreasBullet.png
-    assets/EliotBullet.png
-    assets/LouisBullet.png
-    assets/HugoBullet.png
+    assets/PBulletNugo.png
+    assets/PBulletAndreas.png
+    assets/PBulletEliot.png
+    assets/PBulletLouis.png
+    assets/PBulletHugo.png
     assets/BulletSpriteMonster.png
     assets/GreyRobotObstacle.gif
     assets/OrangeCrabEnemy.gif
-    assets/OrangeCrabBullet.png
+    assets/EBulletOrangeCrab.png
     assets/YellowPopcornEnemy.gif
-    assets/YellowPopcornBullet.png
+    assets/PowerUpAttackSpeed.png
+    assets/PowerUpDamage.png
+    assets/PowerUpHealth.png
+    assets/PowerUpSpeed.png
+    assets/EBulletYellowPopcorn.png
     assets/font.ttf
+    assets/MenuMusic.wav
+    assets/BackgroundMusic.wav
+    assets/PlugDeathSoundEffect.wav
+    assets/LaserSoundEffect.wav
+    assets/RizzPowerUpSoundEffect.wav
 )
 
 set (ECS_SOURCES
@@ -91,13 +100,22 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpSystem.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/PowerUpTypeFactory.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/AttackSpeedType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/DamageType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/HealthType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/SpeedType.cpp
     sources/ECS/Systems/WaveSystem/WaveSystem.cpp
     sources/ECS/Components/EntityClass.cpp
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
+    sources/ECS/Systems/EntityClassSystem/EntityClassSystem.cpp
+    sources/client/Buttons/AButton/AButton.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/Buttons/CooldownButton/CooldownButton.cpp
 )
 
 set(SERVER_SOURCES
@@ -116,7 +134,7 @@ set(CLIENT_SOURCES
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/HandleArgument/HandleArgument.cpp
-    sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/Buttons/ButtonFactory/ButtonFactory.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
@@ -184,14 +202,14 @@ target_include_directories(${SERVER_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+target_link_libraries(${SERVER_NAME} PRIVATE sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 
 add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${ECS_SOURCES} ${CLIENT_SOURCES})
 target_include_directories(${CLIENT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/sources
     ${CMAKE_SOURCE_DIR}/build
 )
-target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+target_link_libraries(${CLIENT_NAME} PRIVATE sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 
 ###############################COMPILATION TESTS##################################
 option(BUILD_TESTS "Build tests using Criterion" ON)
@@ -206,28 +224,28 @@ if (CRITERION)
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+    target_link_libraries(${ECS_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio Assets::RType Boost::asio)
 
     add_executable(${SERVER_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${SERVER_TESTS})
     target_include_directories(${SERVER_TESTS_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics Assets::RType Boost::asio)
+    target_link_libraries(${SERVER_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio Assets::RType Boost::asio)
 
     add_executable(${CLIENT_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${CLIENT_SOURCES} ${CLIENT_TESTS})
     target_include_directories(${CLIENT_TESTS_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+    target_link_libraries(${CLIENT_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 
     add_executable(${RTYPE_TESTS_NAME} EXCLUDE_FROM_ALL ${ECS_SOURCES} ${SERVER_SOURCES} ${CLIENT_SOURCES} ${ECS_TESTS} ${SERVER_TESTS} ${CLIENT_TESTS})
     target_include_directories(${RTYPE_TESTS_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/sources
         ${CMAKE_SOURCE_DIR}/build
     )
-    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics ${libconfig_name}++ Assets::RType Boost::asio)
+    target_link_libraries(${RTYPE_TESTS_NAME} PRIVATE ${CRITERION} sfml-graphics sfml-audio ${libconfig_name}++ Assets::RType Boost::asio)
 endif()
 
 ###############################CUSTOM TARGETS#####################################

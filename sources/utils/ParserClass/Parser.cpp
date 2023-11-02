@@ -121,7 +121,7 @@ void Parser::loadPlayers()
         m_registry.add_component<Component::Controllable>(m_registry.entity_from_index(base.id), Component::Controllable(true, i + 1));
         m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, LINEAR, &m_clock, sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, 1, 1920));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(entityClassTmp.assetName, &m_window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), m_registry.get_assets().get_texture(entityClassTmp.assetName)));
-        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(entityClassTmp.scale.y, entityClassTmp.scale.x));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClassTmp.health));
         m_registry.add_component<Component::Score>(m_registry.entity_from_index(base.id), Component::Score(0, &m_clock));
     }
@@ -153,7 +153,7 @@ void Parser::loadObstacles()
         m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(2));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.scaleY, base.scaleX));
         m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0), pauseX));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
@@ -181,7 +181,7 @@ void Parser::loadEnemies()
         m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClassTmp.speed));
         m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, entityClassTmp.shootingPattern, &m_clock, sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, -1, 0));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(entityClassTmp.assetName, &m_window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), m_registry.get_assets().get_texture(entityClassTmp.assetName)));
-        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(entityClassTmp.rect.height, entityClassTmp.rect.width));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(entityClassTmp.scale.y, entityClassTmp.scale.x));
         m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(automove_x, automove_y)));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClassTmp.health));
     }
