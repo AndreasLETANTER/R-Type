@@ -19,7 +19,7 @@ void RandomShootingPattern::shoot(Registry &registry, Component::Shoot &shoot, C
         int numRings = 4; // Number of rings of projectiles
         int projectilesInRing = 10; // Number of projectiles in each ring
         double ringRadius = 50.0; // Radius of the outermost ring
-        double ringSpacing = 25.0; // Spacing between rings
+        double ringSpacing = 30.0; // Spacing between rings
 
         for (int i = 0; i < numRings; ++i) {
             double ringAngleStep = 360.0 / projectilesInRing;
