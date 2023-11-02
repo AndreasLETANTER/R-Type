@@ -32,7 +32,7 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
         .setCooldown(5)
-        .setTextString("Restart")
+        .setTextString("Restart (5)")
         .setTextSize(window.getSize(), textRatio)
         .setTextFont(m_font)
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
