@@ -10,7 +10,7 @@
 #include <SFML/Graphics.hpp>
 #include <boost/asio.hpp>
 
-#include "client/Buttons/TextButton/TextButton.hpp"
+#include "client/Buttons/OneUseButton/OneUseButton.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
 #include "client/Buttons/ButtonFactory/ButtonFactory.hpp"

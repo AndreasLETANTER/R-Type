@@ -19,7 +19,7 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Score.hpp"
 #include "ECS/Assets/Assets.hpp"
-#include "client/Buttons/TextButton/TextButton.hpp"
+#include "client/Buttons/OneUseButton/OneUseButton.hpp"
 
 #define ALL_GAME_INFO_CODE 100
 #define NO_MORE_GAME_INFO_CODE 101

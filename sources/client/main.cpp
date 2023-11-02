@@ -122,7 +122,7 @@ int main(int ac, char **av)
     tcpClient.run();
     tcpClient.receive();
 
-    std::unique_ptr<IButton> scoreButton = buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> scoreButton = buttonFactory.createButton("OneUse");
     scoreButton
     ->setButtonPosition(sf::Vector2f(0, 0))
     .setButtonSize(window.getSize(), sf::Vector2f(10, 10))

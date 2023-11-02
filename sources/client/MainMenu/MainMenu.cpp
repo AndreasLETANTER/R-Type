@@ -29,7 +29,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
 
     pos.y += 400;
     pos.x -= 200;
-    std::unique_ptr<IButton> playButton = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> playButton = m_buttonFactory.createButton("Default");
     sf::Text text2 = sf::Text();
     auto &m_bools = this->m_bools;
     auto &m_buttonTypes = this->m_buttonTypes;
@@ -54,7 +54,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     m_buttons.push_back(std::move(playButton));
 
     pos.x += 400;
-    std::unique_ptr<IButton> udpPortButton = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> udpPortButton = m_buttonFactory.createButton("Default");
     sf::Text text3 = sf::Text();
     m_bools.push_back(false);
     m_buttonTypes.push_back(PORT);
@@ -78,7 +78,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
 
     pos.x -= 250;
     pos.y -= 150;
-    std::unique_ptr<IButton> ipPortButton = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> ipPortButton = m_buttonFactory.createButton("Default");
     sf::Text text4 = sf::Text();
     m_bools.push_back(false);
     m_buttonTypes.push_back(ADDRESS);
@@ -102,7 +102,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
 
     pos.y += 300;
     pos.x += 50;
-    std::unique_ptr<IButton> connectButton = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> connectButton = m_buttonFactory.createButton("OneUse");
     sf::Text text5 = sf::Text();
     m_bools.push_back(false);
     m_buttonTypes.push_back(CONNECT);
@@ -282,7 +282,7 @@ void MainMenu::deleteButtons(Registry &registry)
 
     pos.y += 150;
     pos.x -= 600;
-    std::unique_ptr<IButton> andreasClass = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> andreasClass = m_buttonFactory.createButton("OneUse");
     sf::Text text1 = sf::Text();
     sf::Text text2 = sf::Text();
     sf::Text text3 = sf::Text();
@@ -342,7 +342,7 @@ void MainMenu::deleteButtons(Registry &registry)
     m_buttons.push_back(std::move(andreasClass));
 
     pos.x += 400;
-    std::unique_ptr<IButton> nugoClass = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> nugoClass = m_buttonFactory.createButton("OneUse");
     sf::Text text7 = sf::Text();
     sf::Text text8 = sf::Text();
     sf::Text text9 = sf::Text();
@@ -400,7 +400,7 @@ void MainMenu::deleteButtons(Registry &registry)
     m_buttons.push_back(std::move(nugoClass));
 
     pos.x += 400;
-    std::unique_ptr<IButton> eliotClass = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> eliotClass = m_buttonFactory.createButton("OneUse");
     sf::Text text13 = sf::Text();
     sf::Text text14 = sf::Text();
     sf::Text text15 = sf::Text();
@@ -458,7 +458,7 @@ void MainMenu::deleteButtons(Registry &registry)
     m_buttons.push_back(std::move(eliotClass));
 
     pos.x += 400;
-    std::unique_ptr<IButton> louisClass = m_buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> louisClass = m_buttonFactory.createButton("OneUse");
     sf::Text text19 = sf::Text();
     sf::Text text20 = sf::Text();
     sf::Text text21 = sf::Text();
