@@ -20,6 +20,29 @@
 MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry):
     m_window(window), m_assets(assets), m_registry(registry)
 {
+    m_keyMap[sf::Keyboard::Scan::Num0] = '0';
+    m_keyMap[sf::Keyboard::Scan::Num1] = '1';
+    m_keyMap[sf::Keyboard::Scan::Num2] = '2';
+    m_keyMap[sf::Keyboard::Scan::Num3] = '3';
+    m_keyMap[sf::Keyboard::Scan::Num4] = '4';
+    m_keyMap[sf::Keyboard::Scan::Num5] = '5';
+    m_keyMap[sf::Keyboard::Scan::Num6] = '6';
+    m_keyMap[sf::Keyboard::Scan::Num7] = '7';
+    m_keyMap[sf::Keyboard::Scan::Num8] = '8';
+    m_keyMap[sf::Keyboard::Scan::Num9] = '9';
+    m_keyMap[sf::Keyboard::Scan::Comma] = '.';
+
+    m_validKeys.push_back(sf::Keyboard::Scan::Num0);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num1);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num2);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num3);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num4);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num5);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num6);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num7);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num8);
+    m_validKeys.push_back(sf::Keyboard::Scan::Num9);
+    m_validKeys.push_back(sf::Keyboard::Scan::Comma);
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 8;
     double buttonHeightRatio = 12;
@@ -125,18 +148,6 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     m_buttons.push_back(std::move(connectButton));
 }
 
-char real_chars[sf::Keyboard::KeyCount] = {
-    // Printable characters
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    '0', '1', '2', '3', '4', '5', '5', '7', '8', '9',
-    0, 0, '.', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    '4', 0, 0, 0, 0, '6', 0, 0, 0, 0, 0, 0, 0,
-
-    // Non-printable characters
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0
-  };
-
 void MainMenu::draw()
 {
     int i = 0;
@@ -168,6 +179,16 @@ void MainMenu::draw()
 
 }
 
+sf::Keyboard::Scan::Scancode MainMenu::getValidKeyPressed()
+{
+    for (auto &validKey : m_validKeys) {
+        if (sf::Keyboard::isKeyPressed(validKey) == true) {
+            return validKey;
+        }
+    }
+    return sf::Keyboard::Scan::Scancode::Unknown;
+}
+
 void MainMenu::update()
 {
     int i = 0;
@@ -177,14 +198,15 @@ void MainMenu::update()
             for (size_t y = 0; y < m_bools.size(); y++) {
                 if (m_bools[y] == true) {
                     std::string str = m_texts[y].getString();
+                    sf::Keyboard::Scan::Scancode keyGot = getValidKeyPressed();
                     if (key == sf::Keyboard::BackSpace) {
                         if ((str.size() > 11 && m_buttonTypes[y] == PORT) || (str.size() > 13 && m_buttonTypes[y] == ADDRESS))
                             str.pop_back();
                         m_texts[y].setString(str);
-                    } else if (real_chars[key] != 0 && ((str.size() < 16 && m_buttonTypes[y] == PORT) || (str.size() < 28 && m_buttonTypes[y] == ADDRESS))) {
-                        if (m_buttonTypes[y] == PORT && real_chars[key] == '.')
+                    } else if (keyGot != sf::Keyboard::Scan::Scancode::Unknown && ((str.size() < 16 && m_buttonTypes[y] == PORT) || (str.size() < 28 && m_buttonTypes[y] == ADDRESS))) {
+                        if (m_buttonTypes[y] == PORT && m_keyMap[keyGot] == '.')
                             continue;
-                        str += real_chars[key];
+                        str += m_keyMap[keyGot];
                         m_texts[y].setString(str);
                     } else if (key == sf::Keyboard::Delete) {
                         while ((str.size() > 11 && m_buttonTypes[y] == PORT) || (str.size() > 13 && m_buttonTypes[y] == ADDRESS))
@@ -200,8 +222,6 @@ void MainMenu::update()
         }
         m_keys.clear();
         button->update(m_window);
-        std::cout << "bools :" + std::to_string(i) + " " << std::endl;
-        std::cout << m_bools[i] << std::endl;
         m_texts[i].setFillColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
         m_texts[i].setOutlineColor((m_bools[i] == true) ? sf::Color::Green : sf::Color::White);
         m_texts[i].setOutlineThickness((m_bools[i] == true) ? 0.5 : 0);

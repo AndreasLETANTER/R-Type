@@ -79,6 +79,7 @@ int main(int ac, char **av)
                 exit(0);
             }
             if (event.type == sf::Event::KeyPressed) {
+                std::cout << event.key.code << std::endl;
                 mainMenu.setKey(event.key.code);
             }
         }

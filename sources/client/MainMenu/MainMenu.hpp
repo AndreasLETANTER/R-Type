@@ -71,6 +71,8 @@ class MainMenu {
         void drawClass();
 
         bool isClassSelected() { return m_classSelected; }
+        
+        sf::Keyboard::Scan::Scancode getValidKeyPressed();
 
         bool m_nugoSelected = false;
         bool m_andreasSelected = false;
@@ -84,6 +86,8 @@ class MainMenu {
         std::vector<std::unique_ptr<IButton>> m_buttons;
         std::vector<sf::Text> m_texts;
         std::vector<sf::Keyboard::Key> m_keys;
+        std::vector<sf::Keyboard::Scan::Scancode> m_validKeys;
+        std::map<sf::Keyboard::Scan::Scancode, char> m_keyMap;
         std::vector<bool> m_bools;
         enum ButtonType {
             PORT,
