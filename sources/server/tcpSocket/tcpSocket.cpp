@@ -84,12 +84,16 @@ void tcpSocket::startAccept()
     m_tcpAcceptor.async_accept(m_socket, [this](boost::system::error_code ec) {
         binaryConverter converter;
         if (!ec) {
+            client_packet_t tmp;
             printInfo("New client connected");
             m_clients->insert_or_assign(nextClientId, std::move(m_socket));
             printTrace("Number of clients: " + std::to_string(m_clients->size()));
             nextClientId++;
             setNewClient(true);
-            sendMessage((nextClientId - 1), converter.convertInputToBinary(input_t{(unsigned int)(nextClientId - 1), sf::Keyboard::Unknown, false}));
+            tmp.input.id = nextClientId - 1;
+            tmp.input.key = sf::Keyboard::Unknown;
+            tmp.input.pressed = false;
+            sendMessage((nextClientId - 1), converter.convertInputToBinary(tmp));
             startRead(nextClientId - 1);
             startAccept();
         }

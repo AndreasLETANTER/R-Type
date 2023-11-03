@@ -27,21 +27,22 @@ InputHandler::InputHandler(unsigned int t_player_id)
     m_keyMapStatePrev[sf::Keyboard::Space] = false;
 }
 
-std::vector<input_t> InputHandler::handle_inputs()
+std::vector<client_packet_t> InputHandler::handle_inputs()
 {
-    input_t tempInput;
-    m_inputQueue.clear();
+    client_packet_t tempPacket;
+    m_inputPacketQueue.clear();
     for (unsigned int i = 0; i < m_keyMap.size(); i++) {
         m_keyMapState[m_keyMap[i]] = sf::Keyboard::isKeyPressed(m_keyMap[i]);
     }
     for (unsigned int i = 0; i < m_keyMap.size() && i < m_keyMapStatePrev.size(); i++) {
         if (m_keyMapState[m_keyMap[i]] != m_keyMapStatePrev[m_keyMap[i]]) {
-            tempInput.id = m_player_id;
-            tempInput.key = m_keyMap[i];
-            tempInput.pressed = m_keyMapState[m_keyMap[i]];
-            m_inputQueue.push_back(tempInput);
+            tempPacket.messageType = CLIENT_INPUT_CODE;
+            tempPacket.input.id = m_player_id;
+            tempPacket.input.key = m_keyMap[i];
+            tempPacket.input.pressed = m_keyMapState[m_keyMap[i]];
+            m_inputPacketQueue.push_back(tempPacket);
         }
     }
     m_keyMapStatePrev = m_keyMapState;
-    return m_inputQueue;
+    return m_inputPacketQueue;
 }

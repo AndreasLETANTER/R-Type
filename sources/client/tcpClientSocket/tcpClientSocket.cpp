@@ -55,8 +55,8 @@ char *tcpClientSocket::receive()
         return nullptr;
     }
     if (m_id == 0) {
-        input_t firstMessage = converter.convertBinaryToInput(m_readBuffer.data());
-        m_id = firstMessage.id;
+        client_packet_t firstMessage = converter.convertBinaryToInput(m_readBuffer.data());
+        m_id = firstMessage.input.id;
         if (m_id >= 5) {
             std::cerr << "Error: Too many clients already connected" << std::endl;
             exit(84);

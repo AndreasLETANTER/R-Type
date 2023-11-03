@@ -81,6 +81,7 @@ void EndlessMode::run()
 {
     tcpServer->run();
     sf::Time lastUpdate = clock.getElapsedTime();
+    sf::Time lastLagRefresh = clock.getElapsedTime();
     while (true) {
         if (tcpServer->getNbClients() == 0) {
             continue;
@@ -91,14 +92,16 @@ void EndlessMode::run()
             lastUpdate = clock.getElapsedTime();
         }
         registry.run_systems();
-        std::vector<input_t> inputs = udpServer->get_packet_queue();
-        for (unsigned int i = 0; i < inputs.size(); i++) {
-            if (inputs[i].id == 0) {
+        std::vector<client_packet_t> received_packets = udpServer->get_packet_queue();
+        for (unsigned int i = 0; i < received_packets.size(); i++) {
+            if (received_packets[i].messageType == CLIENT_INPUT_CODE && received_packets[i].input.id == 0) {
                 continue;
             }
-            registry.updateEntityKeyPressed(inputs[i]);
+            if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
+                registry.updateEntityKeyPressed(received_packets[i].input);
+            }
         }
-        if (inputs.size() > 0) {
+        if (received_packets.size() > 0) {
             udpServer->clear_packet_queue();
         }
         std::vector<packet_t> packets = registry.exportToPackets(tcpServer->isNewClient());
@@ -107,6 +110,14 @@ void EndlessMode::run()
         }
         for (unsigned int i = 0; i < packets.size(); i++) {
             udpServer->send(converter.convertStructToBinary(packets[i]));
+        }
+        if (clock.getElapsedTime().asMilliseconds() - lastLagRefresh.asMilliseconds() > REFRESHRATE) {
+            lastLagRefresh = clock.getElapsedTime();
+            tcpServer->setNewClient(true);
+            std::vector<packet_t> recentlyKilledPackets = registry.exportRecentlyKilledEntities();
+            for (unsigned int i = 0; i < recentlyKilledPackets.size(); i++) {
+                udpServer->send(converter.convertStructToBinary(recentlyKilledPackets[i]));
+            }
         }
     }
 }
