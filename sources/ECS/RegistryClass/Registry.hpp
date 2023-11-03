@@ -56,6 +56,7 @@ typedef struct message_s {
     unsigned int client_id; /**< The id of the client. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
     Component::Position scale; /**< The scale of the texture. */
+    bool isBackground; /**< Whether the entity is a background or not. */
     int score; /**< The score of the entity. */
 } message_t;
 

@@ -16,6 +16,7 @@ Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, 
     this->window = window;
     this->rect = rect;
     this->scale = scale;
+    this->isBackground = isBackground;
 
     this->texture = texture;
     this->sprite.setTexture(*this->texture);
