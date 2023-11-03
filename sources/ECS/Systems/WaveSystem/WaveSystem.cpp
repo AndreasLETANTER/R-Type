@@ -14,7 +14,7 @@ WaveSystem WaveSystem::operator()(Registry &registry)
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_ORANGE_CRAB));
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_YELLOW_POPCORN));
     m_boss_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::FIRST_BOSS));
-    static unsigned int current_wave_index = 1;
+    static unsigned int current_wave_index = 3;
     unsigned int nb_enemies_for_wave = rand() % 6 + current_wave_index  + 3 + current_wave_index;
 
     if (registry.enemiesAreDead()) {
@@ -22,7 +22,7 @@ WaveSystem WaveSystem::operator()(Registry &registry)
             unsigned int enemy_type = rand() % m_boss_vector.size();
             Component::EntityClass entityClassTmp = m_boss_vector[enemy_type];
             unsigned int x_offset = rand() % (2000 - 1920) + 1 + 1920;
-            unsigned int x_start = 1820 - entityClassTmp.scale.x;
+            unsigned int x_start = 1920 - entityClassTmp.scale.x;
             unsigned int y_start = 1080 / 2 - entityClassTmp.scale.y / 2;
             auto enemy = registry.spawn_entity();
 
