@@ -47,8 +47,6 @@ int main(int ac, char **av)
     (void)ac;
     (void)av;
     binaryConverter converter;
-    HandleArgument handleArguments;
-    bool needGameInfos = true;
     ButtonFactory buttonFactory;
     Assets assets;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
