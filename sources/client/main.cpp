@@ -48,15 +48,8 @@ int main(int ac, char **av)
     (void)av;
     binaryConverter converter;
     HandleArgument handleArguments;
-    tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
-    udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
     bool needGameInfos = true;
     ButtonFactory buttonFactory;
-
-    udpClient.send(converter.convertInputToBinary(client_packet_t{0, 0, input_t{0, sf::Keyboard::Unknown, false}}));
-    tcpClient.run();
-    tcpClient.receive();
-    InputHandler inputHandler(tcpClient.getId());
     Assets assets;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "R-Type");
     window.setFramerateLimit(144);
@@ -114,7 +107,7 @@ int main(int ac, char **av)
     mainMenu.deleteClass(registry);
     tcpClientSocket tcpClient(tcp, ip);
     udpClientSocket udpClient(udp, ip);
-    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
+    udpClient.send(converter.convertInputToBinary(client_packet_t{0, 0, input_t{0, sf::Keyboard::Unknown, false}}));
     tcpClient.run();
     tcpClient.receive();
 
