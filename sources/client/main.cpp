@@ -28,20 +28,13 @@
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
  */
-static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket &tcpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
+static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket &tcpClient, Registry &registry, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
 {
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
         if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
-            //needGameInfos = false;
             continue;
         }
-        // if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
-        //     continue;
-        // }
-        // if (packets[i].messageType == ALL_GAME_INFO_CODE && needGameInfos == false) {
-        //     continue;
-        // }
         registry.updateFromPacket(packets[i], window, scoreButton, tcpClient.getId());
     }
     if (packets.size() > 0) {
@@ -57,7 +50,6 @@ int main(int ac, char **av)
     HandleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
-    bool needGameInfos = true;
     ButtonFactory buttonFactory;
 
     udpClient.send(converter.convertInputToBinary(client_packet_t{0, 0, input_t{0, sf::Keyboard::Unknown, false}}));
@@ -107,7 +99,7 @@ int main(int ac, char **av)
         for (unsigned int i = 0; i < packets.size(); i++) {
             udpClient.send(converter.convertInputToBinary(packets[i]));
         }
-        update_game_from_packets(udpClient, tcpClient, registry, needGameInfos, &window, scoreButton);
+        update_game_from_packets(udpClient, tcpClient, registry, &window, scoreButton);
         window.clear();
         registry.run_systems();
         scoreButton->update(window);
