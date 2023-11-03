@@ -27,7 +27,9 @@ std::map<std::string, EntityClasses> entityClassesMap = {
     {"ELIOT", EntityClasses::ELIOT},
     {"LOUIS", EntityClasses::LOUIS},
     {"MOB_ORANGE_CRAB", EntityClasses::MOB_ORANGE_CRAB},
-    {"MOB_YELLOW_POPCORN", EntityClasses::MOB_YELLOW_POPCORN}
+    {"MOB_YELLOW_POPCORN", EntityClasses::MOB_YELLOW_POPCORN},
+    {"MOB_GREEN_PLANT", EntityClasses::MOB_GREEN_PLANT},
+    {"MOB_BLUE_D", EntityClasses::MOB_BLUE_D}
 };
 
 Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesContents) :

@@ -20,6 +20,8 @@ enum EntityClasses {
     LOUIS,
     MOB_ORANGE_CRAB,
     MOB_YELLOW_POPCORN,
+    MOB_GREEN_PLANT,
+    MOB_BLUE_D,
     FIRST_BOSS,
     SPEED_POWERUP,
     HEALTH_POWERUP,

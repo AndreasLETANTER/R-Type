@@ -73,6 +73,10 @@ set(ASSETS_FILES
     assets/PowerUpHealth.png
     assets/PowerUpSpeed.png
     assets/EBulletYellowPopcorn.png
+    assets/GreenPlantEnemy.gif
+    assets/EBulletGreenPlant.png
+    assets/BlueDEnemy.gif
+    assets/EBulletBlueD.png
     assets/font.ttf
     assets/MenuMusic.wav
     assets/BackgroundMusic.wav
