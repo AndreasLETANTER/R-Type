@@ -65,6 +65,7 @@ int main(int ac, char **av)
 
     MainMenu mainMenu(window, assets, registry);
     mainMenu.loadBackground(&window, registry);
+    bool firstTime = true;
     while (window.isOpen() && mainMenu.getButtonPressed() != 3) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {
@@ -72,7 +73,6 @@ int main(int ac, char **av)
                 exit(0);
             }
             if (event.type == sf::Event::KeyPressed) {
-                std::cout << event.key.code << std::endl;
                 mainMenu.setKey(event.key.code);
             }
         }
@@ -107,9 +107,24 @@ int main(int ac, char **av)
     mainMenu.deleteClass(registry);
     tcpClientSocket tcpClient(tcp, ip);
     udpClientSocket udpClient(udp, ip);
-    udpClient.send(converter.convertInputToBinary(client_packet_t{0, 0, input_t{0, sf::Keyboard::Unknown, false}}));
+    udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_INPUT_CODE, EntityClasses::ANDREAS, input_t{0, sf::Keyboard::Unknown, false}}));
     tcpClient.run();
     tcpClient.receive();
+    if (firstTime == true) {
+        if (mainMenu.m_andreasSelected == true) {
+            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::ANDREAS, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+        }
+        if (mainMenu.m_nugoSelected == true) {
+            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::NUGO, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+        }
+        if (mainMenu.m_eliotSelected == true) {
+            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::ELIOT, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+        }
+        if (mainMenu.m_louisSelected == true) {
+            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::LOUIS, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+        }
+        firstTime = false;
+    }
 
     std::unique_ptr<IButton> scoreButton = buttonFactory.createButton("OneUse");
     scoreButton

@@ -21,6 +21,19 @@
 #include "ECS/Assets/Assets.hpp"
 #include "client/Buttons/OneUseButton/OneUseButton.hpp"
 
+enum EntityClasses {
+    NUGO,
+    ANDREAS,
+    ELIOT,
+    LOUIS,
+    MOB_ORANGE_CRAB,
+    MOB_YELLOW_POPCORN,
+    SPEED_POWERUP,
+    HEALTH_POWERUP,
+    DAMAGE_POWERUP,
+    SHOOTING_SPEED_POWERUP
+};
+
 #define ALL_GAME_INFO_CODE 100
 #define NO_MORE_GAME_INFO_CODE 101
 #define ENTITY_DEATH_CODE 102
@@ -28,7 +41,8 @@
 #define ENTITY_MOVE_CODE 104
 #define ENTITY_SCORE_CODE 105
 
-#define CLIENT_INPUT_CODE 200
+#define CLIENT_CLASS_CODE 200
+#define CLIENT_INPUT_CODE 201
 
 /**
  * @brief Struct representing a message containing the sprite name position and score of an entity.
@@ -68,7 +82,7 @@ typedef struct input_s
 typedef struct client_packet_s
 {
     unsigned int messageType; /**< The type of the message. */
-    unsigned int received_packet_id; /**< The id of the received packet the server sent. */
+    EntityClasses entityClass; /**< The class of the client. */
     input_t input; /**< The input of the client. */
 } client_packet_t;
 
