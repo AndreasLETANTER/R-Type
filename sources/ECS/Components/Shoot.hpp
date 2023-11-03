@@ -17,7 +17,7 @@ enum ShootingPattern {
     SPIRAL,
     CIRCULAR,
     WAVE,
-    RANDOM,
+    WHIRLWIND,
     LASER
 };
 

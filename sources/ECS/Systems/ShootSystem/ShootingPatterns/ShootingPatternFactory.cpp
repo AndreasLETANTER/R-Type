@@ -18,6 +18,8 @@ std::unique_ptr<AShootingPattern> ShootingPatternFactory::createShootingPattern(
             return std::make_unique<CircularShootingPattern>();
         case WAVE:
             return std::make_unique<WaveShootingPattern>();
+        case WHIRLWIND:
+            return std::make_unique<WhirlwindShootingPattern>();
         default:
             return std::make_unique<LinearShootingPattern>();
     }
