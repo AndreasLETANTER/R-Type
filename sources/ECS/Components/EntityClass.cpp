@@ -18,6 +18,14 @@ namespace Component {
             shootingDelay(shootingDelay),
             speed(speed),
             shootingPattern(shootingPattern) {}
+    
+    EntityClass::EntityClass(std::string assetName, Component::Position scale, sf::IntRect rect, PowerUpType powerUpType, sf::Time delayForDispawn, int stat)
+        : assetName(std::move(assetName)),
+            scale(scale),
+            rect(rect),
+            delayForDispawn(delayForDispawn),
+            stat(stat),
+            powerUpType(powerUpType) {}
 
     EntityClass EntityClassFactory::CreateEntityClass(EntityClasses entityClass) {
         switch (entityClass) {
@@ -37,6 +45,14 @@ namespace Component {
                 return EntityClass("GreenPlantEnemy.gif", "EBulletGreenPlant.png", Component::Position(112, 112), sf::IntRect(0, 1, 66, 66), 50, 15, 3000, 3, ShootingPattern::WAVE);
             case EntityClasses::MOB_BLUE_D:
                 return EntityClass("BlueDEnemy.gif", "EBulletBlueD.png", Component::Position(102, 105), sf::IntRect(0, 1, 34, 35), 20, 5, 1000, 5, ShootingPattern::LINEAR);
+            case EntityClasses::SPEED_POWERUP:
+                return EntityClass("PowerUpSpeed.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Speed, sf::Time(sf::seconds(5)), 1);
+            case EntityClasses::HEALTH_POWERUP:
+                return EntityClass("PowerUpHealth.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Health, sf::Time(sf::seconds(5)), 20);
+            case EntityClasses::DAMAGE_POWERUP:
+                return EntityClass("PowerUpDamage.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::Damage, sf::Time(sf::seconds(5)), 2);
+            case EntityClasses::SHOOTING_SPEED_POWERUP:
+                return EntityClass("PowerUpAttackSpeed.png", Component::Position(50, 50), sf::IntRect(0, 0, 368, 368), PowerUpType::AttackSpeed, sf::Time(sf::seconds(5)), 3);
             default:
                 return EntityClass("SpaceShips.gif", "PBulletNugo.png", Component::Position(102, 57), sf::IntRect(0, 2, 34, 16), 100, 5, 500, 5, ShootingPattern::LINEAR);
         }

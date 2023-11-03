@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "client/MainMenu/MainMenu.hpp"
+#include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
 
 MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
     m_window(window), m_assets(assets)
@@ -22,9 +23,13 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
     double xPos = (windowSize.x - buttonWidth) / 2;
     double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
     m_font = m_assets.get_font("font.ttf");
+    ButtonFactory buttonFactory;
 
-    TextButton playButton = TextButton()
-        .setButtonPosition(sf::Vector2f(xPos, yPos))
+    std::unique_ptr<IButton> playButton = buttonFactory.createButton("Text");
+    std::unique_ptr<IButton> quitButton = buttonFactory.createButton("Text");
+
+    playButton
+        ->setButtonPosition(sf::Vector2f(xPos, yPos))
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::White)
@@ -40,10 +45,10 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
         .setCallback([]() {
             std::cout << "Play button clicked" << std::endl;
         });
-    m_buttons.push_back(playButton);
+    m_buttons.push_back(std::move(playButton));
     yPos += buttonHeight + spacing;
-    TextButton quitButton = TextButton()
-        .setButtonPosition(sf::Vector2f(xPos, yPos))
+    quitButton
+        ->setButtonPosition(sf::Vector2f(xPos, yPos))
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::White)
@@ -59,20 +64,20 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets) :
         .setCallback([this]() {
             m_window.close();
         });
-    m_buttons.push_back(quitButton);
+    m_buttons.push_back(std::move(quitButton));
     this->resize();
 }
 
 void MainMenu::draw()
 {
     for (auto &button : m_buttons)
-        button.draw(m_window);
+        button->draw(m_window);
 }
 
 void MainMenu::update()
 {
     for (auto &button : m_buttons)
-        button.update(m_window);
+        button->update(m_window);
 }
 
 void MainMenu::resize()
@@ -87,9 +92,9 @@ void MainMenu::resize()
     double xPos = (windowSize.x - buttonWidth) / 2;
     double yPos = (windowSize.y - (2 * buttonHeight + spacing)) / 2;
 
-    m_buttons[0].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
+    m_buttons[0]->resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);
     yPos += buttonHeight + spacing;
-    m_buttons[1].resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
+    m_buttons[1]->resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);
 }

@@ -21,6 +21,8 @@
 #include "ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.hpp"
 #include "ECS/Systems/ScoreSystem/ScoreSystem.hpp"
 #include "ECS/Systems/WaveSystem/WaveSystem.hpp"
+#include "ECS/Systems/PowerUpSystem/PowerUpSystem.hpp"
+#include "ECS/Systems/EntityClassSystem/EntityClassSystem.hpp"
 
 #include "../../../../build/assets/Level1Config.hpp"
 
@@ -46,6 +48,7 @@ void EndlessMode::init()
     registry.register_component<Component::Health>();
     registry.register_component<Component::Score>();
     registry.register_component<Component::Group>();
+    registry.register_component<Component::PowerUp>();
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.add_system<Component::Controllable, Component::Velocity>(ControlSystem());
@@ -55,9 +58,11 @@ void EndlessMode::init()
     registry.add_system<Component::Projectile, Component::Position, Component::Velocity>(ProjectileSystem());
     registry.add_system<Component::Position, Component::Collision>(CollisionSystem());
     registry.add_system<Component::Position, Component::Scroll>(ScrollSystem());
-    registry.add_system<Component::Health>(HealthSystem());
+    registry.add_system<Component::Health, Component::Position>(HealthSystem());
     registry.add_system<Component::Score>(ScoreSystem());
     registry.add_system<Component::Projectile, Component::Collision, Component::Health, Component::Score, Component::Group>(ProjectileCollisionSystem());
+    registry.add_system<Component::EntityClass,Component::Controllable, Component::Collision, Component::PowerUp>(PowerUpSystem());
+    registry.add_system<Component::EntityClass, Component::Shoot, Component::Health, Component::Velocity>(EntityClassSystem());
     registry.add_system<>(WaveSystem());
 
     create_background();
@@ -76,6 +81,7 @@ void EndlessMode::run()
 {
     tcpServer->run();
     sf::Time lastUpdate = clock.getElapsedTime();
+    sf::Time lastLagRefresh = clock.getElapsedTime();
     while (true) {
         if (tcpServer->getNbClients() == 0) {
             continue;
@@ -86,14 +92,16 @@ void EndlessMode::run()
             lastUpdate = clock.getElapsedTime();
         }
         registry.run_systems();
-        std::vector<input_t> inputs = udpServer->get_packet_queue();
-        for (unsigned int i = 0; i < inputs.size(); i++) {
-            if (inputs[i].id == 0) {
+        std::vector<client_packet_t> received_packets = udpServer->get_packet_queue();
+        for (unsigned int i = 0; i < received_packets.size(); i++) {
+            if (received_packets[i].messageType == CLIENT_INPUT_CODE && received_packets[i].input.id == 0) {
                 continue;
             }
-            registry.updateEntityKeyPressed(inputs[i]);
+            if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
+                registry.updateEntityKeyPressed(received_packets[i].input);
+            }
         }
-        if (inputs.size() > 0) {
+        if (received_packets.size() > 0) {
             udpServer->clear_packet_queue();
         }
         std::vector<packet_t> packets = registry.exportToPackets(tcpServer->isNewClient());
@@ -102,6 +110,14 @@ void EndlessMode::run()
         }
         for (unsigned int i = 0; i < packets.size(); i++) {
             udpServer->send(converter.convertStructToBinary(packets[i]));
+        }
+        if (clock.getElapsedTime().asMilliseconds() - lastLagRefresh.asMilliseconds() > REFRESHRATE) {
+            lastLagRefresh = clock.getElapsedTime();
+            tcpServer->setNewClient(true);
+            std::vector<packet_t> recentlyKilledPackets = registry.exportRecentlyKilledEntities();
+            for (unsigned int i = 0; i < recentlyKilledPackets.size(); i++) {
+                udpServer->send(converter.convertStructToBinary(recentlyKilledPackets[i]));
+            }
         }
     }
 }

@@ -38,20 +38,20 @@ class AShootingPattern : public IShootingPattern {
          * @param registry The registry containing the entity.
          * @param shoot The shoot component of the entity.
          * @param pos The position component of the entity.
-         * @param draw The drawable component of the entity.
+         * @param window The render window to draw the object on.
          */
-        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw, unsigned int groupId) = 0;
+        virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, sf::RenderWindow *window, unsigned int groupId) = 0;
 
         /**
          * @brief Creates a projectile.
          *
          * @param registry The registry containing the entity.
-         * @param draw The drawable component of the entity.
+         * @param window The render window to draw the object on.
          * @param bulletSpriteName The name of the bullet sprite.
          * @param initialPos The initial position of the projectile.
          * @param endPos The end position of the projectile.
          * @param damage The damage of the projectile.
          * @param playerId The id of the player.
          */
-        void createProjectile(Registry &registry, Component::Drawable &draw, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage, int playerId, unsigned int groupId);
+        void createProjectile(Registry &registry, sf::RenderWindow *window, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage, int playerId, unsigned int groupId);
 };

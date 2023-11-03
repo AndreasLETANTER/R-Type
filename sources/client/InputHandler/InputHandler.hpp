@@ -14,13 +14,13 @@ class InputHandler {
     public:
         InputHandler(unsigned int t_player_id);
         ~InputHandler() = default;
-        std::vector<input_t> handle_inputs();
+        std::vector<client_packet_t> handle_inputs();
 
     protected:
     private:
         std::map<sf::Keyboard::Key, bool> m_keyMapState;
         std::map<sf::Keyboard::Key, bool> m_keyMapStatePrev;
         std::vector<sf::Keyboard::Key> m_keyMap;
-        std::vector<input_t> m_inputQueue;
+        std::vector<client_packet_t> m_inputPacketQueue;
         unsigned int m_player_id;
 };

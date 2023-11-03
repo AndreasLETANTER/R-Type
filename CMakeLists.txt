@@ -67,6 +67,10 @@ set(ASSETS_FILES
     assets/OrangeCrabEnemy.gif
     assets/EBulletOrangeCrab.png
     assets/YellowPopcornEnemy.gif
+    assets/PowerUpAttackSpeed.png
+    assets/PowerUpDamage.png
+    assets/PowerUpHealth.png
+    assets/PowerUpSpeed.png
     assets/EBulletYellowPopcorn.png
     assets/GreenPlantEnemy.gif
     assets/EBulletGreenPlant.png
@@ -100,13 +104,22 @@ set (ECS_SOURCES
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
     sources/ECS/Systems/ScrollSystem/ScrollSystem.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpSystem.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/PowerUpTypeFactory.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/AttackSpeedType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/DamageType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/HealthType.cpp
+    sources/ECS/Systems/PowerUpSystem/PowerUpType/SpeedType.cpp
     sources/ECS/Systems/WaveSystem/WaveSystem.cpp
     sources/ECS/Components/EntityClass.cpp
     sources/ECS/Components/Drawable.cpp
     sources/utils/ParserClass/Parser.cpp
     sources/ECS/Assets/Assets.cpp
     sources/ECS/Systems/ScoreSystem/ScoreSystem.cpp
+    sources/ECS/Systems/EntityClassSystem/EntityClassSystem.cpp
+    sources/client/Buttons/AButton/AButton.cpp
     sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/Buttons/CooldownButton/CooldownButton.cpp
 )
 
 set(SERVER_SOURCES
@@ -125,7 +138,7 @@ set(CLIENT_SOURCES
     sources/utils/debugColors/debugColors.cpp
     sources/utils/binaryConverter/binaryConverter.cpp
     sources/utils/HandleArgument/HandleArgument.cpp
-    sources/client/Buttons/TextButton/TextButton.cpp
+    sources/client/Buttons/ButtonFactory/ButtonFactory.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp

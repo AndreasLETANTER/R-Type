@@ -27,6 +27,10 @@ Assets::Assets()
     this->load_texture("SpaceBackground.png", "assets/SpaceBackground.png");
     this->load_texture("SpaceShips.gif", "assets/SpaceShips.gif");
     this->load_texture("YellowPopcornEnemy.gif", "assets/YellowPopcornEnemy.gif");
+    this->load_texture("PowerUpHealth.png", "assets/PowerUpHealth.png");
+    this->load_texture("PowerUpDamage.png", "assets/PowerUpDamage.png");
+    this->load_texture("PowerUpAttackSpeed.png", "assets/PowerUpAttackSpeed.png");
+    this->load_texture("PowerUpSpeed.png", "assets/PowerUpSpeed.png");
 
     this->load_font("font.ttf", "assets/font.ttf");
 
@@ -129,5 +133,5 @@ void Assets::load_sound(const std::string &name, const std::string &path)
     }
     m_sounds[name] = std::make_shared<sf::Sound>();
     m_sounds[name]->setBuffer(*m_sound_buffers[name]);
-    m_sounds[name]->setVolume(20);
+    m_sounds[name]->setVolume(50);
 }
