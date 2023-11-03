@@ -1,9 +1,9 @@
 # RFC - Client / Server
 
-**Date:** *23 / 10 / 2023*
+**Date:** *3 / 10 / 2023*
 **Author**: *Andréas LE TANTER*
 **Status**: *Draft*
-**Version:** *0.2*
+**Version:** *0.5*
 
 ## 1 - Introduction
 
@@ -42,10 +42,14 @@ The differents types of packets are:
 - ENTITY_DEATH_CODE (102) -> used to tell the clients that an entity died.
 - ENTITY_SPAWN_CODE (103) -> used to tell the clients that an entity spawned.
 - ENTITY_MOVE_CODE (104) -> used to tell the clients that an entity position changed.
+- ENTITY_SCORE_CODE (105) -> used to tell the clients that an entity score changed.
+- CLIENT_CLASS_CODE (200) -> used to tell the server that a client is connected and want to be assigned to a spaceship.
+- CLIENT_INPUT_CODE (201) -> used to tell the server that a client send an input.
+- CLIENT_DISCONNECT_CODE (202) -> used to tell the server that a client disconnected.
 
 ### Message :
 
-A typical message is structured like so:
+A typical message from the server is structured like so:
 
 ```bash
 typedef struct message_s {
@@ -55,6 +59,7 @@ typedef struct message_s {
     unsigned int entity_id;
     sf::IntRect rect;
     Component::Position scale;
+    bool isBackground;
 } message_t;
 ```
 
@@ -67,6 +72,36 @@ The entity_id is the id of the entity.
 The rect is the rectangle of the sprite associated with the entity.
 
 The scale is the scale of the texture.
+
+The boolean is used for telling if the entity is a background or not.
+
+A typical message from the client is structured like so:
+
+```bash
+typedef struct input_s
+{
+    unsigned int id;
+    sf::Keyboard::Key key;
+    bool pressed;
+} input_t;
+
+typedef struct client_packet_s
+{
+    unsigned int messageType;
+    EntityClasses entityClass;
+    input_t input;
+} client_packet_t;
+```
+
+The message is composed of the message type, the entity class and the input.
+
+The message type is the type of the message. (CLIENT_CLASS_CODE, CLIENT_INPUT_CODE, CLIENT_DISCONNECT_CODE)
+
+The entity class is the class of the entity. (ANDREAS, NUGO, ELIOT, LOUIS).
+
+The input is the input of the client. (sf::Keyboard::Key, bool).
+
+The input is composed of the id of the client, the key and if the key is pressed or not.
 
 ### Warning, the server does not fill all the information based on the message type, for example the death of an entity doesnt need more information than the id of the entity and the type of the message.
 

@@ -66,15 +66,6 @@ void EndlessMode::init()
     registry.add_system<>(WaveSystem());
 
     create_background();
-
-    if (m_isMultiplayer) {
-        create_player(150, 300, 1, EntityClasses::ANDREAS);
-        create_player(200, 400, 2, EntityClasses::NUGO);
-        create_player(150, 500, 3, EntityClasses::LOUIS);
-        create_player(200, 600, 4, EntityClasses::ELIOT);
-    } else {
-        create_player(150, 450, 1, EntityClasses::ANDREAS);
-    }
 }
 
 void EndlessMode::run()
@@ -96,6 +87,17 @@ void EndlessMode::run()
         for (unsigned int i = 0; i < received_packets.size(); i++) {
             if (received_packets[i].messageType == CLIENT_INPUT_CODE && received_packets[i].input.id == 0) {
                 continue;
+            }
+            if (received_packets[i].messageType == CLIENT_CLASS_CODE) {
+                create_player(150, 450, received_packets[i].input.id, received_packets[i].entityClass);
+            }
+            if (received_packets[i].messageType == CLIENT_DISCONNECT_CODE) {
+                try { 
+                    auto entity = registry.player_from_id(received_packets[i].input.id);
+                    registry.kill_entity(entity);
+                } catch (std::exception &e) {
+                    continue;
+                }
             }
             if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
                 registry.updateEntityKeyPressed(received_packets[i].input);

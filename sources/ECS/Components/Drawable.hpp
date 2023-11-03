@@ -27,6 +27,7 @@ namespace Component {
             sf::IntRect rect; /**< The rectangle of the sprite. */
             Component::Position scale; /**< The scale values of the drawable object. */
             sf::RenderWindow *window; /**< The render window to draw the object on. */
+            bool isBackground; /**< The boolean to know if the drawable object is a background. */
 
             /**
              * @brief Construct a new Drawable object.
@@ -37,7 +38,7 @@ namespace Component {
              * @param position The position of the drawable object.
              * @param texture The texture of the drawable object.
              */
-            Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position position, std::shared_ptr<sf::Texture> texture);
+            Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position position, std::shared_ptr<sf::Texture> texture, bool isBackground = false);
 
         private:
             std::map<std::string, std::pair<const unsigned char *, std::size_t>> assets;

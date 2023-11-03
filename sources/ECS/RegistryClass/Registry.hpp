@@ -19,7 +19,23 @@
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Score.hpp"
 #include "ECS/Assets/Assets.hpp"
-#include "client/Buttons/TextButton/TextButton.hpp"
+#include "client/Buttons/OneUseButton/OneUseButton.hpp"
+
+enum EntityClasses {
+    NUGO,
+    ANDREAS,
+    ELIOT,
+    LOUIS,
+    MOB_ORANGE_CRAB,
+    MOB_YELLOW_POPCORN,
+    MOB_GREEN_PLANT,
+    MOB_BLUE_D,
+    FIRST_BOSS,
+    SPEED_POWERUP,
+    HEALTH_POWERUP,
+    DAMAGE_POWERUP,
+    SHOOTING_SPEED_POWERUP
+};
 
 #define ALL_GAME_INFO_CODE 100
 #define NO_MORE_GAME_INFO_CODE 101
@@ -28,7 +44,9 @@
 #define ENTITY_MOVE_CODE 104
 #define ENTITY_SCORE_CODE 105
 
-#define CLIENT_INPUT_CODE 200
+#define CLIENT_CLASS_CODE 200
+#define CLIENT_INPUT_CODE 201
+#define CLIENT_DISCONNECT_CODE 202
 
 /**
  * @brief Struct representing a message containing the sprite name position and score of an entity.
@@ -41,6 +59,7 @@ typedef struct message_s {
     unsigned int client_id; /**< The id of the client. */
     sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
     Component::Position scale; /**< The scale of the texture. */
+    bool isBackground; /**< Whether the entity is a background or not. */
     int score; /**< The score of the entity. */
 } message_t;
 
@@ -68,7 +87,7 @@ typedef struct input_s
 typedef struct client_packet_s
 {
     unsigned int messageType; /**< The type of the message. */
-    unsigned int received_packet_id; /**< The id of the received packet the server sent. */
+    EntityClasses entityClass; /**< The class of the client. */
     input_t input; /**< The input of the client. */
 } client_packet_t;
 
@@ -175,6 +194,14 @@ class Registry {
          * @return Entity The entity associated with the given ID.
          */
         Entity entity_from_id(unsigned int id);
+
+        /**
+         * @brief Returns the player associated with the given ID.
+         * 
+         * @param id The ID of the entity to retrieve.
+         * @return Entity The entity associated with the given ID.
+         */
+        Entity player_from_id(unsigned int id);
 
         /**
          * @brief Kills an entity in the registry.
@@ -311,8 +338,18 @@ class Registry {
          */
         sf::Clock *getClock() const;
 
+        /**
+         * @brief set the window of the registry.
+         * 
+         * @param window The window to set.
+         */
         void setWindow(sf::RenderWindow *window);
 
+        /**
+         * @brief set the clock of the registry.
+         * 
+         * @param clock The clock to set.
+         */
         void setClock(sf::Clock *clock);
 
     private:

@@ -81,11 +81,6 @@ class Parser {
         void loadBackgrounds();
 
         /**
-         * @brief Loads players from the loaded game data and stores them in the given registry.
-         */
-        void loadPlayers();
-
-        /**
          * @brief Loads obstacles from the loaded game data and stores them in the given registry.
          */
         void loadObstacles();

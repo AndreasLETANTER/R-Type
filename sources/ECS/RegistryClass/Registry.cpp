@@ -126,6 +126,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
                 tempPacket.message.scale = drawables[m_entities[i].value().first].value().scale;
                 tempPacket.message.x = positions[m_entities[i].value().first].value().x;
                 tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+                tempPacket.message.isBackground = drawables[m_entities[i].value().first].value().isBackground;
                 Packets.push_back(tempPacket);
             }
         }
@@ -138,6 +139,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
                 tempPacket.message.scale = drawables[m_entities[i].value().first].value().scale;
                 tempPacket.message.x = positions[m_entities[i].value().first].value().x;
                 tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+                tempPacket.message.isBackground = drawables[m_entities[i].value().first].value().isBackground;
                 Packets.push_back(tempPacket);
         }
     }
@@ -201,6 +203,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
                     tempPacket.message.scale = drawables[m_entities[i].value().first].value().scale;
                     tempPacket.message.x = positions[m_entities[i].value().first].value().x;
                     tempPacket.message.y = positions[m_entities[i].value().first].value().y;
+                    tempPacket.message.isBackground = drawables[m_entities[i].value().first].value().isBackground;
                     Packets.push_back(tempPacket);
                 }
             }
@@ -234,7 +237,7 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, std::
         catch(const std::exception& e)
         {
             auto entity = spawn_entity(packet.message.entity_id);
-            add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
+            add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name), packet.message.isBackground));
             add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
             add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
         }
@@ -248,7 +251,7 @@ void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, std::
         catch(const std::exception& e)
         {
             auto entity = spawn_entity(packet.message.entity_id);
-            add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
+            add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name), packet.message.isBackground));
             add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
             add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
             if (strncmp(packet.message.sprite_name, "PBullet", 7) == 0)
@@ -375,4 +378,19 @@ void Registry::setWindow(sf::RenderWindow *window)
 void Registry::setClock(sf::Clock *clock)
 {
     m_clock = clock;
+}
+
+Entity Registry::player_from_id(unsigned int id)
+{
+    auto &controllables = get_components<Component::Controllable>();
+
+    for (size_t entity = 0; entity < controllables.size(); entity++) {
+        if (controllables[entity].has_value() == false) {
+            continue;
+        }
+        if (controllables[entity].value().playerId == id) {
+            return m_entities[entity].value().first;
+        }
+    }
+    throw std::runtime_error{"Player not found"};
 }
