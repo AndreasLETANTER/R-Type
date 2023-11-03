@@ -29,7 +29,7 @@
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
  */
-static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket &tcpClient, Registry &registry, bool &needGameInfos, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
+static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket &tcpClient, Registry &registry, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
 {
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
@@ -54,13 +54,6 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
             }
         }
         if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
-            needGameInfos = false;
-            continue;
-        }
-        if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
-            continue;
-        }
-        if (packets[i].messageType == ALL_GAME_INFO_CODE && needGameInfos == false) {
             continue;
         }
         registry.updateFromPacket(packets[i], window, scoreButton, tcpClient.getId());
@@ -78,10 +71,9 @@ int main(int ac, char **av)
     HandleArgument handleArguments;
     tcpClientSocket tcpClient(handleArguments.getPort(av[1]), handleArguments.getIp(av[3]));
     udpClientSocket udpClient(handleArguments.getPort(av[2]), handleArguments.getIp(av[3]));
-    bool needGameInfos = true;
     ButtonFactory buttonFactory;
 
-    udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
+    udpClient.send(converter.convertInputToBinary(client_packet_t{0, 0, input_t{0, sf::Keyboard::Unknown, false}}));
     tcpClient.run();
     tcpClient.receive();
     InputHandler inputHandler(tcpClient.getId());
@@ -124,11 +116,11 @@ int main(int ac, char **av)
                 exit(0);
             }
         }
-        std::vector<input_t> inputs = inputHandler.handle_inputs();
-        for (unsigned int i = 0; i < inputs.size(); i++) {
-            udpClient.send(converter.convertInputToBinary(inputs[i]));
+        std::vector<client_packet_t> packets = inputHandler.handle_inputs();
+        for (unsigned int i = 0; i < packets.size(); i++) {
+            udpClient.send(converter.convertInputToBinary(packets[i]));
         }
-        update_game_from_packets(udpClient, tcpClient, registry, needGameInfos, &window, scoreButton);
+        update_game_from_packets(udpClient, tcpClient, registry, &window, scoreButton);
         window.clear();
         registry.run_systems();
         scoreButton->update(window);

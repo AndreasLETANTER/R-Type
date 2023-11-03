@@ -27,6 +27,7 @@ Assets::Assets()
     this->load_texture("PowerUpDamage.png", "assets/PowerUpDamage.png");
     this->load_texture("PowerUpAttackSpeed.png", "assets/PowerUpAttackSpeed.png");
     this->load_texture("PowerUpSpeed.png", "assets/PowerUpSpeed.png");
+    this->load_texture("FirstBoss.gif", "assets/FirstBoss.gif");
 
     this->load_font("font.ttf", "assets/font.ttf");
 
