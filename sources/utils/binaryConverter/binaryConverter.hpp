@@ -31,7 +31,7 @@ class binaryConverter {
          * @return A pointer to the structured data.
          */
         packet_t convertBinaryToStruct(const char *buffer);
-        input_t convertBinaryToInput(const char *buffer);
+        client_packet_t convertBinaryToInput(const char *buffer);
 
         /**
          * @brief Converts structured data to binary data.
@@ -41,7 +41,7 @@ class binaryConverter {
          * @return A pointer to the binary data.
          */
         std::vector<char> convertStructToBinary(packet_t packet);
-        std::vector<char> convertInputToBinary(input_t t_input);
+        std::vector<char> convertInputToBinary(client_packet_t t_input);
 
     private:
         /**
