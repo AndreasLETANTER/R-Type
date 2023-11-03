@@ -33,15 +33,15 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
         if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
-            needGameInfos = false;
+            //needGameInfos = false;
             continue;
         }
-        if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
-            continue;
-        }
-        if (packets[i].messageType == ALL_GAME_INFO_CODE && needGameInfos == false) {
-            continue;
-        }
+        // if (packets[i].messageType != ALL_GAME_INFO_CODE && needGameInfos == true){
+        //     continue;
+        // }
+        // if (packets[i].messageType == ALL_GAME_INFO_CODE && needGameInfos == false) {
+        //     continue;
+        // }
         registry.updateFromPacket(packets[i], window, scoreButton, tcpClient.getId());
     }
     if (packets.size() > 0) {

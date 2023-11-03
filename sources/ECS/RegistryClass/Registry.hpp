@@ -251,6 +251,13 @@ class Registry {
         std::vector<packet_t> exportToPackets(bool needAllGameInfo = false);
 
         /**
+         * @brief Exports the recently killed entities as a vector of packets.
+         * 
+         * @return std::vector<packet_t> 
+         */
+        std::vector<packet_t> exportRecentlyKilledEntities();
+
+        /**
          * @brief Imports entities from an array of messages.
          * 
          * @param messages Pointer to the array of messages.
@@ -313,9 +320,10 @@ class Registry {
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
         std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
         SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
-        SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
-        SparseArray<Component::Position> m_previous_positions;
-        SparseArray<Component::Score> m_previous_scores;
+        SparseArray<std::pair<Entity, unsigned int>> m_previous_entities; /**< The SparseArray of entities in the registry. */
+        std::vector<packet_t> m_recently_killed_entities; /**< The SparseArray of entities in the registry. */
+        SparseArray<Component::Position> m_previous_positions; /**< The SparseArray of positions in the registry. */
+        SparseArray<Component::Score> m_previous_scores; /**< The SparseArray of scores in the registry. */
         sf::RenderWindow *m_window; /**< The window to draw the entities in. */
         sf::Clock *m_clock; /** The clock for the program. */
         Assets m_assets; /**< The assets of the registry. */

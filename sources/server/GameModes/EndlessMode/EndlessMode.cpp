@@ -81,6 +81,7 @@ void EndlessMode::run()
 {
     tcpServer->run();
     sf::Time lastUpdate = clock.getElapsedTime();
+    sf::Time lastLagRefresh = clock.getElapsedTime();
     while (true) {
         if (tcpServer->getNbClients() == 0) {
             continue;
@@ -109,6 +110,14 @@ void EndlessMode::run()
         }
         for (unsigned int i = 0; i < packets.size(); i++) {
             udpServer->send(converter.convertStructToBinary(packets[i]));
+        }
+        if (clock.getElapsedTime().asMilliseconds() - lastLagRefresh.asMilliseconds() > REFRESHRATE) {
+            lastLagRefresh = clock.getElapsedTime();
+            tcpServer->setNewClient(true);
+            std::vector<packet_t> recentlyKilledPackets = registry.exportRecentlyKilledEntities();
+            for (unsigned int i = 0; i < recentlyKilledPackets.size(); i++) {
+                udpServer->send(converter.convertStructToBinary(recentlyKilledPackets[i]));
+            }
         }
     }
 }

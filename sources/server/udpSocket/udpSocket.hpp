@@ -18,6 +18,7 @@
 
 #define UDP_PACKET_SIZE 65507
 #define TICKRATE 64
+#define REFRESHRATE 500
 
 using namespace boost::asio;
 

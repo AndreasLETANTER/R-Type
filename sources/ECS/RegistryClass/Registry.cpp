@@ -101,6 +101,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
                 tempPacket.messageType = ENTITY_DEATH_CODE;
                 tempPacket.packet_id = rand() % 10000000;
                 tempPacket.message.entity_id = m_previous_entities[i].value().second;
+                m_recently_killed_entities.push_back(tempPacket);
                 Packets.push_back(tempPacket);
             }
         }
@@ -108,6 +109,7 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
             tempPacket.messageType = ENTITY_DEATH_CODE;
             tempPacket.packet_id = rand() % 10000000;
             tempPacket.message.entity_id = m_previous_entities[i].value().second;
+            m_recently_killed_entities.push_back(tempPacket);
             Packets.push_back(tempPacket);
         }
     }
@@ -215,23 +217,45 @@ std::vector<packet_t> Registry::exportToPackets(bool newClient)
     return Packets;
 }
 
+std::vector<packet_t> Registry::exportRecentlyKilledEntities()
+{
+    std::vector<packet_t> temp = m_recently_killed_entities;
+    m_recently_killed_entities.clear();
+    return temp;
+}
+
 void Registry::updateFromPacket(packet_t packet, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton, unsigned int clientId)
 {
     if (packet.messageType == ALL_GAME_INFO_CODE) {
-        auto entity = spawn_entity(packet.message.entity_id);
-        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
-        add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
-        add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
+        try
+        {
+            entity_from_id(packet.message.entity_id);
+        }
+        catch(const std::exception& e)
+        {
+            auto entity = spawn_entity(packet.message.entity_id);
+            add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
+            add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
+            add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
+        }
     }
     if (packet.messageType == ENTITY_SPAWN_CODE) {
-        auto entity = spawn_entity(packet.message.entity_id);
-        add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
-        add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
-        add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
-        if (strncmp(packet.message.sprite_name, "PBullet", 7) == 0)
-            m_assets.get_sound("LaserSoundEffect")->play();
-        if (strncmp(packet.message.sprite_name, "PowerUp", 7) == 0) {
-            m_assets.get_sound("RizzPowerUpSoundEffect")->play();
+        try
+        {
+            entity_from_id(packet.message.entity_id);
+            return;
+        }
+        catch(const std::exception& e)
+        {
+            auto entity = spawn_entity(packet.message.entity_id);
+            add_component<Component::Drawable>(entity, Component::Drawable(packet.message.sprite_name, window, packet.message.rect, packet.message.scale, m_assets.get_texture(packet.message.sprite_name)));
+            add_component<Component::Position>(entity, Component::Position(packet.message.x, packet.message.y));
+            add_component<Component::Score>(entity, Component::Score(packet.message.score, m_clock));
+            if (strncmp(packet.message.sprite_name, "PBullet", 7) == 0)
+                m_assets.get_sound("LaserSoundEffect")->play();
+            if (strncmp(packet.message.sprite_name, "PowerUp", 7) == 0) {
+                m_assets.get_sound("RizzPowerUpSoundEffect")->play();
+            }
         }
     }
     if (packet.messageType == ENTITY_DEATH_CODE) {
