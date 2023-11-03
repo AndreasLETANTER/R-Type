@@ -64,6 +64,8 @@ int main(int ac, char **av)
     MainMenu mainMenu(window, assets, registry);
     mainMenu.loadBackground(&window, registry);
     bool firstTime = true;
+    assets.get_music("MenuMusic")->setLoop(true);
+    assets.get_music("MenuMusic")->play();
     while (window.isOpen() && mainMenu.getButtonPressed() != 3) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {
@@ -101,6 +103,8 @@ int main(int ac, char **av)
             break;
         }
     }
+    assets.get_music("MenuMusic")->setLoop(false);
+    assets.get_music("MenuMusic")->stop();
     mainMenu.deleteBackground(registry);
     mainMenu.deleteClass(registry);
     tcpClientSocket tcpClient(tcp, ip);
