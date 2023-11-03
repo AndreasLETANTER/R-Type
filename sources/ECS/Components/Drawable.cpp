@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position scale, std::shared_ptr<sf::Texture> texture)
+Component::Drawable::Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position scale, std::shared_ptr<sf::Texture> texture, bool isBackground)
 {
     this->spriteName = spriteName;
     this->window = window;
