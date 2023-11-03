@@ -39,7 +39,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     text2.setString("TCP Port : 8080");
     text2.setCharacterSize(28);
     text2.setFillColor(sf::Color::White);
-    text2.setPosition(pos.x + 15, pos.y + 15);
+    text2.setPosition(pos.x + 15, pos.y + 25);
     playButton->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
@@ -62,7 +62,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     text3.setString("UDP Port : 4242");
     text3.setCharacterSize(28);
     text3.setFillColor(sf::Color::White);
-    text3.setPosition(pos.x + 15, pos.y + 15);
+    text3.setPosition(pos.x + 15, pos.y + 25);
     udpPortButton->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
@@ -86,7 +86,7 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     text4.setString("IP Address : 127.0.0.1");
     text4.setCharacterSize(28);
     text4.setFillColor(sf::Color::White);
-    text4.setPosition(pos.x + 15, pos.y + 15);
+    text4.setPosition(pos.x + 15, pos.y + 25);
     ipPortButton->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio / 1.5, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
@@ -108,9 +108,9 @@ MainMenu::MainMenu(sf::RenderWindow &window, Assets &assets, Registry &registry)
     m_buttonTypes.push_back(CONNECT);
     text5.setFont(m_font);
     text5.setString("CONNECT");
-    text5.setCharacterSize(34);
+    text5.setCharacterSize(38);
     text5.setFillColor(sf::Color::Green);
-    text5.setPosition(pos.x + 35, pos.y + 15);
+    text5.setPosition(pos.x + 30, pos.y + 20);
     connectButton->setButtonPosition(pos)
         .setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
