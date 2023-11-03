@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <cmath>
+#include <memory>
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/AutoMove.hpp"
@@ -19,4 +21,9 @@ class AutoMoveSystem {
         AutoMoveSystem() = default;
         ~AutoMoveSystem() = default;
         AutoMoveSystem operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::AutoMove> &autoMoves);
+        void moveInSinusoidalPattern(std::optional<Component::Position> &pos, int dx, int dy);
+        void moveInSemiCirclePattern(std::optional<Component::Position> &entityPos, double &angle);
+        Component::Position getNewPos(int x, int y, double angle);
+        double getAngleFromCos(int adjacent, int hypotenuse);
+        double getAngleFromSin(int opposite, int hypotenuse);
 };
