@@ -41,7 +41,6 @@ void WhirlwindShootingPattern::shoot(Registry &registry, Component::Shoot &shoot
                 createProjectile(registry, window, shoot.bulletSpriteName, Component::Position(x + offsetX, y + offsetY), Component::Position(0 + offsetX, y_direction + offsetY), shoot.damage, shoot.playerId, groupId);
             }
         }
-        std::cout << y_direction << std::endl;
         y_direction += y_direction_offset;
         shoot.lastShot = shoot.clock->getElapsedTime();
     }
