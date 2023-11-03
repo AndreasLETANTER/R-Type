@@ -19,7 +19,8 @@ ShootSystem ShootSystem::operator()(Registry &registry, SparseArray<Component::S
         if (shoot.has_value() && pos.has_value() && draw.has_value() && group.has_value()) {
             auto shootingPattern = ShootingPatternFactory::createShootingPattern(shoot.value().pattern);
             auto window = draw.value().window;
-            shootingPattern->shoot(registry, shoot.value(), pos.value(), window, group.value().groupId);
+            auto newpos = Component::Position(pos.value().x, pos.value().y + ((draw.value().scale.y / 2) - (registry.get_assets().get_texture(shoot.value().bulletSpriteName)->getSize().y / 2)));
+            shootingPattern->shoot(registry, shoot.value(), newpos, window, group.value().groupId);
         }
     }
     return *this;
