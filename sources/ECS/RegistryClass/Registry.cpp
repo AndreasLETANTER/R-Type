@@ -305,10 +305,6 @@ Assets &Registry::get_assets()
 
 void Registry::updateEntityKeyPressed(input_t input)
 {
-    if (input.key == sf::Keyboard::R) {
-        m_needToRestart = true;
-        return;
-    }
     for (auto &entity : m_entities) {
         if (entity.has_value()) {
             auto &controllable = get_components<Component::Controllable>();

@@ -29,6 +29,7 @@
 #define ENTITY_SCORE_CODE 105
 #define LOSE_CODE 106
 #define WIN_CODE 107
+#define RESTART_CODE 108
 
 #define CLIENT_INPUT_CODE 200
 

@@ -111,6 +111,10 @@ void EndlessMode::run()
             if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
                 registry.updateEntityKeyPressed(received_packets[i].input);
             }
+            if (received_packets[i].messageType == RESTART_CODE) {
+                registry.setNeedToRestart(true);
+                continue;
+            }
         }
         if (received_packets.size() > 0) {
             udpServer->clear_packet_queue();

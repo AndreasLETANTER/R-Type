@@ -39,9 +39,11 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Green)
         .setCallback([this]() {
-            input_t input = {m_tcpClient.getId(), sf::Keyboard::R, false};
+            client_packet_t packet;
 
-            m_udpClient.send(binaryConverter().convertInputToBinary(input));
+            packet.messageType = RESTART_CODE;
+
+            m_udpClient.send(binaryConverter().convertInputToBinary(packet));
             m_isCallbackCalled = true;
         });
     m_buttons.push_back(std::move(restartButton));
