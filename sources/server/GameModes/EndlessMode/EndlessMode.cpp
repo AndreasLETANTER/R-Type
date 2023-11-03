@@ -92,10 +92,11 @@ void EndlessMode::run()
                 create_player(150, 450, received_packets[i].input.id, received_packets[i].entityClass);
             }
             if (received_packets[i].messageType == CLIENT_DISCONNECT_CODE) {
-                auto entity = registry.player_from_id(received_packets[i].input.id);
                 try { 
+                    auto entity = registry.player_from_id(received_packets[i].input.id);
                     registry.kill_entity(entity);
                 } catch (std::exception &e) {
+                    continue;
                 }
             }
             if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
