@@ -28,11 +28,17 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
                     if (health.has_value()) {
                         health.value().health -= projectile.value().damage;
                         if (projectile.value().shooterId >= 1 && projectile.value().shooterId <= 4) {
-                            if ((int) scores.size() < projectile.value().shooterId + 1 || scores[projectile.value().shooterId + 1].has_value() == false) {
-                                continue;
+                            auto entity = 0;
+                            try {
+                                entity = registry.player_from_id(projectile.value().shooterId);
                             }
-                            auto &score = scores[projectile.value().shooterId + 1];
-                            score.value().score += 100;
+                            catch(const std::exception& e) {
+                                continue;
+                            } 
+                            if (health.value().health <= 0 && (int) scores.size() > entity && scores[entity].has_value() == true) {
+                                auto &score = scores[entity];
+                                score.value().score += 500;
+                            }
                         }
                     }
                 }
