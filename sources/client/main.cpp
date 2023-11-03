@@ -130,7 +130,7 @@ int main(int ac, char **av)
 
     std::unique_ptr<IButton> scoreButton = buttonFactory.createButton("OneUse");
     scoreButton
-    ->setButtonPosition(sf::Vector2f(0, 0))
+    ->setButtonPosition(sf::Vector2f(30, 0))
     .setButtonSize(window.getSize(), sf::Vector2f(10, 10))
     .setButtonColor(sf::Color::Transparent)
     .setButtonOutlineColor(sf::Color::Transparent)
