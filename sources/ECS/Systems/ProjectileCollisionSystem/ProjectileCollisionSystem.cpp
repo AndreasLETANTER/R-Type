@@ -15,7 +15,7 @@ ProjectileCollisionSystem ProjectileCollisionSystem::operator()(Registry &regist
         auto &collision = collisions[i];
         if (projectile.has_value() && collision.has_value()) {
             if (i < groups.size() && groups[i].has_value() && collision.value().entities_in_collision.size() > 0 && (groups.size() >= collision.value().entities_in_collision[0]) && groups[collision.value().entities_in_collision[0]].has_value()) {
-                if (groups[i].value().groupId == groups[collision.value().entities_in_collision[0]].value().groupId) {
+                if (groups[i].value().groupId == groups[collision.value().entities_in_collision[0]].value().groupId || groups[i].value().groupId == 0 || groups[collision.value().entities_in_collision[0]].value().groupId == 0) {
                     continue;
                 }
             }
