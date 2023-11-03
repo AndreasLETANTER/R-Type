@@ -18,11 +18,11 @@ WaveSystem WaveSystem::operator()(Registry &registry)
     unsigned int nb_enemies_for_wave = rand() % 6 + current_wave_index  + 3 + current_wave_index;
 
     if (registry.enemiesAreDead()) {
-        if (current_wave_index % 3 == 0) {
+        if (current_wave_index == 1) {
             unsigned int enemy_type = rand() % m_boss_vector.size();
             Component::EntityClass entityClassTmp = m_boss_vector[enemy_type];
             unsigned int x_offset = rand() % (2000 - 1920) + 1 + 1920;
-            unsigned int x_start = 1800 - entityClassTmp.scale.x;
+            unsigned int x_start = 1920 - entityClassTmp.scale.x;
             unsigned int y_start = 1080 / 2 - entityClassTmp.scale.y / 2;
             auto enemy = registry.spawn_entity();
 
