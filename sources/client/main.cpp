@@ -105,19 +105,14 @@ int main(int ac, char **av)
         mainMenu.update();
         mainMenu.drawClass();
         window.display();
-        if (mainMenu.isClassSelected() == true) {
+        if (mainMenu.m_nugoSelected == true || mainMenu.m_andreasSelected == true || mainMenu.m_eliotSelected == true || mainMenu.m_louisSelected == true) {
             break;
         }
     }
-    std::cout << "test1" << std::endl;
     mainMenu.deleteBackground(registry);
-    std::cout << "test2" << std::endl;
     mainMenu.deleteClass(registry);
-    std::cout << "test3" << std::endl;
     tcpClientSocket tcpClient(tcp, ip);
-    std::cout << "test4" << std::endl;
     udpClientSocket udpClient(udp, ip);
-    std::cout << "test5" << std::endl;
     udpClient.send(converter.convertInputToBinary(input_t{0, sf::Keyboard::Unknown, false}));
     tcpClient.run();
     tcpClient.receive();

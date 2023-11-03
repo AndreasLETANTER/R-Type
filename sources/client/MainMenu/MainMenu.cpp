@@ -331,7 +331,7 @@ void MainMenu::deleteButtons(Registry &registry)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
         .setCallback([this, &m_bools, &andreasClass]() {
-            resetAndSetSelectedButton(0);
+            m_andreasSelected = true;
         });
     m_texts.push_back(std::move(text1));
     m_texts.push_back(std::move(text2));
@@ -389,7 +389,7 @@ void MainMenu::deleteButtons(Registry &registry)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
         .setCallback([this, &m_bools, &nugoClass]() {
-            resetAndSetSelectedButton(1);
+            m_nugoSelected = true;
         });
     m_texts.push_back(std::move(text7));
     m_texts.push_back(std::move(text8));
@@ -447,7 +447,7 @@ void MainMenu::deleteButtons(Registry &registry)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
         .setCallback([this, &m_bools, &eliotClass]() {
-            resetAndSetSelectedButton(2);
+            m_eliotSelected = true;
         });
     m_texts.push_back(std::move(text13));
     m_texts.push_back(std::move(text14));
@@ -505,7 +505,7 @@ void MainMenu::deleteButtons(Registry &registry)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
         .setCallback([this, &m_bools, &louisClass]() {
-            resetAndSetSelectedButton(3);
+            m_louisSelected = true;
         });
     m_texts.push_back(std::move(text19));
     m_texts.push_back(std::move(text20));
@@ -515,30 +515,8 @@ void MainMenu::deleteButtons(Registry &registry)
     m_texts.push_back(std::move(text24));
     m_buttons.push_back(std::move(louisClass));
 
-    // pos.x -= 600;
-    // pos.y += 150;
-    // auto connectButton = m_buttons.emplace_back();
-    // auto text5 = m_texts.emplace_back();
-    // m_bools.push_back(false);
-    // m_buttonTypes.push_back(PORT);
-    // m_texts[4].setFont(m_font);
-    // m_texts[4].setString("LAUNCH");
-    // m_texts[4].setCharacterSize(28);
-    // m_texts[4].setFillColor(sf::Color::White);
-    // m_texts[4].setPosition(pos.x + 15, pos.y + 15);
-    // connectButton.setButtonPosition(pos);
-    // connectButton.setButtonSize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio));
-    // connectButton.setButtonColor(sf::Color::Transparent);
-    // connectButton.setButtonOutlineColor(sf::Color::White);
-    // connectButton.setButtonOutlineThickness(5);
-    // connectButton.setButtonHoverColor(sf::Color::Transparent);
-    // connectButton.setButtonHoverOutlineColor(sf::Color::Green);
-    // connectButton.setCallback([this, &m_bools, &connectButton]() {
-    //     resetAndSetSelectedButton(4);
-    // });
-    // m_texts.push_back(std::move(text5));
-    // m_buttons.push_back(std::move(connectButton));
-    resetAndSetSelectedButton(0);
+    pos.x -= 600;
+    pos.y += 150;
 }
 
 void MainMenu::loadClass(sf::RenderWindow *window, Registry &registry)

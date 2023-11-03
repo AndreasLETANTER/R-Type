@@ -72,6 +72,11 @@ class MainMenu {
 
         bool isClassSelected() { return m_classSelected; }
 
+        bool m_nugoSelected = false;
+        bool m_andreasSelected = false;
+        bool m_eliotSelected = false;
+        bool m_louisSelected = false;
+
     private:
         sf::RenderWindow &m_window;
         Assets &m_assets;
