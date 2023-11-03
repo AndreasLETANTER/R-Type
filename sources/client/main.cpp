@@ -150,6 +150,7 @@ int main(int ac, char **av)
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed) {
                 window.close();
+                udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_DISCONNECT_CODE, EntityClasses::ANDREAS, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
                 exit(0);
             }
         }

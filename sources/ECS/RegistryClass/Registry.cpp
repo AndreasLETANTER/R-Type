@@ -376,3 +376,18 @@ void Registry::setClock(sf::Clock *clock)
 {
     m_clock = clock;
 }
+
+Entity Registry::player_from_id(unsigned int id)
+{
+    auto &controllables = get_components<Component::Controllable>();
+
+    for (size_t entity = 0; entity < controllables.size(); entity++) {
+        if (controllables[entity].has_value() == false) {
+            continue;
+        }
+        if (controllables[entity].value().playerId == id) {
+            return m_entities[entity].value().first;
+        }
+    }
+    throw std::runtime_error{"Player not found"};
+}
