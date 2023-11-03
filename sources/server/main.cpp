@@ -16,7 +16,7 @@ int main(const int ac, const char **av)
     GameModeFactory factory;
     std::unique_ptr<IGameMode> gameMode;
     try {
-        gameMode = factory.createGameMode("Endless", av, ac, false);
+        gameMode = factory.createGameMode("Default", av, ac, true);
         gameMode->init();
     }
     catch(const std::exception& e) {
