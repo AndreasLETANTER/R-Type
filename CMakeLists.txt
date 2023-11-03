@@ -67,6 +67,7 @@ set(ASSETS_FILES
     assets/OrangeCrabEnemy.gif
     assets/EBulletOrangeCrab.png
     assets/YellowPopcornEnemy.gif
+    assets/FirstBoss.gif
     assets/PowerUpAttackSpeed.png
     assets/PowerUpDamage.png
     assets/PowerUpHealth.png
@@ -96,6 +97,7 @@ set (ECS_SOURCES
     sources/ECS/Systems/ShootSystem/ShootingPatterns/SpreadShootingPattern.cpp
     sources/ECS/Systems/ShootSystem/ShootingPatterns/CircularShootingPattern.cpp
     sources/ECS/Systems/ShootSystem/ShootingPatterns/WaveShootingPattern.cpp
+    sources/ECS/Systems/ShootSystem/ShootingPatterns/WhirlwindShootingPattern.cpp
     sources/ECS/Systems/CollisionSystem/CollisionSystem.cpp
     sources/ECS/Systems/ProjectileCollisionSystem/ProjectileCollisionSystem.cpp
     sources/ECS/Systems/HealthSystem/HealthSystem.cpp
