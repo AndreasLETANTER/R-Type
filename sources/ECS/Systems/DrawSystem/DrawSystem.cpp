@@ -13,7 +13,15 @@ DrawSystem DrawSystem::operator()(Registry &registry, SparseArray<Component::Pos
     for (size_t i = 0; i < drawables.size() && i < positions.size(); ++i) {
         auto &pos = positions[i];
         auto &dra = drawables[i];
-        if (pos.has_value() && dra.has_value()) {
+        if (pos.has_value() && dra.has_value() && dra.value().spriteName == "SpaceBackground.png") {
+            dra.value().sprite.setPosition(pos.value().x, pos.value().y);
+            dra.value().window->draw(dra.value().sprite);
+        }
+    }
+    for (size_t i = 0; i < drawables.size() && i < positions.size(); ++i) {
+        auto &pos = positions[i];
+        auto &dra = drawables[i];
+        if (pos.has_value() && dra.has_value() && dra.value().spriteName != "SpaceBackground.png") {
             dra.value().sprite.setPosition(pos.value().x, pos.value().y);
             dra.value().window->draw(dra.value().sprite);
         }
