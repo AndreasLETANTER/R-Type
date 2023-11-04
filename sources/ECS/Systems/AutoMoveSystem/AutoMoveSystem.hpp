@@ -18,5 +18,14 @@ class AutoMoveSystem {
     public:
         AutoMoveSystem() = default;
         ~AutoMoveSystem() = default;
+
+        /**
+         * @brief Applies automatic movement to entities with AutoMove and Position components.
+         *
+         * @param registry The ECS registry containing the entities.
+         * @param positions The sparse array of Position components.
+         * @param autoMoves The sparse array of AutoMove components.
+         * @return AutoMoveSystem The updated AutoMoveSystem.
+         */
         AutoMoveSystem operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::AutoMove> &autoMoves);
 };

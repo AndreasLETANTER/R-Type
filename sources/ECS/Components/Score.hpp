@@ -17,11 +17,14 @@ namespace Component {
              * @brief Default constructor for Score class.
              */
             Score() = default;
+
             int score;
             sf::Clock *clock;
             sf::Time lastScoreIncrease;
+
             /**
              * @brief Constructor for Score class.
+             *
              * @param score The score of the entity.
              * @param clock A pointer to the clock used to measure time.
              */

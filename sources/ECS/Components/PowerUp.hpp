@@ -11,10 +11,10 @@
  * @brief The PowerUpType enum represents the different types of power-ups.
  */
 enum PowerUpType {
-    Speed, /**< Increases the entity's speed. */
-    Health, /**< Increases the entity's health. */
-    AttackSpeed, /**< Increases the entity's attack speed. */
-    Damage /**< Increases the entity's damage. */
+    Speed,
+    Health,
+    AttackSpeed,
+    Damage
 };
 
 namespace Component {
@@ -28,19 +28,15 @@ namespace Component {
              */
             PowerUp() = default;
 
-            sf::Time delayBeforeDispawn; /**< The time before the power-up disappears. */
-
-            sf::Time startTime; /**< The time when the power-up was spawned. */
-
-            PowerUpType type; /**< The type of the power-up. */
-
-            int stat; /**< The amount by which the power-up increases the entity's stat. */
-            
-            sf::Clock *clock; /**< A pointer to the clock used to measure time. */
+            sf::Time delayBeforeDispawn;
+            sf::Time startTime;
+            PowerUpType type;
+            int stat;
+            sf::Clock *clock;
 
             /**
              * @brief Construct a new PowerUp object with the given parameters.
-             * 
+             *
              * @param delayBeforeDispawn The time before the power-up disappears.
              * @param type The type of the power-up.
              * @param clock A pointer to the clock used to measure time.

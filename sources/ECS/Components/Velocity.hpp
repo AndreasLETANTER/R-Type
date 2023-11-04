@@ -17,11 +17,14 @@ namespace Component {
              * @brief Default constructor for Velocity class.
              */
             Velocity() = default;
-            double vx; /**< The velocity on the x-axis. */
-            double vy; /**< The velocity on the y-axis. */
-            int speed; /**< The actual velocity of the entity. */
+
+            double vx;
+            double vy;
+            int speed;
+
             /**
              * @brief Constructor for Velocity class.
+             *
              * @param vx The velocity on the x-axis.
              * @param vy The velocity on the y-axis.
              * @param speed The speed of the entity.

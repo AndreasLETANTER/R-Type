@@ -20,5 +20,16 @@ class PowerUpSystem {
     public:
         PowerUpSystem() = default;
         ~PowerUpSystem() = default;
+
+        /**
+         * @brief Applies power-ups to entities in the game.
+         *
+         * @param registry The registry containing all entities and their components.
+         * @param entityclasses The sparse array of entity classes.
+         * @param controllables The sparse array of controllable components.
+         * @param collisions The sparse array of collision components.
+         * @param powerups The sparse array of power-up components.
+         * @return PowerUpSystem The updated power-up system.
+         */
         PowerUpSystem operator()(Registry &registry, SparseArray<Component::EntityClass> &entityclasses, SparseArray<Component::Controllable> &controllables, SparseArray<Component::Collision> &collisions, SparseArray<Component::PowerUp> &powerups);
 };

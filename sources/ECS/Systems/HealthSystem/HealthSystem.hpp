@@ -20,5 +20,14 @@ class HealthSystem {
     public:
         HealthSystem() = default;
         ~HealthSystem() = default;
+
+        /**
+         * @brief HealthSystem functor that updates the health of entities based on their position.
+         *
+         * @param registry The ECS registry containing all entities and their components.
+         * @param healths The sparse array of Health components.
+         * @param positions The sparse array of Position components.
+         * @return HealthSystem The updated HealthSystem.
+         */
         HealthSystem operator()(Registry &registry, SparseArray<Component::Health> &healths, SparseArray<Component::Position> &positions);
 };

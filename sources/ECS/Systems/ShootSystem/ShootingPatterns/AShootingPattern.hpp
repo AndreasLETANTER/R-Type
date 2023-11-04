@@ -27,9 +27,6 @@ namespace Component {
  */
 class AShootingPattern : public IShootingPattern {
     public:
-        /**
-         * @brief Construct a new AShootingPattern object.
-         */
         virtual ~AShootingPattern() = default;
 
         /**
@@ -39,6 +36,7 @@ class AShootingPattern : public IShootingPattern {
          * @param shoot The shoot component of the entity.
          * @param pos The position component of the entity.
          * @param window The render window to draw the object on.
+         * @param groupId The id of the group.
          */
         virtual void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, sf::RenderWindow *window, unsigned int groupId) = 0;
 
@@ -52,6 +50,7 @@ class AShootingPattern : public IShootingPattern {
          * @param endPos The end position of the projectile.
          * @param damage The damage of the projectile.
          * @param playerId The id of the player.
+         * @param groupId The id of the group.
          */
         void createProjectile(Registry &registry, sf::RenderWindow *window, std::string bulletSpriteName, Component::Position initialPos, Component::Position endPos, size_t damage, int playerId, unsigned int groupId);
 };

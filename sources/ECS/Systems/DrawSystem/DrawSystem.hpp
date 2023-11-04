@@ -18,5 +18,14 @@ class DrawSystem {
     public:
         DrawSystem() = default;
         ~DrawSystem() = default;
+
+        /**
+         * @brief Draws all entities with a Position and Drawable component.
+         *
+         * @param registry The ECS registry containing all entities and components.
+         * @param positions The SparseArray containing all Position components.
+         * @param drawables The SparseArray containing all Drawable components.
+         * @return DrawSystem The updated DrawSystem.
+         */
         DrawSystem operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Drawable> &drawables);
 };

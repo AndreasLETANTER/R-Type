@@ -15,12 +15,19 @@
 
 CMRC_DECLARE(Assets);
 
-/// @brief The Assets class is used to store all the assets of the game.
+/**
+ * @brief The Assets class is used to store all the assets of the game.
+ */
 class Assets {
     public:
-        /// @brief The constructor of Assets, it loads all the assets.
+        /**
+         * @brief Constructs an Assets object, loads all the assets.
+         */
         Assets();
-        /// @brief The destructor of Assets.
+
+        /**
+         * @brief Destroys an Assets object.
+          */
         ~Assets() = default;
 
         /**

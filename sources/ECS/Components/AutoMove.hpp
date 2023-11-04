@@ -14,10 +14,11 @@ namespace Component {
      */
     class AutoMove {
         public:
-            Component::Position start; /**< The starting position of the entity. */
-            Component::Position end; /**< The ending position of the entity. */
+            Component::Position start;
+            Component::Position end;
             /**
              * @brief Constructor for AutoMove component.
+             *
              * @param start The starting position of the entity.
              * @param end The ending position of the entity.
              */
