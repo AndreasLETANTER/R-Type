@@ -15,7 +15,6 @@
 
 #include <SFML/Graphics.hpp>
 
-/// @brief AGameMode class
 /**
  * @brief AGameMode class is an abstract class that implements IGameMode interface.
  * It provides basic functionalities for game modes such as multiplayer support, argument handling, socket management, registry management, clock and window management.
@@ -29,9 +28,7 @@ class AGameMode : public IGameMode {
          * @param isMultiplayer A boolean representing whether the game mode is multiplayer or not.
          */
         AGameMode(const char **av, int ac, bool isMultiplayer = false);
-        /**
-         * @brief Default destructor for AGameMode class.
-         */
+
         ~AGameMode() = default;
 
         /**
@@ -40,14 +37,27 @@ class AGameMode : public IGameMode {
          */
         bool isMultiplayer() const override { return m_isMultiplayer;}
     protected:
+        /**
+         * @brief Creates a player entity with the given position, ID, and class.
+         *
+         * @param x The x-coordinate of the player's starting position.
+         * @param y The y-coordinate of the player's starting position.
+         * @param id The unique ID of the player entity.
+         * @param classEnum The class of the player entity.
+         */
         void create_player(int x, int y, int id, EntityClasses classEnum) override;
+
+        /**
+         * @brief Creates the background for the game mode.
+         */
         void create_background() override;
-        bool m_isMultiplayer = false; /**< A boolean representing whether the game mode is multiplayer or not. */
-        HandleArgument handleArgument; /**< An instance of HandleArgument class for handling command-line arguments. */
-        binaryConverter converter; /**< An instance of binaryConverter class for converting binary data. */
-        std::unique_ptr<tcpSocket> tcpServer; /**< A unique pointer to tcpSocket class for managing TCP sockets. */
-        std::unique_ptr<udpSocket> udpServer; /**< A unique pointer to udpSocket class for managing UDP sockets. */
-        Registry registry; /**< An instance of Registry class for managing game objects. */
-        sf::Clock clock; /**< An instance of sf::Clock class for measuring time. */
-        sf::RenderWindow window; /**< An instance of sf::RenderWindow class for managing game window. */
+
+        bool m_isMultiplayer = false;
+        HandleArgument handleArgument;
+        binaryConverter converter;
+        std::unique_ptr<tcpSocket> tcpServer;
+        std::unique_ptr<udpSocket> udpServer;
+        Registry registry;
+        sf::Clock clock;
+        sf::RenderWindow window;
 };

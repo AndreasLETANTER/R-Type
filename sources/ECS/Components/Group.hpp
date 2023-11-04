@@ -13,15 +13,12 @@ namespace Component {
      */
     class Group {
         public:
-            /**
-             * @brief Default constructor for Group
-             */
             Group() = default;
-
-            unsigned int groupId; /**< The ID of the group */
+            unsigned int groupId;
 
             /**
              * @brief Constructor for Group that sets the group ID
+             *
              * @param id The ID of the group
              */
             inline Group(unsigned int id) { this->groupId = id; }

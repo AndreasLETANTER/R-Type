@@ -20,5 +20,15 @@ class ProjectileSystem {
     public:
         ProjectileSystem() = default;
         ~ProjectileSystem() = default;
+
+        /**
+         * @brief Executes the ProjectileSystem on the given registry and component arrays.
+         *
+         * @param registry The registry containing the entities and their components.
+         * @param projectiles The array of Projectile components.
+         * @param positions The array of Position components.
+         * @param velocities The array of Velocity components.
+         * @return ProjectileSystem The updated ProjectileSystem.
+         */
         ProjectileSystem operator()(Registry &registry, SparseArray<Component::Projectile> &projectiles, SparseArray<Component::Position> &positions, SparseArray<Component::Velocity> &velocities);
 };

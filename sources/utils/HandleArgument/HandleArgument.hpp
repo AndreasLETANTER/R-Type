@@ -19,33 +19,30 @@
 #define VAL(x) #x
 #define TOSTRING(str) VAL(str)
 
-class HandleArgument
 /**
  * @brief Class for handling command line argument.
  */
+class HandleArgument
 {
     public:
-        /**
-         * @brief Default constructor.
-         */
         HandleArgument(void) = default;
-        /**
-         * @brief Default destructor.
-         */
         ~HandleArgument(void) = default;
+
         /**
          * @brief Get the port number from the command line arguments.
+         *
          * @param t_av The command line arguments.
          * @return The port number.
          */
         unsigned int getPort(char const *t_av) const;
+
         /**
          * @brief Get the IP address from the command line arguments.
+         *
          * @param t_av The command line arguments.
          * @return The IP address.
          */
         boost::asio::ip::address getIp(char const *t_av) const;
-
     protected:
         /**
          * @brief Check if a string is a number.

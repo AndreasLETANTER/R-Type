@@ -11,23 +11,16 @@
 #include "../../Components/Scroll.hpp"
 
 /**
- * @class ScrollSystem
  * @brief Class representing the system for scrolling background.
  */
 class ScrollSystem {
     public:
-        /**
-         * @brief Default constructor for ScrollSystem.
-         */
         ScrollSystem() = default;
-
-        /**
-         * @brief Default destructor for ScrollSystem.
-         */
         ~ScrollSystem() = default;
 
         /**
          * @brief Overloaded function call operator for ScrollSystem.
+         *
          * @param registry The registry object.
          * @param positions The positions of the object.
          * @param Scrolls The sparse array of scrolling background components.

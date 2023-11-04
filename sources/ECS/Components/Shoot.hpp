@@ -27,28 +27,18 @@ namespace Component {
      */
     class Shoot {
         public:
-            /**
-             * @brief Construct a new Shoot object with default values.
-             */
             Shoot() = default;
-            bool canShoot; /**< A boolean indicating whether the entity can shoot or not. */
-            ShootingPattern pattern; /**< The shooting pattern of the entity. */
-            std::string bulletSpriteName; /**< The name of the bullet sprite. */
-            int direction; /**< The direction of the bullet. */
-            int offsetLimit; /**< The offset limit of the bullet. */
-            sf::Time lastShot; /**< The time when the entity last shot. */
-            sf::Time shootDelay; /**< The delay between each shot. */
-            size_t damage; /**< The damage of the bullet. */
-            sf::Clock *clock; /**< A pointer to the clock used to measure time. */
 
-            /**
-             * @brief The ID of the player controlling the entity.
-             */
+            bool canShoot;
+            ShootingPattern pattern;
+            std::string bulletSpriteName;
+            int direction;
+            int offsetLimit;
+            sf::Time lastShot;
+            sf::Time shootDelay;
+            size_t damage;
+            sf::Clock *clock;
             unsigned int playerId;
-
-            /**
-             * @brief The key map of the controllable component.
-             */
             std::map<sf::Keyboard::Key, bool> m_keyMapState = {
                 {sf::Keyboard::Z, false},
                 {sf::Keyboard::S, false},

@@ -18,5 +18,14 @@ class LoggingSystem {
     public:
         LoggingSystem() = default;
         ~LoggingSystem() = default;
+
+        /**
+         * @brief Calls the LoggingSystem with the given registry, positions and velocities.
+         *
+         * @param registry The registry to use.
+         * @param positions The positions to use.
+         * @param velocities The velocities to use.
+         * @return LoggingSystem The LoggingSystem.
+         */
         LoggingSystem operator()(Registry &registry, SparseArray<Component::Position> &positions, SparseArray<Component::Velocity> &velocities);
 };

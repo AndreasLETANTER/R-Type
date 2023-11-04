@@ -52,15 +52,15 @@ enum EntityClasses {
  * @brief Struct representing a message containing the sprite name position and score of an entity.
  */
 typedef struct message_s {
-    char sprite_name[128] = {0}; /**< The name of the sprite associated with the entity. */
-    double x; /**< The x-coordinate of the entity's position. */
-    double y; /**< The y-coordinate of the entity's position. */
-    unsigned int entity_id; /**< The id of the entity. */
-    unsigned int client_id; /**< The id of the client. */
-    sf::IntRect rect; /**< The rectangle of the sprite associated with the entity. */
-    Component::Position scale; /**< The scale of the texture. */
-    bool isBackground; /**< Whether the entity is a background or not. */
-    int score; /**< The score of the entity. */
+    char sprite_name[128] = {0};
+    double x;
+    double y;
+    unsigned int entity_id;
+    unsigned int client_id;
+    sf::IntRect rect;
+    Component::Position scale;
+    bool isBackground;
+    int score;
 } message_t;
 
 /**
@@ -68,60 +68,55 @@ typedef struct message_s {
  */
 typedef struct packet_s
 {
-    unsigned int messageType; /**< The type of the message. */
-    unsigned int packet_id; /**< The id of the packet. */
-    message_t message; /**< The message. */
+    unsigned int messageType;
+    unsigned int packet_id;
+    message_t message;
 } packet_t;
 
 /**
  * @brief Struct representing an input event.
- * 
  */
 typedef struct input_s
 {
-    unsigned int id; /**< The ID of the input event. */
-    sf::Keyboard::Key key; /**< The keyboard key associated with the input event. */
-    bool pressed; /**< Whether the input event is a key press or release. */
+    unsigned int id;
+    sf::Keyboard::Key key;
+    bool pressed;
 } input_t;
 
 typedef struct client_packet_s
 {
-    unsigned int messageType; /**< The type of the message. */
-    EntityClasses entityClass; /**< The class of the client. */
-    input_t input; /**< The input of the client. */
+    unsigned int messageType;
+    EntityClasses entityClass;
+    input_t input;
 } client_packet_t;
 
 /**
  * @brief The Registry class is responsible for managing entities and their components.
- * 
  * It provides methods to register and remove components, spawn and kill entities, and add and run systems.
- * 
+ *
  * @tparam Component The type of component to register.
  */
 class Registry {
     public:
-        /**
-         * @brief Construct a new Registry object.
-         * 
-         */
         Registry() = default;
+
         /**
          * @brief Construct a new Registry object with a given Assets object.
-         * 
+         *
          * @param assets The assets to use for the registry.
          * @param window The window to draw the entities in.
          * @param clock The clock of the program.
          */
         Registry(Assets assets, sf::RenderWindow *window, sf::Clock *clock);
+
         /**
          * @brief The type of function used to erase a component from the registry.
-         * 
          */
         using erase_function = std::function<void(Registry&, Entity const&)>;
 
         /**
          * @brief Registers a component of type Component in the registry.
-         * 
+         *
          * @tparam Component The type of component to register.
          * @return SparseArray<Component>& A reference to the SparseArray of the registered component.
          */
@@ -130,7 +125,7 @@ class Registry {
 
         /**
          * @brief Registers an erase function for a component of type Component in the registry.
-         * 
+         *
          * @tparam Component The type of component to register the erase function for.
          * @param function The erase function to register.
          * @return erase_function The registered erase function.
@@ -140,7 +135,7 @@ class Registry {
 
         /**
          * @brief Removes a component of type Component from the registry for a given entity.
-         * 
+         *
          * @tparam Component The type of component to remove.
          * @param entity The entity to remove the component from.
          */
@@ -149,7 +144,7 @@ class Registry {
 
         /**
          * @brief Returns a reference to the SparseArray of components of type Component in the registry.
-         * 
+         *
          * @tparam Component The type of component to get the SparseArray for.
          * @return SparseArray<Component>& A reference to the SparseArray of components of type Component in the registry.
          */
@@ -158,7 +153,7 @@ class Registry {
 
         /**
          * @brief Returns a const reference to the SparseArray of components of type Component in the registry.
-         * 
+         *
          * @tparam Component The type of component to get the SparseArray for.
          * @return SparseArray<Component> const& A const reference to the SparseArray of components of type Component in the registry.
          */
@@ -167,21 +162,21 @@ class Registry {
 
         /**
          * @brief Spawns a new entity in the registry.
-         * 
+         *
          * @return Entity The newly spawned entity.
          */
         Entity spawn_entity();
 
         /**
          * @brief Spawns a new entity in the registry.
-         * 
+         *
          * @return Entity The newly spawned entity.
          */
         Entity spawn_entity(unsigned int id);
 
         /**
          * @brief Returns the entity corresponding to a given index in the registry.
-         * 
+         *
          * @param idx The index of the entity to get.
          * @return Entity The entity corresponding to the given index.
          */
@@ -189,7 +184,7 @@ class Registry {
 
         /**
          * @brief Returns the entity associated with the given ID.
-         * 
+         *
          * @param id The ID of the entity to retrieve.
          * @return Entity The entity associated with the given ID.
          */
@@ -197,7 +192,7 @@ class Registry {
 
         /**
          * @brief Returns the player associated with the given ID.
-         * 
+         *
          * @param id The ID of the entity to retrieve.
          * @return Entity The entity associated with the given ID.
          */
@@ -205,14 +200,14 @@ class Registry {
 
         /**
          * @brief Kills an entity in the registry.
-         * 
+         *
          * @param e The entity to kill.
          */
         void kill_entity(Entity const &e);
 
         /**
          * @brief Adds a component of type Component to an entity in the registry.
-         * 
+         *
          * @tparam Component The type of component to add.
          * @param to The entity to add the component to.
          * @param c The component to add.
@@ -220,11 +215,11 @@ class Registry {
          */
         template <typename Component>
         typename SparseArray<Component>::reference_type add_component(Entity const &to,
-                                                                       Component &&c);
+                                                                        Component &&c);
 
         /**
          * @brief Emplaces a component of type Component to an entity in the registry.
-         * 
+         *
          * @tparam Component The type of component to emplace.
          * @tparam Params The types of the parameters to emplace the component with.
          * @param to The entity to emplace the component to.
@@ -236,7 +231,7 @@ class Registry {
 
         /**
          * @brief Removes a component of type Component from an entity in the registry.
-         * 
+         *
          * @tparam Component The type of component to remove.
          * @param from The entity to remove the component from.
          */
@@ -245,7 +240,7 @@ class Registry {
 
         /**
          * @brief Adds a system to the registry.
-         * 
+         *
          * @tparam Components The types of components the system requires.
          * @tparam Function The type of the function to add as a system.
          * @param f The function to add as a system.
@@ -255,7 +250,7 @@ class Registry {
 
         /**
          * @brief Adds a system to the registry.
-         * 
+         *
          * @tparam Components The types of components the system requires.
          * @tparam Function The type of the function to add as a system.
          * @param f The function to add as a system.
@@ -265,52 +260,51 @@ class Registry {
 
         /**
          * @brief Runs all the systems in the registry.
-         * 
          */
         void run_systems();
 
         /**
          * @brief Exports the registry's entities and components to an array of messages.
          * @param needAllGameInfo If true, all the game info will be sent.
-         * 
+         *
          * @return std::tuple<message_t *, size_t> A tuple containing a pointer to the array of messages and its size.
          */
         std::vector<packet_t> exportToPackets(bool needAllGameInfo = false);
 
         /**
          * @brief Exports the recently killed entities as a vector of packets.
-         * 
-         * @return std::vector<packet_t> 
+         *
+         * @return std::vector<packet_t>
          */
         std::vector<packet_t> exportRecentlyKilledEntities();
 
         /**
-         * @brief Imports entities from an array of messages.
-         * 
-         * @param messages Pointer to the array of messages.
-         * @param size Size of the array of messages.
-         * @param window The window to draw the entities in.
-         * @param scoreButton The score button to update.
+         * @brief Updates the registry from a received packet.
+         *
+         * @param packet The packet to update the registry from.
+         * @param window The render window to draw entities on.
+         * @param scoreButton The button to update the score.
+         * @param clientId The ID of the client that sent the packet.
          */
         void updateFromPacket(packet_t packet, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton, unsigned int clientId);
 
         /**
          * @brief Returns the assets of the registry.
-         * 
+         *
          * @return Assets& A reference to the assets of the registry.
          */
         Assets &get_assets();
 
         /**
          * @brief Update the key pressed of an entity.
-         * 
+         *
          * @param input The input of the entity.
          */
         void updateEntityKeyPressed(input_t input);
- 
+
         /**
          * @brief Returns true or false if all players are dead or not.
-         * 
+         *
          * @return true if all players are dead.
          * @return false if not all players are dead.
          */
@@ -318,7 +312,7 @@ class Registry {
 
         /**
          * @brief Returns true or false if all enemies are dead or not.
-         * 
+         *
          * @return true if all enemies are dead.
          * @return false if not all enemies are dead.
          */
@@ -326,44 +320,44 @@ class Registry {
 
         /**
          * @brief Returns the window of the registry.
-         * 
+         *
          * @return sf::RenderWindow* A pointer to the window of the registry.
          */
         sf::RenderWindow *getWindow() const;
 
         /**
          * @brief Returns a pointer to the clock used by the registry.
-         * 
+         *
          * @return sf::Clock* A pointer to the clock used by the registry.
          */
         sf::Clock *getClock() const;
 
         /**
          * @brief set the window of the registry.
-         * 
+         *
          * @param window The window to set.
          */
         void setWindow(sf::RenderWindow *window);
 
         /**
          * @brief set the clock of the registry.
-         * 
+         *
          * @param clock The clock to set.
          */
         void setClock(sf::Clock *clock);
 
     private:
-        std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
-        std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
-        std::vector<std::function<void(Registry&)>> m_systems; /**< The vector of systems in the registry. */
-        SparseArray<std::pair<Entity, unsigned int>> m_entities; /**< The SparseArray of entities in the registry. */
-        SparseArray<std::pair<Entity, unsigned int>> m_previous_entities; /**< The SparseArray of entities in the registry. */
-        std::vector<packet_t> m_recently_killed_entities; /**< The SparseArray of entities in the registry. */
-        SparseArray<Component::Position> m_previous_positions; /**< The SparseArray of positions in the registry. */
-        SparseArray<Component::Score> m_previous_scores; /**< The SparseArray of scores in the registry. */
-        sf::RenderWindow *m_window; /**< The window to draw the entities in. */
-        sf::Clock *m_clock; /** The clock for the program. */
-        Assets m_assets; /**< The assets of the registry. */
+        std::unordered_map<std::type_index, std::any> m_components;
+        std::unordered_map<std::type_index, erase_function> m_erase_functions;
+        std::vector<std::function<void(Registry&)>> m_systems;
+        SparseArray<std::pair<Entity, unsigned int>> m_entities;
+        SparseArray<std::pair<Entity, unsigned int>> m_previous_entities;
+        std::vector<packet_t> m_recently_killed_entities;
+        SparseArray<Component::Position> m_previous_positions;
+        SparseArray<Component::Score> m_previous_scores;
+        sf::RenderWindow *m_window;
+        sf::Clock *m_clock;
+        Assets m_assets;
 };
 
 #include "ECS/RegistryClass/Registry.tpp"

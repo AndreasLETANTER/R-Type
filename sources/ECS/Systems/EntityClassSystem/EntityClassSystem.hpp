@@ -20,5 +20,16 @@ class EntityClassSystem {
     public:
         EntityClassSystem() = default;
         ~EntityClassSystem() = default;
+
+        /**
+         * @brief Applies the EntityClassSystem on the given registry and component arrays.
+         *
+         * @param registry The registry to apply the system on.
+         * @param entityclasses The array of EntityClass components.
+         * @param shoots The array of Shoot components.
+         * @param healths The array of Health components.
+         * @param velocities The array of Velocity components.
+         * @return EntityClassSystem The updated EntityClassSystem.
+         */
         EntityClassSystem operator()(Registry &registry, SparseArray<Component::EntityClass> &entityclasses, SparseArray<Component::Shoot> &shoots, SparseArray<Component::Health> &healths, SparseArray<Component::Velocity> &velocities);
 };
