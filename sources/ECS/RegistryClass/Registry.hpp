@@ -361,6 +361,21 @@ class Registry {
 
         SparseArray<std::pair<Entity, unsigned int>> &getEntities();
 
+        /**
+         * @brief Add a player class to the list.
+         *
+         * @param id The id of the player.
+         * @param entityClass The class of the player.
+         */
+        void addPlayerClass(unsigned int id, EntityClasses entityClass);
+
+        /**
+         * @brief Get the player class of a player by his id.
+         *
+         * @param id The id of the player.
+         * @return The class of the player.
+         */
+        EntityClasses getPlayerClass(unsigned int id);
     private:
         std::unordered_map<std::type_index, std::any> m_components; /**< The map of components in the registry. */
         std::unordered_map<std::type_index, erase_function> m_erase_functions; /**< The map of erase functions in the registry. */
@@ -374,6 +389,7 @@ class Registry {
         sf::Clock *m_clock; /** The clock for the program. */
         Assets m_assets; /**< The assets of the registry. */
         bool m_needToRestart = false;
+        std::map<unsigned int, EntityClasses> m_playersClasses;
 };
 
 #include "ECS/RegistryClass/Registry.tpp"

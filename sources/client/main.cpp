@@ -31,9 +31,12 @@
  */
 static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket &tcpClient, Registry &registry, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
 {
+    binaryConverter converter;
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
         if (packets[i].messageType == LOSE_CODE) {
+            unsigned int playerId = tcpClient.getId();
+            EntityClasses playerClass = registry.getPlayerClass(playerId);
             RestartMenu restartMenu(*window, tcpClient, udpClient);
             while (window->isOpen() && !restartMenu.isCallbackCalled()) {
                 for (auto event = sf::Event{}; window->pollEvent(event);) {
@@ -52,6 +55,10 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
                 if (entity.has_value())
                     registry.kill_entity(entity.value().first);
             }
+            window->clear();
+            registry.run_systems();
+            window->display();
+            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, playerClass, input_t{playerId, sf::Keyboard::Unknown, false}}));
         }
         if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
             continue;
@@ -134,18 +141,22 @@ int main(int ac, char **av)
     tcpClient.run();
     tcpClient.receive();
     if (firstTime == true) {
+        unsigned int playerId = tcpClient.getId();
+        EntityClasses playerClass;
         if (mainMenu.m_andreasSelected == true) {
-            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::ANDREAS, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+            registry.addPlayerClass(tcpClient.getId(), EntityClasses::ANDREAS);
         }
         if (mainMenu.m_nugoSelected == true) {
-            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::NUGO, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+            registry.addPlayerClass(tcpClient.getId(), EntityClasses::NUGO);
         }
         if (mainMenu.m_eliotSelected == true) {
-            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::ELIOT, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+            registry.addPlayerClass(tcpClient.getId(), EntityClasses::ELIOT);
         }
         if (mainMenu.m_louisSelected == true) {
-            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, EntityClasses::LOUIS, input_t{tcpClient.getId(), sf::Keyboard::Unknown, false}}));
+            registry.addPlayerClass(tcpClient.getId(), EntityClasses::LOUIS);
         }
+        playerClass = registry.getPlayerClass(playerId);
+        udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, playerClass, input_t{playerId, sf::Keyboard::Unknown, false}}));
         firstTime = false;
     }
 

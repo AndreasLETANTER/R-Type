@@ -66,6 +66,7 @@ void EndlessMode::init()
     registry.add_system<>(WaveSystem());
 
     create_background();
+    m_isAPlayerCreated = false;
 }
 
 void EndlessMode::run()
@@ -86,7 +87,6 @@ void EndlessMode::run()
         if (registry.getNeedToRestart()) {
             registry = Registry();
             init();
-            continue;
         }
         if (m_isAPlayerCreated && registry.playersAreDead()) {
             packet_t packet;

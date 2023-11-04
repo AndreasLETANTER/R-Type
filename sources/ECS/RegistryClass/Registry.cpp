@@ -409,3 +409,13 @@ Entity Registry::player_from_id(unsigned int id)
     }
     throw std::runtime_error{"Player not found"};
 }
+
+void Registry::addPlayerClass(unsigned int id, EntityClasses entityClass)
+{
+    m_playersClasses.insert(std::make_pair(id, entityClass));
+}
+
+EntityClasses Registry::getPlayerClass(unsigned int id)
+{
+    return m_playersClasses.at(id);
+}
