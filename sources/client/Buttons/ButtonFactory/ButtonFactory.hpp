@@ -13,8 +13,9 @@
 #include <functional>
 
 #include "client/Buttons/IButton.hpp"
-#include "client/Buttons/TextButton/TextButton.hpp"
+#include "client/Buttons/OneUseButton/OneUseButton.hpp"
 #include "client/Buttons/CooldownButton/CooldownButton.hpp"
+#include "client/Buttons/Button/Button.hpp"
 
 /// @brief Factory to create buttons
 class ButtonFactory {
@@ -31,11 +32,14 @@ class ButtonFactory {
         std::unique_ptr<IButton> createButton(const std::string &buttonType);
     private:
         std::unordered_map<std::string, std::function<std::unique_ptr<IButton>()>> m_buttonsType = {
-            {"Text", []() {
-                return std::make_unique<TextButton>();
+            {"OneUse", []() {
+                return std::make_unique<OneUseButton>();
             }},
             {"Cooldown", []() {
                 return std::make_unique<CooldownButton>();
+            }},
+            {"Default", []() {
+                return std::make_unique<Button>();
             }}
         };
 };

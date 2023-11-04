@@ -2,14 +2,12 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** TextButton
+** Button
 */
 
-#include "client/Buttons/TextButton/TextButton.hpp"
+#include "client/Buttons/Button/Button.hpp"
 
-#include <iostream>
-
-void TextButton::update(sf::RenderWindow &window)
+void Button::update(sf::RenderWindow &window)
 {
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
     const sf::Vector2f buttonPosition = this->getButtonPosition();
@@ -29,9 +27,8 @@ void TextButton::update(sf::RenderWindow &window)
         shape.setFillColor(buttonHoverColor);
         shape.setOutlineColor(buttonHoverOutlineColor);
         text.setFillColor(textHoverColor);
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && callback != nullptr && !m_buttonWasClicked) {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && callback != nullptr) {
             callback();
-            m_buttonWasClicked = true;
         }
     } else {
         shape.setFillColor(buttonColor);

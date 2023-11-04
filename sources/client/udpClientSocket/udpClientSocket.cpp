@@ -8,7 +8,7 @@
 #include "udpClientSocket.hpp"
 #include <iostream>
 
-udpClientSocket::udpClientSocket(size_t t_udpPort, ip::address t_ip) : m_socket(m_ioService), m_iStream(&m_readBuffer)
+udpClientSocket::udpClientSocket(unsigned int t_udpPort, ip::address t_ip) : m_socket(m_ioService), m_iStream(&m_readBuffer)
 {
     m_endpoint = ip::udp::endpoint(t_ip, t_udpPort);
     m_socket.open(ip::udp::v4());
@@ -51,7 +51,7 @@ void udpClientSocket::send(std::vector<char> t_message)
 
 void udpClientSocket::receive()
 {
-    auto buff = m_readBuffer.prepare(216);
+    auto buff = m_readBuffer.prepare(224);
     m_socket.async_receive_from(buff, m_endpoint, [this](const boost::system::error_code &error, std::size_t bytes_transferred) {
         if (error) {
             std::cerr << RED << "Error when receiving data: " << error.message() << RESET << std::endl;

@@ -178,4 +178,16 @@ class IButton {
         /// @brief Get the cooldown of the button
         /// @return The cooldown of the button
         virtual const float &getCooldown() const = 0;
+
+        /// @brief Get the state of the button
+        /// @return The state of the button
+        virtual bool getState() const = 0;
+
+        /// @brief Set the state of the button
+        /// @param state The state wanted for the button
+        virtual void setState(bool state) = 0;
+
+        /// @brief Delete the button
+        /// @param button The button to delete
+        virtual void deleteButton(IButton &button) = 0;
 };

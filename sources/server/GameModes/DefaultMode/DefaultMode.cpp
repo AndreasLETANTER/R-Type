@@ -84,10 +84,23 @@ void DefaultMode::run()
         registry.run_systems();
         std::vector<client_packet_t> received_packets = udpServer->get_packet_queue();
         for (unsigned int i = 0; i < received_packets.size(); i++) {
-            if (received_packets[i].input.id == 0) {
+            if (received_packets[i].messageType == CLIENT_INPUT_CODE && received_packets[i].input.id == 0) {
                 continue;
             }
-            registry.updateEntityKeyPressed(received_packets[i].input);
+            if (received_packets[i].messageType == CLIENT_CLASS_CODE) {
+                create_player(150, 450, received_packets[i].input.id, received_packets[i].entityClass);
+            }
+            if (received_packets[i].messageType == CLIENT_DISCONNECT_CODE) {
+                try { 
+                    auto entity = registry.player_from_id(received_packets[i].input.id);
+                    registry.kill_entity(entity);
+                } catch (std::exception &e) {
+                    continue;
+                }
+            }
+            if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
+                registry.updateEntityKeyPressed(received_packets[i].input);
+            }
         }
         if (received_packets.size() > 0) {
             udpServer->clear_packet_queue();

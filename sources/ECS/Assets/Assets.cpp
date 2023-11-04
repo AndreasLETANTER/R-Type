@@ -17,9 +17,13 @@ Assets::Assets()
     this->load_texture("PBulletHugo.png", "assets/PBulletHugo.png");
     this->load_texture("EBulletOrangeCrab.png", "assets/EBulletOrangeCrab.png");
     this->load_texture("EBulletYellowPopcorn.png", "assets/EBulletYellowPopcorn.png");
+    this->load_texture("EBulletGreenPlant.png", "assets/EBulletGreenPlant.png");
+    this->load_texture("EBulletBlueD.png", "assets/EBulletBlueD.png");
     this->load_texture("BulletSpriteMonster.png", "assets/BulletSpriteMonster.png");
     this->load_texture("GreyRobotObstacle.gif", "assets/GreyRobotObstacle.gif");
     this->load_texture("OrangeCrabEnemy.gif", "assets/OrangeCrabEnemy.gif");
+    this->load_texture("GreenPlantEnemy.gif", "assets/GreenPlantEnemy.gif");
+    this->load_texture("BlueDEnemy.gif", "assets/BlueDEnemy.gif");
     this->load_texture("SpaceBackground.png", "assets/SpaceBackground.png");
     this->load_texture("SpaceShips.gif", "assets/SpaceShips.gif");
     this->load_texture("YellowPopcornEnemy.gif", "assets/YellowPopcornEnemy.gif");

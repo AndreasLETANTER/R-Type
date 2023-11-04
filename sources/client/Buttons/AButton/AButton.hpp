@@ -46,6 +46,9 @@ class AButton : public IButton {
         const VerticalAlign &getVerticalAlign() const override;
         const std::function<void()> &getCallback() const override;
         const float &getCooldown() const override;
+        bool getState() const override;
+        void setState(bool state) override;
+        void deleteButton(IButton &button) override;
     private:
         sf::RectangleShape m_shape = sf::RectangleShape();
         sf::Vector2f m_buttonPosition = sf::Vector2f(0, 0);
@@ -63,4 +66,5 @@ class AButton : public IButton {
 
         std::function<void()> m_callback = [](){};
         float m_cooldown = 0;
+        bool m_isClicked = false;
 };

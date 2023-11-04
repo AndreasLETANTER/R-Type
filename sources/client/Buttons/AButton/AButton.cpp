@@ -206,3 +206,36 @@ const float &AButton::getCooldown() const
 {
     return (m_cooldown);
 }
+
+bool AButton::getState() const
+{
+    return (m_isClicked);
+}
+
+void AButton::setState(bool state)
+{
+    m_isClicked = state;
+}
+
+void AButton::deleteButton(IButton &button)
+{
+    button.getShape().setSize(sf::Vector2f(0, 0));
+    button.getShape().setPosition(sf::Vector2f(0, 0));
+    button.getShape().setFillColor(sf::Color::Transparent);
+    button.getShape().setOutlineColor(sf::Color::Transparent);
+    button.getShape().setOutlineThickness(0);
+    button.getText().setString("");
+    button.getText().setCharacterSize(0);
+    button.getText().setPosition(sf::Vector2f(0, 0));
+    button.getText().setFillColor(sf::Color::Transparent);
+    button.getText().setOutlineColor(sf::Color::Transparent);
+    button.getText().setOutlineThickness(0);
+    button.setTextColor(sf::Color::Transparent);
+    button.setTextHoverColor(sf::Color::Transparent);
+    button.setButtonColor(sf::Color::Transparent);
+    button.setButtonHoverColor(sf::Color::Transparent);
+    button.setButtonOutlineColor(sf::Color::Transparent);
+    button.setButtonHoverOutlineColor(sf::Color::Transparent);
+    button.setCallback(nullptr);
+    button.setState(false);
+}
