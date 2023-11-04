@@ -18,9 +18,6 @@ namespace Component {
      */
     class Projectile {
         public:
-            /**
-             * @brief Default constructor for Projectile class.
-             */
             Projectile() = default;
 
             Component::Position start;

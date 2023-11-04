@@ -13,9 +13,6 @@ namespace Component {
      */
     class Velocity {
         public:
-            /**
-             * @brief Default constructor for Velocity class.
-             */
             Velocity() = default;
 
             double vx;

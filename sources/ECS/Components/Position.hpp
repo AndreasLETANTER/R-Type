@@ -13,9 +13,6 @@ namespace Component {
      */
     class Position {
         public:
-            /**
-             * @brief Default constructor for Position class.
-             */
             Position() = default;
 
             double x;

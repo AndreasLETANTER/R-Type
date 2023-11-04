@@ -16,9 +16,6 @@
  */
 class Entity {
     public:
-        /**
-         * @brief Default destructor for Entity.
-         */
         ~Entity() = default;
 
         /**

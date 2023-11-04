@@ -13,11 +13,7 @@ namespace Component {
      */
     class Group {
         public:
-            /**
-             * @brief Default constructor for Group
-             */
             Group() = default;
-
             unsigned int groupId;
 
             /**

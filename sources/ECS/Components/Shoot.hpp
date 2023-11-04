@@ -27,10 +27,8 @@ namespace Component {
      */
     class Shoot {
         public:
-            /**
-             * @brief Construct a new Shoot object with default values.
-             */
             Shoot() = default;
+
             bool canShoot;
             ShootingPattern pattern;
             std::string bulletSpriteName;

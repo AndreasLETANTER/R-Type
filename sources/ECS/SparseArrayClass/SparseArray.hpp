@@ -29,9 +29,6 @@ public:
     using iterator = typename container_t::iterator;
     using const_iterator = typename container_t::const_iterator;
 
-    /**
-     * @brief Default constructor for the sparse array.
-     */
     SparseArray() = default;
 
     /**

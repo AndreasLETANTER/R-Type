@@ -98,9 +98,6 @@ typedef struct client_packet_s
  */
 class Registry {
     public:
-        /**
-         * @brief Construct a new Registry object.
-         */
         Registry() = default;
 
         /**

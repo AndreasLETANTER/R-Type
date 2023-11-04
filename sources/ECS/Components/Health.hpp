@@ -13,11 +13,7 @@ namespace Component {
      */
     class Health {
         public:
-            /**
-             * @brief Default constructor for Health class.
-             */
             Health() = default;
-
             int health;
 
             /**

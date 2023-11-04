@@ -23,9 +23,6 @@ namespace Component {
      */
     class PowerUp {
         public:
-            /**
-             * @brief Construct a new PowerUp object with default values.
-             */
             PowerUp() = default;
 
             sf::Time delayBeforeDispawn;

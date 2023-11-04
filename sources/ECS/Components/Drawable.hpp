@@ -39,7 +39,6 @@ namespace Component {
              * @param isBackground Whether the drawable object is a background or not.
              */
             Drawable(std::string spriteName, sf::RenderWindow *window, sf::IntRect rect, Component::Position position, std::shared_ptr<sf::Texture> texture, bool isBackground = false);
-
         private:
             std::map<std::string, std::pair<const unsigned char *, std::size_t>> assets;
     } Drawable;

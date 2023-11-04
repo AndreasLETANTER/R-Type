@@ -20,14 +20,7 @@ CMRC_DECLARE(Assets);
  */
 class Assets {
     public:
-        /**
-         * @brief Constructs an Assets object, loads all the assets.
-         */
         Assets();
-
-        /**
-         * @brief Destroys an Assets object.
-          */
         ~Assets() = default;
 
         /**

@@ -13,9 +13,6 @@
 namespace Component {
     class Score {
         public:
-            /**
-             * @brief Default constructor for Score class.
-             */
             Score() = default;
 
             int score;
