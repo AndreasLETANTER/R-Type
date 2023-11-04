@@ -11,7 +11,6 @@
 
 /**
  * @brief Default game mode class that inherits from AGameMode.
- * 
  */
 class DefaultMode : public AGameMode {
     public:
@@ -20,16 +19,11 @@ class DefaultMode : public AGameMode {
 
         /**
          * @brief Initializes the game mode.
-         * 
          */
         void init() override;
 
         /**
          * @brief Runs the game mode.
-         * 
          */
         void run() override;
-
-    protected:
-    private:
 };
