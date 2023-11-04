@@ -10,10 +10,26 @@
 #include <SFML/Graphics.hpp>
 #include "ECS/RegistryClass/Registry.hpp"
 
+/**
+ * @brief InputHandler class, used to handle inputs
+ */
 class InputHandler {
     public:
+        /**
+         * @brief Constructor of InputHandler
+         */
         InputHandler(unsigned int t_player_id);
+
+        /**
+         * @brief Destructor of InputHandler
+         */
         ~InputHandler() = default;
+
+        /**
+         * @brief Handles user inputs and returns a vector of client packets.
+         *
+         * @return std::vector<client_packet_t> A vector of client packets representing the user inputs.
+         */
         std::vector<client_packet_t> handle_inputs();
 
     protected:

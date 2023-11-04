@@ -9,8 +9,16 @@
 
 #include "client/Buttons/AButton/AButton.hpp"
 
+/**
+ * @brief CooldownButton class, used to create a cooldown button
+ */
 class CooldownButton: public AButton {
     public:
+        /**
+         * @brief Updates the cooldown button's state and appearance.
+         *
+         * @param window The SFML window to render the button on.
+         */
         void update(sf::RenderWindow &window) override;
     private:
         sf::Clock m_clock;

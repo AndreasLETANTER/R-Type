@@ -17,15 +17,11 @@ using namespace boost::asio;
 /**
  * @brief The Network class represents a TCP socket that can send and receive messages.
  */
-/**
- * @brief The tcpClientSocket class represents a TCP client socket.
- * 
- */
 class tcpClientSocket {
     public:
         /**
          * @brief Construct a new tcpClientSocket object
-         * 
+         *
          * @param t_tcpPort The TCP port to connect to.
          * @param t_ip The IP address to use.
          */
@@ -33,40 +29,38 @@ class tcpClientSocket {
 
         /**
          * @brief Destroy the tcpClientSocket object
-         * 
          */
         ~tcpClientSocket();
 
         /**
          * @brief Run the client socket.
-         * 
          */
         void run();
 
         /**
          * @brief Send a message to the server.
-         * 
+         *
          * @param t_message The message to send.
          */
         void send(const std::string &t_message);
 
         /**
          * @brief Receive a message from the server.
-         * 
+         *
          * @return char* The received message.
          */
         char *receive();
 
         /**
          * @brief Get the ID of the client socket.
-         * 
+         *
          * @return unsigned int The ID of the client socket.
          */
         unsigned int getId() const {return m_id;};
 
         /**
          * @brief Get the UDP port of the client socket.
-         * 
+         *
          * @return unsigned int The UDP port of the client socket.
          */
         unsigned int getUdpPort() const {return m_udpPort;};

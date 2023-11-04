@@ -10,15 +10,22 @@
 #include <functional>
 #include <SFML/Graphics.hpp>
 
+/**
+ * @brief Interface to create buttons
+ */
 class IButton {
     public:
-        /// @brief Enum to set the horizontal alignment of the text
+        /**
+         * @brief Enum to set the horizontal alignment of the text
+         */
         enum HorizontalAlign {
             LEFT,
             CENTER,
             RIGHT
         };
-        /// @brief Enum to set the vertical alignment of the text
+        /**
+         * @brief Enum to set the vertical alignment of the text
+         */
         enum VerticalAlign {
             TOP,
             MIDDLE,
@@ -28,166 +35,271 @@ class IButton {
         IButton() = default;
         ~IButton() = default;
 
-        /// @brief Draw the button
-        /// @param window The window where the button will be drawn
+        /**
+         * @brief Draw Button object
+         *
+         * @param window window where the button will be drawn
+         */
         virtual void draw(sf::RenderWindow &window) = 0;
 
-        /// @brief Update the button
-        /// @param window The window where the button will be updated
+        /**
+         * @brief Updates the button's state and appearance.
+         *
+         * @param window The SFML window to render the button on.
+         */
         virtual void update(sf::RenderWindow &window) = 0;
 
-        /// @brief Resize the button
-        /// @param windowSize The size of the window
-        /// @param buttonRatio The ratio to apply to the window size for the button
-        /// @param buttonPosition The position wanted for the button
-        /// @param textRatio The ratio to apply to the window size for the text
+        /**
+         * @brief Resizes the button according to the window size, button ratio, button position and text ratio.
+         *
+         * @param windowSize The size of the window.
+         * @param buttonRatio The ratio of the button size to the window size.
+         * @param buttonPosition The position of the button relative to the window.
+         * @param textRatio The ratio of the text size to the button size.
+         */
         virtual void resize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio,
             const sf::Vector2f &buttonPosition, const int &textRatio) = 0;
 
-        /// @brief Set the position of the button
-        /// @param position The position wanted for the button
-        /// @return The object with the new position
+        /**
+         * @brief Sets the position of the button.
+         *
+         * @param position The new position of the button.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setButtonPosition(const sf::Vector2f &position) = 0;
 
-        /// @brief Set the size of the button
-        /// @param windowSize The size of the window
-        /// @param buttonRatio The ratio to apply to the window size
-        /// @return The object with the new size
+        /**
+         * @brief Sets the size of the button based on the given window size and button ratio.
+         *
+         * @param windowSize The size of the window.
+         * @param buttonRatio The ratio of the button size to the window size.
+         * @return A reference to the button object.
+         */
         virtual IButton &setButtonSize(const sf::Vector2u &windowSize, const sf::Vector2f &buttonRatio) = 0;
 
-        /// @brief Set the color of the button
-        /// @param color The color wanted for the button
-        /// @return The object with the new color
+        /**
+         * @brief Sets the color of the button.
+         *
+         * @param color The new color of the button.
+         * @return A reference to the button.
+         */
         virtual IButton &setButtonColor(const sf::Color &color) = 0;
 
-        /// @brief Set the outline color of the button
-        /// @param outlineColor The outline color wanted for the button
-        /// @return The object with the new outline color
+        /**
+         * @brief Sets the outline color of the button.
+         *
+         * @param outlineColor The new color of the button outline.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setButtonOutlineColor(const sf::Color &outlineColor) = 0;
 
-        /// @brief Set the outline thickness of the button
-        /// @param outlineThickness The outline thickness wanted for the button
-        /// @return The object with the new outline thickness
+        /**
+         * @brief Sets the thickness of the outline of the button.
+         *
+         * @param outlineThickness The thickness of the outline.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setButtonOutlineThickness(const int &outlineThickness) = 0;
 
-        /// @brief Set the hover color of the button
-        /// @param hoverColor The hover color wanted for the button
-        /// @return The object with the new hover color
+        /**
+         * @brief Sets the color of the button when the mouse hovers over it.
+         *
+         * @param hoverColor The color to set.
+         * @return A reference to the button object.
+         */
         virtual IButton &setButtonHoverColor(const sf::Color &hoverColor) = 0;
 
-        /// @brief Set the hover outline color of the button
-        /// @param hoverOutlineColor The hover outline color wanted for the button
-        /// @return The object with the new hover outline color
+        /**
+         * @brief Sets the color of the button's outline when the mouse hovers over it.
+         *
+         * @param hoverOutlineColor The color to set the hover outline to.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setButtonHoverOutlineColor(const sf::Color &hoverOutlineColor) = 0;
 
-        /// @brief Set the string of the text
-        /// @param text The string wanted for the text
-        /// @return The object with the text with the new string
+        /**
+         * @brief Sets the text string of the button.
+         *
+         * @param text The new text string to set.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setTextString(const std::string &text) = 0;
 
-        /// @brief Set the font of the text
-        /// @param font The font wanted for the text
-        /// @return The object with the text with the new font
+        /**
+         * @brief Sets the font of the text displayed on the button.
+         *
+         * @param font The font to set.
+         * @return A reference to the button.
+         */
         virtual IButton &setTextFont(const sf::Font &font) = 0;
 
-        /// @brief Set the size of the text
-        /// @param windowSize The size of the window
-        /// @param textRatio The ratio to apply to the window size
-        /// @return The object with the text resized
+        /**
+         * @brief Sets the size of the text displayed on the button.
+         *
+         * @param windowSize The size of the window in which the button is displayed.
+         * @param textRatio The ratio of the text size to the button size.
+         * @return A reference to the button object.
+         */
         virtual IButton &setTextSize(const sf::Vector2u &windowSize, const float &textRatio) = 0;
 
-        /// @brief Set the position of the text
-        /// @param horizontalAlign The horizontal alignment of the text
-        /// @param verticalAlign The vertical alignment of the text
-        /// @return The object with the text with the new position
+        /**
+         * @brief Sets the position of the text within the button.
+         *
+         * @param horizontalAlign The horizontal alignment of the text.
+         * @param verticalAlign The vertical alignment of the text.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setTextPosition(const HorizontalAlign &horizontalAlign,
             const VerticalAlign &verticalAlign) = 0;
 
-        /// @brief Set the color of the text
-        /// @param color The color wanted for the text
-        /// @return The object with the text with the new color
+        /**
+         * @brief Sets the text color of the button.
+         *
+         * @param color The new color of the text.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setTextColor(const sf::Color &color) = 0;
 
-        /// @brief Set the hover color of the text
-        /// @param hoverColor The hover color wanted for the text
-        /// @return The object with the text with the new hover color
+        /**
+         * @brief Sets the color of the text when the button is hovered over.
+         *
+         * @param hoverColor The color to set the text to when the button is hovered over.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setTextHoverColor(const sf::Color &hoverColor) = 0;
 
-        /// @brief Set the callback of the button
-        /// @param callback The callback wanted for the button
-        /// @return The object with the new callback
+        /**
+         * @brief Sets the callback function to be called when the button is clicked.
+         *
+         * @param callback The function to be called when the button is clicked.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setCallback(const std::function<void()> &callback) = 0;
 
-        /// @brief Set the cooldown of the button
-        /// @param cooldown The cooldown wanted for the button
-        /// @return The object with the new cooldown
+        /**
+         * @brief Sets the cooldown time for the button.
+         *
+         * @param cooldown The cooldown time in seconds.
+         * @return A reference to the button instance.
+         */
         virtual IButton &setCooldown(const float &cooldown) = 0;
 
-        /// @brief Get the shape of the button
-        /// @return The shape of the button
+        /**
+         * @brief Returns a reference to the button's shape.
+         *
+         * @return sf::RectangleShape& A reference to the button's shape.
+         */
         virtual sf::RectangleShape &getShape() = 0;
 
-        /// @brief Get the position of the button
-        /// @return The position of the button
+        /**
+         * @brief Returns the position of the button.
+         *
+         * @return The position of the button as a constant reference to a sf::Vector2f object.
+         */
         virtual const sf::Vector2f &getButtonPosition() const = 0;
 
-        /// @brief Get the size of the button
-        /// @return The size of the button
+        /**
+         * @brief Returns the size of the button.
+         *
+         * @return The size of the button as a constant reference to a sf::Vector2f object.
+         */
         virtual const sf::Vector2f &getButtonSize() const = 0;
 
-        /// @brief Get the color of the button
-        /// @return The color of the button
+        /**
+         * @brief Returns the color of the button.
+         *
+         * @return const sf::Color& The color of the button.
+         */
         virtual const sf::Color &getButtonColor() const = 0;
 
-        /// @brief Get the outline color of the button
-        /// @return The outline color of the button
+        /**
+         * @brief Returns the outline color of the button.
+         *
+         * @return The outline color of the button.
+         */
         virtual const sf::Color &getButtonOutlineColor() const = 0;
 
-        /// @brief Get the hover color of the button
-        /// @return The hover color of the button
+        /**
+         * @brief Returns the color of the button when the mouse is hovering over it.
+         *
+         * @return The color of the button when the mouse is hovering over it.
+         */
         virtual const sf::Color &getButtonHoverColor() const = 0;
 
-        /// @brief Get the hover outline color of the button
-        /// @return The hover outline color of the button
+        /**
+         * @brief Returns the color of the button's outline when the mouse hovers over it.
+         *
+         * @return The color of the button's hover outline.
+         */
         virtual const sf::Color &getButtonHoverOutlineColor() const = 0;
 
-        /// @brief Get the text of the button
-        /// @return The text of the button
+        /**
+         * @brief Returns a reference to the text object associated with the button.
+         *
+         * @return sf::Text& A reference to the text object.
+         */
         virtual sf::Text &getText() = 0;
 
-        /// @brief Get the color of the text
-        /// @return The color of the text
+        /**
+         * @brief Returns the text color of the button.
+         *
+         * @return The text color of the button.
+         */
         virtual const sf::Color &getTextColor() const = 0;
 
-        /// @brief Get the hover color of the text
-        /// @return The hover color of the text
+        /**
+         * @brief Gets the color of the text when the button is hovered over.
+         *
+         * @return The color of the text when the button is hovered over.
+         */
         virtual const sf::Color &getTextHoverColor() const = 0;
 
-        /// @brief Get the horizontal alignment of the text
-        /// @return The horizontal alignment of the text
+        /**
+         * @brief Returns the horizontal alignment of the button.
+         *
+         * @return The horizontal alignment of the button.
+         */
         virtual const HorizontalAlign &getHorizontalAlign() const = 0;
 
-        /// @brief Get the vertical alignment of the text
-        /// @return The vertical alignment of the text
+        /**
+         * @brief Returns the vertical alignment of the button.
+         *
+         * @return The vertical alignment of the button.
+         */
         virtual const VerticalAlign &getVerticalAlign() const = 0;
 
-        /// @brief Get the callback of the button
-        /// @return The callback of the button
+        /**
+         * @brief Returns the callback function associated with the button.
+         *
+         * @return The callback function associated with the button.
+         */
         virtual const std::function<void()> &getCallback() const = 0;
 
-        /// @brief Get the cooldown of the button
-        /// @return The cooldown of the button
+        /**
+         * @brief Returns the cooldown of the button.
+         *
+         * @return const float& The cooldown of the button.
+         */
         virtual const float &getCooldown() const = 0;
 
-        /// @brief Get the state of the button
-        /// @return The state of the button
+        /**
+         * @brief Get the current state of the button.
+         *
+         * @return true if the button is currently pressed, false otherwise.
+         */
         virtual bool getState() const = 0;
 
-        /// @brief Set the state of the button
-        /// @param state The state wanted for the button
+        /**
+         * @brief Sets the state of the button.
+         *
+         * @param state The new state of the button.
+         */
         virtual void setState(bool state) = 0;
 
-        /// @brief Delete the button
-        /// @param button The button to delete
+        /**
+         * @brief Removes a button from the button container.
+         *
+         * @param button The button to remove.
+         */
         virtual void deleteButton(IButton &button) = 0;
 };
