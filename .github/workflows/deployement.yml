@@ -1,0 +1,175 @@
+name: CI
+env:
+  MIRROR_URL: git@github.com:EpitechPromo2026/B-CPP-500-NAN-5-1-rtype-louis.barreteau.git
+  SERVER_BINARY: "r-type_server"
+  CLIENT_BINARY: "r-type_client"
+  UNWANTED_FILES: '^(.*\/)*((.*\.(([ao])|(so)|(gcno)|(gcda)|(gcov)))|(^.*\~)|(.*\/tmp\/.+)|(#.*\#))$'
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    branches-ignore:
+      - 'ga-ignore-*'
+  push:
+    branches:
+      - main
+
+jobs:
+  check_repository_cleanliness:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - id: check_unwanted_files
+        name: Check unwanted files
+        run: |
+          echo "summary=| Check unwanted files " >> $GITHUB_OUTPUT
+          error=0
+          for file in $(git ls-files); do
+            if [[ $file =~ $UNWANTED_FILES ]]; then
+              echo "::error title=Unwanted file detected::File $file is not allowed in the repository."
+              error=1
+            fi
+          done
+          if [ $error -eq 1 ]; then
+            echo "result=| :x: |" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+
+  check_windows_compilation:
+    runs-on: windows-latest
+    needs: [check_repository_cleanliness]
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Configure project
+        run: |
+          cmake -B build
+      - name: Compile project
+        run: |
+          cmake --build build --target server client --config Release
+      - name: Check if binaries exist
+        run: |
+          test -f $SERVER_BINARY.exe
+          test -f $CLIENT_BINARY.exe
+
+
+  check_program_compilation_and_run_tests:
+    runs-on: ubuntu-latest
+    needs: [check_repository_cleanliness]
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - name: Cache pulled image
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-epitechcontent-epitest-docker
+      - name: Fetch repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install packages
+        run: |
+          dnf -y install libXcursor-devel
+          dnf -y install xxd
+          dnf -y install libXrandr-devel
+          dnf -y install Xvfb
+      - name: Compile project
+        run: |
+          mkdir build
+          cmake -B build
+          make server -C build -j$($(nproc))
+          make client -C build -j$($(nproc))
+      - name: Check if binaries exist
+        run: |
+          echo "summary=| Check if executables exist " >> $GITHUB_OUTPUT
+          if [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ] && [ -f $SERVER_BINARY ] && [ -x $SERVER_BINARY ] && [ -f $CLIENT_BINARY ] && [ -x $CLIENT_BINARY ]; then
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          else
+            echo "::error title=Executable not found::The executable $CLIENT_BINARY was not found."
+            echo "result=| :x: |" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Compile and run unit tests
+        run: |
+          export DISPLAY=:99
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          make tests_run -C build -j$($(nproc))
+          if [ $? -eq 0 ]; then
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          else
+            echo "::error title=Unit tests failed::The unit tests failed."
+            echo "result=| :x: |" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+      - id: run_functionals_tests
+        name: Run functionals tests
+        run: |
+          wget "https://github.com/Atomot/ftest/releases/download/v0.1.0/ftest" -O ftest
+          chmod +x ftest
+          echo "::add-path::$GITHUB_WORKSPACE/ftest"
+          echo "summary=| Run functionals tests " >> $GITHUB_OUTPUT
+          if [ -n "$(find "tests/server" -name '*.ftest.toml')" ]; then
+            $GITHUB_WORKSPACE/ftest tests/server
+            error=0
+            if [ $? -ne 0 ]; then
+              $error = 1
+            fi
+            if [ $error -eq 1 ]; then
+              echo "::error title=Functionals tests failed::The functionals tests failed."
+              echo "result=| :x: |" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          fi
+          if [ -n "$(find "tests/client" -name '*.ftest.toml')" ]; then
+            $GITHUB_WORKSPACE/ftest tests/client
+            error=0
+            if [ $? -ne 0 ]; then
+              $error = 1
+            fi
+            if [ $error -eq 1 ]; then
+              echo "::error title=Functionals tests failed::The functionals tests failed."
+              echo "result=| :x: |" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          fi
+          if [ -n "$(find "tests/ecs" -name '*.ftest.toml')" ]; then
+            $GITHUB_WORKSPACE/ftest tests/ecs
+            error=0
+            if [ $? -ne 0 ]; then
+              $error = 1
+            fi
+            if [ $error -eq 1 ]; then
+              echo "::error title=Functionals tests failed::The functionals tests failed."
+              echo "result=| :x: |" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
+          fi
+
+  push_to_mirror:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Push to mirror
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.SSH_KEY }}
