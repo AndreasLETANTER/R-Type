@@ -88,7 +88,7 @@ void EndlessMode::run()
             init();
             continue;
         }
-        if (registry.playersAreDead()) {
+        if (m_isAPlayerCreated && registry.playersAreDead()) {
             packet_t packet;
 
             packet.messageType = LOSE_CODE;
@@ -101,6 +101,7 @@ void EndlessMode::run()
             }
             if (received_packets[i].messageType == CLIENT_CLASS_CODE) {
                 create_player(150, 450, received_packets[i].input.id, received_packets[i].entityClass);
+                m_isAPlayerCreated = true;
             }
             if (received_packets[i].messageType == CLIENT_DISCONNECT_CODE) {
                 try { 

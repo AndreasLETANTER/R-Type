@@ -44,4 +44,5 @@ class EndlessMode : public AGameMode {
 
     protected:
     private:
+        bool m_isAPlayerCreated = false;
 };
