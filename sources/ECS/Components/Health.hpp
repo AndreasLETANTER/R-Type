@@ -13,13 +13,12 @@ namespace Component {
      */
     class Health {
         public:
-            /**
-             * @brief Default constructor for Health class.
-             */
             Health() = default;
-            int health; /**< The health of the entity. */
+            int health;
+
             /**
              * @brief Constructor for Health class.
+             *
              * @param health The health of the entity.
              */
             inline Health(int health) { this->health = health; }

@@ -28,6 +28,7 @@
  * @param tcpClient The TCP client socket used to receive packets.
  * @param registry The entity registry used to update the game state.
  * @param window The SFML window used to render the game.
+ * @param scoreButton The score button used to display the player's score.
  */
 static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket &tcpClient, Registry &registry, sf::RenderWindow *window, std::unique_ptr<IButton> &scoreButton)
 {

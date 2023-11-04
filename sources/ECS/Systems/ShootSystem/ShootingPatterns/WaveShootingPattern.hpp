@@ -21,6 +21,7 @@ class WaveShootingPattern : public AShootingPattern {
          * @param shoot The shoot component of the entity.
          * @param pos The position component of the entity.
          * @param window The render window to draw the object on.
+         * @param groupId The id of the group.
          */
         void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, sf::RenderWindow *window, unsigned int groupId) override;
 };

@@ -17,18 +17,20 @@
 #include "client/Buttons/CooldownButton/CooldownButton.hpp"
 #include "client/Buttons/Button/Button.hpp"
 
-/// @brief Factory to create buttons
+/**
+ * @brief Factory to create buttons
+ */
 class ButtonFactory {
     public:
-        /// @brief Constructor of ButtonFactory
         ButtonFactory() = default;
-
-        /// @brief Destructor of ButtonFactory
         ~ButtonFactory() = default;
 
-        /// @brief Create a button
-        /// @param buttonType Type of the button
-        /// @return A unique pointer on the button
+        /**
+         * @brief Create a button
+         *
+         * @param buttonType Type of the button
+         * @return A unique pointer on the button
+         */
         std::unique_ptr<IButton> createButton(const std::string &buttonType);
     private:
         std::unordered_map<std::string, std::function<std::unique_ptr<IButton>()>> m_buttonsType = {

@@ -14,18 +14,14 @@
  */
 class SpeedType : public APowerUpType {
     public:
-        /**
-         * @brief Default destructor for SpeedType.
-         */
         ~SpeedType() = default;
+
         /**
          * @brief Updates the speed of the entity by a given amount.
-         * 
+         *
          * @param registry The registry containing the entity.
          * @param entityclasses The entity class component of the entity.
          * @param stat The amount to increase the speed by.
          */
         void update(Registry &registry, Component::EntityClass &entityclasses, int stat) override;
-    protected:
-    private:
 };

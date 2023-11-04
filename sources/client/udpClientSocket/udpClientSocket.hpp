@@ -25,15 +25,11 @@ class udpClientSocket {
     public:
         /**
          * @brief Construct a new udpClientSocket object with the specified UDP port.
-         * 
+         *
          * @param t_udpPort The UDP port to use.
          * @param t_ip The IP address to use.
          */
         udpClientSocket(unsigned int t_udpPort, ip::address t_ip);
-
-        /**
-         * @brief Destroy the udpClientSocket object.
-         */
         ~udpClientSocket();
 
         /**
@@ -43,7 +39,7 @@ class udpClientSocket {
 
         /**
          * @brief Send a message through the UDP client socket.
-         * 
+         *
          * @param t_message The message to send.
          * @return true If the message was sent successfully.
          */
@@ -51,31 +47,28 @@ class udpClientSocket {
 
         /**
          * @brief Returns the packet queue of the UDP client socket.
-         * 
+         *
          * @return std::vector<packet_t> The packet queue of the UDP client socket.
          */
         std::vector<packet_t> get_packet_queue();
 
         /**
          * @brief Receive a message through the UDP client socket.
-         * 
+         *
          * @return true If the message was received successfully.
          */
         void receive();
 
         /**
          * @brief Clears the packet queue.
-         * 
-         * This function removes all packets from the queue, freeing up memory and ensuring
-         * that the queue is empty.
          */
         void clear_packet_queue();
 
     private:
-        io_service m_ioService; /**< The boost io_service object. */
-        ip::udp::socket m_socket; /**< The boost UDP socket object. */
-        ip::udp::endpoint m_endpoint; /**< The boost UDP endpoint object. */
-        size_t m_udpPort; /**< The UDP port to use. */
+        io_service m_ioService;
+        ip::udp::socket m_socket;
+        ip::udp::endpoint m_endpoint;
+        size_t m_udpPort;
         std::vector<packet_t> m_packet_queue;
         streambuf m_readBuffer;
         std::istream m_iStream;

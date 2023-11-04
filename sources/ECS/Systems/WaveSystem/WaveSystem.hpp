@@ -26,6 +26,12 @@ class WaveSystem {
     public:
         WaveSystem() = default;
         ~WaveSystem() = default;
+
+        /**
+         * @brief Executes the WaveSystem on the given registry.
+         *
+         * @param registry The registry to execute the WaveSystem on.
+         * @return WaveSystem The updated WaveSystem.
+         */
         WaveSystem operator()(Registry &registry);
-    private:
 };

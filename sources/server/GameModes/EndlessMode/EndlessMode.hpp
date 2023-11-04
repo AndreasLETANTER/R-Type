@@ -14,35 +14,28 @@
 
 /**
  * @brief EndlessMode class, a derived class of AGameMode.
- * 
  */
 class EndlessMode : public AGameMode {
     public:
         /**
          * @brief Construct a new Endless Mode object
-         * 
          */
         using AGameMode::AGameMode;
 
         /**
          * @brief Destroy the Endless Mode object
-         * 
          */
         ~EndlessMode() = default;
 
         /**
          * @brief Initialize the Endless Mode object
-         * 
          */
         void init() override;
 
         /**
          * @brief Run the Endless Mode object
-         * 
          */
         void run() override;
-
-    protected:
     private:
         bool m_isAPlayerCreated = false;
 };

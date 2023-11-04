@@ -18,12 +18,12 @@ namespace Component {
      */
     class Collision {
         public:
-            std::vector<Entity> entities_in_collision; /**< List of entities that are currently colliding with this collision box. */
-            int height; /**< Height of the collision box. */
-            int width; /**< Width of the collision box. */
+            std::vector<Entity> entities_in_collision;
+            int height;
+            int width;
             /**
              * @brief Construct a new Collision object with the given height and width.
-             * 
+             *
              * @param height Height of the collision box.
              * @param width Width of the collision box.
              */

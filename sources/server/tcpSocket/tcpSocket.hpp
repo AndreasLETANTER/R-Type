@@ -26,15 +26,12 @@ class tcpSocket {
     public:
         /**
          * @brief Construct a new tcpSocket object with the specified TCP port number.
-         * 
+         *
          * @param t_tcpPort The TCP port number.
          * @param t_ip The IP address to use.
          */
         tcpSocket(unsigned int t_tcpPort, boost::asio::ip::address t_ip);
 
-        /**
-         * @brief Destroy the tcpSocket object.
-         */
         ~tcpSocket();
 
         /**
@@ -49,14 +46,14 @@ class tcpSocket {
 
         /**
          * @brief Remove a client from the map of connected clients.
-         * 
+         *
          * @param clientId The ID of the client to remove.
          */
         void removeClient(int clientId);
 
         /**
          * @brief Handle the read operation for a client.
-         * 
+         *
          * @param clientId The ID of the client.
          * @param bytesTransferred The number of bytes transferred.
          */
@@ -64,14 +61,14 @@ class tcpSocket {
 
         /**
          * @brief Start reading data from a client.
-         * 
+         *
          * @param clientId The ID of the client.
          */
         void startRead(int clientId);
 
         /**
          * @brief Send a message to a client.
-         * 
+         *
          * @param clientId The ID of the client.
          * @param message The message to send.
          */
@@ -79,30 +76,30 @@ class tcpSocket {
 
         /**
          * @brief Returns the number of clients currently connected to the TCP socket.
-         * 
+         *
          * @return unsigned int The number of clients currently connected to the TCP socket.
          */
         unsigned int getNbClients() const {return m_clients->size();};
 
         /**
          * @brief Sets the value of m_isNewClient to the given boolean value.
-         * 
+         *
          * @param t_isNewClient The boolean value to set m_isNewClient to.
          */
         void setNewClient(bool t_isNewClient) {m_isNewClient = t_isNewClient;};
 
         /**
          * @brief Check if the socket is a new client.
-         * 
+         *
          * @return true if the socket is a new client, false otherwise.
          */
         bool isNewClient() const {return m_isNewClient;};
     private:
-        bool m_isNewClient = false; /**< Whether a new client has connected. */
-        io_service m_ioService; /**< The boost asio io service object. */
-        ip::tcp::acceptor m_tcpAcceptor; /**< The boost asio TCP acceptor object. */
-        ip::tcp::socket m_socket; /**< The boost asio TCP socket object. */
-        std::shared_ptr<std::map<int, ip::tcp::socket>> m_clients; /**< The map of connected clients. */
-        std::array<char, UDP_PACKET_SIZE> m_readBuffer; /**< The buffer used to read data from the socket. */
-        std::thread m_ioServiceThread; /**< The thread used to run the io service object. */
+        bool m_isNewClient = false;
+        io_service m_ioService;
+        ip::tcp::acceptor m_tcpAcceptor;
+        ip::tcp::socket m_socket;
+        std::shared_ptr<std::map<int, ip::tcp::socket>> m_clients;
+        std::array<char, UDP_PACKET_SIZE> m_readBuffer;
+        std::thread m_ioServiceThread;
 };
