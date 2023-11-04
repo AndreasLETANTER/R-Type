@@ -22,14 +22,7 @@
  */
 class ButtonFactory {
     public:
-        /**
-         * @brief Constructor of ButtonFactory
-         */
         ButtonFactory() = default;
-
-        /**
-         * @brief Destructor of ButtonFactory
-         */
         ~ButtonFactory() = default;
 
         /**

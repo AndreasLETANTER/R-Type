@@ -30,10 +30,6 @@ class udpClientSocket {
          * @param t_ip The IP address to use.
          */
         udpClientSocket(unsigned int t_udpPort, ip::address t_ip);
-
-        /**
-         * @brief Destroy the udpClientSocket object.
-         */
         ~udpClientSocket();
 
         /**
@@ -69,10 +65,10 @@ class udpClientSocket {
         void clear_packet_queue();
 
     private:
-        io_service m_ioService; /**< The boost io_service object. */
-        ip::udp::socket m_socket; /**< The boost UDP socket object. */
-        ip::udp::endpoint m_endpoint; /**< The boost UDP endpoint object. */
-        size_t m_udpPort; /**< The UDP port to use. */
+        io_service m_ioService;
+        ip::udp::socket m_socket;
+        ip::udp::endpoint m_endpoint;
+        size_t m_udpPort;
         std::vector<packet_t> m_packet_queue;
         streambuf m_readBuffer;
         std::istream m_iStream;

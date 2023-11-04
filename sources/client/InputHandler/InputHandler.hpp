@@ -17,12 +17,10 @@ class InputHandler {
     public:
         /**
          * @brief Constructor of InputHandler
+         *
+         * @param t_player_id The id of the player
          */
         InputHandler(unsigned int t_player_id);
-
-        /**
-         * @brief Destructor of InputHandler
-         */
         ~InputHandler() = default;
 
         /**

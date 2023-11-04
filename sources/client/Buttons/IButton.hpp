@@ -15,17 +15,11 @@
  */
 class IButton {
     public:
-        /**
-         * @brief Enum to set the horizontal alignment of the text
-         */
         enum HorizontalAlign {
             LEFT,
             CENTER,
             RIGHT
         };
-        /**
-         * @brief Enum to set the vertical alignment of the text
-         */
         enum VerticalAlign {
             TOP,
             MIDDLE,
