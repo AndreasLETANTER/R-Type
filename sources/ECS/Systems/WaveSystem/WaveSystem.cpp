@@ -17,6 +17,10 @@ WaveSystem WaveSystem::operator()(Registry &registry)
     m_enemy_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::MOB_BLUE_D));
     m_boss_vector.push_back(Component::EntityClassFactory::CreateEntityClass(EntityClasses::FIRST_BOSS));
     static unsigned int current_wave_index = 1;
+
+    if (registry.getNeedToRestart()) {
+        current_wave_index = 1;
+    }
     unsigned int nb_enemies_for_wave = rand() % 3 + current_wave_index + current_wave_index;
 
     if (registry.enemiesAreDead()) {

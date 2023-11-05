@@ -20,10 +20,11 @@ class CooldownButton: public AButton {
          * @param window The SFML window to render the button on.
          */
         void update(sf::RenderWindow &window) override;
+        IButton &setTextString(const std::string &text) override;
     private:
         sf::Clock m_clock;
         bool m_isCooldownPassed = false;
-        float m_timeLeft = 0;
+        float m_timeLeft = 0.0f;
         bool m_buttonWasClicked = false;
 };
 

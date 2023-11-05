@@ -21,7 +21,7 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
     double buttonHeight = windowSize.y / buttonHeightRatio;
     double xPos = (windowSize.x - buttonWidth) / 2;
     double yPos = (windowSize.y - (2 * buttonHeight)) / 2;
-    
+
     m_font = m_assets.get_font("font.ttf");
     restartButton
         ->setButtonPosition(sf::Vector2f(xPos, yPos))
@@ -31,22 +31,23 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
         .setButtonOutlineThickness(5)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
+        .setCooldown(5)
         .setTextString("Restart (5)")
         .setTextSize(window.getSize(), textRatio)
         .setTextFont(m_font)
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::Green)
-        .setCooldown(5)
         .setCallback([this]() {
-            input_t input = {m_tcpClient.getId(), sf::Keyboard::R, false};
+            client_packet_t packet;
 
-            m_udpClient.send(binaryConverter().convertInputToBinary(input));
+            packet.messageType = RESTART_CODE;
+
+            m_udpClient.send(binaryConverter().convertInputToBinary(packet));
             m_isCallbackCalled = true;
         });
     m_buttons.push_back(std::move(restartButton));
     this->resize();
-    
 }
 
 void RestartMenu::draw()

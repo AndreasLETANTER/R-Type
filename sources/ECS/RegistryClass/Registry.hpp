@@ -43,6 +43,9 @@ enum EntityClasses {
 #define ENTITY_SPAWN_CODE 103
 #define ENTITY_MOVE_CODE 104
 #define ENTITY_SCORE_CODE 105
+#define LOSE_CODE 106
+#define WIN_CODE 107
+#define RESTART_CODE 108
 
 #define CLIENT_CLASS_CODE 200
 #define CLIENT_INPUT_CODE 201
@@ -346,6 +349,27 @@ class Registry {
          */
         void setClock(sf::Clock *clock);
 
+        void setNeedToRestart(bool needToRestart);
+
+        bool getNeedToRestart() const;
+
+        SparseArray<std::pair<Entity, unsigned int>> &getEntities();
+
+        /**
+         * @brief Add a player class to the list.
+         *
+         * @param id The id of the player.
+         * @param entityClass The class of the player.
+         */
+        void addPlayerClass(unsigned int id, EntityClasses entityClass);
+
+        /**
+         * @brief Get the player class of a player by his id.
+         *
+         * @param id The id of the player.
+         * @return The class of the player.
+         */
+        EntityClasses getPlayerClass(unsigned int id);
     private:
         std::unordered_map<std::type_index, std::any> m_components;
         std::unordered_map<std::type_index, erase_function> m_erase_functions;
@@ -358,6 +382,8 @@ class Registry {
         sf::RenderWindow *m_window;
         sf::Clock *m_clock;
         Assets m_assets;
+        bool m_needToRestart = false;
+        std::map<unsigned int, EntityClasses> m_playersClasses;
 };
 
 #include "ECS/RegistryClass/Registry.tpp"
