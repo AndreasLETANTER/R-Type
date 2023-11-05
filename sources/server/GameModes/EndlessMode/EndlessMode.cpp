@@ -85,8 +85,12 @@ void EndlessMode::run()
         }
         registry.run_systems();
         if (registry.getNeedToRestart()) {
+            packet_t packet;
             registry = Registry();
             init();
+
+            packet.messageType = RESTART_CODE;
+            udpServer->send(converter.convertStructToBinary(packet));
         }
         if (m_isAPlayerCreated && registry.playersAreDead()) {
             packet_t packet;
