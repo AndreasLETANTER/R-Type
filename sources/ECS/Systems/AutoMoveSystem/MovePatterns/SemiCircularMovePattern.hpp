@@ -11,7 +11,7 @@
 
 class SemiCircularMovePattern : public AMovePattern {
     public:
-        SemiCircularMovePattern(std::optional<Component::Position> entityPos, std::optional<Component::AutoMove> &amv);
+        SemiCircularMovePattern(std::optional<Component::AutoMove> &amv);
         ~SemiCircularMovePattern() = default;
         void setDiameter(double diameter);
         double getDiameter();

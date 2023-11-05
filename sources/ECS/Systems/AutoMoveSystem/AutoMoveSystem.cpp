@@ -16,7 +16,7 @@ AutoMoveSystem AutoMoveSystem::operator()(Registry &registry, SparseArray<Compon
         auto &amv = autoMoves[i];
         auto &pos = positions[i];
         if (amv.has_value() && pos.has_value()) {
-            auto movePattern = SemiCircularMovePattern(pos, amv);
+            auto movePattern = SemiCircularMovePattern(amv);
             movePattern.move(pos.value(), amv.value());
         }
     }

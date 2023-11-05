@@ -8,7 +8,7 @@
 #include "SemiCircularMovePattern.hpp"
 #include <iostream>
 
-SemiCircularMovePattern::SemiCircularMovePattern(std::optional<Component::Position> entityPos, std::optional<Component::AutoMove> &amv)
+SemiCircularMovePattern::SemiCircularMovePattern(std::optional<Component::AutoMove> &amv)
 {
     this->circleCount = amv.value().circleCount;
     setDiameter(getDistancetoTravel(amv.value().start, amv.value().end) / this->circleCount);
