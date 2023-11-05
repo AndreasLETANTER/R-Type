@@ -58,6 +58,8 @@ set (ECS_SOURCES
     sources/ECS/EntityClass/Entity.cpp
     sources/ECS/RegistryClass/Registry.cpp
     sources/ECS/Systems/AutoMoveSystem/AutoMoveSystem.cpp
+    sources/ECS/Systems/AutoMoveSystem/MovePatterns/AMovePattern.cpp
+    sources/ECS/Systems/AutoMoveSystem/MovePatterns/SemiCircularMovePattern.cpp
     sources/ECS/Systems/ControlSystem/ControlSystem.cpp
     sources/ECS/Systems/DrawSystem/DrawSystem.cpp
     sources/ECS/Systems/LoggingSystem/LoggingSystem.cpp
