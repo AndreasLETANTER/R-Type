@@ -16,23 +16,8 @@ AutoMoveSystem AutoMoveSystem::operator()(Registry &registry, SparseArray<Compon
         auto &amv = autoMoves[i];
         auto &pos = positions[i];
         if (amv.has_value() && pos.has_value()) {
-            //int dx = amv.value().end.x - pos.value().x;
-            //int dy = amv.value().end.y - pos.value().y;
-            //std::cout << "i: " << i << std::endl;
-            //std::cout << "dx: " << dx << std::endl;
-            //std::cout << "dy: " << dy << std::endl;
-            std::cout << "x pos: " << pos.value().x << std::endl;
-            std::cout << "y pos: " << pos.value().y << std::endl;
-            auto movePattern = SemiCircularMovePattern(M_PI, 0.0f, pos, amv);
+            auto movePattern = SemiCircularMovePattern(pos, amv);
             movePattern.move(pos.value(), amv.value());
-            std::cout << "new x pos: " << pos.value().x << std::endl;
-            std::cout << "new y pos: " << pos.value().y << std::endl;
-            //while(true) {}
-            /* if (dx == 0 && dy == 0) {
-                Component::Position tmp = amv.value().end;
-                amv.value().end = amv.value().start;
-                amv.value().start = tmp;
-            } */
         }
     }
     return *this;
