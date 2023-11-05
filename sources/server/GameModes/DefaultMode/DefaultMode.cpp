@@ -86,15 +86,28 @@ void DefaultMode::run()
             lastUpdate = clock.getElapsedTime();
         }
         registry.run_systems();
-        if (registry.getNeedToRestart()) {
-            registry = Registry();
-            init();
-        }
         if (m_isAPlayerCreated && registry.playersAreDead()) {
             packet_t packet;
 
             packet.messageType = LOSE_CODE;
             udpServer->send(converter.convertStructToBinary(packet));
+            registry = Registry();
+            init();
+        }
+        if (registry.enemiesAreDead()) {
+            packet_t packet;
+
+            packet.messageType = WIN_CODE;
+            udpServer->send(converter.convertStructToBinary(packet));
+            m_currentLevel++;
+            if (m_currentLevel == m_filePath.size()) {
+                packet.messageType = END_CODE;
+
+                udpServer->send(converter.convertStructToBinary(packet));
+            } else {
+                registry = Registry();
+                init();
+            }
         }
         std::vector<client_packet_t> received_packets = udpServer->get_packet_queue();
         for (unsigned int i = 0; i < received_packets.size(); i++) {
@@ -106,7 +119,7 @@ void DefaultMode::run()
                 m_isAPlayerCreated = true;
             }
             if (received_packets[i].messageType == CLIENT_DISCONNECT_CODE) {
-                try { 
+                try {
                     auto entity = registry.player_from_id(received_packets[i].input.id);
                     registry.kill_entity(entity);
                 } catch (std::exception &e) {
@@ -115,10 +128,6 @@ void DefaultMode::run()
             }
             if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
                 registry.updateEntityKeyPressed(received_packets[i].input);
-            }
-            if (received_packets[i].messageType == RESTART_CODE) {
-                registry.setNeedToRestart(true);
-                continue;
             }
         }
         if (received_packets.size() > 0) {

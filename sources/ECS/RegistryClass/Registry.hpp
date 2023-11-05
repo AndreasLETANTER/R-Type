@@ -46,6 +46,7 @@ enum EntityClasses {
 #define LOSE_CODE 106
 #define WIN_CODE 107
 #define RESTART_CODE 108
+#define END_CODE 109
 
 #define CLIENT_CLASS_CODE 200
 #define CLIENT_INPUT_CODE 201
