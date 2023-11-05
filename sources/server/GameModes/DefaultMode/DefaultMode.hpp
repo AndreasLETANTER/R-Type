@@ -9,6 +9,8 @@
 
 #include "server/GameModes/AGameMode/AGameMode.hpp"
 #include "../../../../build/assets/Level1Config.hpp"
+#include "../../../../build/assets/Level2Config.hpp"
+#include "../../../../build/assets/Level3Config.hpp"
 
 /**
  * @brief Default game mode class that inherits from AGameMode.
@@ -29,6 +31,6 @@ class DefaultMode : public AGameMode {
         void run() override;
     private:
         bool m_isAPlayerCreated = false;
-        std::vector<std::string> m_filePath = {Level1Config};
+        std::vector<std::string> m_filePath = {Level1Config, Level2Config, Level3Config};
         unsigned int m_currentLevel = 0;
 };
