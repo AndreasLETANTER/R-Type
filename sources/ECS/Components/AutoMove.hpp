@@ -19,6 +19,7 @@ namespace Component {
             Component::Position end; /**< The ending position of the entity. */
             double circleCount; /**< The amount of circles to be browsed by the entity*/
             double browsedDistance; /**< The distance browsed by the entity*/
+            double speed; /**< The movement speed of the entity*/
             int shapeIndex; /**< The index of the shape to be browsed by the entity*/
             bool isEntityMovingForward; /**< The direction of the entity*/
             bool isEntityMoving; /**< The direction of the entity*/
@@ -29,6 +30,6 @@ namespace Component {
              * @param start The starting position of the entity.
              * @param end The ending position of the entity.
              */
-            inline AutoMove(Component::Position start, Component::Position end, double circleCount, sf::Clock *clock) { this->start = start; this->end = end; this->circleCount = circleCount; this->browsedDistance = 0.0f; this->shapeIndex = 0; this->isEntityMovingForward = true; this->isEntityMoving = false; this->clock = clock; this->lastMove = this->clock->getElapsedTime(); };
+            inline AutoMove(Component::Position start, Component::Position end, double circleCount, double speed, sf::Clock *clock) { this->start = start; this->end = end; this->circleCount = circleCount; this->speed = speed; this->browsedDistance = 0.0f; this->shapeIndex = 0; this->isEntityMovingForward = true; this->isEntityMoving = false; this->clock = clock; this->lastMove = this->clock->getElapsedTime(); };
     };
 }
