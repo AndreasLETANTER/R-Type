@@ -8,12 +8,12 @@
 #include "client/EndMenu/EndMenu.hpp"
 #include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
 
-EndMenu::EndMenu(sf::RenderWindow &window)
+EndMenu::EndMenu(sf::RenderWindow *window)
     : m_window(window)
 {
     ButtonFactory buttonFactory;
     std::unique_ptr<IButton> winButton = buttonFactory.createButton("Default");
-    sf::Vector2u windowSize = m_window.getSize();
+    sf::Vector2u windowSize = m_window->getSize();
     double buttonWidthRatio = 5;
     double buttonHeightRatio = 10;
     double textRatio = 15;
@@ -25,14 +25,14 @@ EndMenu::EndMenu(sf::RenderWindow &window)
     m_font = m_assets.get_font("font.ttf");
     winButton
         ->setButtonPosition(sf::Vector2f(xPos, yPos))
-        .setButtonSize(window.getSize(), sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
+        .setButtonSize(window->getSize(), sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
         .setButtonOutlineColor(sf::Color::Transparent)
         .setButtonOutlineThickness(5)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Transparent)
         .setTextString("You Win!")
-        .setTextSize(window.getSize(), textRatio)
+        .setTextSize(window->getSize(), textRatio)
         .setTextFont(m_font)
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
         .setTextColor(sf::Color::White)
@@ -59,7 +59,7 @@ void EndMenu::update()
 
 void EndMenu::resize()
 {
-    sf::Vector2u windowSize = m_window.getSize();
+    sf::Vector2u windowSize = m_window->getSize();
     double buttonWidthRatio = 5;
     double buttonHeightRatio = 10;
     double textRatio = 15;
