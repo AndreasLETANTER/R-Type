@@ -35,12 +35,12 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
     binaryConverter converter;
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
-        if (packets[i].messageType == LOSE_CODE) {
+        if (packets[i].messageType == LOSE_CODE || packets[i].messageType == WIN_CODE) {
             unsigned int playerId = tcpClient.getId();
             EntityClasses playerClass = registry.getPlayerClass(playerId);
             SparseArray<Component::Drawable> &drawables = registry.get_components<Component::Drawable>();
             SparseArray<std::pair<Entity, unsigned int>> &entities = registry.getEntities();
-            RestartMenu restartMenu(*window, tcpClient, udpClient);
+            RestartMenu restartMenu(*window, tcpClient, udpClient, packets[i].messageType == WIN_CODE);
 
             for (unsigned int i = 0; i < drawables.size(); i++) {
                 if (drawables[i].has_value() && !drawables[i].value().isBackground) {

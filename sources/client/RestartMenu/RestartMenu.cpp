@@ -8,13 +8,16 @@
 #include "client/RestartMenu/RestartMenu.hpp"
 #include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
 
-RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, udpClientSocket &udpClient)
-    : m_window(window), m_tcpClient(tcpClient), m_udpClient(udpClient)
+RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, udpClientSocket &udpClient, bool isWin)
+    : m_window(window),
+    m_tcpClient(tcpClient),
+    m_udpClient(udpClient),
+    m_isWin(isWin)
 {
     ButtonFactory buttonFactory;
     std::unique_ptr<IButton> restartButton = buttonFactory.createButton("Cooldown");
     sf::Vector2u windowSize = m_window.getSize();
-    double buttonWidthRatio = 5;
+    double buttonWidthRatio = m_isWin ? 3.5 : 5;
     double buttonHeightRatio = 10;
     double textRatio = 15;
     double buttonWidth = windowSize.x / buttonWidthRatio;
@@ -32,7 +35,7 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
         .setCooldown(5)
-        .setTextString("Restart (5)")
+        .setTextString(m_isWin ? "Next Level (5)" : "Retry (5)")
         .setTextSize(window.getSize(), textRatio)
         .setTextFont(m_font)
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
@@ -65,7 +68,7 @@ void RestartMenu::update()
 void RestartMenu::resize()
 {
     sf::Vector2u windowSize = m_window.getSize();
-    double buttonWidthRatio = 5;
+    double buttonWidthRatio = m_isWin ? 3.5 : 5;
     double buttonHeightRatio = 10;
     double textRatio = 15;
     double buttonWidth = windowSize.x / buttonWidthRatio;
