@@ -7,9 +7,11 @@
 
 #include "client/EndMenu/EndMenu.hpp"
 #include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 
-EndMenu::EndMenu(sf::RenderWindow &window)
-    : m_window(window)
+EndMenu::EndMenu(sf::RenderWindow &window, udpClientSocket &udpClient)
+    : m_window(window),
+    m_udpClient(udpClient)
 {
     ButtonFactory buttonFactory;
     std::unique_ptr<IButton> winButton = buttonFactory.createButton("Default");
@@ -37,9 +39,36 @@ EndMenu::EndMenu(sf::RenderWindow &window)
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
         .setTextColor(sf::Color::White)
         .setTextHoverColor(sf::Color::White)
-        .setCallback([]() {
+        .setCallback([this]() {
+
         });
     m_buttons.push_back(std::move(winButton));
+
+    yPos += buttonHeight;
+    std::unique_ptr<IButton> playAgainButton = buttonFactory.createButton("OneUse");
+    playAgainButton
+        ->setButtonPosition(sf::Vector2f(xPos, yPos))
+        .setButtonSize(window.getSize(), sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::Green)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Green)
+        .setTextString("Play Again")
+        .setTextSize(window.getSize(), textRatio)
+        .setTextFont(m_font)
+        .setTextPosition(IButton::CENTER, IButton::MIDDLE)
+        .setTextColor(sf::Color::White)
+        .setTextHoverColor(sf::Color::Green)
+        .setCallback([this]() {
+            client_packet_t packet;
+
+            packet.messageType = RESTART_CODE;
+
+            m_udpClient.send(binaryConverter().convertInputToBinary(packet));
+            m_wantToPlayAgain = true;
+        });
+    m_buttons.push_back(std::move(playAgainButton));
     this->resize();
 }
 
@@ -69,5 +98,8 @@ void EndMenu::resize()
     double yPos = (windowSize.y - (2 * buttonHeight)) / 2;
 
     m_buttons[0]->resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
+        sf::Vector2f(xPos, yPos), textRatio);
+    yPos += buttonHeight;
+    m_buttons[1]->resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);
 }
