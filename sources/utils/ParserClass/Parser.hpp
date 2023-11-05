@@ -43,7 +43,7 @@ class Parser {
          * @param clock The clock to use for parsing.
          * @param filesContents A vector of file content to parse.
          */
-        Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesContents);
+        Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::string filePath);
 
         /**
          * @brief Default destructor for Parser class.
@@ -69,6 +69,7 @@ class Parser {
         sf::Clock &m_clock;
         std::vector<std::string> m_filesContents;
         levelParams m_levelParams;
+        std::string m_filePath;
 
         /**
          * @brief Loads level parameters from the loaded game data and stores them in the given registry.

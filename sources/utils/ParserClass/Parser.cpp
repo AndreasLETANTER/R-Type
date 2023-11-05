@@ -32,36 +32,35 @@ std::map<std::string, EntityClasses> entityClassesMap = {
     {"MOB_BLUE_D", EntityClasses::MOB_BLUE_D}
 };
 
-Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesContents) :
+Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::string filePath) :
     m_registry(registry),
     m_window(window),
     m_clock(clock),
-    m_filesContents(filesContents)
+    m_filePath(filePath)
 {}
 
 void Parser::loadFromFile()
 {
-    for (auto &filePath : m_filesContents) {
-        try {
-            m_config.readString(filePath.c_str());
-            loadLevelParams();
-            loadBackgrounds();
-            loadObstacles();
-            loadEnemies();
-        } catch (const libconfig::FileIOException &fioex) {
-            std::cerr << "I/O error while reading the configuration file." << std::endl;
-        } catch (const libconfig::ParseException &pex) {
-            std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError() << std::endl;
-        } catch (const libconfig::SettingNotFoundException &nfex) {
-            std::cerr << "Setting not found in configuration file." << std::endl;
-        } catch (const libconfig::SettingTypeException &tex) {
-            std::cerr << "Setting type mismatch in configuration file." << std::endl;
-        } catch (const libconfig::SettingException &ex) {
-            std::cerr << "Setting exception in configuration file." << std::endl;
-        } catch (const libconfig::ConfigException &ex) {
-            std::cerr << "Config exception in configuration file." << std::endl;
-        }
+    try {
+        m_config.readString(m_filePath.c_str());
+        loadLevelParams();
+        loadBackgrounds();
+        loadObstacles();
+        loadEnemies();
+    } catch (const libconfig::FileIOException &fioex) {
+        std::cerr << "I/O error while reading the configuration file." << std::endl;
+    } catch (const libconfig::ParseException &pex) {
+        std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError() << std::endl;
+    } catch (const libconfig::SettingNotFoundException &nfex) {
+        std::cerr << "Setting not found in configuration file." << std::endl;
+    } catch (const libconfig::SettingTypeException &tex) {
+        std::cerr << "Setting type mismatch in configuration file." << std::endl;
+    } catch (const libconfig::SettingException &ex) {
+        std::cerr << "Setting exception in configuration file." << std::endl;
+    } catch (const libconfig::ConfigException &ex) {
+        std::cerr << "Config exception in configuration file." << std::endl;
     }
+
 }
 
 void Parser::loadLevelParams()

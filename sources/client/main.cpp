@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
+#include "client/EndingMenu/EndingMenu.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
@@ -34,13 +35,64 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
 {
     binaryConverter converter;
     std::vector<packet_t> packets = udpClient.get_packet_queue();
+
     for (unsigned int i = 0; i < packets.size(); i++) {
-        if (packets[i].messageType == LOSE_CODE) {
+        if (packets[i].messageType == END_CODE) {
             unsigned int playerId = tcpClient.getId();
             EntityClasses playerClass = registry.getPlayerClass(playerId);
             SparseArray<Component::Drawable> &drawables = registry.get_components<Component::Drawable>();
             SparseArray<std::pair<Entity, unsigned int>> &entities = registry.getEntities();
-            RestartMenu restartMenu(*window, tcpClient, udpClient);
+            EndingMenu menu(*window, udpClient);
+            bool restart = false;
+
+            for (unsigned int i = 0; i < drawables.size(); i++) {
+                if (drawables[i].has_value() && !drawables[i].value().isBackground) {
+                    registry.kill_entity(entities[i].value().first);
+                }
+            }
+            while (window->isOpen() && !menu.wantToPlayAgain()) {
+                packets = udpClient.get_packet_queue();
+                for (unsigned int i = 0; i < packets.size(); i++) {
+                    if (packets[i].messageType == RESTART_CODE) {
+                        restart = true;
+                        break;
+                    }
+                }
+                for (auto event = sf::Event{}; window->pollEvent(event);) {
+                    if (event.type == sf::Event::Closed) {
+                        window->close();
+                        exit(0);
+                    }
+                }
+                if (restart) {
+                    window->clear();
+                    registry.run_systems();
+                    window->display();
+                    break;
+                }
+                window->clear();
+                registry.run_systems();
+                menu.update();
+                menu.draw();
+                window->display();
+            }
+            for (auto entity : entities) {
+                if (entity.has_value())
+                    registry.kill_entity(entity.value().first);
+            }
+            if (restart) {
+                udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, playerClass, input_t{playerId, sf::Keyboard::Unknown, false}}));
+                udpClient.clear_packet_queue();
+                break;
+            }
+        }
+        if (packets[i].messageType == LOSE_CODE || packets[i].messageType == WIN_CODE) {
+            unsigned int playerId = tcpClient.getId();
+            EntityClasses playerClass = registry.getPlayerClass(playerId);
+            SparseArray<Component::Drawable> &drawables = registry.get_components<Component::Drawable>();
+            SparseArray<std::pair<Entity, unsigned int>> &entities = registry.getEntities();
+            RestartMenu restartMenu(*window, tcpClient, udpClient, packets[i].messageType == WIN_CODE);
+            bool restart = false;
 
             for (unsigned int i = 0; i < drawables.size(); i++) {
                 if (drawables[i].has_value() && !drawables[i].value().isBackground) {
@@ -48,6 +100,19 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
                 }
             }
             while (window->isOpen() && !restartMenu.isCallbackCalled()) {
+                packets = udpClient.get_packet_queue();
+                for (unsigned int i = 0; i < packets.size(); i++) {
+                    if (packets[i].messageType == RESTART_CODE) {
+                        restart = true;
+                        break;
+                    }
+                }
+                if (restart) {
+                    window->clear();
+                    registry.run_systems();
+                    window->display();
+                    break;
+                }
                 for (auto event = sf::Event{}; window->pollEvent(event);) {
                     if (event.type == sf::Event::Closed) {
                         window->close();
@@ -67,7 +132,11 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
             window->clear();
             registry.run_systems();
             window->display();
-            udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, playerClass, input_t{playerId, sf::Keyboard::Unknown, false}}));
+            if (restart) {
+                udpClient.send(converter.convertInputToBinary(client_packet_t{CLIENT_CLASS_CODE, playerClass, input_t{playerId, sf::Keyboard::Unknown, false}}));
+                udpClient.clear_packet_queue();
+                break;
+            }
         }
         if (packets[i].messageType == NO_MORE_GAME_INFO_CODE) {
             continue;

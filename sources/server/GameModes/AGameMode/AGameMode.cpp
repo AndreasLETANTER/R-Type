@@ -23,7 +23,7 @@
 
 AGameMode::AGameMode(const char **av, int ac, bool isMultiplayer) : handleArgument()
 {
-    if (ac != 4) {
+    if (ac != 5) {
         throw std::runtime_error("AGameMode: Invalid number of arguments");
     }
     try {

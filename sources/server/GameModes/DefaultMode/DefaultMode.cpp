@@ -24,16 +24,13 @@
 #include "ECS/Systems/PowerUpSystem/PowerUpSystem.hpp"
 #include "ECS/Systems/EntityClassSystem/EntityClassSystem.hpp"
 
-#include "../../../../build/assets/Level1Config.hpp"
-
 #include "utils/ParserClass/Parser.hpp"
 
 #include <iostream>
 
 void DefaultMode::init()
 {
-    std::vector<std::string> filePath = {Level1Config};
-    Parser parser(registry, window, clock, filePath);
+    Parser parser(registry, window, clock, m_filePath[m_currentLevel]);
 
     registry.setClock(&clock);
     registry.setWindow(&window);
@@ -87,13 +84,29 @@ void DefaultMode::run()
         }
         registry.run_systems();
         if (registry.getNeedToRestart()) {
+            packet_t packet;
             registry = Registry();
             init();
+
+            packet.messageType = RESTART_CODE;
+            udpServer->send(converter.convertStructToBinary(packet));
         }
         if (m_isAPlayerCreated && registry.playersAreDead()) {
             packet_t packet;
 
             packet.messageType = LOSE_CODE;
+            udpServer->send(converter.convertStructToBinary(packet));
+        }
+        if (registry.enemiesAreDead()) {
+            packet_t packet;
+
+            m_currentLevel++;
+            if (m_currentLevel == m_filePath.size()) {
+                packet.messageType = END_CODE;
+                m_currentLevel = 0;
+            } else {
+                packet.messageType = WIN_CODE;
+            }
             udpServer->send(converter.convertStructToBinary(packet));
         }
         std::vector<client_packet_t> received_packets = udpServer->get_packet_queue();
@@ -106,7 +119,7 @@ void DefaultMode::run()
                 m_isAPlayerCreated = true;
             }
             if (received_packets[i].messageType == CLIENT_DISCONNECT_CODE) {
-                try { 
+                try {
                     auto entity = registry.player_from_id(received_packets[i].input.id);
                     registry.kill_entity(entity);
                 } catch (std::exception &e) {

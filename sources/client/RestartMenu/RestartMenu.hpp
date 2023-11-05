@@ -15,7 +15,7 @@
 
 class RestartMenu {
     public:
-        RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, udpClientSocket &udpClient);
+        RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, udpClientSocket &udpClient, bool isWin);
         void draw();
         void update();
         void resize();
@@ -24,6 +24,7 @@ class RestartMenu {
         sf::RenderWindow &m_window;
         tcpClientSocket &m_tcpClient;
         udpClientSocket &m_udpClient;
+        bool m_isWin;
         std::vector<std::unique_ptr<IButton>> m_buttons;
         Assets m_assets;
         sf::Font m_font;

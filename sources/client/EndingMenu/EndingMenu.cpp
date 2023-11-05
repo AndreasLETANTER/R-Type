@@ -1,23 +1,22 @@
 /*
 ** EPITECH PROJECT, 2023
-** MIRROR_R-Type
+** R-Type
 ** File description:
-** RestartMenu
+** EndingMenu
 */
 
-#include "client/RestartMenu/RestartMenu.hpp"
+#include "client/EndingMenu/EndingMenu.hpp"
 #include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
+#include "utils/binaryConverter/binaryConverter.hpp"
 
-RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, udpClientSocket &udpClient, bool isWin)
+EndingMenu::EndingMenu(sf::RenderWindow &window, udpClientSocket &udpClient)
     : m_window(window),
-    m_tcpClient(tcpClient),
-    m_udpClient(udpClient),
-    m_isWin(isWin)
+    m_udpClient(udpClient)
 {
     ButtonFactory buttonFactory;
-    std::unique_ptr<IButton> restartButton = buttonFactory.createButton("Cooldown");
+    std::unique_ptr<IButton> winButton = buttonFactory.createButton("Default");
     sf::Vector2u windowSize = m_window.getSize();
-    double buttonWidthRatio = m_isWin ? 3.5 : 5;
+    double buttonWidthRatio = 5;
     double buttonHeightRatio = 10;
     double textRatio = 15;
     double buttonWidth = windowSize.x / buttonWidthRatio;
@@ -26,16 +25,36 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
     double yPos = (windowSize.y - (2 * buttonHeight)) / 2;
 
     m_font = m_assets.get_font("font.ttf");
-    restartButton
+    winButton
         ->setButtonPosition(sf::Vector2f(xPos, yPos))
         .setButtonSize(window.getSize(), sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
         .setButtonColor(sf::Color::Transparent)
-        .setButtonOutlineColor(sf::Color::White)
+        .setButtonOutlineColor(sf::Color::Transparent)
+        .setButtonOutlineThickness(5)
+        .setButtonHoverColor(sf::Color::Transparent)
+        .setButtonHoverOutlineColor(sf::Color::Transparent)
+        .setTextString("You Win!")
+        .setTextSize(window.getSize(), textRatio)
+        .setTextFont(m_font)
+        .setTextPosition(IButton::CENTER, IButton::MIDDLE)
+        .setTextColor(sf::Color::White)
+        .setTextHoverColor(sf::Color::White)
+        .setCallback([this]() {
+
+        });
+    m_buttons.push_back(std::move(winButton));
+
+    yPos += buttonHeight;
+    std::unique_ptr<IButton> playAgainButton = buttonFactory.createButton("OneUse");
+    playAgainButton
+        ->setButtonPosition(sf::Vector2f(xPos, yPos))
+        .setButtonSize(window.getSize(), sf::Vector2f(buttonWidthRatio, buttonHeightRatio))
+        .setButtonColor(sf::Color::Transparent)
+        .setButtonOutlineColor(sf::Color::Green)
         .setButtonOutlineThickness(5)
         .setButtonHoverColor(sf::Color::Transparent)
         .setButtonHoverOutlineColor(sf::Color::Green)
-        .setCooldown(5)
-        .setTextString(m_isWin ? "Next Level (5)" : "Retry (5)")
+        .setTextString("Play Again")
         .setTextSize(window.getSize(), textRatio)
         .setTextFont(m_font)
         .setTextPosition(IButton::CENTER, IButton::MIDDLE)
@@ -47,28 +66,30 @@ RestartMenu::RestartMenu(sf::RenderWindow &window, tcpClientSocket &tcpClient, u
             packet.messageType = RESTART_CODE;
 
             m_udpClient.send(binaryConverter().convertInputToBinary(packet));
-            m_isCallbackCalled = true;
+            m_wantToPlayAgain = true;
         });
-    m_buttons.push_back(std::move(restartButton));
+    m_buttons.push_back(std::move(playAgainButton));
     this->resize();
 }
 
-void RestartMenu::draw()
+void EndingMenu::draw()
 {
-    for (auto &button : m_buttons)
+    for (auto &button : m_buttons) {
         button->draw(m_window);
+    }
 }
 
-void RestartMenu::update()
+void EndingMenu::update()
 {
-    for (auto &button : m_buttons)
+    for (auto &button : m_buttons) {
         button->update(m_window);
+    }
 }
 
-void RestartMenu::resize()
+void EndingMenu::resize()
 {
     sf::Vector2u windowSize = m_window.getSize();
-    double buttonWidthRatio = m_isWin ? 3.5 : 5;
+    double buttonWidthRatio = 5;
     double buttonHeightRatio = 10;
     double textRatio = 15;
     double buttonWidth = windowSize.x / buttonWidthRatio;
@@ -77,5 +98,8 @@ void RestartMenu::resize()
     double yPos = (windowSize.y - (2 * buttonHeight)) / 2;
 
     m_buttons[0]->resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
+        sf::Vector2f(xPos, yPos), textRatio);
+    yPos += buttonHeight;
+    m_buttons[1]->resize(windowSize, sf::Vector2f(buttonWidthRatio, buttonHeightRatio),
         sf::Vector2f(xPos, yPos), textRatio);
 }
