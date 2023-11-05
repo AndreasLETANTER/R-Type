@@ -9,6 +9,9 @@
 
 #include "server/GameModes/AGameMode/AGameMode.hpp"
 
+#define LOSE_CODE 106
+#define WIN_CODE 107
+
 /**
  * @brief EndlessMode class, a derived class of AGameMode.
  */
@@ -33,4 +36,6 @@ class EndlessMode : public AGameMode {
          * @brief Run the Endless Mode object
          */
         void run() override;
+    private:
+        bool m_isAPlayerCreated = false;
 };

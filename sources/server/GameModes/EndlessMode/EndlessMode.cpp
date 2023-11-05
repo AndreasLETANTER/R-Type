@@ -66,6 +66,7 @@ void EndlessMode::init()
     registry.add_system<>(WaveSystem());
 
     create_background();
+    m_isAPlayerCreated = false;
 }
 
 void EndlessMode::run()
@@ -83,6 +84,16 @@ void EndlessMode::run()
             lastUpdate = clock.getElapsedTime();
         }
         registry.run_systems();
+        if (registry.getNeedToRestart()) {
+            registry = Registry();
+            init();
+        }
+        if (m_isAPlayerCreated && registry.playersAreDead()) {
+            packet_t packet;
+
+            packet.messageType = LOSE_CODE;
+            udpServer->send(converter.convertStructToBinary(packet));
+        }
         std::vector<client_packet_t> received_packets = udpServer->get_packet_queue();
         for (unsigned int i = 0; i < received_packets.size(); i++) {
             if (received_packets[i].messageType == CLIENT_INPUT_CODE && received_packets[i].input.id == 0) {
@@ -90,6 +101,7 @@ void EndlessMode::run()
             }
             if (received_packets[i].messageType == CLIENT_CLASS_CODE) {
                 create_player(150, 450, received_packets[i].input.id, received_packets[i].entityClass);
+                m_isAPlayerCreated = true;
             }
             if (received_packets[i].messageType == CLIENT_DISCONNECT_CODE) {
                 try { 
@@ -101,6 +113,10 @@ void EndlessMode::run()
             }
             if (received_packets[i].messageType == CLIENT_INPUT_CODE) {
                 registry.updateEntityKeyPressed(received_packets[i].input);
+            }
+            if (received_packets[i].messageType == RESTART_CODE) {
+                registry.setNeedToRestart(true);
+                continue;
             }
         }
         if (received_packets.size() > 0) {

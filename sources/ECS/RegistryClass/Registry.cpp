@@ -380,6 +380,21 @@ void Registry::setClock(sf::Clock *clock)
     m_clock = clock;
 }
 
+void Registry::setNeedToRestart(bool needToRestart)
+{
+    m_needToRestart = needToRestart;
+}
+
+bool Registry::getNeedToRestart() const
+{
+    return m_needToRestart;
+}
+
+SparseArray<std::pair<Entity, unsigned int>> &Registry::getEntities()
+{
+    return m_entities;
+}
+
 Entity Registry::player_from_id(unsigned int id)
 {
     auto &controllables = get_components<Component::Controllable>();
@@ -393,4 +408,14 @@ Entity Registry::player_from_id(unsigned int id)
         }
     }
     throw std::runtime_error{"Player not found"};
+}
+
+void Registry::addPlayerClass(unsigned int id, EntityClasses entityClass)
+{
+    m_playersClasses.insert(std::make_pair(id, entityClass));
+}
+
+EntityClasses Registry::getPlayerClass(unsigned int id)
+{
+    return m_playersClasses.at(id);
 }
