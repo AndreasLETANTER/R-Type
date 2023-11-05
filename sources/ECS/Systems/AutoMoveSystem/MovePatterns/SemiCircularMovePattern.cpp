@@ -5,6 +5,7 @@
 ** SemiCircularMovePattern
 */
 
+#define _USE_MATH_DEFINES
 #include "SemiCircularMovePattern.hpp"
 #include <iostream>
 #include <cmath>
