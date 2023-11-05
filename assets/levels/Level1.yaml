@@ -8,7 +8,7 @@ entities: {
     backgrounds = (
         {
             id = 0;
-            assetName = "Space_Background.png";
+            assetName = "SpaceBackground.png";
             position = { x = 0; y = 0; };
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
@@ -17,7 +17,7 @@ entities: {
         },
         {
             id = 1;
-            assetName = "Space_Background.png";
+            assetName = "SpaceBackground.png";
             position = { x = 5700; y = 0; };
             scale = { x = 1920; y = 1080; };
             rect = { x = 0; y = 0; width = 300; height = 207; };
@@ -26,52 +26,9 @@ entities: {
         }
     );
 
-    players = (
-        {
-            id = 2;
-            assetName = "SpaceShips.gif";
-            projectileAssetName = "BulletSprite.png";
-            position = { x = 150; y = 300; };
-            scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 2; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-        },
-        {
-            id = 3;
-            assetName = "SpaceShips.gif";
-            projectileAssetName = "BulletSprite.png";
-            position = { x = 200; y = 400; };
-            scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 19; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-        },
-        {
-            id = 4;
-            assetName = "SpaceShips.gif";
-            projectileAssetName = "BulletSprite.png";
-            position = { x = 150; y = 500; };
-            scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 36; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-        },
-        {
-            id = 5;
-            assetName = "SpaceShips.gif";
-            projectileAssetName = "BulletSprite.png";
-            position = { x = 200; y = 600; };
-            scale = { x = 102; y = 57; };
-            rect = { x = 0; y = 53; width = 34; height = 16; };
-            health = 100;
-            damage = 5;
-        }
-    );
-
     obstacles = (
         {
-            id = 6;
+            id = 2;
             assetName = "GreyRobotObstacle.gif";
             projectileAssetName = "BulletSprite.png";
             position = { x = 2000; y = 925; };
@@ -85,56 +42,28 @@ entities: {
 
     enemies = (
         {
-            id = 7;
-            assetName = "OrangeCrabEnemy.gif";
-            projectileAssetName = "BulletSpriteMonster.png";
+            id = 3;
+            class = "MOB_ORANGE_CRAB";
             position = { x = 1450; y = 600; };
             autoMove = { x = 1450; y = 100; };
-            scale = { x = 99; y = 87; };
-            rect = { x = 0; y = 1; width = 33; height = 29; };
-            rotation = 0;
-            health = 10;
-            damage = 25;
-            shootingPattern = 0;
         },
         {
-            id = 8;
-            assetName = "YellowPopcornEnemy.gif";
-            projectileAssetName = "BulletSpriteMonster.png";
+            id = 4;
+            class = "MOB_YELLOW_POPCORN";
             position = { x = 1200; y = 700; };
             autoMove = { x = 1200; y = 200; };
-            scale = { x = 87; y = 84; };
-            rect = { x = 4; y = 4; width = 29; height = 28; };
-            rotation = 0;
-            health = 5;
-            damage = 25;
-            shootingPattern = 1;
         },
         {
-            id = 9;
-            assetName = "OrangeCrabEnemy.gif";
-            projectileAssetName = "BulletSpriteMonster.png";
+            id = 5;
+            class = "MOB_ORANGE_CRAB";
             position = { x = 1000; y = 800; };
             autoMove = { x = 1000; y = 300; };
-            scale = { x = 99; y = 87; };
-            rect = { x = 0; y = 1; width = 33; height = 29; };
-            rotation = 0;
-            health = 10;
-            damage = 25;
-            shootingPattern = 4;
         },
         {
-            id = 10;
-            assetName = "YellowPopcornEnemy.gif";
-            projectileAssetName = "BulletSpriteMonster.png";
-            position = { x = 1700; y = 900; };
-            autoMove = { x = 1700; y = 400; };
-            scale = { x = 87; y = 84; };
-            rect = { x = 4; y = 4; width = 29; height = 28; };
-            rotation = 0;
-            health = 5;
-            damage = 25;
-            shootingPattern = 3;
+            id = 6;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 1500; y = 900; };
+            autoMove = { x = 1500; y = 400; };
         }
     );
 };

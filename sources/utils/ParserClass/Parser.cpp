@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Parser.hpp"
+#include "ECS/Components/EntityClass.hpp"
 #include "ECS/Components/Position.hpp"
 #include "ECS/Components/Drawable.hpp"
 #include "ECS/Components/Scroll.hpp"
@@ -17,6 +18,19 @@
 #include "ECS/Components/Collision.hpp"
 #include "ECS/Components/AutoMove.hpp"
 #include "ECS/Components/Health.hpp"
+#include "ECS/Components/Score.hpp"
+#include "ECS/Components/Group.hpp"
+
+std::map<std::string, EntityClasses> entityClassesMap = {
+    {"NUGO", EntityClasses::NUGO},
+    {"ANDREAS", EntityClasses::ANDREAS},
+    {"ELIOT", EntityClasses::ELIOT},
+    {"LOUIS", EntityClasses::LOUIS},
+    {"MOB_ORANGE_CRAB", EntityClasses::MOB_ORANGE_CRAB},
+    {"MOB_YELLOW_POPCORN", EntityClasses::MOB_YELLOW_POPCORN},
+    {"MOB_GREEN_PLANT", EntityClasses::MOB_GREEN_PLANT},
+    {"MOB_BLUE_D", EntityClasses::MOB_BLUE_D}
+};
 
 Parser::Parser(Registry &registry, sf::RenderWindow &window, sf::Clock &clock, std::vector<std::string> filesContents) :
     m_registry(registry),
@@ -32,7 +46,6 @@ void Parser::loadFromFile()
             m_config.readString(filePath.c_str());
             loadLevelParams();
             loadBackgrounds();
-            loadPlayers();
             loadObstacles();
             loadEnemies();
         } catch (const libconfig::FileIOException &fioex) {
@@ -81,40 +94,10 @@ void Parser::loadBackgrounds()
         int pauseX = backgrounds[i]["pauseX"];
 
         m_registry.spawn_entity();
+        m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(0));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName), true));
         m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(offsetLimitX, offsetLimitY), pauseX));
-    }
-}
-
-void Parser::loadPlayers()
-{
-    const libconfig::Setting &players = m_config.lookup("entities.players");
-    basicEntity base;
-
-    for (int i = 0; i < players.getLength(); i++) {
-        base.id = players[i]["id"];
-        base.assetName = players[i]["assetName"].c_str();
-        std::string projectileAssetName = players[i]["projectileAssetName"];
-        base.posX = players[i]["position"]["x"];
-        base.posY = players[i]["position"]["y"];
-        base.scaleX = players[i]["scale"]["x"];
-        base.scaleY = players[i]["scale"]["y"];
-        base.rectX = players[i]["rect"]["x"];
-        base.rectY = players[i]["rect"]["y"];
-        base.rectWidth = players[i]["rect"]["width"];
-        base.rectHeight = players[i]["rect"]["height"];
-        int health = players[i]["health"];
-        int damage = players[i]["damage"];
-
-        m_registry.spawn_entity();
-        m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
-        m_registry.add_component<Component::Controllable>(m_registry.entity_from_index(base.id), Component::Controllable(true, i + 1));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(i + 1, true, LINEAR, &m_clock, sf::Time(sf::milliseconds(500)), damage, projectileAssetName, 1, 1920));
-        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
-        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
 }
 
@@ -141,9 +124,10 @@ void Parser::loadObstacles()
         (void) rotation;
 
         m_registry.spawn_entity();
+        m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(2));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
         m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.scaleY, base.scaleX));
         m_registry.add_component<Component::Scroll>(m_registry.entity_from_index(base.id), Component::Scroll(Component::Position(base.posX, base.posY), Component::Position(0, 0), pauseX));
         m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
     }
@@ -156,34 +140,24 @@ void Parser::loadEnemies()
 
     for (int i = 0; i < enemies.getLength(); i++) {
         base.id = enemies[i]["id"];
-        base.assetName = enemies[i]["assetName"].c_str();
-        std::string projectileAssetName = enemies[i]["projectileAssetName"];
+        std::string classValue = enemies[i]["class"];
+        EntityClasses classEnum = entityClassesMap[classValue];
         base.posX = enemies[i]["position"]["x"];
         base.posY = enemies[i]["position"]["y"];
         int automove_x = enemies[i]["autoMove"]["x"];
         int automove_y = enemies[i]["autoMove"]["y"];
         int circleCount = enemies[i]["circleCount"];
         double speed = enemies[i]["speed"];
-        base.scaleX = enemies[i]["scale"]["x"];
-        base.scaleY = enemies[i]["scale"]["y"];
-        base.rectX = enemies[i]["rect"]["x"];
-        base.rectY = enemies[i]["rect"]["y"];
-        base.rectWidth = enemies[i]["rect"]["width"];
-        base.rectHeight = enemies[i]["rect"]["height"];
-        int rotation = enemies[i]["rotation"];
-        int health = enemies[i]["health"];
-        int damage = enemies[i]["damage"];
-        int pattern = enemies[i]["shootingPattern"];
-        ShootingPattern sPattern = static_cast<ShootingPattern>(pattern);
-        (void) rotation;
-
         m_registry.spawn_entity();
+        m_registry.add_component<Component::Group>(m_registry.entity_from_index(base.id), Component::Group(2));
+        Component::EntityClass entityClassTmp = Component::EntityClassFactory::CreateEntityClass(classEnum);
+        m_registry.add_component<Component::EntityClass>(m_registry.entity_from_index(base.id), Component::EntityClassFactory::CreateEntityClass(classEnum));
         m_registry.add_component<Component::Position>(m_registry.entity_from_index(base.id), Component::Position(base.posX, base.posY));
-        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0));
-        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, sPattern, &m_clock, sf::Time(sf::milliseconds(3000)), damage, projectileAssetName, -1, 0));
-        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(base.assetName, &m_window, sf::IntRect(base.rectX, base.rectY, base.rectWidth, base.rectHeight), Component::Position(base.scaleX, base.scaleY), m_registry.get_assets().get_texture(base.assetName)));
-        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(base.rectHeight, base.rectWidth));
+        m_registry.add_component<Component::Velocity>(m_registry.entity_from_index(base.id), Component::Velocity(0, 0, entityClassTmp.speed));
+        m_registry.add_component<Component::Shoot>(m_registry.entity_from_index(base.id), Component::Shoot(0, true, entityClassTmp.shootingPattern, &m_clock, sf::Time(sf::milliseconds(entityClassTmp.shootingDelay)), entityClassTmp.damage, entityClassTmp.projectileAssetName, -1, 0));
+        m_registry.add_component<Component::Drawable>(m_registry.entity_from_index(base.id), Component::Drawable(entityClassTmp.assetName, &m_window, sf::IntRect(entityClassTmp.rect.left, entityClassTmp.rect.top, entityClassTmp.rect.width, entityClassTmp.rect.height), Component::Position(entityClassTmp.scale.x, entityClassTmp.scale.y), m_registry.get_assets().get_texture(entityClassTmp.assetName)));
+        m_registry.add_component<Component::Collision>(m_registry.entity_from_index(base.id), Component::Collision(entityClassTmp.scale.y, entityClassTmp.scale.x));
         m_registry.add_component<Component::AutoMove>(m_registry.entity_from_index(base.id), Component::AutoMove(Component::Position(base.posX, base.posY), Component::Position(automove_x, automove_y), circleCount, speed, &m_clock));
-        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(health));
+        m_registry.add_component<Component::Health>(m_registry.entity_from_index(base.id), Component::Health(entityClassTmp.health));
     }
 }

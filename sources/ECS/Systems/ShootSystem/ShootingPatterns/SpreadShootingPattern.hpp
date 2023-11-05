@@ -20,7 +20,8 @@ class SpreadShootingPattern : public AShootingPattern {
          * @param registry The registry containing the entity.
          * @param shoot The shoot component of the entity.
          * @param pos The position component of the entity.
-         * @param draw The drawable component of the entity.
+         * @param window The render window to draw the object on.
+         * @param groupId The id of the group.
          */
-        void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, Component::Drawable &draw) override;
+        void shoot(Registry &registry, Component::Shoot &shoot, Component::Position &pos, sf::RenderWindow *window, unsigned int groupId) override;
 };

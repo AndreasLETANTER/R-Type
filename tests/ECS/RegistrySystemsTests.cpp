@@ -21,7 +21,7 @@ Test(Registry, Basic_system_registry)
     registry.register_component<Component::Position>();
     registry.register_component<Component::Velocity>();
     registry.add_component<Component::Position>(registry.entity_from_index(0), Component::Position(0, 0));
-    registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(1, 1));
+    registry.add_component<Component::Velocity>(registry.entity_from_index(0), Component::Velocity(1, 1, 0));
 
     registry.add_system<Component::Position, Component::Velocity>(PositionSystem());
     registry.run_systems();

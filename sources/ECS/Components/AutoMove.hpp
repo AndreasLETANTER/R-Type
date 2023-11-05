@@ -27,6 +27,7 @@ namespace Component {
             sf::Clock *clock; /**< A pointer to the clock used to measure time. */
             /**
              * @brief Constructor for AutoMove component.
+             *
              * @param start The starting position of the entity.
              * @param end The ending position of the entity.
              */

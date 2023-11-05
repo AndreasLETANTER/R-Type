@@ -13,14 +13,14 @@ namespace Component {
      */
     class Position {
         public:
-            /**
-             * @brief Default constructor for Position class.
-             */
             Position() = default;
-            double x; /**< The x coordinate of the position. */
-            double y; /**< The y coordinate of the position. */
+
+            double x;
+            double y;
+
             /**
              * @brief Constructor for Position class.
+             *
              * @param x The x coordinate of the position.
              * @param y The y coordinate of the position.
              */
