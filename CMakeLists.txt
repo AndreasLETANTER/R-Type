@@ -144,7 +144,7 @@ set(CLIENT_SOURCES
     sources/utils/HandleArgument/HandleArgument.cpp
     sources/client/MainMenu/MainMenu.cpp
     sources/client/RestartMenu/RestartMenu.cpp
-    sources/client/EndMenu/EndMenu.cpp
+    sources/client/EndingMenu/EndingMenu.cpp
     sources/client/tcpClientSocket/tcpClientSocket.cpp
     sources/client/udpClientSocket/udpClientSocket.cpp
     sources/client/InputHandler/InputHandler.cpp

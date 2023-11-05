@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
-#include "client/EndMenu/EndMenu.hpp"
+#include "client/EndingMenu/EndingMenu.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
@@ -42,7 +42,7 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
             EntityClasses playerClass = registry.getPlayerClass(playerId);
             SparseArray<Component::Drawable> &drawables = registry.get_components<Component::Drawable>();
             SparseArray<std::pair<Entity, unsigned int>> &entities = registry.getEntities();
-            EndMenu endMenu = EndMenu(*window, udpClient);
+            EndingMenu menu(*window, udpClient);
             bool restart = false;
 
             for (unsigned int i = 0; i < drawables.size(); i++) {
@@ -50,7 +50,7 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
                     registry.kill_entity(entities[i].value().first);
                 }
             }
-            while (window->isOpen() && !endMenu.wantToPlayAgain()) {
+            while (window->isOpen() && !menu.wantToPlayAgain()) {
                 packets = udpClient.get_packet_queue();
                 for (unsigned int i = 0; i < packets.size(); i++) {
                     if (packets[i].messageType == RESTART_CODE) {
@@ -72,8 +72,8 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
                 }
                 window->clear();
                 registry.run_systems();
-                endMenu.update();
-                endMenu.draw();
+                menu.update();
+                menu.draw();
                 window->display();
             }
             for (auto entity : entities) {

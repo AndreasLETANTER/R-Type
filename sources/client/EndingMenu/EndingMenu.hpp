@@ -2,12 +2,10 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** EndMenu
+** EndingMenu
 */
 
 #pragma once
-
-#define _WIN32_WINNT	0x0601
 
 #include <SFML/Graphics.hpp>
 
@@ -21,31 +19,31 @@
 #include "client/udpClientSocket/udpClientSocket.hpp"
 
 /**
- * @class EndMenu
+ * @class EndingMenu
  * @brief Represents the end menu of the game.
  */
-class EndMenu {
+class EndingMenu {
     public:
         /**
-         * @brief Constructs a EndMenu object.
+         * @brief Constructs a EndingMenu object.
          *
-         * @param window The SFML RenderWindow to draw the EndMenu on.
+         * @param window The SFML RenderWindow to draw the EndingMenu on.
          * @param udpClient The udpClientSocket to send the Restart message to the server.
          */
-        EndMenu(sf::RenderWindow &window, udpClientSocket &udpClient);
+        EndingMenu(sf::RenderWindow &window, udpClientSocket &udpClient);
 
         /**
-         * @brief Draws the EndMenu on the SFML RenderWindow.
+         * @brief Draws the EndingMenu on the SFML RenderWindow.
          */
         void draw();
 
         /**
-         * @brief Updates the EndMenu.
+         * @brief Updates the EndingMenu.
          */
         void update();
 
         /**
-         * @brief Resizes the EndMenu.
+         * @brief Resizes the EndingMenu.
          */
         void resize();
 
@@ -56,10 +54,10 @@ class EndMenu {
          */
         bool wantToPlayAgain() const {return m_wantToPlayAgain;};
     private:
-        sf::RenderWindow &m_window; /**< The SFML RenderWindow to draw the EndMenu on. */
+        sf::RenderWindow &m_window; /**< The SFML RenderWindow to draw the EndingMenu on. */
         udpClientSocket &m_udpClient; /**< The udpClientSocket to send the Restart message to the server. */
-        Assets m_assets; /**< The assets used by the EndMenu. */
-        std::vector<std::unique_ptr<IButton>> m_buttons; /**< The buttons of the EndMenu. */
-        sf::Font m_font; /**< The font used by the EndMenu. */
+        Assets m_assets; /**< The assets used by the EndingMenu. */
+        std::vector<std::unique_ptr<IButton>> m_buttons; /**< The buttons of the EndingMenu. */
+        sf::Font m_font; /**< The font used by the EndingMenu. */
         bool m_wantToPlayAgain = false; /**< Whether the player wants to play again. */
 };

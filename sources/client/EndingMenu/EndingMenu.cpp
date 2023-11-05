@@ -2,14 +2,14 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** EndMenu
+** EndingMenu
 */
 
-#include "client/EndMenu/EndMenu.hpp"
+#include "client/EndingMenu/EndingMenu.hpp"
 #include "client/Buttons/ButtonFactory/ButtonFactory.hpp"
 #include "utils/binaryConverter/binaryConverter.hpp"
 
-EndMenu::EndMenu(sf::RenderWindow &window, udpClientSocket &udpClient)
+EndingMenu::EndingMenu(sf::RenderWindow &window, udpClientSocket &udpClient)
     : m_window(window),
     m_udpClient(udpClient)
 {
@@ -72,21 +72,21 @@ EndMenu::EndMenu(sf::RenderWindow &window, udpClientSocket &udpClient)
     this->resize();
 }
 
-void EndMenu::draw()
+void EndingMenu::draw()
 {
     for (auto &button : m_buttons) {
         button->draw(m_window);
     }
 }
 
-void EndMenu::update()
+void EndingMenu::update()
 {
     for (auto &button : m_buttons) {
         button->update(m_window);
     }
 }
 
-void EndMenu::resize()
+void EndingMenu::resize()
 {
     sf::Vector2u windowSize = m_window.getSize();
     double buttonWidthRatio = 5;
