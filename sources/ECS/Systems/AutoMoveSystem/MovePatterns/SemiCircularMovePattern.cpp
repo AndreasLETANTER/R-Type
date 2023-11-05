@@ -7,6 +7,7 @@
 
 #include "SemiCircularMovePattern.hpp"
 #include <iostream>
+#include <cmath>
 
 SemiCircularMovePattern::SemiCircularMovePattern(std::optional<Component::AutoMove> &amv)
 {
