@@ -16,11 +16,12 @@ int main(const int ac, const char **av)
     GameModeFactory factory;
     std::unique_ptr<IGameMode> gameMode;
     try {
-        gameMode = factory.createGameMode("Default", av, ac, true);
+        gameMode = factory.createGameMode(av[4], av, ac, true);
         gameMode->init();
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << '\n';
+        return 84;
     }
 
     gameMode->run();
