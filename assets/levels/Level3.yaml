@@ -1,6 +1,6 @@
 params:
 {
-    level = 1;
+    level = 3;
     resolution = { width = 1920; height = 1080; };
 };
 
@@ -43,105 +43,93 @@ entities: {
     enemies = (
         {
             id = 3;
-            class = "MOB_GREEN_PLANT";
+            class = "MOB_BLUE_D";
+            position = { x = 2000; y = 200; };
+            autoMove = { x = 0; y = 200; }
+        },
+        {
+            id = 4;
+            class = "MOB_BLUE_D";
             position = { x = 2000; y = 500; };
             autoMove = { x = 0; y = 500; }
         },
         {
-            id = 4;
-            class = "MOB_ORANGE_CRAB";
-            position = { x = 2100; y = 200; };
-            autoMove = { x = 0; y = 200; }
-        },
-        {
             id = 5;
-            class = "MOB_ORANGE_CRAB";
-            position = { x = 2100; y = 800; };
+            class = "MOB_BLUE_D";
+            position = { x = 2000; y = 800; };
             autoMove = { x = 0; y = 800; }
         },
         {
             id = 6;
-            class = "MOB_YELLOW_POPCORN";
-            position = { x = 2800; y = 300; };
-            autoMove = { x = 0; y = 300; }
+            class = "MOB_ORANGE_CRAB";
+            position = { x = 2700; y = 200; };
+            autoMove = { x = 0; y = 200; }
         },
         {
             id = 7;
             class = "MOB_ORANGE_CRAB";
-            position = { x = 2800; y = 500; };
+            position = { x = 2700; y = 500; };
             autoMove = { x = 0; y = 500; }
         },
         {
             id = 8;
-            class = "MOB_YELLOW_POPCORN";
-            position = { x = 2800; y = 700; };
-            autoMove = { x = 0; y = 700; }
+            class = "MOB_ORANGE_CRAB";
+            position = { x = 2700; y = 800; };
+            autoMove = { x = 0; y = 800; }
         },
         {
             id = 9;
             class = "MOB_GREEN_PLANT";
-            position = { x = 3500; y = 100; };
-            autoMove = { x = 0; y = 100; }
+            position = { x = 3400; y = 200; };
+            autoMove = { x = 0; y = 200; }
         },
         {
             id = 10;
             class = "MOB_GREEN_PLANT";
-            position = { x = 3600; y = 300; };
-            autoMove = { x = 0; y = 300; }
+            position = { x = 3400; y = 500; };
+            autoMove = { x = 0; y = 500; }
         },
         {
             id = 11;
             class = "MOB_GREEN_PLANT";
-            position = { x = 3500; y = 500; };
-            autoMove = { x = 0; y = 500; }
+            position = { x = 3400; y = 800; };
+            autoMove = { x = 0; y = 800; }
         },
         {
             id = 12;
-            class = "MOB_GREEN_PLANT";
-            position = { x = 3600; y = 700; };
-            autoMove = { x = 0; y = 700; }
-        },
-        {
-            id = 13;
-            class = "MOB_GREEN_PLANT";
-            position = { x = 3500; y = 900; };
-            autoMove = { x = 0; y = 900; }
-        },
-        {
-            id = 14;
             class = "MOB_YELLOW_POPCORN";
             position = { x = 4100; y = 200; };
             autoMove = { x = 0; y = 200; }
         },
         {
-            id = 15;
+            id = 13;
             class = "MOB_YELLOW_POPCORN";
             position = { x = 4100; y = 500; };
             autoMove = { x = 0; y = 500; }
         },
         {
-            id = 16;
+            id = 14;
             class = "MOB_YELLOW_POPCORN";
             position = { x = 4100; y = 800; };
             autoMove = { x = 0; y = 800; }
         },
         {
-            id = 17;
-            class = "MOB_ORANGE_CRAB";
+            id = 15;
+            class = "MOB_BLUE_D";
             position = { x = 4800; y = 200; };
             autoMove = { x = 0; y = 200; }
         },
         {
-            id = 18;
-            class = "MOB_ORANGE_CRAB";
-            position = { x = 4800; y = 800; };
-            autoMove = { x = 0; y = 800; }
+            id = 16;
+            class = "MOB_BLUE_D";
+            position = { x = 4800; y = 500; };
+            autoMove = { x = 0; y = 500; }
         },
         {
-            id = 19;
-            class = "MOB_BLUE_D";
-            position = { x = 4900; y = 500; };
-            autoMove = { x = 0; y = 500; }
+            id = 17;
+            class = "MOB_GREEN_PLANT";
+            position = { x = 4800; y = 800; };
+            autoMove = { x = 0; y = 800; }
         }
     );
 };

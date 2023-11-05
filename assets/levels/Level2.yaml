@@ -1,0 +1,159 @@
+params:
+{
+    level = 2;
+    resolution = { width = 1920; height = 1080; };
+};
+
+entities: {
+    backgrounds = (
+        {
+            id = 0;
+            assetName = "SpaceBackground.png";
+            position = { x = 0; y = 0; };
+            scale = { x = 1920; y = 1080; };
+            rect = { x = 0; y = 0; width = 300; height = 207; };
+            offsetLimit = { x = -5700; y = 0; };
+            pauseX = 0;
+        },
+        {
+            id = 1;
+            assetName = "SpaceBackground.png";
+            position = { x = 5700; y = 0; };
+            scale = { x = 1920; y = 1080; };
+            rect = { x = 0; y = 0; width = 300; height = 207; };
+            offsetLimit = { x = 0; y = 0; };
+            pauseX = 0;
+        }
+    );
+
+    obstacles = (
+        {
+            id = 2;
+            assetName = "GreyRobotObstacle.gif";
+            projectileAssetName = "BulletSprite.png";
+            position = { x = 2000; y = 925; };
+            scale = { x = 170; y = 155; };
+            rect = { x = 0; y = 1; width = 34; height = 31; };
+            rotation = 0;
+            health = 20;
+            pauseX = 1500;
+        }
+    );
+
+    enemies = (
+        {
+            id = 3;
+            class = "MOB_BLUE_D";
+            position = { x = 2000; y = 200; };
+            autoMove = { x = 0; y = 200; }
+        },
+        {
+            id = 4;
+            class = "MOB_BLUE_D";
+            position = { x = 2000; y = 800; };
+            autoMove = { x = 0; y = 800; }
+        },
+        {
+            id = 5;
+            class = "MOB_BLUE_D";
+            position = { x = 2200; y = 200; };
+            autoMove = { x = 0; y = 200; }
+        },
+        {
+            id = 6;
+            class = "MOB_BLUE_D";
+            position = { x = 2200; y = 800; };
+            autoMove = { x = 0; y = 800; }
+        },
+        {
+            id = 7;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 2100; y = 500; };
+            autoMove = { x = 0; y = 500; }
+        },
+        {
+            id = 8;
+            class = "MOB_ORANGE_CRAB";
+            position = { x = 2900; y = 300; };
+            autoMove = { x = 0; y = 300; }
+        },
+        {
+            id = 9;
+            class = "MOB_ORANGE_CRAB";
+            position = { x = 2900; y = 500; };
+            autoMove = { x = 0; y = 500; }
+        },
+        {
+            id = 10;
+            class = "MOB_ORANGE_CRAB";
+            position = { x = 2900; y = 700; };
+            autoMove = { x = 0; y = 700; }
+        },
+        {
+            id = 11;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 3600; y = 300; };
+            autoMove = { x = 0; y = 300; }
+        },
+        {
+            id = 12;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 3600; y = 800; };
+            autoMove = { x = 0; y = 800; }
+        },
+        {
+            id = 13;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 3700; y = 300; };
+            autoMove = { x = 0; y = 300; }
+        },
+        {
+            id = 14;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 3700; y = 800; };
+            autoMove = { x = 0; y = 800; }
+        },
+        {
+            id = 15;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 3800; y = 300; };
+            autoMove = { x = 0; y = 300; }
+        },
+        {
+            id = 16;
+            class = "MOB_YELLOW_POPCORN";
+            position = { x = 3800; y = 800; };
+            autoMove = { x = 0; y = 800; }
+        },
+        {
+            id = 17;
+            class = "MOB_GREEN_PLANT";
+            position = { x = 4500; y = 400; };
+            autoMove = { x = 0; y = 400; }
+        },
+        {
+            id = 18;
+            class = "MOB_GREEN_PLANT";
+            position = { x = 4500; y = 600; };
+            autoMove = { x = 0; y = 600; }
+        },
+        {
+            id = 19;
+            class = "MOB_BLUE_D";
+            position = { x = 5200; y = 200; };
+            autoMove = { x = 0; y = 200; }
+        },
+        {
+            id = 20;
+            class = "MOB_BLUE_D";
+            position = { x = 5200; y = 500; };
+            autoMove = { x = 0; y = 500; }
+        },
+        {
+            id = 21;
+            class = "MOB_BLUE_D";
+            position = { x = 5200; y = 800; };
+            autoMove = { x = 0; y = 800; }
+        }
+    );
+};
