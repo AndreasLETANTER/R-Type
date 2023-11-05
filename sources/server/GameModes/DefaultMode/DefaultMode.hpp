@@ -26,4 +26,6 @@ class DefaultMode : public AGameMode {
          * @brief Runs the game mode.
          */
         void run() override;
+    private:
+        bool m_isAPlayerCreated = false;
 };
