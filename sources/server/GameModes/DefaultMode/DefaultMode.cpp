@@ -30,9 +30,6 @@
 
 void DefaultMode::init()
 {
-    if (m_currentLevel == m_filePath.size()) {
-        m_currentLevel = 0;
-    }
     Parser parser(registry, window, clock, m_filePath[m_currentLevel]);
 
     registry.setClock(&clock);
@@ -100,14 +97,13 @@ void DefaultMode::run()
             m_currentLevel++;
             if (m_currentLevel == m_filePath.size()) {
                 packet.messageType = END_CODE;
-
-                udpServer->send(converter.convertStructToBinary(packet));
+                m_currentLevel = 0;
             } else {
                 packet.messageType = WIN_CODE;
-                udpServer->send(converter.convertStructToBinary(packet));
-                registry = Registry();
-                init();
             }
+            udpServer->send(converter.convertStructToBinary(packet));
+            registry = Registry();
+            init();
         }
         std::vector<client_packet_t> received_packets = udpServer->get_packet_queue();
         for (unsigned int i = 0; i < received_packets.size(); i++) {
