@@ -42,7 +42,7 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
             EntityClasses playerClass = registry.getPlayerClass(playerId);
             SparseArray<Component::Drawable> &drawables = registry.get_components<Component::Drawable>();
             SparseArray<std::pair<Entity, unsigned int>> &entities = registry.getEntities();
-            EndMenu endMenu(*window, udpClient);
+            EndMenu endMenu = EndMenu(*window, udpClient);
             bool restart = false;
 
             for (unsigned int i = 0; i < drawables.size(); i++) {
