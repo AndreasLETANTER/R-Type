@@ -35,7 +35,7 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
 {
     binaryConverter converter;
     std::vector<packet_t> packets = udpClient.get_packet_queue();
-    EndMenu endMenu(*window);
+    EndMenu end_menu(*window);
 
     for (unsigned int i = 0; i < packets.size(); i++) {
         if (packets[i].messageType == END_CODE) {
@@ -56,8 +56,8 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
                 }
                 window->clear();
                 registry.run_systems();
-                endMenu.update();
-                endMenu.draw();
+                end_menu.update();
+                end_menu.draw();
                 window->display();
             }
         }
