@@ -24,16 +24,16 @@
 #include "ECS/Systems/PowerUpSystem/PowerUpSystem.hpp"
 #include "ECS/Systems/EntityClassSystem/EntityClassSystem.hpp"
 
-#include "../../../../build/assets/Level1Config.hpp"
-
 #include "utils/ParserClass/Parser.hpp"
 
 #include <iostream>
 
 void DefaultMode::init()
 {
-    std::vector<std::string> filePath = {Level1Config};
-    Parser parser(registry, window, clock, filePath);
+    if (m_currentLevel == m_filePath.size()) {
+        m_currentLevel = 0;
+    }
+    Parser parser(registry, window, clock, m_filePath[m_currentLevel]);
 
     registry.setClock(&clock);
     registry.setWindow(&window);
