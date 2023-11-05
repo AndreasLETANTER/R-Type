@@ -35,11 +35,12 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
 {
     binaryConverter converter;
     std::vector<packet_t> packets = udpClient.get_packet_queue();
+    EndMenu endMenu(*window);
+
     for (unsigned int i = 0; i < packets.size(); i++) {
         if (packets[i].messageType == END_CODE) {
             SparseArray<Component::Drawable> &drawables = registry.get_components<Component::Drawable>();
             SparseArray<std::pair<Entity, unsigned int>> &entities = registry.getEntities();
-            EndMenu endMenu(*window);
 
             for (unsigned int i = 0; i < drawables.size(); i++) {
                 if (drawables[i].has_value() && !drawables[i].value().isBackground) {
