@@ -97,14 +97,14 @@ void DefaultMode::run()
         if (registry.enemiesAreDead()) {
             packet_t packet;
 
-            packet.messageType = WIN_CODE;
-            udpServer->send(converter.convertStructToBinary(packet));
             m_currentLevel++;
             if (m_currentLevel == m_filePath.size()) {
                 packet.messageType = END_CODE;
 
                 udpServer->send(converter.convertStructToBinary(packet));
             } else {
+                packet.messageType = WIN_CODE;
+                udpServer->send(converter.convertStructToBinary(packet));
                 registry = Registry();
                 init();
             }

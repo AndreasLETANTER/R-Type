@@ -20,6 +20,7 @@
 #include "InputHandler/InputHandler.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "client/RestartMenu/RestartMenu.hpp"
+#include "client/EndMenu/EndMenu.hpp"
 
 /**
  * @brief Updates the game state by processing packets received from the server.
@@ -35,6 +36,30 @@ static void update_game_from_packets(udpClientSocket &udpClient, tcpClientSocket
     binaryConverter converter;
     std::vector<packet_t> packets = udpClient.get_packet_queue();
     for (unsigned int i = 0; i < packets.size(); i++) {
+        if (packets[i].messageType == END_CODE) {
+            SparseArray<Component::Drawable> &drawables = registry.get_components<Component::Drawable>();
+            SparseArray<std::pair<Entity, unsigned int>> &entities = registry.getEntities();
+            EndMenu endMenu(*window);
+
+            for (unsigned int i = 0; i < drawables.size(); i++) {
+                if (drawables[i].has_value() && !drawables[i].value().isBackground) {
+                    registry.kill_entity(entities[i].value().first);
+                }
+            }
+            while (window->isOpen()) {
+                for (auto event = sf::Event{}; window->pollEvent(event);) {
+                    if (event.type == sf::Event::Closed) {
+                        window->close();
+                        exit(0);
+                    }
+                }
+                window->clear();
+                registry.run_systems();
+                endMenu.update();
+                endMenu.draw();
+                window->display();
+            }
+        }
         if (packets[i].messageType == LOSE_CODE || packets[i].messageType == WIN_CODE) {
             unsigned int playerId = tcpClient.getId();
             EntityClasses playerClass = registry.getPlayerClass(playerId);
