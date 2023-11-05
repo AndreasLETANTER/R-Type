@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
+#include "client/EndMenu/EndMenu.hpp"
 #include "ECS/RegistryClass/Registry.hpp"
 #include "ECS/Systems/PositionSystem/PositionSystem.hpp"
 #include "ECS/Systems/DrawSystem/DrawSystem.hpp"
@@ -20,7 +21,6 @@
 #include "InputHandler/InputHandler.hpp"
 #include "ECS/Assets/Assets.hpp"
 #include "client/RestartMenu/RestartMenu.hpp"
-#include "client/EndMenu/EndMenu.hpp"
 
 /**
  * @brief Updates the game state by processing packets received from the server.

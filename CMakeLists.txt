@@ -14,7 +14,7 @@ set(RTYPE_TESTS_NAME "r-type_tests")
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(CXX_FLAGS -Wall -Wextra -Werror)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    set(CXX_FLAGS -Wall -Wextra -D_WIN32_WINNT=0x0601)
+    set(CXX_FLAGS -Wall -Wextra)
 endif()
 
 ###############################INSTALL PACKAGES###################################
